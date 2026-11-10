@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/dialer.dart';
 import '../../core/l10n/strings.dart';
+import '../kluis/ui/vault_link.dart';
 import '../noodplan/plan_providers.dart';
 import '../noodplan/ui/plan_overview_screen.dart';
 import 'wiki_icons.dart';
@@ -81,6 +82,7 @@ class _WikiOverviewScreenState extends ConsumerState<WikiOverviewScreen> {
         const SizedBox(height: 16),
         if (!searching) ...[
           const PlanEntryCard(),
+          const VaultEntryCard(),
           const SizedBox(height: 4),
           _FirstHourCard(first: d.eersteUur),
         ],

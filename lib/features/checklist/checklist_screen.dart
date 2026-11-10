@@ -65,7 +65,16 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
     final lead = ref.watch(settingsProvider).value?.leadDays ?? 30;
 
     return Scaffold(
-      appBar: AppBar(title: const Text(S.checklistTitle)),
+      appBar: AppBar(
+        title: const Text(S.checklistTitle),
+        actions: [
+          IconButton(
+            tooltip: S.vaultTitle,
+            icon: const Icon(Icons.lock_outline),
+            onPressed: () => context.push('/kluis'),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push('/item/new'),
         icon: const Icon(Icons.add),

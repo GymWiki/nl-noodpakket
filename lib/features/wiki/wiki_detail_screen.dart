@@ -7,6 +7,7 @@ import '../../core/format.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/providers.dart';
 import '../../domain/models.dart';
+import '../kluis/ui/vault_link.dart';
 import '../noodplan/ui/plan_wiki_block.dart';
 import 'wiki_models.dart';
 import 'wiki_providers.dart';
@@ -153,6 +154,8 @@ class _Detail extends ConsumerWidget {
               ),
           ],
           PlanWikiBlock(emergencyId: e.id),
+          if (const {'overstroming', 'natuurbrand', 'brand-in-huis', 'kernongeval'}.contains(e.id))
+            const VaultLinkTile(title: S.vaultNoodmapOpen, padding: EdgeInsets.only(top: 16)),
           if (prepare.isNotEmpty) ...[
             title(S.wikiPrepare),
             for (final i in prepare)

@@ -13,6 +13,12 @@ import 'features/info/info_screen.dart';
 import 'features/items/item_form_screen.dart';
 import 'features/onboarding/onboarding_screen.dart';
 import 'features/settings/settings_screen.dart';
+import 'features/kluis/data/vault_controller.dart';
+import 'features/kluis/ui/vault_add_screen.dart';
+import 'features/kluis/ui/vault_doc_screen.dart';
+import 'features/kluis/ui/vault_gate.dart';
+import 'features/kluis/ui/vault_home_screen.dart';
+import 'features/kluis/ui/vault_settings_screen.dart';
 import 'features/noodplan/domain/plan_models.dart';
 import 'features/noodplan/domain/plan_reminder.dart';
 import 'features/noodplan/plan_providers.dart';
@@ -50,6 +56,24 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/item/:id',
         builder: (_, st) => ItemFormScreen(itemId: st.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/kluis',
+        builder: (_, _) => const VaultGate(child: VaultHomeScreen()),
+        routes: [
+          GoRoute(
+            path: 'toevoegen',
+            builder: (_, st) => VaultGate(child: VaultAddScreen(docId: st.uri.queryParameters['doc'])),
+          ),
+          GoRoute(
+            path: 'doc/:id',
+            builder: (_, st) => VaultGate(child: VaultDocScreen(docId: st.pathParameters['id']!)),
+          ),
+          GoRoute(
+            path: 'instellingen',
+            builder: (_, _) => const VaultGate(child: VaultSettingsScreen()),
+          ),
+        ],
       ),
       GoRoute(
         path: '/plan',
@@ -166,7 +190,8 @@ class _NoodpakketAppState extends ConsumerState<NoodpakketApp> {
     final planAt = s.planReminder && plan != null
         ? planReminderTime(plan, DateTime.now())
         : null;
-    final sig = StringBuffer('${s.leadDays}|${s.semiAnnual}|$planAt');
+    final vaultTimes = ref.read(vaultReminderTimesProvider).value ?? const <DateTime>[];
+    final sig = StringBuffer('${s.leadDays}|${s.semiAnnual}|$planAt|${vaultTimes.map((t) => t.millisecondsSinceEpoch).join(',')}');
     for (final i in items) {
       if (!i.hidden) sig.write('|${i.id}:${i.name}:${dueDate(i)}');
     }
@@ -178,7 +203,8 @@ class _NoodpakketAppState extends ConsumerState<NoodpakketApp> {
             items: items,
             leadDays: s.leadDays,
             semiAnnual: s.semiAnnual,
-            planReminderAt: planAt)
+            planReminderAt: planAt,
+            vaultReminders: vaultTimes)
         .catchError((Object _) {});
   }
 
@@ -187,6 +213,7 @@ class _NoodpakketAppState extends ConsumerState<NoodpakketApp> {
     ref.listen(allItemsProvider, (_, _) => _reschedule());
     ref.listen(settingsProvider, (_, _) => _reschedule());
     ref.listen(planProvider, (_, _) => _reschedule());
+    ref.listen(vaultReminderTimesProvider, (_, _) => _reschedule());
     final mode =
         ref.watch(settingsProvider.select((s) => s.value?.themeMode)) ??
             ThemeMode.system;

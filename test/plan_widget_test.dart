@@ -13,6 +13,7 @@ import 'package:mijnnoodpakket/core/providers.dart';
 import 'package:mijnnoodpakket/data/repositories/plan_repository.dart';
 import 'package:mijnnoodpakket/data/repositories/settings_repository.dart';
 import 'package:mijnnoodpakket/domain/models.dart';
+import 'package:mijnnoodpakket/features/kluis/data/vault_controller.dart';
 import 'package:mijnnoodpakket/features/noodplan/domain/plan_links.dart';
 import 'package:mijnnoodpakket/features/noodplan/domain/plan_models.dart';
 import 'package:mijnnoodpakket/features/noodplan/domain/plan_reminder.dart';
@@ -196,6 +197,7 @@ Future<FakePlanRepo> pumpApp(
     settingsProvider.overrideWith((ref) => Stream.value(settings)),
     wikiProvider.overrideWith((ref) async => wiki),
     wikiFavoritesProvider.overrideWith((ref) => Stream.value(<String>{})),
+    vaultHasDocsProvider.overrideWith((ref) => Stream.value(false)),
     allItemsProviderOverride(),
   ];
   await t.pumpWidget(ProviderScope(

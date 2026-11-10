@@ -10,6 +10,7 @@ import '../../data/repositories/item_repository.dart';
 import '../../domain/expiry.dart';
 import '../../domain/models.dart';
 import '../wiki/wiki_providers.dart';
+import '../kluis/ui/vault_link.dart';
 
 const _newCategoryKey = '__new__';
 const _intervals = [1, 3, 6, 12, 24];
@@ -348,6 +349,18 @@ class _ItemFormScreenState extends ConsumerState<ItemFormScreen> {
               textCapitalization: TextCapitalization.sentences,
             ),
             if (!_isNew) _HandyFor(itemId: id),
+            if (!_isNew && const {'id_copies', 'usb'}.contains(id)) ...[
+              const SizedBox(height: 16),
+              const VaultLinkTile(title: S.vaultOpen),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: TextButton.icon(
+                  onPressed: () => context.push('/kluis/instellingen'),
+                  icon: const Icon(Icons.ios_share),
+                  label: const Text(S.vaultMakeBackup),
+                ),
+              ),
+            ],
             const SizedBox(height: 24),
             if (custom)
               TextFormField(

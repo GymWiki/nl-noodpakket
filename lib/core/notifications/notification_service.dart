@@ -56,6 +56,7 @@ class NotificationService {
     required int leadDays,
     required bool semiAnnual,
     DateTime? planReminderAt,
+    List<DateTime> vaultReminders = const [],
   }) async {
     await init();
     await _plugin.cancelAll();
@@ -98,6 +99,11 @@ class NotificationService {
           ? S.notifBodyReplace(item.name, fmt.format(d))
           : S.notifBodyCheck(item.name);
       await schedule(t, S.notifTitleReplace, body);
+    }
+
+    // Documentenkluis: bewust neutrale tekst, zonder titel, naam of nummer.
+    for (final t in vaultReminders.take(100)) {
+      await schedule(t, S.notifTitleVault, S.notifBodyVault);
     }
 
     if (planReminderAt != null) {

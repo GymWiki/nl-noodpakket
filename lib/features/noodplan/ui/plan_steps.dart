@@ -12,6 +12,7 @@ import '../../../core/providers.dart';
 import '../domain/plan_models.dart';
 import '../domain/plan_share.dart';
 import '../plan_providers.dart';
+import '../../kluis/ui/vault_link.dart';
 import 'contact_picker.dart';
 import 'plan_widgets.dart';
 
@@ -530,6 +531,8 @@ class HomeStep extends ConsumerWidget {
           ),
         ],
         const FieldGap(),
+        const VaultLinkTile(),
+        const FieldGap(),
         Text(S.planPhotoLocal,
             style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)),
       ],
@@ -629,6 +632,8 @@ class CareStep extends ConsumerWidget {
         ),
         const SizedBox(height: 4),
         Text(S.planCareNoSensitive, style: muted),
+        const SizedBox(height: 8),
+        const VaultLinkTile(),
       ],
     );
   }
