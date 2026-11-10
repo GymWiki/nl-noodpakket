@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 11 en lager (fullBackupContent): zelfde uitsluitingen. -->
+<full-backup-content>
+    <exclude domain="file" path="vault"/>
+    <exclude domain="file" path="vault_tmp"/>
+    <exclude domain="external" path="Pictures/"/>
+</full-backup-content>

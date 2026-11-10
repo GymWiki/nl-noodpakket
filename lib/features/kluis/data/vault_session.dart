@@ -55,6 +55,10 @@ class VaultSession {
     return id;
   }
 
+  /// Schrijft een bestand onder een bestaande id (bij het terugzetten van een back-up).
+  Future<void> putFileWithId(String id, Uint8List plain) async =>
+      files.writeAtomic(files.fileFor(id), await seal(_k, plain, aad: _fileAad(id)));
+
   /// Ontsleutelt een bestand in het geheugen. De aanroeper moet de buffer na gebruik
   /// met [zero] wissen.
   Future<Uint8List> readFile(String id) async {

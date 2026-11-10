@@ -47,9 +47,12 @@ class VaultNotSetUpException implements Exception {
 }
 
 class SetupResult {
-  const SetupResult(this.dataKey, this.recoveryCode);
+  const SetupResult(this.dataKey, this.recoveryCode, {this.biometricsEnabled = false});
   final Uint8List dataKey;
   final String recoveryCode;
+
+  /// Of de biometrische koppeling gelukt is (kan mislukken of geannuleerd worden).
+  final bool biometricsEnabled;
 }
 
 /// Sleutelbeheer: één willekeurige datasleutel (DK, 256 bit) versleutelt alle
@@ -131,10 +134,21 @@ class VaultKeyManager {
     zero(kRec);
     await _writeHeader(header);
     await _writeLockState(0, null);
+    var bioOk = false;
     if (enableBiometrics) {
-      await enableBiometricsFor(dk);
+      // Mislukt of geannuleerd? Dan werkt de kluis gewoon met alleen de PIN.
+      try {
+        await enableBiometricsFor(dk);
+        bioOk = true;
+      } catch (_) {
+        final h = await _readHeader();
+        if (h != null && h.remove('bio') != null) await _writeHeader(h);
+        try {
+          await bio.delete();
+        } catch (_) {}
+      }
     }
-    return SetupResult(dk, recoveryCode);
+    return SetupResult(dk, recoveryCode, biometricsEnabled: bioOk);
   }
 
   // ------------------------------------------------------------- ontgrendelen

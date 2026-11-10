@@ -1,14 +1,23 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <!-- Meldingen (Android 13+); toestemming wordt pas gevraagd bij het instellen van een herinnering. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <!-- Herplant herinneringen na een herstart van het toestel. -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <!-- Documentenkluis: biometrische ontgrendeling (BiometricPrompt). -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+    <!-- Documentscanner: alleen nodig voor de ingebouwde scanner op toestellen zonder Google Play-services. -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera" android:required="false"/>
     <!-- Alleen lezen, en pas gevraagd als iemand "Kies uit contacten" tikt (Mijn noodplan). -->
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <!-- Bewust GEEN SCHEDULE_EXACT_ALARM / USE_EXACT_ALARM: herinneringen zijn inexact gepland. -->
     <application
         android:label="NL-Noodpakket"
         android:name="${applicationName}"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        tools:replace="android:dataExtractionRules,android:fullBackupContent"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

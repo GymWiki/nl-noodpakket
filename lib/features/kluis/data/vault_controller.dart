@@ -14,6 +14,7 @@ import '../crypto/vault_keys.dart';
 import '../domain/lock_policy.dart';
 import '../domain/vault_models.dart';
 import 'secure_bio_store.dart';
+import 'vault_backup.dart';
 import 'vault_files.dart';
 import 'vault_images.dart';
 import 'vault_session.dart';
@@ -26,8 +27,10 @@ class VaultEnv {
     required this.bio,
     required this.tmpDir,
     this.kdf = KdfParams.pin,
+    this.exportKdf = KdfParams.export,
     this.deriveInIsolate = true,
   });
+  final KdfParams exportKdf;
   final VaultFiles files;
   final BiometricKeyStore bio;
 
@@ -149,8 +152,6 @@ class VaultUnsupportedException implements Exception {
   const VaultUnsupportedException();
 }
 
-const maxFileBytes = 50 * 1024 * 1024;
-
 const _kAutoLock = 'kluis_autolock';
 const _kReminderDays = 'kluis_reminder_days';
 const _kHasDocs = 'kluis_has_docs';
@@ -235,6 +236,8 @@ class VaultController extends Notifier<VaultState> {
 
   // ------------------------------------------------------------- instellen
 
+  /// Geeft de herstelcode terug. [bioEnabled] in de staat geeft aan of de
+  /// biometrische koppeling gelukt is.
   Future<String> setUp({required String pin, required bool enableBiometrics}) async {
     final r = await _km.setUp(pin: pin, enableBiometrics: enableBiometrics);
     _open(r.dataKey);
@@ -242,7 +245,7 @@ class VaultController extends Notifier<VaultState> {
     state = state.copyWith(
       status: VaultStatus.unlocked,
       meta: const VaultMeta(),
-      bioEnabled: enableBiometrics,
+      bioEnabled: r.biometricsEnabled,
       clearLockedUntil: true,
     );
     return r.recoveryCode;
@@ -354,7 +357,26 @@ class VaultController extends Notifier<VaultState> {
   /// Registreert gebruikersactiviteit (voor de inactiviteitstimer).
   void touch() => _lastActivity = DateTime.now();
 
-  void onBackground() => _backgroundedAt = DateTime.now();
+  int _externalBusy = 0;
+
+  /// Voert een actie uit die de app tijdelijk verlaat (camera, bestandskiezer,
+  /// deelmenu). Daarbij vergrendelt de kluis niet, zodat een lopende actie niet
+  /// verloren gaat. Na afloop telt de tijd weer vanaf nu.
+  Future<T> external<T>(Future<T> Function() action) async {
+    _externalBusy++;
+    try {
+      return await action();
+    } finally {
+      _externalBusy--;
+      _backgroundedAt = null;
+      touch();
+    }
+  }
+
+  void onBackground() {
+    if (_externalBusy > 0) return;
+    _backgroundedAt = DateTime.now();
+  }
 
   void onResume() {
     final t = _backgroundedAt;
@@ -600,5 +622,58 @@ class VaultController extends Notifier<VaultState> {
   Future<void> replaceMeta(VaultMeta meta) async {
     await _need().saveMeta(meta);
     await _setMeta(meta);
+  }
+
+  // --------------------------------------------------------------- back-up
+
+  /// Maakt een versleutelde back-up in de tijdelijke map. Geeft het bestand terug;
+  /// de aanroeper deelt het en verwijdert het daarna met [wipeFile].
+  Future<File> exportBackup(String password) async {
+    final s = _need();
+    final env = _env!;
+    if (!env.tmpDir.existsSync()) env.tmpDir.createSync(recursive: true);
+    final out = File(p.join(env.tmpDir.path, 'noodkluis-backup.noodkluis'));
+    await writeBackup(
+      session: s,
+      meta: state.meta,
+      password: password,
+      out: out,
+      deriveInIsolate: env.deriveInIsolate,
+      kdf: env.exportKdf,
+    );
+    return out;
+  }
+
+  Future<BackupReader> openBackup(File file, String password) =>
+      BackupReader.read(file, password, deriveInIsolate: _env!.deriveInIsolate);
+
+  /// Zet een geopende back-up terug. [replace] wist de huidige documenten.
+  Future<void> applyBackup(BackupReader reader, {required bool replace}) async {
+    final s = _need();
+    final own = state.meta;
+    final skip = replace ? <String>{} : {for (final d in own.documents) d.id};
+    await reader.importFiles(s, skipDocIds: skip);
+    final incoming = reader.meta;
+    final VaultMeta merged;
+    if (replace) {
+      merged = incoming;
+    } else {
+      final ownTypeIds = {for (final t in own.customTypes) t.id};
+      merged = VaultMeta(
+        documents: [
+          ...own.documents,
+          for (final d in incoming.documents)
+            if (!skip.contains(d.id)) d,
+        ],
+        customTypes: [
+          ...own.customTypes,
+          for (final t in incoming.customTypes)
+            if (!ownTypeIds.contains(t.id)) t,
+        ],
+      );
+    }
+    await replaceMeta(merged);
+    await s.collectGarbage(merged); // oude bestanden na vervangen
+    reader.dispose();
   }
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 12+: de kluis (versleutelde documenten, sleutelkop) en de tijdelijke map
+     worden nooit meegenomen in cloud-back-ups of apparaat-naar-apparaat-overdracht.
+     De eigen versleutelde export (.noodkluis) is de enige back-up. -->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="file" path="vault"/>
+        <exclude domain="file" path="vault_tmp"/>
+        <exclude domain="external" path="Pictures/"/>
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="file" path="vault"/>
+        <exclude domain="file" path="vault_tmp"/>
+        <exclude domain="external" path="Pictures/"/>
+    </device-transfer>
+</data-extraction-rules>

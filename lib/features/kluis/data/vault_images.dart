@@ -10,6 +10,9 @@ class ProcessedImage {
   final String mime;
 }
 
+/// Maximale grootte van één bestand in de kluis.
+const maxFileBytes = 50 * 1024 * 1024;
+
 const maxSide = 2400; // leesbaar voor documenten, toch beperkte bestandsgrootte
 const thumbSide = 320;
 const mainQuality = 85;
