@@ -33,8 +33,8 @@ class _HouseholdStepState extends ConsumerState<HouseholdStep> {
     super.initState();
     if (widget.plan.members.isEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
-        final h = ref.read(settingsProvider).value?.household;
-        if (h == null || !mounted) return;
+        final h = (await ref.read(settingsProvider.future)).household;
+        if (!mounted) return;
         await ref.read(planRepositoryProvider).prefillMembers(
               h,
               personName: (g, n) => S.planDefaultName(ageGroupLabel(g), n),

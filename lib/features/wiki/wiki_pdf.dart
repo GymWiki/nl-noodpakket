@@ -8,6 +8,9 @@ import 'package:printing/printing.dart';
 
 import '../../core/format.dart';
 import '../../core/l10n/strings.dart';
+import '../noodplan/domain/plan_models.dart';
+import '../noodplan/domain/plan_share.dart';
+import '../noodplan/ui/plan_pdf.dart';
 import 'wiki_models.dart';
 
 /// Stappenplannen op de meterkastkaart (de meest voorkomende thuis-situaties).
@@ -104,12 +107,17 @@ Future<Uint8List> buildMeterkastPdf(WikiData d) async {
 }
 
 /// Opent het systeem-printmenu (afdrukken, opslaan als PDF of delen).
-Future<void> shareMeterkastCard(BuildContext context, WikiData d) async {
+/// Is er een noodplan, dan is de meterkastkaart dat plan (met Eerste-uur kaart);
+/// anders de standaardkaart met de belangrijkste stappenplannen.
+Future<void> shareMeterkastCard(BuildContext context, WikiData d, {Plan? plan}) async {
   final messenger = ScaffoldMessenger.of(context);
   try {
     await Printing.layoutPdf(
       name: 'meterkastkaart.pdf',
-      onLayout: (_) => buildMeterkastPdf(d),
+      onLayout: (_) => plan != null && plan.hasContent
+          ? buildPlanPdf(plan, const ShareOptions(),
+              wiki: d, now: DateTime.now(), version: plan.sharedVersion + 1)
+          : buildMeterkastPdf(d),
     );
   } catch (_) {
     messenger.showSnackBar(const SnackBar(content: Text(S.wikiPdfError)));

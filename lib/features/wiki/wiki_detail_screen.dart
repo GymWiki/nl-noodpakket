@@ -7,6 +7,7 @@ import '../../core/format.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/providers.dart';
 import '../../domain/models.dart';
+import '../noodplan/ui/plan_wiki_block.dart';
 import 'wiki_models.dart';
 import 'wiki_providers.dart';
 
@@ -151,6 +152,7 @@ class _Detail extends ConsumerWidget {
                 onTap: () => openDialer(context, c.nummer),
               ),
           ],
+          PlanWikiBlock(emergencyId: e.id),
           if (prepare.isNotEmpty) ...[
             title(S.wikiPrepare),
             for (final i in prepare)

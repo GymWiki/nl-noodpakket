@@ -8,6 +8,9 @@ import '../../core/providers.dart';
 import '../../domain/expiry.dart';
 import '../../domain/models.dart';
 import '../expiry/expiry_chip.dart';
+import '../noodplan/domain/plan_models.dart';
+import '../noodplan/plan_providers.dart';
+import '../noodplan/ui/plan_overview_screen.dart';
 
 enum ChecklistFilter { all, needed, inHouse, expiring }
 
@@ -98,7 +101,9 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
       children: [
+        const PlanBanner(),
         _ProgressCard(done: done, total: all.length),
+        const _NoodpakketLocation(),
         const SizedBox(height: 16),
         TextField(
           decoration: const InputDecoration(
@@ -239,6 +244,25 @@ class _ItemTile extends ConsumerWidget {
       ),
       trailing: const Icon(Icons.chevron_right),
       onTap: () => context.push('/item/${item.id}'),
+    );
+  }
+}
+
+/// Toont waar het noodpakket ligt, als dat in "Mijn noodplan" is ingevuld.
+class _NoodpakketLocation extends ConsumerWidget {
+  const _NoodpakketLocation();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final where = ref.watch(planProvider).value?.locationText(PlanKeys.noodpakket) ?? '';
+    if (where.isEmpty) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.only(top: 8, left: 4),
+      child: Row(children: [
+        const Icon(Icons.place_outlined, size: 18),
+        const SizedBox(width: 6),
+        Expanded(child: Text(S.planNoodpakketAt(where))),
+      ]),
     );
   }
 }

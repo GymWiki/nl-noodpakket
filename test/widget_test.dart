@@ -12,6 +12,9 @@ import 'package:mijnnoodpakket/data/repositories/settings_repository.dart';
 import 'package:mijnnoodpakket/domain/models.dart';
 import 'package:mijnnoodpakket/features/checklist/checklist_screen.dart';
 import 'package:mijnnoodpakket/features/items/item_form_screen.dart';
+import 'package:mijnnoodpakket/features/noodplan/domain/plan_models.dart';
+import 'package:mijnnoodpakket/features/noodplan/plan_providers.dart';
+import 'package:mijnnoodpakket/features/wiki/wiki_providers.dart';
 
 class FakeRepo implements ItemRepository {
   final inHouseCalls = <(String, bool)>[];
@@ -73,8 +76,10 @@ void main() {
 
     List<Override> overrides(FakeRepo repo) => [
           visibleItemsProvider.overrideWithValue(AsyncValue.data(items)),
-          settingsProvider.overrideWith((ref) => Stream.value(const AppSettings())),
+          settingsProvider.overrideWith(
+              (ref) => Stream.value(const AppSettings(planBannerDismissed: true))),
           itemRepositoryProvider.overrideWithValue(repo),
+          planProvider.overrideWith((ref) => Stream.value(const Plan())),
         ];
 
     testWidgets('toont categorieën, items en voortgang', (t) async {
@@ -144,6 +149,7 @@ void main() {
         allItemsProvider.overrideWithValue(AsyncValue.data(all)),
         settingsProvider.overrideWith((ref) => Stream.value(const AppSettings())),
         itemRepositoryProvider.overrideWithValue(repo),
+        wikiProvider.overrideWith((ref) async => throw StateError('geen wiki in dit test')),
       ], router: router));
       router.push('/item/$id');
       await t.pumpAndSettle();

@@ -10,6 +10,8 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:mijnnoodpakket/core/l10n/strings.dart';
 import 'package:mijnnoodpakket/core/providers.dart';
 import 'package:mijnnoodpakket/domain/models.dart';
+import 'package:mijnnoodpakket/features/noodplan/domain/plan_models.dart';
+import 'package:mijnnoodpakket/features/noodplan/plan_providers.dart';
 import 'package:mijnnoodpakket/features/wiki/wiki_detail_screen.dart';
 import 'package:mijnnoodpakket/features/wiki/wiki_models.dart';
 import 'package:mijnnoodpakket/features/wiki/wiki_overview_screen.dart';
@@ -69,6 +71,7 @@ Future<void> pump(WidgetTester t, FakePrefs prefs, String start,
     wikiProvider.overrideWith((ref) async => data),
     wikiFavoritesProvider.overrideWith((ref) => Stream.value(favs)),
     wikiPrefsProvider.overrideWithValue(prefs),
+    planProvider.overrideWith((ref) => Stream.value(const Plan())),
     allItemsProvider.overrideWithValue(
         AsyncValue.data([item('radio', inHouse: true), item('batteries'), item('flashlight')])),
   ];

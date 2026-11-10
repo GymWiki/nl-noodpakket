@@ -55,6 +55,7 @@ class NotificationService {
     required List<Item> items,
     required int leadDays,
     required bool semiAnnual,
+    DateTime? planReminderAt,
   }) async {
     await init();
     await _plugin.cancelAll();
@@ -97,6 +98,10 @@ class NotificationService {
           ? S.notifBodyReplace(item.name, fmt.format(d))
           : S.notifBodyCheck(item.name);
       await schedule(t, S.notifTitleReplace, body);
+    }
+
+    if (planReminderAt != null) {
+      await schedule(planReminderAt, S.notifTitlePlan, S.notifBodyPlan);
     }
 
     if (semiAnnual) {

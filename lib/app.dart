@@ -14,6 +14,8 @@ import 'features/items/item_form_screen.dart';
 import 'features/onboarding/onboarding_screen.dart';
 import 'features/settings/settings_screen.dart';
 import 'features/noodplan/domain/plan_models.dart';
+import 'features/noodplan/domain/plan_reminder.dart';
+import 'features/noodplan/plan_providers.dart';
 import 'features/noodplan/ui/plan_overview_screen.dart';
 import 'features/noodplan/ui/plan_share_screen.dart';
 import 'features/noodplan/ui/plan_talk_screen.dart';
@@ -160,7 +162,11 @@ class _NoodpakketAppState extends ConsumerState<NoodpakketApp> {
     final items = ref.read(allItemsProvider).value;
     final s = ref.read(settingsProvider).value;
     if (items == null || s == null) return;
-    final sig = StringBuffer('${s.leadDays}|${s.semiAnnual}');
+    final plan = ref.read(planProvider).value;
+    final planAt = s.planReminder && plan != null
+        ? planReminderTime(plan, DateTime.now())
+        : null;
+    final sig = StringBuffer('${s.leadDays}|${s.semiAnnual}|$planAt');
     for (final i in items) {
       if (!i.hidden) sig.write('|${i.id}:${i.name}:${dueDate(i)}');
     }
@@ -168,7 +174,11 @@ class _NoodpakketAppState extends ConsumerState<NoodpakketApp> {
     _lastSignature = sig.toString();
     ref
         .read(notificationServiceProvider)
-        .reschedule(items: items, leadDays: s.leadDays, semiAnnual: s.semiAnnual)
+        .reschedule(
+            items: items,
+            leadDays: s.leadDays,
+            semiAnnual: s.semiAnnual,
+            planReminderAt: planAt)
         .catchError((Object _) {});
   }
 
@@ -176,6 +186,7 @@ class _NoodpakketAppState extends ConsumerState<NoodpakketApp> {
   Widget build(BuildContext context) {
     ref.listen(allItemsProvider, (_, _) => _reschedule());
     ref.listen(settingsProvider, (_, _) => _reschedule());
+    ref.listen(planProvider, (_, _) => _reschedule());
     final mode =
         ref.watch(settingsProvider.select((s) => s.value?.themeMode)) ??
             ThemeMode.system;

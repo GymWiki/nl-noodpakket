@@ -99,21 +99,22 @@ class PlanBanner extends ConsumerWidget {
   }
 }
 
+/// Zet de halfjaarlijkse noodplan-herinnering aan of uit. De meldingstoestemming
+/// wordt pas gevraagd op het moment dat de herinnering wordt aangezet.
+Future<void> togglePlanReminder(BuildContext context, WidgetRef ref, bool on) async {
+  final repo = ref.read(settingsRepositoryProvider);
+  final messenger = ScaffoldMessenger.of(context);
+  await repo.save((await repo.load()).copyWith(planReminder: on));
+  if (!on) return;
+  final granted = await ref.read(notificationServiceProvider).requestPermission();
+  await repo.save((await repo.load()).copyWith(permissionAsked: true));
+  if (!granted) {
+    messenger.showSnackBar(const SnackBar(content: Text(S.notifDenied)));
+  }
+}
+
 class PlanOverviewScreen extends ConsumerWidget {
   const PlanOverviewScreen({super.key});
-
-  Future<void> _toggleReminder(BuildContext context, WidgetRef ref, bool on) async {
-    final repo = ref.read(settingsRepositoryProvider);
-    final messenger = ScaffoldMessenger.of(context);
-    await repo.save((await repo.load()).copyWith(planReminder: on));
-    if (!on) return;
-    // Toestemming pas vragen op het moment dat de herinnering wordt aangezet.
-    final granted = await ref.read(notificationServiceProvider).requestPermission();
-    await repo.save((await repo.load()).copyWith(permissionAsked: true));
-    if (!granted) {
-      messenger.showSnackBar(const SnackBar(content: Text(S.notifDenied)));
-    }
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -226,7 +227,7 @@ class PlanOverviewScreen extends ConsumerWidget {
                 title: const Text(S.planReminder),
                 subtitle: const Text(S.planReminderSub),
                 value: settings.planReminder,
-                onChanged: (v) => _toggleReminder(context, ref, v),
+                onChanged: (v) => togglePlanReminder(context, ref, v),
               ),
               const Divider(),
               if (plan.updatedAt != null) Text(S.planUpdated(fmtDate(plan.updatedAt!))),

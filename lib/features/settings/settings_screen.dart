@@ -13,6 +13,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/providers.dart';
 import '../../data/repositories/settings_repository.dart';
+import '../noodplan/ui/plan_overview_screen.dart' show togglePlanReminder;
 import 'household_form.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -157,6 +158,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             subtitle: const Text(S.setSemiAnnualSub),
             value: s.semiAnnual,
             onChanged: (v) => _toggleSemiAnnual(s, v),
+          ),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            title: const Text(S.planReminder),
+            subtitle: const Text(S.planReminderSub),
+            value: s.planReminder,
+            onChanged: (v) => togglePlanReminder(context, ref, v),
           ),
           header(S.setTheme),
           SegmentedButton<ThemeMode>(
