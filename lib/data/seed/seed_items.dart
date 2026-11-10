@@ -259,6 +259,20 @@ const seedItems = <SeedItem>[
     base: 1,
   ),
   SeedItem(
+    id: 'smoke_detector', category: Cat.other, name: 'Rookmelders',
+    why: 'Verplicht: minimaal één werkende rookmelder op elke verdieping. '
+        'Plaats ze in de hal of overloop en in slaapkamers.',
+    shelfAdvice: 'Test ze elke maand met de testknop en vervang de melder na 10 jaar.',
+    intervalMonths: 1,
+    base: 1,
+  ),
+  SeedItem(
+    id: 'co_detector', category: Cat.other, name: 'Koolmonoxidemelder',
+    why: 'Koolmonoxide kun je niet ruiken of zien. Een melder (NEN-EN 50291) '
+        'in de ruimte van het verwarmingstoestel waarschuwt je op tijd.',
+    base: 1,
+  ),
+  SeedItem(
     id: 'multitool', category: Cat.other, name: 'Multitool of zakmes',
     why: 'Voor allerlei kleine klussen. Ook gereedschap zoals een tang of hamer '
         'kan van pas komen.',

@@ -78,6 +78,24 @@ class SettingsRepository {
   Future<AppSettings> load() async =>
       AppSettings.fromMap(_toMap(await _db.select(_db.settingRows).get()));
 
+  // Losse sleutel/waarde-paren (wiki-favorieten en stapvoortgang).
+  Stream<String?> watchRaw(String key) =>
+      (_db.select(_db.settingRows)..where((r) => r.key.equals(key)))
+          .watchSingleOrNull()
+          .map((r) => r?.value);
+
+  Future<void> setRaw(String key, String value) => _db
+      .into(_db.settingRows)
+      .insertOnConflictUpdate(SettingRowsCompanion.insert(key: key, value: value));
+
+  Future<void> deleteRaw(String key) =>
+      (_db.delete(_db.settingRows)..where((r) => r.key.equals(key))).go();
+
+  Future<String?> getRaw(String key) async =>
+      (await (_db.select(_db.settingRows)..where((r) => r.key.equals(key)))
+              .getSingleOrNull())
+          ?.value;
+
   Future<void> save(AppSettings s) => _db.batch((b) {
         b.insertAllOnConflictUpdate(_db.settingRows, [
           for (final e in s.toMap().entries)

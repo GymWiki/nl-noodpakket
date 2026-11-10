@@ -1,0 +1,608 @@
+{
+  "schemaVersion": 1,
+  "language": "nl",
+  "categories": [
+    { "id": "voorzieningen", "titel": "Uitval van voorzieningen", "icoon": "power" },
+    { "id": "natuur", "titel": "Natuur en weer", "icoon": "nature" },
+    { "id": "gevaar", "titel": "Brand en gevaarlijke stoffen", "icoon": "fire" },
+    { "id": "gezondheid", "titel": "Gezondheid", "icoon": "health" },
+    { "id": "veiligheid", "titel": "Veiligheid", "icoon": "security" }
+  ],
+  "eersteUur": {
+    "id": "eerste-uur",
+    "categorie": "voorzieningen",
+    "titel": "Eerste-uur kaart",
+    "icoon": "clock",
+    "trefwoorden": ["eerste uur", "eerste hulp bij crisis", "start"],
+    "intro": "Deze stappen helpen je in het eerste uur van elke noodsituatie.",
+    "stappenNu": [
+      "Zorg eerst voor je eigen veiligheid en die van je huisgenoten.",
+      "Bel 112 bij levensgevaar of direct gevaar.",
+      "Ga naar binnen als je een sirene hoort (buiten de test op de eerste maandag van de maand) of een NL-Alert krijgt. Sluit ramen en deuren, zet radio of tv aan en volg de instructies.",
+      "Luister naar hulpdiensten, gemeente en veiligheidsregio via een radio op batterijen. Kies de regionale omroep.",
+      "Bel alleen als het echt nodig is en stuur korte berichten. Dan blijven de lijnen vrij voor hulpdiensten.",
+      "Spaar de batterij van je telefoon.",
+      "Kijk naar buren en kwetsbare mensen, als dat veilig kan."
+    ],
+    "stappenDaarna": [],
+    "bel112Als": ["Er is levensgevaar of direct gevaar."],
+    "voorbereidenItemIds": ["radio", "batteries", "powerbank", "flashlight", "phone_numbers"],
+    "contacten": [],
+    "bronnen": [
+      { "naam": "Denk Vooruit: de sirene", "url": "https://www.denkvooruit.nl/bereid-je-voor/zo-krijg-je-een-waarschuwing/de-sirene" },
+      { "naam": "NL-Alert: zo werkt NL-Alert", "url": "https://www.nl-alert.nl/zo-werkt-nl-alert" },
+      { "naam": "Denk Vooruit: radio", "url": "https://www.denkvooruit.nl/bereid-je-voor/zo-krijg-je-een-waarschuwing/radio" }
+    ],
+    "lastReviewed": "2026-11-10"
+  },
+  "noodgevallen": [
+    {
+      "id": "stroomstoring",
+      "categorie": "voorzieningen",
+      "titel": "Stroomstoring",
+      "icoon": "bolt",
+      "trefwoorden": ["stroom", "elektriciteit", "licht uit", "blackout", "geen stroom"],
+      "intro": "Je hebt geen stroom meer in huis of in je buurt. Bel 112 alleen als er levensgevaar is.",
+      "stappenNu": [
+        "Haal de stekkers uit de stopcontacten.",
+        "Luister naar de regionale omroep. Gebruik een radio op batterijen of de autoradio.",
+        "Bel het Nationaal Storingsnummer: 0800-9009.",
+        "Kijk op rijksoverheid.nl of vraag je gemeente of veiligheidsregio om informatie.",
+        "Doe ramen en deuren dicht en verwarm de kleinste ruimtes als het koud is.",
+        "Loop langs buren die hulp nodig hebben."
+      ],
+      "stappenDaarna": [],
+      "bel112Als": ["Er is levensgevaar."],
+      "voorbereidenItemIds": ["radio", "batteries", "flashlight", "powerbank", "blankets", "phone_numbers"],
+      "contacten": [{ "label": "Nationaal Storingsnummer (gratis, 24/7)", "nummer": "0800-9009" }],
+      "bronnen": [
+        { "naam": "Denk Vooruit: geen stroom", "url": "https://www.denkvooruit.nl/risicos/risicos-in-nederland/geen-stroom" }
+      ],
+      "lastReviewed": "2026-11-10"
+    },
+    {
+      "id": "uitval-water",
+      "categorie": "voorzieningen",
+      "titel": "Uitval van drinkwater",
+      "icoon": "water",
+      "trefwoorden": ["water", "kraan", "drinkwater", "kookadvies", "leidingwater"],
+      "intro": "Er komt geen schoon water meer uit de kraan.",
+      "stappenNu": [
+        "Gebruik je drinkwatervoorraad. Reken op minimaal 3 liter per persoon per dag.",
+        "Houd een schone emmer, lege flessen of een jerrycan klaar.",
+        "Controleer de hoofdkraan in de meterkast of kruipruimte.",
+        "Vraag buren of zij ook geen water hebben.",
+        "Volg de informatie van je drinkwaterbedrijf, de gemeente en de veiligheidsregio."
+      ],
+      "stappenDaarna": [
+        "Duurt het langer dan 24 uur? Haal nooddrinkwater bij een distributiepunt in je gemeente. Neem je eigen fles, pan of jerrycan mee.",
+        "Krijg je een kookadvies? Kook het water 3 minuten, laat het afkoelen en gebruik het dan."
+      ],
+      "bel112Als": [],
+      "voorbereidenItemIds": ["water", "wipes", "soap"],
+      "contacten": [],
+      "bronnen": [
+        { "naam": "Denk Vooruit: drinkwater", "url": "https://www.denkvooruit.nl/risicos/risicos-in-nederland/drinkwater" }
+      ],
+      "lastReviewed": "2026-11-10"
+    },
+    {
+      "id": "uitval-telecom",
+      "categorie": "voorzieningen",
+      "titel": "Uitval van telefoon, internet en pinnen",
+      "icoon": "signal",
+      "trefwoorden": ["telefoon", "internet", "wifi", "pinnen", "betalen", "cyberaanval", "storing", "telecom", "oplichting"],
+      "intro": "Bellen, internet of pinnen werkt niet meer. Bij een lange uitval werken tv-crisiszenders en NL-Alert waarschijnlijk niet.",
+      "stappenNu": [
+        "Luister naar een radio op batterijen of met een zwengel.",
+        "Gebruik contant geld om te betalen.",
+        "Gebruik je papieren lijst met telefoonnummers.",
+        "Klik niet op links van afzenders die je niet kent. Controleer altijd de afzender."
+      ],
+      "stappenDaarna": [
+        "Heb je hulp nodig na online oplichting of hacking? Bel de DigiHulplijn: 0800-1508."
+      ],
+      "bel112Als": ["Er is levensgevaar."],
+      "voorbereidenItemIds": ["radio", "batteries", "cash", "phone_numbers", "usb", "powerbank"],
+      "contacten": [{ "label": "DigiHulplijn", "nummer": "0800-1508" }],
+      "bronnen": [
+        { "naam": "Denk Vooruit: uitval telecommunicatie", "url": "https://www.denkvooruit.nl/risicos/risicos-in-nederland/uitval-telecommunicatie" },
+        { "naam": "Denk Vooruit: elektronisch betalen", "url": "https://www.denkvooruit.nl/risicos/risicos-in-nederland/elektronisch-betalen" },
+        { "naam": "Denk Vooruit: cybercriminaliteit", "url": "https://www.denkvooruit.nl/risicos/risicos-in-nederland/cybercriminaliteit" }
+      ],
+      "lastReviewed": "2026-11-10"
+    },
+    {
+      "id": "uitval-verwarming",
+      "categorie": "voorzieningen",
+      "titel": "Uitval van gas of verwarming",
+      "icoon": "cold",
+      "trefwoorden": ["gas", "verwarming", "cv", "kou", "koud", "ketel", "gasstoring"],
+      "intro": "Het gas of de verwarming valt uit en het wordt koud in huis.",
+      "stappenNu": [
+        "Draai de gaspitten dicht als het gas uitvalt terwijl je kookt.",
+        "Doe ramen en deuren dicht.",
+        "Verwarm de kleinste ruimtes.",
+        "Gebruik extra dekens uit je noodpakket.",
+        "Let op onderkoeling. Houd jezelf en anderen droog en warm."
+      ],
+      "stappenDaarna": [],
+      "bel112Als": [],
+      "voorbereidenItemIds": ["blankets", "warm_clothes"],
+      "contacten": [],
+      "bronnen": [
+        { "naam": "Denk Vooruit: geen stroom", "url": "https://www.denkvooruit.nl/risicos/risicos-in-nederland/geen-stroom" },
+        { "naam": "Denk Vooruit: overstroming", "url": "https://www.denkvooruit.nl/risicos/risicos-in-nederland/overstroming" },
+        { "naam": "Enexis: tips bij een gasstoring", "url": "https://www.enexis.nl/storingen-en-onderhoud/tips-bij-gas-en-stroomstoringen/tips-bij-een-gasstoring" }
+      ],
+      "lastReviewed": "2026-11-10"
+    },
+    {
+      "id": "overstroming",
+      "categorie": "natuur",
+      "titel": "Overstroming",
+      "icoon": "flood",
+      "trefwoorden": ["water", "dijk", "dijkdoorbraak", "hoogwater", "ondergelopen", "rivier"],
+      "intro": "Water kan je huis binnenkomen of je weg afsluiten. Volg de aanwijzingen van de veiligheidsregio.",
+      "stappenNu": [
+        "Luister naar de rampenzender of de regionale radio.",
+        "Draai de gashoofdkraan dicht als er gevaar is.",
+        "Ga naar een droge verdieping of de zolder.",
+        "Pak je noodpakket.",
+        "Bedenk naar wie je kunt gaan als je weg moet."
+      ],
+      "stappenDaarna": [
+        "Meld schade pas bij je verzekeraar als het extreme weer voorbij is."
+      ],
+      "bel112Als": ["Er is een levensbedreigende situatie."],
+      "voorbereidenItemIds": ["radio", "batteries", "flashlight", "blankets", "water", "food", "bag"],
+      "contacten": [{ "label": "Brandweer, geen spoed", "nummer": "0900-0904" }],
+      "bronnen": [
+        { "naam": "Denk Vooruit: overstroming", "url": "https://www.denkvooruit.nl/risicos/risicos-in-nederland/overstroming" },
+        { "naam": "Denk Vooruit: extreem weer", "url": "https://www.denkvooruit.nl/risicos/risicos-in-nederland/extreem-weer" }
+      ],
+      "lastReviewed": "2026-11-10"
+    },
+    {
+      "id": "wateroverlast",
+      "categorie": "natuur",
+      "titel": "Wateroverlast door zware regen",
+      "icoon": "rain",
+      "trefwoorden": ["regen", "onweer", "kelder", "water", "hoosbui", "zandzakken", "wateroverlast"],
+      "intro": "Door zware regen kunnen kelders, tuinen en wegen onderlopen.",
+      "stappenNu": [
+        "Sluit kelders af.",
+        "Zet spullen hoger.",
+        "Gebruik zandzakken of schotten.",
+        "Rij langzamer en houd afstand bij code geel. Kijk op rwsverkeersinfo.nl.",
+        "Stel je reis uit bij code oranje.",
+        "Blijf binnen bij code rood. Volg de hulpdiensten en de overheid."
+      ],
+      "stappenDaarna": [],
+      "bel112Als": ["Er is acuut gevaar."],
+      "voorbereidenItemIds": ["flashlight", "radio", "batteries"],
+      "contacten": [{ "label": "Brandweer, geen spoed", "nummer": "0900-0904" }],
+      "bronnen": [
+        { "naam": "KNMI: zware regen", "url": "https://www.knmi.nl/kennis-en-datacentrum/waarschuwingen/zware-regen" },
+        { "naam": "Denk Vooruit: extreem weer", "url": "https://www.denkvooruit.nl/risicos/risicos-in-nederland/extreem-weer" }
+      ],
+      "lastReviewed": "2026-11-10"
+    },
+    {
+      "id": "storm",
+      "categorie": "natuur",
+      "titel": "Storm",
+      "icoon": "storm",
+      "trefwoorden": ["wind", "windstoten", "orkaan", "storm", "code oranje", "code rood"],
+      "intro": "Bij storm kunnen windstoten schade en gevaar veroorzaken.",
+      "stappenNu": [
+        "Doe ramen en deuren dicht.",
+        "Zet losse spullen vast of zet ze binnen.",
+        "Ga niet naar buiten voor activiteiten, zeker niet in een bos.",
+        "Wees voorzichtig bij water en bruggen.",
+        "Stel je reis uit bij code oranje en ga dan niet het water op. Kijk op rwsverkeersinfo.nl.",
+        "Blijf binnen bij code rood. Volg de hulpdiensten en de overheid."
+      ],
+      "stappenDaarna": [],
+      "bel112Als": ["Er is acuut gevaar."],
+      "voorbereidenItemIds": ["radio", "flashlight", "batteries"],
+      "contacten": [{ "label": "Brandweer, geen spoed", "nummer": "0900-0904" }],
+      "bronnen": [
+        { "naam": "KNMI: windstoten", "url": "https://www.knmi.nl/kennis-en-datacentrum/waarschuwingen/windstoten" },
+        { "naam": "Denk Vooruit: extreem weer", "url": "https://www.denkvooruit.nl/risicos/risicos-in-nederland/extreem-weer" }
+      ],
+      "lastReviewed": "2026-11-10"
+    },
+    {
+      "id": "onweer",
+      "categorie": "natuur",
+      "titel": "Onweer",
+      "icoon": "thunder",
+      "trefwoorden": ["bliksem", "onweer", "onweersbui", "donder"],
+      "intro": "Bij onweer is er gevaar door bliksem.",
+      "stappenNu": [
+        "Ga naar binnen.",
+        "Blijf uit de buurt van open water en velden.",
+        "Schuil niet onder bomen.",
+        "Stel je reis uit bij code oranje.",
+        "Blijf binnen bij code rood."
+      ],
+      "stappenDaarna": [],
+      "bel112Als": ["Er is acuut gevaar."],
+      "voorbereidenItemIds": ["flashlight", "radio"],
+      "contacten": [],
+      "bronnen": [
+        { "naam": "KNMI: onweersbuien", "url": "https://www.knmi.nl/kennis-en-datacentrum/waarschuwingen/onweersbuien" }
+      ],
+      "lastReviewed": "2026-11-10"
+    },
+    {
+      "id": "hitte",
+      "categorie": "natuur",
+      "titel": "Hitte",
+      "icoon": "hot",
+      "trefwoorden": ["warm", "hittegolf", "zon", "tropisch", "oververhitting", "hitteplan"],
+      "intro": "Bij langdurige hitte kun je oververhit raken. Ouderen, baby's en zieke mensen lopen het meeste risico.",
+      "stappenNu": [
+        "Kijk naar kwetsbare mensen in je omgeving.",
+        "Drink genoeg en bied ook anderen drinken aan.",
+        "Houd je woning koel.",
+        "Vermijd zware inspanning. Doe activiteiten voor 12.00 uur of na 18.00 uur.",
+        "Blijf bij code oranje uit de zon en zoek verkoeling. Doe tussen 12.00 en 18.00 uur geen zware inspanning."
+      ],
+      "stappenDaarna": [
+        "Heb je hoofdpijn, duizeligheid of vermoeidheid door de hitte? Bel je huisarts."
+      ],
+      "bel112Als": [
+        "Iemand bewusteloos raakt.",
+        "Iemand een rode huid heeft.",
+        "Iemand stuiptrekkingen krijgt.",
+        "De lichaamstemperatuur boven de 39 graden komt (bij code oranje of rood)."
+      ],
+      "voorbereidenItemIds": ["water"],
+      "contacten": [],
+      "bronnen": [
+        { "naam": "RIVM: Nationaal Hitteplan", "url": "https://www.rivm.nl/hitte/nationaal-hitteplan" },
+        { "naam": "Rijksoverheid: wat kan ik doen tegen de hitte?", "url": "https://www.rijksoverheid.nl/vraag-en-antwoord/droogte-en-hitte/wat-kan-ik-doen-tegen-de-hitte" },
+        { "naam": "Denk Vooruit: hitte", "url": "https://www.denkvooruit.nl/risicos/risicos-in-nederland/hitte" }
+      ],
+      "lastReviewed": "2026-11-10"
+    },
+    {
+      "id": "kou-gladheid",
+      "categorie": "natuur",
+      "titel": "Strenge kou, sneeuw en gladheid",
+      "icoon": "cold",
+      "trefwoorden": ["vorst", "sneeuw", "ijs", "gladheid", "winter", "koud", "strooien"],
+      "intro": "Bij strenge kou of sneeuw kan het gevaarlijk glad zijn. Blote huid kan bevriezen.",
+      "stappenNu": [
+        "Bedek je huid en draag veel kleding bij code geel. Blijf uit de wind.",
+        "Kijk naar mensen in je omgeving.",
+        "Ga bij code oranje alleen naar buiten als het nodig is.",
+        "Blijf binnen bij code rood.",
+        "Rij langzamer bij gladheid en bekijk de strooiroutes op rijkswaterstaatstrooit.nl.",
+        "Stel je reis uit bij code oranje voor gladheid of sneeuw. Reis niet bij code rood."
+      ],
+      "stappenDaarna": [],
+      "bel112Als": ["Er is acuut gevaar."],
+      "voorbereidenItemIds": ["blankets", "warm_clothes", "gloves"],
+      "contacten": [],
+      "bronnen": [
+        { "naam": "KNMI: kou", "url": "https://www.knmi.nl/kennis-en-datacentrum/waarschuwingen/kou" },
+        { "naam": "KNMI: sneeuw en gladheid", "url": "https://www.knmi.nl/kennis-en-datacentrum/waarschuwingen/sneeuw-en-gladheid" }
+      ],
+      "lastReviewed": "2026-11-10"
+    },
+    {
+      "id": "natuurbrand",
+      "categorie": "natuur",
+      "titel": "Natuurbrand",
+      "icoon": "wildfire",
+      "trefwoorden": ["bosbrand", "heidebrand", "duinbrand", "vuur", "natuurbrand"],
+      "intro": "Er is brand in bos, heide of duinen bij jou in de buurt.",
+      "stappenNu": [
+        "Bel 112 en geef de exacte locatie door.",
+        "Wacht niet af. Ga zo snel en zo ver mogelijk weg.",
+        "Vlucht haaks op de brand. Ga niet voor de brand uit en ga er niet naartoe.",
+        "Waarschuw andere mensen."
+      ],
+      "stappenDaarna": [],
+      "bel112Als": ["Er is brand in je buurt."],
+      "voorbereidenItemIds": ["bag", "phone_numbers"],
+      "contacten": [],
+      "bronnen": [
+        { "naam": "Denk Vooruit: natuurbrand", "url": "https://www.denkvooruit.nl/risicos/risicos-in-nederland/natuurbrand" }
+      ],
+      "lastReviewed": "2026-11-10"
+    },
+    {
+      "id": "aardbeving",
+      "categorie": "natuur",
+      "titel": "Aardbeving",
+      "icoon": "quake",
+      "trefwoorden": ["beving", "trilling", "schudden", "groningen", "limburg"],
+      "intro": "De grond beweegt en gebouwen kunnen schudden.",
+      "stappenNu": [
+        "Bescherm je hoofd en nek met je armen.",
+        "Ga binnen op de grond zitten, onder een tafel of bureau.",
+        "Blijf weg van ramen, spiegels en buitenmuren.",
+        "Ga buiten naar een open ruimte, weg van gebouwen met glas en dakpannen. Ga zitten tot het schudden stopt."
+      ],
+      "stappenDaarna": [
+        "Volg de regionale omroep voor informatie."
+      ],
+      "bel112Als": [],
+      "voorbereidenItemIds": ["flashlight", "radio"],
+      "contacten": [],
+      "bronnen": [
+        { "naam": "Denk Vooruit: aardbeving", "url": "https://www.denkvooruit.nl/risicos/risicos-in-nederland/aardbeving" }
+      ],
+      "lastReviewed": "2026-11-10"
+    },
+    {
+      "id": "sirene-nl-alert",
+      "categorie": "gevaar",
+      "titel": "Sirene of NL-Alert: ga naar binnen",
+      "icoon": "siren",
+      "trefwoorden": ["sirene", "nl-alert", "alarm", "gifwolk", "chemisch", "gevaarlijke stoffen", "schuilen", "waarschuwing"],
+      "intro": "Een sirene buiten de test op de eerste maandag van de maand betekent gevaar. Het geldt ook bij een gifwolk. Een NL-Alert vertelt wat je moet doen.",
+      "stappenNu": [
+        "Ga zo snel mogelijk naar binnen, naar je huis of het dichtstbijzijnde gebouw.",
+        "Waarschuw anderen en laat ze bij je schuilen.",
+        "Sluit ramen, deuren en andere openingen, zoals afzuigkap, roosters en tussendeuren.",
+        "Zet mechanische ventilatie uit.",
+        "Luister naar de regionale radio of tv, of volg het nieuws.",
+        "Laat kinderen op school of in de opvang blijven.",
+        "Ga pas naar buiten als het veilig is. Dat hoor je via radio, NL-Alert of de hulpdiensten.",
+        "Zit je in de auto? Parkeer en ga naar binnen. Kan dat niet, blijf dan in de auto met de motor uit. Zet luchtroosters, ramen en deuren dicht en zet de radio aan."
+      ],
+      "stappenDaarna": [],
+      "bel112Als": ["Er is levensgevaar of direct gevaar."],
+      "voorbereidenItemIds": ["radio", "batteries", "water", "food", "powerbank"],
+      "contacten": [],
+      "bronnen": [
+        { "naam": "Denk Vooruit: de sirene", "url": "https://www.denkvooruit.nl/bereid-je-voor/zo-krijg-je-een-waarschuwing/de-sirene" },
+        { "naam": "NL-Alert: zo werkt NL-Alert", "url": "https://www.nl-alert.nl/zo-werkt-nl-alert" }
+      ],
+      "lastReviewed": "2026-11-10"
+    },
+    {
+      "id": "kernongeval",
+      "categorie": "gevaar",
+      "titel": "Kernongeval",
+      "icoon": "radiation",
+      "trefwoorden": ["kernramp", "kerncentrale", "straling", "jodium", "jodiumtabletten", "nucleair", "borssele", "doel"],
+      "intro": "Bij een groter ongeval krijg je via NL-Alert te horen dat je moet schuilen. Dat kan tot 72 uur duren.",
+      "stappenNu": [
+        "Ga naar binnen en blijf binnen.",
+        "Sluit ramen en deuren.",
+        "Zet ventilatie uit.",
+        "Schakel gas, elektriciteit en ventilatie uit als de overheid dat vraagt of als je weet hoe dat moet.",
+        "Volg de instructies van de overheid en de veiligheidsregio. Luister naar de lokale radio of tv.",
+        "Neem jodiumtabletten alleen in als de overheid dat bekendmaakt, via NL-Alert en de regionale omroep."
+      ],
+      "stappenDaarna": [],
+      "bel112Als": [],
+      "voorbereidenItemIds": ["radio", "batteries", "water", "food", "iodine", "medication"],
+      "contacten": [],
+      "bronnen": [
+        { "naam": "Denk Vooruit: een nucleair ongeval in Nederland", "url": "https://www.denkvooruit.nl/risicos/risicos-in-nederland/nucleair/een-nucleair-ongeval-in-nederland" },
+        { "naam": "Rijksoverheid: jodiumtabletten", "url": "https://www.rijksoverheid.nl/onderwerpen/straling/jodiumtabletten" }
+      ],
+      "lastReviewed": "2026-11-10"
+    },
+    {
+      "id": "gaslucht",
+      "categorie": "gevaar",
+      "titel": "Gaslucht in huis",
+      "icoon": "gas",
+      "trefwoorden": ["gas", "gaslek", "gasgeur", "ik ruik gas", "explosie", "storingsnummer"],
+      "intro": "Je ruikt gas. Gebruik geen vuur en geen elektrische apparaten.",
+      "stappenNu": [
+        "Open alle ramen en deuren en breng iedereen in veiligheid.",
+        "Draai de hoofdgaskraan dicht. Die zit bij de gasmeter in de meterkast.",
+        "Gebruik geen open vuur en rook niet.",
+        "Zet geen elektrische apparaten aan of uit.",
+        "Bel direct het Nationaal Storingsnummer: 0800-9009."
+      ],
+      "stappenDaarna": [],
+      "bel112Als": ["Er is acuut gevaar, bijvoorbeeld bij een vreemde lucht en je twijfelt."],
+      "voorbereidenItemIds": [],
+      "contacten": [{ "label": "Nationaal Storingsnummer (gratis, 24/7)", "nummer": "0800-9009" }],
+      "bronnen": [
+        { "naam": "Liander: ik ruik gas", "url": "https://www.liander.nl/storingen-en-onderhoud/ik-ruik-gas" },
+        { "naam": "Enexis: storingen en onderhoud", "url": "https://www.enexis.nl/storingen-en-onderhoud" },
+        { "naam": "Brandweer", "url": "https://www.brandweer.nl/" }
+      ],
+      "lastReviewed": "2026-11-10"
+    },
+    {
+      "id": "co-vergiftiging",
+      "categorie": "gevaar",
+      "titel": "Koolmonoxidevergiftiging (CO)",
+      "icoon": "co",
+      "trefwoorden": ["co", "koolmonoxide", "cv-ketel", "geiser", "kachel", "duizelig", "hoofdpijn"],
+      "intro": "Koolmonoxide kun je niet ruiken en niet zien. Klachten zijn hoofdpijn, duizeligheid, misselijkheid, overgeven, vermoeidheid, verwardheid of slaperigheid.",
+      "stappenNu": [
+        "Waarschuw je huisgenoten.",
+        "Ga zo snel mogelijk naar buiten.",
+        "Bel 112 en volg de aanwijzingen van de hulpdienst op."
+      ],
+      "stappenDaarna": [],
+      "bel112Als": ["Je vermoedt een koolmonoxidevergiftiging."],
+      "voorbereidenItemIds": ["co_detector"],
+      "contacten": [],
+      "bronnen": [
+        { "naam": "Brandweer: koolmonoxide", "url": "https://www.brandweer.nl/onderwerpen/koolmonoxide/" }
+      ],
+      "lastReviewed": "2026-11-10"
+    },
+    {
+      "id": "brand-in-huis",
+      "categorie": "gevaar",
+      "titel": "Brand in huis",
+      "icoon": "fire",
+      "trefwoorden": ["brand", "vuur", "rook", "vluchten", "woningbrand", "rookmelder"],
+      "intro": "Er is brand in je woning. Ga snel naar buiten. Het raam is een slechte vluchtweg.",
+      "stappenNu": [
+        "Blijf kalm.",
+        "Waarschuw je huisgenoten.",
+        "Verlaat de woning via de kortste weg.",
+        "Houd deuren en ramen gesloten en sluit deuren achter je.",
+        "Blijf bij rook dicht bij de vloer.",
+        "Ga naar de verzamelplaats en controleer of iedereen buiten is.",
+        "Bel 112 met je naam en je volledige adres.",
+        "Wacht op de brandweer en vertel wat je weet."
+      ],
+      "stappenDaarna": [],
+      "bel112Als": [
+        "Er is brand in je woning.",
+        "Je kunt niet zelf naar buiten. Meld dat direct en volg de aanwijzingen van de meldkamer."
+      ],
+      "voorbereidenItemIds": ["smoke_detector"],
+      "contacten": [{ "label": "Brandweer, geen spoed", "nummer": "0900-0904" }],
+      "bronnen": [
+        { "naam": "Brandweer: vlucht met je vluchtplan", "url": "https://www.brandweer.nl/onderwerpen/vlucht-met-je-vluchtplan/" },
+        { "naam": "Brandweer: blijf uit de rook", "url": "https://www.brandweer.nl/onderwerpen/blijf-uit-de-rook/" },
+        { "naam": "Brandweer: rookmelders", "url": "https://www.brandweer.nl/onderwerpen/rookmelders/" }
+      ],
+      "lastReviewed": "2026-11-10"
+    },
+    {
+      "id": "pan-in-brand",
+      "categorie": "gevaar",
+      "titel": "Vlam in de pan",
+      "icoon": "pan",
+      "trefwoorden": ["pan", "frituur", "vetbrand", "keuken", "olie", "koken"],
+      "intro": "Het vet of de olie in je pan staat in brand.",
+      "stappenNu": [
+        "Gebruik nooit water.",
+        "Dek de pan af met een deksel, bakplaat of stevig dienblad.",
+        "Draai de warmtebron uit.",
+        "Zet de afzuigkap uit.",
+        "Loop niet met de pan.",
+        "Laat de pan afgedekt afkoelen. Haal het deksel er pas daarna af.",
+        "Gebruik geen blusdeken."
+      ],
+      "stappenDaarna": [],
+      "bel112Als": ["Het vuur is niet te doven of verspreidt zich."],
+      "voorbereidenItemIds": ["smoke_detector"],
+      "contacten": [],
+      "bronnen": [
+        { "naam": "Brandweer: vlam in de pan", "url": "https://www.brandweer.nl/onderwerpen/vlam-in-de-pan/" }
+      ],
+      "lastReviewed": "2026-11-10"
+    },
+    {
+      "id": "brandwond",
+      "categorie": "gezondheid",
+      "titel": "Brandwond",
+      "icoon": "burn",
+      "trefwoorden": ["brandwond", "verbranding", "verbrand", "heet water", "koelen", "eerste hulp", "ehbo"],
+      "intro": "Je of iemand anders heeft zich verbrand. Koel de wond direct.",
+      "stappenNu": [
+        "Koel de brandwond minimaal 10 minuten met lauw, zacht stromend leidingwater.",
+        "Heb je geen kraan? Gebruik ander water. Elk water is beter dan niet koelen.",
+        "Verwijder tijdens het koelen kleding, sieraden en luier.",
+        "Koel alleen de wond, zodat je niet onderkoeld raakt.",
+        "Bedek de wond daarna met plastic huishoudfolie, steriel verband of een schone doek.",
+        "Smeer niets op de wond.",
+        "Houd de persoon warm met een deken.",
+        "Vervoer de persoon zittend, als dat kan."
+      ],
+      "stappenDaarna": [
+        "Waarschuw een arts bij blaren, een open wond of een elektrische of chemische brandwond."
+      ],
+      "bel112Als": ["De brandwond ernstig is.", "Je twijfelt."],
+      "voorbereidenItemIds": ["first_aid"],
+      "contacten": [],
+      "bronnen": [
+        { "naam": "Brandweer: brandwonden eerste hulp (Nederlandse Brandwonden Stichting)", "url": "https://www.brandweer.nl/onderwerpen/brandwonden-eerste-hulp/" }
+      ],
+      "lastReviewed": "2026-11-10"
+    },
+    {
+      "id": "infectieziekte",
+      "categorie": "gezondheid",
+      "titel": "Ziektegolf of uitbraak van een infectieziekte",
+      "icoon": "virus",
+      "trefwoorden": ["pandemie", "epidemie", "griep", "virus", "ziek", "besmetting", "hygiëne", "mondkapje"],
+      "intro": "Veel mensen worden tegelijk ziek. Goede hygiëne helpt om besmetting te voorkomen.",
+      "stappenNu": [
+        "Blijf thuis als je ziek bent.",
+        "Heb je klachten maar ben je niet ziek? Werk thuis als dat kan en houd afstand van kwetsbare mensen.",
+        "Draag een mondkapje als je toch contact hebt met mensen die ernstig ziek kunnen worden.",
+        "Hoest en nies in je elleboog.",
+        "Was je handen vaak en goed met water en zeep, ongeveer 20 seconden.",
+        "Zorg voor goede ventilatie.",
+        "Volg de informatie van het RIVM en de overheid."
+      ],
+      "stappenDaarna": [],
+      "bel112Als": [],
+      "voorbereidenItemIds": ["medication", "masks", "soap"],
+      "contacten": [],
+      "bronnen": [
+        { "naam": "Denk Vooruit: uitbraak van infectieziekten", "url": "https://www.denkvooruit.nl/risicos/risicos-in-nederland/uitbraak-van-infectieziekten" },
+        { "naam": "RIVM: hygiëne", "url": "https://www.rivm.nl/hygiene" }
+      ],
+      "lastReviewed": "2026-11-10"
+    },
+    {
+      "id": "vogelgriep",
+      "categorie": "gezondheid",
+      "titel": "Vogelgriep en dode dieren",
+      "icoon": "bird",
+      "trefwoorden": ["vogelgriep", "dode vogel", "dierziekte", "pluimvee", "kip", "dode dieren", "nvwa"],
+      "intro": "Je vindt een zieke of dode wilde vogel, of je dier lijkt ziek.",
+      "stappenNu": [
+        "Raak dode dieren niet aan.",
+        "Meld zieke of dode wilde vogels of andere dode dieren bij de terreinbeheerder.",
+        "Houd je hond aan de lijn bij dode watervogels.",
+        "Houd je kat binnen als er veel zieke of dode vogels zijn.",
+        "Was je handen na contact met dieren."
+      ],
+      "stappenDaarna": [
+        "Heeft je hond of kat klachten? Overleg met je dierenarts.",
+        "Heeft je pluimvee of hobbyvogel klachten? Bel direct de dierenarts. Vogelgriep melden is verplicht."
+      ],
+      "bel112Als": [],
+      "voorbereidenItemIds": [],
+      "contacten": [],
+      "bronnen": [
+        { "naam": "NVWA: vogelgriep voor particulieren", "url": "https://www.nvwa.nl/onderwerpen/dier/vogelgriep/particulieren" },
+        { "naam": "RIVM: hygiëne", "url": "https://www.rivm.nl/hygiene" }
+      ],
+      "lastReviewed": "2026-11-10"
+    },
+    {
+      "id": "aanslag",
+      "categorie": "veiligheid",
+      "titel": "Aanslag of gewapend geweld",
+      "icoon": "security",
+      "trefwoorden": ["aanslag", "terreur", "schutter", "geweld", "schietpartij", "steekpartij", "terrorisme"],
+      "intro": "Er is een aanslag of geweld in je buurt. Blijf zo rustig mogelijk.",
+      "stappenNu": [
+        "Kun je vluchten? Doe dat zo snel mogelijk.",
+        "Zeg het tegen mensen om je heen en help hen als je zelf veilig bent.",
+        "Kun je niet weg? Verstop je op een plek met dikke muren of sluit jezelf op.",
+        "Blijf rustig en zet je telefoon op stil.",
+        "Bel 112 als dat veilig kan. Geef informatie over de dader en de plek.",
+        "Kun je niet praten? De meldkamer geeft je dan instructies.",
+        "Help gewonden alleen als het veilig is.",
+        "Volg altijd de aanwijzingen van hulpverleners op."
+      ],
+      "stappenDaarna": [],
+      "bel112Als": ["Er is een aanslag of acuut gevaar."],
+      "voorbereidenItemIds": [],
+      "contacten": [
+        { "label": "Politie, geen spoed", "nummer": "0900-8844" },
+        { "label": "Meld Misdaad Anoniem", "nummer": "0800-7000" }
+      ],
+      "bronnen": [
+        { "naam": "Denk Vooruit: een aanslag", "url": "https://www.denkvooruit.nl/risicos/risicos-in-nederland/een-aanslag" },
+        { "naam": "Politie", "url": "https://www.politie.nl/" }
+      ],
+      "lastReviewed": "2026-11-10"
+    }
+  ]
+}
