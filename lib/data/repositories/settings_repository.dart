@@ -13,10 +13,12 @@ class AppSettings {
     this.semiAnnual = false,
     this.themeMode = ThemeMode.system,
     this.permissionAsked = false,
+    this.planReminder = false,
+    this.planBannerDismissed = false,
   });
 
   final Household household;
-  final bool onboarded, semiAnnual, permissionAsked;
+  final bool onboarded, semiAnnual, permissionAsked, planReminder, planBannerDismissed;
   final int leadDays;
   final ThemeMode themeMode;
 
@@ -27,6 +29,8 @@ class AppSettings {
     bool? semiAnnual,
     ThemeMode? themeMode,
     bool? permissionAsked,
+    bool? planReminder,
+    bool? planBannerDismissed,
   }) =>
       AppSettings(
         household: household ?? this.household,
@@ -35,6 +39,8 @@ class AppSettings {
         semiAnnual: semiAnnual ?? this.semiAnnual,
         themeMode: themeMode ?? this.themeMode,
         permissionAsked: permissionAsked ?? this.permissionAsked,
+        planReminder: planReminder ?? this.planReminder,
+        planBannerDismissed: planBannerDismissed ?? this.planBannerDismissed,
       );
 
   Map<String, String> toMap() => {
@@ -44,6 +50,8 @@ class AppSettings {
         'semiAnnual': '$semiAnnual',
         'themeMode': themeMode.name,
         'permissionAsked': '$permissionAsked',
+        'planReminder': '$planReminder',
+        'planBannerDismissed': '$planBannerDismissed',
       };
 
   factory AppSettings.fromMap(Map<String, String> m) {
@@ -59,6 +67,8 @@ class AppSettings {
       semiAnnual: m['semiAnnual'] == 'true',
       themeMode: ThemeMode.values.asNameMap()[m['themeMode']] ?? ThemeMode.system,
       permissionAsked: m['permissionAsked'] == 'true',
+      planReminder: m['planReminder'] == 'true',
+      planBannerDismissed: m['planBannerDismissed'] == 'true',
     );
   }
 }

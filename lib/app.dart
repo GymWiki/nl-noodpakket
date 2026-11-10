@@ -13,6 +13,11 @@ import 'features/info/info_screen.dart';
 import 'features/items/item_form_screen.dart';
 import 'features/onboarding/onboarding_screen.dart';
 import 'features/settings/settings_screen.dart';
+import 'features/noodplan/domain/plan_models.dart';
+import 'features/noodplan/ui/plan_overview_screen.dart';
+import 'features/noodplan/ui/plan_share_screen.dart';
+import 'features/noodplan/ui/plan_talk_screen.dart';
+import 'features/noodplan/ui/plan_wizard_screen.dart';
 import 'features/wiki/wiki_detail_screen.dart';
 import 'features/wiki/wiki_overview_screen.dart';
 import 'features/wiki/wiki_steps_screen.dart';
@@ -43,6 +48,20 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/item/:id',
         builder: (_, st) => ItemFormScreen(itemId: st.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/plan',
+        builder: (_, _) => const PlanOverviewScreen(),
+        routes: [
+          GoRoute(
+            path: 'wizard',
+            builder: (_, st) => PlanWizardScreen(
+              section: PlanSection.values.asNameMap()[st.uri.queryParameters['s']],
+            ),
+          ),
+          GoRoute(path: 'delen', builder: (_, _) => const PlanShareScreen()),
+          GoRoute(path: 'gesprek', builder: (_, _) => const PlanTalkScreen()),
+        ],
       ),
       GoRoute(
         path: '/wiki/:id',

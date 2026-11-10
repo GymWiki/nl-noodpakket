@@ -22,7 +22,13 @@
 		<string>????</string>
 		<key>CFBundleVersion</key>
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
-		<key>LSApplicationQueriesSchemes</key>
+		<key>NSContactsUsageDescription</key>
+	<string>NL-Noodpakket gebruikt je contacten alleen als je zelf een contact kiest voor je noodplan. Er wordt niets verstuurd.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Met de camera kun je een foto maken van bijvoorbeeld je meterkast voor je noodplan. De foto blijft op je toestel.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Je kunt een foto kiezen voor je noodplan. De foto blijft op je toestel.</string>
+	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>tel</string>
 	</array>

@@ -18,7 +18,13 @@ SectionStatus _fromCounts(int filled, int required) {
 /// Status van één onderdeel. Overgeslagen onderdelen tellen als afgehandeld,
 /// zodat er geen druk ontstaat om alles te vullen.
 SectionStatus sectionStatus(Plan p, PlanSection s) {
-  if (p.skipped.contains(s)) return SectionStatus.skipped;
+  final status = _rawStatus(p, s);
+  // Overslaan telt alleen zolang er niets is ingevuld.
+  if (status == SectionStatus.empty && p.skipped.contains(s)) return SectionStatus.skipped;
+  return status;
+}
+
+SectionStatus _rawStatus(Plan p, PlanSection s) {
   switch (s) {
     case PlanSection.household:
       if (p.members.isEmpty) return SectionStatus.empty;

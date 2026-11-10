@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/dialer.dart';
 import '../../core/l10n/strings.dart';
+import '../noodplan/ui/plan_overview_screen.dart';
 import 'wiki_icons.dart';
 import 'wiki_models.dart';
 import 'wiki_pdf.dart';
@@ -77,7 +78,11 @@ class _WikiOverviewScreenState extends ConsumerState<WikiOverviewScreen> {
           onChanged: (v) => setState(() => _query = v),
         ),
         const SizedBox(height: 16),
-        if (!searching) _FirstHourCard(first: d.eersteUur),
+        if (!searching) ...[
+          const PlanEntryCard(),
+          const SizedBox(height: 4),
+          _FirstHourCard(first: d.eersteUur),
+        ],
         if (searching) ...[
           if (results.isEmpty)
             const Padding(
