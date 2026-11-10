@@ -6,6 +6,7 @@ import '../../domain/expiry.dart';
 import '../../domain/models.dart';
 import '../../domain/quantity.dart';
 import '../db/database.dart';
+import 'plan_repository.dart';
 import '../seed/seed_items.dart';
 
 
@@ -133,6 +134,7 @@ class ItemRepository {
   Future<void> resetAll() async {
     await _db.delete(_db.itemRows).go();
     await _db.delete(_db.settingRows).go();
+    await PlanRepository(_db).clear();
   }
 
   // ---- Back-up ----
@@ -142,9 +144,11 @@ class ItemRepository {
   Future<String> exportJson() async {
     final items = await _db.select(_db.itemRows).get();
     final settings = await _db.select(_db.settingRows).get();
+    final plan = await PlanRepository(_db).backupMap();
     return const JsonEncoder.withIndent('  ').convert({
       'app': 'nl-noodpakket',
       'version': _backupVersion,
+      'noodplan': ?plan,
       'items': [for (final r in items) r.toJson(serializer: _ser)],
       'settings': {for (final s in settings) s.key: s.value},
     });
@@ -169,6 +173,9 @@ class ItemRepository {
         ItemRow.fromJson(Map<String, dynamic>.from(j as Map), serializer: _ser),
     ];
     final settings = Map<String, dynamic>.from(data['settings'] as Map? ?? {});
+    final planData = data['noodplan'] is Map
+        ? Map<String, dynamic>.from(data['noodplan'] as Map)
+        : null;
     await _db.transaction(() async {
       await _db.delete(_db.itemRows).go();
       await _db.delete(_db.settingRows).go();
@@ -179,6 +186,7 @@ class ItemRepository {
             SettingRow(key: e.key, value: '${e.value}'),
         ]);
       });
+      await PlanRepository(_db).restoreBackup(planData);
     });
   }
 }
