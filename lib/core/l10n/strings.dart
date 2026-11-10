@@ -364,6 +364,246 @@ class S {
   static const notifTitlePlan = 'Klopt je noodplan nog?';
   static const notifBodyPlan = 'Loop je noodplan even na en bevestig dat alles klopt.';
 
+  // Documentenkluis
+  static const vaultTitle = 'Documentenkluis';
+  static const vaultDisclaimer =
+      'Dit zijn eigen kopieën. De kluis is geen officieel identiteitsbewijs, geen '
+      'DigiD en vervangt het origineel niet.';
+  static const vaultEntrySub = 'Kopieën van belangrijke documenten, versleuteld op dit toestel.';
+  static const vaultOpen = 'Open documentenkluis';
+  static const vaultMakeBackup = 'Maak back-up';
+  static const vaultNoodmapOpen = 'Noodmap openen';
+  static const vaultHasDocs = 'Er staan documenten in je kluis.';
+  static const vaultLinkSub = 'Open de documentenkluis';
+  static const vaultSecureLabel = 'Beveiligd scherm';
+
+  // Instellen
+  static const vaultIntro1Title = 'Je documenten veilig op je toestel';
+  static const vaultIntro1Body =
+      'Bewaar kopieën van bijvoorbeeld je paspoort, polissen en medische gegevens. '
+      'Alles wordt versleuteld op dit toestel opgeslagen en blijft daar. Geen account, geen cloud.';
+  static const vaultIntro2Title = 'Zo blijft het veilig';
+  static const vaultIntro2Body =
+      'Je ontgrendelt de kluis met je vingerafdruk of gezicht, of met je kluis-PIN. '
+      'Vergeet je je PIN, dan heb je de herstelcode nodig. Zonder beide zijn de '
+      'documenten onherstelbaar weg.';
+  static const vaultHaveBackup =
+      'Heb je al een back-up? Stel eerst een PIN in en zet daarna je back-up terug.';
+  static const vaultPinTitle = 'Kies een kluis-PIN';
+  static const vaultPinBody =
+      'Minimaal 6 cijfers. Kies een PIN die je kunt onthouden, maar niet je '
+      'pincode of geboortedatum. Een langere PIN is veiliger.';
+  static const vaultPinLabel = 'Kluis-PIN';
+  static const vaultPinConfirmTitle = 'Herhaal je PIN';
+  static const vaultPinMismatch = 'De PIN\'s komen niet overeen. Probeer het opnieuw.';
+  static const vaultPinTooShort = 'Gebruik minimaal 6 cijfers.';
+  static const vaultPinWeak = 'Deze PIN is makkelijk te raden. Kies een andere.';
+  static const vaultBioTitle = 'Ontgrendelen met vingerafdruk of gezicht';
+  static const vaultBioBody =
+      'Dan hoef je niet elke keer je PIN in te voeren. Je PIN blijft altijd beschikbaar.';
+  static const vaultBioActivate = 'Activeer';
+  static const vaultBioSkip = 'Nu niet';
+  static const vaultBioNotAvailable =
+      'Op dit toestel is geen biometrie ingesteld. Je gebruikt alleen je PIN.';
+  static const vaultNoLockscreen =
+      'Tip: stel een schermvergrendeling in op je toestel voor extra veiligheid. '
+      'Je kluis-PIN is nu je enige beveiliging.';
+  static const vaultBioPromptTitle = 'Kluis ontgrendelen';
+  static const vaultBioPromptSubtitle = 'Bevestig met je vingerafdruk of gezicht';
+  static const vaultBioUsePin = 'Gebruik PIN';
+  static const vaultRecoveryTitle = 'Je herstelcode';
+  static const vaultRecoveryBody =
+      'Schrijf deze code op papier en bewaar hem op een veilige plek, apart van je '
+      'toestel. Hij wordt maar één keer getoond. Kopiëren is bewust uitgeschakeld.';
+  static const vaultRecoveryWarning =
+      'Vergeet je je PIN én je herstelcode, dan zijn je documenten onherstelbaar weg. '
+      'Wij kunnen ze niet herstellen.';
+  static const vaultRecoveryWritten = 'Ik heb de herstelcode op papier bewaard';
+  static String vaultRecoveryVerifyPrompt(int group) =>
+      'Controle: vul groep $group van je herstelcode in.';
+  static const vaultRecoveryVerifyHint = '4 tekens';
+  static const vaultRecoveryVerifyWrong = 'Dat klopt niet. Kijk nog eens naar je notitie.';
+  static const vaultRecoveryDone = 'Klaar';
+  static const vaultSetupBusy = 'Kluis wordt ingericht…';
+  static const vaultSetupError = 'De kluis kon niet worden ingericht. Probeer het opnieuw.';
+  static const vaultContinue = 'Doorgaan';
+
+  // Ontgrendelen
+  static const vaultLockedTitle = 'Kluis vergrendeld';
+  static const vaultLockedBody = 'Ontgrendel om je documenten te bekijken.';
+  static const vaultUnlockBio = 'Ontgrendel met biometrie';
+  static const vaultUnlock = 'Ontgrendelen';
+  static const vaultWrongPin = 'Onjuiste PIN.';
+  static String vaultLockedOut(String wait) =>
+      'Te veel pogingen. Probeer het opnieuw over $wait.';
+  static const vaultForgotPin = 'PIN vergeten?';
+  static const vaultRecoveryEnterTitle = 'Herstelcode invoeren';
+  static const vaultRecoveryEnterHint = 'Herstelcode';
+  static const vaultRecoveryWrong = 'Deze herstelcode klopt niet.';
+  static const vaultNewPinTitle = 'Kies een nieuwe PIN';
+  static const vaultBioFailed = 'Ontgrendelen met biometrie is niet gelukt. Gebruik je PIN.';
+  static const vaultBioChanged =
+      'Je biometrie is gewijzigd. Voer je PIN in om hem opnieuw te koppelen.';
+  static const vaultUnlockError = 'Ontgrendelen mislukt. Probeer het opnieuw.';
+  static const vaultLockNow = 'Vergrendel nu';
+
+  // Overzicht
+  static const vaultEmpty = 'Je kluis is leeg. Voeg je eerste document toe.';
+  static const vaultAddDocument = 'Document toevoegen';
+  static const vaultSearchHint = 'Zoek op titel';
+  static const vaultFilterAllTypes = 'Alle types';
+  static const vaultFilterEveryone = 'Iedereen';
+  static const vaultNoodmap = 'Noodmap';
+  static const vaultNoodmapSub = 'Documenten die je bij evacuatie als eerste nodig hebt.';
+  static const vaultAllDocs = 'Alle documenten';
+  static const vaultExpiringSoon = 'Binnenkort verlopen';
+  static String vaultPagesCount(int n) => n == 1 ? '1 pagina' : '$n pagina\'s';
+  static const vaultViewGrid = 'Toon als raster';
+  static const vaultViewList = 'Toon als lijst';
+  static const vaultNoResults = 'Geen documenten gevonden.';
+  static const vaultLoadError = 'De kluis kon niet worden geladen.';
+  static const vaultSettings = 'Kluis-instellingen';
+  static const vaultExpired = 'Verlopen';
+  static String vaultExpiresOn(String d) => 'Verloopt op $d';
+  static String vaultExpiredOn(String d) => 'Verlopen op $d';
+
+  // Toevoegen
+  static const vaultAddTitle = 'Document toevoegen';
+  static const vaultEditTitle = 'Document bewerken';
+  static const vaultSourceScan = 'Scannen met de camera';
+  static const vaultSourceGallery = 'Foto kiezen uit galerij';
+  static const vaultSourceFile = 'Bestand kiezen (pdf, jpg, png, heic)';
+  static const vaultPages = 'Pagina\'s';
+  static const vaultAddPage = 'Pagina toevoegen';
+  static const vaultRemovePage = 'Pagina verwijderen';
+  static String vaultPageLabel(int n) => 'Pagina $n';
+  static const vaultFieldTitle = 'Titel';
+  static const vaultFieldType = 'Type';
+  static const vaultFieldOwner = 'Van wie';
+  static const vaultFieldOwnerFree = 'Of typ een naam';
+  static const vaultFieldExpiry = 'Verloopdatum (optioneel)';
+  static const vaultFieldNote = 'Notitie (optioneel)';
+  static const vaultFieldNoodmap = 'Zet in de Noodmap';
+  static const vaultNoNumbers =
+      'Je hoeft geen documentnummers in te vullen. De scan zelf is genoeg.';
+  static const vaultNewType = 'Nieuw type…';
+  static const vaultNewTypeName = 'Naam van het type';
+  static const vaultNewTypeIdentity = 'Dit is een identiteitsdocument';
+  static const vaultTitleRequired = 'Geef het document een titel.';
+  static const vaultPagesRequired = 'Voeg minstens één pagina toe.';
+  static const vaultSaving = 'Versleutelen en opslaan…';
+  static const vaultSave = 'Opslaan';
+  static const vaultCameraDenied = 'Geen toegang tot de camera. Je kunt ook een foto of bestand kiezen.';
+  static const vaultScanError = 'Scannen is niet gelukt.';
+  static const vaultUnsupportedFile = 'Dit bestandstype wordt niet ondersteund.';
+  static const vaultFileTooBig = 'Dit bestand is te groot (maximaal 50 MB).';
+  static const vaultImageFallback =
+      'Deze afbeelding kon niet worden gecomprimeerd en is origineel bewaard.';
+  static const vaultSaveError = 'Opslaan is niet gelukt. Er is niets gewijzigd.';
+  static const vaultClearExpiry = 'Datum wissen';
+  static const vaultPickDate = 'Kies datum';
+
+  // Bekijken
+  static const vaultViewerError = 'Dit bestand kan niet worden weergegeven.';
+  static const vaultHeicNote = 'Dit bestandstype kan op dit toestel niet worden getoond. Je kunt het wel delen.';
+  static String vaultPageOf(int i, int n) => 'Pagina $i van $n';
+  static const vaultShare = 'Delen';
+  static const vaultEdit = 'Bewerken';
+  static const vaultDelete = 'Verwijderen';
+  static const vaultDeleteTitle = 'Document verwijderen?';
+  static const vaultDeleteBody = 'Dit document wordt definitief uit de kluis verwijderd.';
+  static const vaultDocNotFound = 'Dit document bestaat niet meer.';
+
+  // Delen
+  static const vaultShareTitle = 'Dit document delen?';
+  static const vaultShareWarn =
+      'Het gedeelde bestand verlaat de kluis en is daarna niet meer beveiligd. '
+      'Deel het alleen met mensen die je vertrouwt.';
+  static const vaultWatermark = 'Voeg watermerk toe';
+  static const vaultWatermarkPurpose = 'Doel (bijv. huurovereenkomst)';
+  static const vaultWatermarkDate = 'Datum';
+  static const vaultWatermarkTip =
+      'Tip: dek je BSN af voordat je deelt. Het watermerk laat zien voor welk doel '
+      'de kopie bedoeld is.';
+  static const vaultShareConfirm = 'Delen';
+  static const vaultShareError = 'Delen is niet gelukt.';
+  static const vaultSharePdfNoWatermark =
+      'Een watermerk kan alleen op afbeeldingen. Pdf-bestanden worden zonder watermerk gedeeld.';
+
+  // Instellingen
+  static const vaultBioSetting = 'Ontgrendelen met biometrie';
+  static const vaultBioSettingOff = 'Biometrie is niet beschikbaar op dit toestel.';
+  static const vaultChangePin = 'PIN wijzigen';
+  static const vaultCurrentPin = 'Huidige PIN';
+  static const vaultNewPin = 'Nieuwe PIN';
+  static const vaultPinChanged = 'PIN gewijzigd';
+  static const vaultAutoLock = 'Automatisch vergrendelen';
+  static const vaultAutoLockNow = 'Direct';
+  static const vaultAutoLock1 = 'Na 1 minuut';
+  static const vaultAutoLock5 = 'Na 5 minuten';
+  static const vaultAutoLockHint = 'Na het naar de achtergrond gaan van de app.';
+  static const vaultReminders = 'Herinneringen voor verloopdatums';
+  static String vaultReminderDays(int d) => d == 1 ? '1 dag' : '$d dagen';
+  static const vaultRemindersSub = 'Hoe lang vooraf je een neutrale herinnering krijgt.';
+  static const vaultWipe = 'Kluis wissen';
+  static const vaultWipeSub = 'Wist alle documenten, miniaturen en sleutels.';
+  static const vaultWipe1Title = 'Kluis wissen?';
+  static const vaultWipe1Body =
+      'Alle documenten, miniaturen en sleutels worden definitief gewist. Dit kan niet '
+      'ongedaan worden gemaakt, ook niet met je herstelcode.';
+  static const vaultWipe2Title = 'Weet je het zeker?';
+  static const vaultWipe2Body = 'Dit is de laatste kans om te annuleren.';
+  static const vaultWipeConfirm = 'Ja, alles wissen';
+  static const vaultWiped = 'Kluis gewist';
+
+  // Back-up
+  static const vaultBackup = 'Back-up maken (.noodkluis)';
+  static const vaultBackupRestore = 'Back-up terugzetten';
+  static const vaultBackupInfo =
+      'Een nieuw toestel of een verloren telefoon betekent dat deze back-up nodig is. '
+      'Bewaar het bestand en het wachtwoord op een veilige plek, apart van elkaar. '
+      'Zonder wachtwoord is de back-up onbruikbaar.';
+  static const vaultBackupPassword = 'Back-upwachtwoord';
+  static const vaultBackupPasswordRepeat = 'Herhaal wachtwoord';
+  static const vaultBackupPasswordShort = 'Gebruik minimaal 10 tekens.';
+  static const vaultBackupPasswordMismatch = 'De wachtwoorden komen niet overeen.';
+  static const vaultBackupBusy = 'Back-up wordt versleuteld…';
+  static const vaultBackupError = 'Back-up maken is niet gelukt.';
+  static const vaultBackupEmpty = 'Er zijn nog geen documenten om te bewaren.';
+  static const vaultRestorePassword = 'Wachtwoord van de back-up';
+  static const vaultRestoreWrong = 'Onjuist wachtwoord of beschadigd bestand.';
+  static const vaultRestoreTooNew =
+      'Dit bestand komt uit een nieuwere versie van de app. Werk de app bij om het te openen.';
+  static const vaultRestoreInvalid = 'Dit is geen geldig .noodkluis-bestand.';
+  static String vaultRestorePreview(int n) =>
+      n == 1 ? 'Deze back-up bevat 1 document.' : 'Deze back-up bevat $n documenten.';
+  static const vaultRestoreMerge = 'Samenvoegen (bestaande documenten blijven)';
+  static const vaultRestoreReplace = 'Vervangen (je huidige kluis wordt gewist)';
+  static const vaultRestoreReplaceConfirm =
+      'Je huidige documenten worden vervangen door de back-up. Dit kan niet ongedaan worden gemaakt.';
+  static const vaultRestoreDone = 'Back-up teruggezet';
+  static const vaultRestoreBusy = 'Back-up wordt gelezen…';
+
+  // Notificaties (bewust neutraal: geen titels, namen of nummers)
+  static const notifTitleVault = 'Documentenkluis';
+  static const notifBodyVault = 'Een document in je kluis verloopt binnenkort.';
+
+  // Documenttypes
+  static const vaultTypePassport = 'Paspoort';
+  static const vaultTypeIdCard = 'Identiteitskaart';
+  static const vaultTypeDriving = 'Rijbewijs';
+  static const vaultTypeResidence = 'Verblijfs- of overige documenten';
+  static const vaultTypeHealthIns = 'Zorgverzekering of zorgpas';
+  static const vaultTypePolicyHome = 'Polis woning of inboedel';
+  static const vaultTypePolicyCar = 'Polis auto';
+  static const vaultTypePolicyLiability = 'Polis aansprakelijkheid';
+  static const vaultTypeMedication = 'Medicatie en recepten';
+  static const vaultTypeMedical = 'Medische gegevens of bloedgroepkaart';
+  static const vaultTypeGp = 'Huisarts en apotheek';
+  static const vaultTypePet = 'Dierenpaspoort of chipnummer';
+  static const vaultTypeOwnership = "Eigendomsbewijzen en inventaris-foto's";
+  static const vaultTypeOther = 'Overig';
+
   // Categorieën
   static const catWater = 'Water en voeding';
   static const catInfo = 'Informatie en communicatie';
