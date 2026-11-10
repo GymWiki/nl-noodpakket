@@ -27,6 +27,51 @@ class S {
   static const confirm = 'Bevestigen';
   static const none = 'Geen';
 
+  // Noodgevallen-wiki
+  static const navWiki = 'Noodgevallen';
+  static const wikiTitle = 'Noodgevallen';
+  static const wikiRule =
+      'Bij levensgevaar bel je 112. Deze informatie vervangt geen professionele hulp.';
+  static const wikiCall112 = 'Bel 112';
+  static const wikiCall112Hint = 'Opent alleen de telefoon-app. Er wordt niet automatisch gebeld.';
+  static const wikiSearchHint = 'Zoek: stroom, water, brand…';
+  static const wikiFirstHourCta = 'Open de kaart';
+  static const wikiFavorites = 'Favorieten';
+  static const wikiAddFavorite = 'Voeg toe aan favorieten';
+  static const wikiRemoveFavorite = 'Verwijder uit favorieten';
+  static const wikiNoResults = 'Geen noodgeval gevonden. Probeer een ander woord.';
+  static const wikiLoadError = 'De noodgevallen konden niet worden geladen.';
+  static const wikiNotFound = 'Dit noodgeval bestaat niet.';
+  static const wikiStartSteps = 'Start stappenplan';
+  static const wikiResumeSteps = 'Ga verder met stappenplan';
+  static const wikiNow = 'Nu doen';
+  static const wikiAfter = 'Daarna';
+  static const wikiCall112If = 'Bel 112 als…';
+  static const wikiPrepare = 'Voorbereiden';
+  static const wikiPrepareHave = 'In huis';
+  static const wikiPrepareNeed = 'Nog nodig';
+  static const wikiNumbers = 'Nuttige nummers';
+  static const wikiSources = 'Bronnen';
+  static String wikiReviewed(String date) => 'Laatst gecontroleerd: $date';
+  static String wikiCallNumber(String label, String nr) => 'Bel $label: $nr';
+  static const wikiStepsTitle = 'Stappenplan';
+  static String wikiStepOf(int i, int n) => 'Stap $i van $n';
+  static const wikiPrev = 'Vorige';
+  static const wikiNext = 'Volgende';
+  static const wikiFinish = 'Klaar';
+  static const wikiDone = 'Gedaan';
+  static const wikiViewList = 'Toon als lijst';
+  static const wikiViewSteps = 'Toon één stap per scherm';
+  static const wikiRestart = 'Opnieuw beginnen';
+  static const wikiAllDone = 'Je hebt alle stappen doorlopen.';
+  static const wikiHandy = 'Handig bij';
+  static const wikiOpenLinkError = 'Kon de link niet openen.';
+  static const wikiCallError = 'Kon de telefoon-app niet openen.';
+  static const wikiPdfCard = 'Meterkastkaart (PDF)';
+  static const wikiPdfCardSub = 'Deel of print de Eerste-uur kaart en 5 stappenplannen.';
+  static const wikiPdfError = 'De kaart maken is niet gelukt.';
+  static const wikiPdfTitle = 'Meterkastkaart: wat te doen bij een noodsituatie';
+
   // Categorieën
   static const catWater = 'Water en voeding';
   static const catInfo = 'Informatie en communicatie';

@@ -22,6 +22,7 @@ Rustige, offline-first app waarmee Nederlandse huishoudens stap voor stap een pe
 ### Versiebeperkingen (bewust gepind)
 
 - `drift`/`drift_dev` `2.30.x` + `sqlite3_flutter_libs 0.5.x`: nieuwere drift-versies botsen met de `meta`-versie van de Flutter SDK en gebruiken sqlite3 v3 (andere native-setup).
+- `image 4.8.0` (`dependency_overrides`): `image 4.11` past niet bij `archive 4.0.9` (dat vastzit via `flutter_launcher_icons`) en breekt `flutter test` zodra `pdf`/`printing` erbij komen.
 - `build_runner 2.10.4`: nieuwere versies falen met "dart compile does not support build hooks" zodra de dependency-boom pakketten met build hooks bevat.
 
 ## Mappenstructuur
@@ -96,3 +97,20 @@ Alle UI-tekst staat in `lib/core/l10n/strings.dart` (klasse `S`); widgets bevatt
 ## Toegankelijkheid
 
 Grote tikdoelen (+ stappers van 56 dp), `Semantics`-labels voor checklist, voortgang, huishoudensteppers en datums, respect voor systeemtekstgrootte (geen vaste hoogtes), contrastrijk thema; alarmkleur alleen voor verlopen items. Test voor release met TalkBack/VoiceOver en tekstgrootte 200%.
+
+## Noodgevallen-wiki
+
+Offline tabblad "Noodgevallen" met per noodsituatie een rustig stappenplan.
+
+- **Inhoud**: `assets/wiki/noodgevallen.json` (schemaversie 1). Per noodgeval: `id`, `categorie`, `titel`, `icoon`, `trefwoorden`, `intro`, `stappenNu`, `stappenDaarna`, `bel112Als`, `voorbereidenItemIds` (ids uit de seed-checklist), `contacten`, `bronnen` en `lastReviewed`. Daarnaast `eersteUur` (de Eerste-uur kaart) en `categories`. De UI-teksten staan in `lib/core/l10n/strings.dart`; de wiki-inhoud staat alleen in de JSON.
+- **Validatie**: `test/wiki_data_test.dart` controleert unieke id's, minstens 1 stap, verplichte velden, https-bronnen, nummers en dat elk `voorbereidenItemId` in de seed bestaat. Draai de test na elke wijziging aan de JSON.
+- **Opslag**: alleen favorieten en stapvoortgang (sleutel/waarde in `SettingRows`, komt dus mee in de JSON-back-up). Geen netwerk, geen eigen tabel.
+- **Schermen**: overzicht (zoeken, Bel 112, Eerste-uur kaart, favorieten, categorieën), detail, stap-voor-stap (scherm blijft aan via `wakelock_plus`, schakelbaar naar lijst) en een "Handig bij"-regel in het itemdetail van de checklist.
+- **Bel 112** opent alleen de telefoon-app (`tel:`), er wordt nooit automatisch gebeld.
+- **Meterkastkaart** (PDF, afdrukken/opslaan/delen via het systeem-printmenu): Eerste-uur kaart + 5 stappenplannen (`meterkastPlanIds` in `wiki_pdf.dart`). Gebruikt Roboto uit `assets/fonts` (Apache 2.0).
+
+### Inhoudelijke werkwijze
+
+Elk stappenplan is gecontroleerd tegen officiële bronnen (denkvooruit.nl, KNMI, RIVM, rijksoverheid.nl, NVWA, brandweer.nl, Liander/Enexis, nl-alert.nl) op 2026-11-10. **Stappen zonder officiële bron zijn weggelaten**, ook als ze algemeen bekend zijn. Er staan alleen nummers in die letterlijk op een officiële pagina staan (0800-9009, 0900-0904, 0900-8844, 0800-7000, 0800-1508).
+
+Bewust niet opgenomen omdat er geen officieel advies kon worden gevonden of de bron niet leesbaar was: reanimatie (borstcompressies), ernstige bloeding, verslikking, evacuatie als apart stappenplan, gifwolk als apart plan (staat nu onder "Sirene of NL-Alert"), zonnestorm en afgebroken stroomkabels. Vul die aan zodra je de officiële tekst (Rode Kruis, Reanimatieraad, Hartstichting) zelf hebt gecontroleerd.

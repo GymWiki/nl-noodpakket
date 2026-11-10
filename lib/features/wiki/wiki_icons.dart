@@ -1,0 +1,31 @@
+import 'package:flutter/material.dart';
+
+/// Vertaalt icoonnamen uit de JSON naar Material-iconen.
+IconData wikiIcon(String name) => switch (name) {
+      'power' => Icons.power_off_outlined,
+      'nature' => Icons.cloudy_snowing,
+      'fire' => Icons.local_fire_department_outlined,
+      'health' => Icons.favorite_outline,
+      'security' => Icons.shield_outlined,
+      'clock' => Icons.schedule,
+      'bolt' => Icons.bolt,
+      'water' => Icons.water_drop_outlined,
+      'signal' => Icons.signal_wifi_off,
+      'cold' => Icons.ac_unit,
+      'flood' => Icons.flood_outlined,
+      'rain' => Icons.umbrella_outlined,
+      'storm' => Icons.air,
+      'thunder' => Icons.thunderstorm_outlined,
+      'hot' => Icons.wb_sunny_outlined,
+      'wildfire' => Icons.park_outlined,
+      'quake' => Icons.vibration,
+      'siren' => Icons.campaign_outlined,
+      'radiation' => Icons.radar,
+      'gas' => Icons.gas_meter_outlined,
+      'co' => Icons.sensors,
+      'pan' => Icons.soup_kitchen_outlined,
+      'burn' => Icons.healing,
+      'virus' => Icons.coronavirus_outlined,
+      'bird' => Icons.flutter_dash,
+      _ => Icons.help_outline,
+    };

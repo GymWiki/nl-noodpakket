@@ -13,6 +13,9 @@ import 'features/info/info_screen.dart';
 import 'features/items/item_form_screen.dart';
 import 'features/onboarding/onboarding_screen.dart';
 import 'features/settings/settings_screen.dart';
+import 'features/wiki/wiki_detail_screen.dart';
+import 'features/wiki/wiki_overview_screen.dart';
+import 'features/wiki/wiki_steps_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final refresh = ValueNotifier(0);
@@ -41,11 +44,24 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/item/:id',
         builder: (_, st) => ItemFormScreen(itemId: st.pathParameters['id']!),
       ),
+      GoRoute(
+        path: '/wiki/:id',
+        builder: (_, st) => WikiDetailScreen(id: st.pathParameters['id']!),
+        routes: [
+          GoRoute(
+            path: 'stappen',
+            builder: (_, st) => WikiStepsScreen(id: st.pathParameters['id']!),
+          ),
+        ],
+      ),
       StatefulShellRoute.indexedStack(
         builder: (_, _, shell) => _Shell(shell: shell),
         branches: [
           StatefulShellBranch(routes: [
             GoRoute(path: '/checklist', builder: (_, _) => const ChecklistScreen()),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(path: '/noodgevallen', builder: (_, _) => const WikiOverviewScreen()),
           ]),
           StatefulShellBranch(routes: [
             GoRoute(path: '/vervangen', builder: (_, _) => const ExpiryScreen()),
@@ -87,6 +103,10 @@ class _Shell extends StatelessWidget {
               icon: Icon(Icons.checklist_outlined),
               selectedIcon: Icon(Icons.checklist),
               label: S.navChecklist),
+          NavigationDestination(
+              icon: Icon(Icons.emergency_outlined),
+              selectedIcon: Icon(Icons.emergency),
+              label: S.navWiki),
           NavigationDestination(
               icon: Icon(Icons.event_repeat_outlined),
               selectedIcon: Icon(Icons.event_repeat),
