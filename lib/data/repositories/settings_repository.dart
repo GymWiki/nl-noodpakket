@@ -20,6 +20,23 @@ class AppSettings {
   final int leadDays;
   final ThemeMode themeMode;
 
+  AppSettings copyWith({
+    Household? household,
+    bool? onboarded,
+    int? leadDays,
+    bool? semiAnnual,
+    ThemeMode? themeMode,
+    bool? permissionAsked,
+  }) =>
+      AppSettings(
+        household: household ?? this.household,
+        onboarded: onboarded ?? this.onboarded,
+        leadDays: leadDays ?? this.leadDays,
+        semiAnnual: semiAnnual ?? this.semiAnnual,
+        themeMode: themeMode ?? this.themeMode,
+        permissionAsked: permissionAsked ?? this.permissionAsked,
+      );
+
   Map<String, String> toMap() => {
         'household': jsonEncode(household.toJson()),
         'onboarded': '$onboarded',

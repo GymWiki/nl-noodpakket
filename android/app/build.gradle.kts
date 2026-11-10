@@ -1,3 +1,10 @@
+import java.util.Properties
+
+val keystoreProps = Properties().apply {
+    val f = rootProject.file("key.properties")
+    if (f.exists()) f.inputStream().use { load(it) }
+}
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -11,6 +18,7 @@ android {
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -30,15 +38,31 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        // TODO: maak android/key.properties (zie README) met de upload-keystore van de bestaande listing.
+        if (keystoreProps.containsKey("storeFile")) {
+            create("release") {
+                storeFile = file(keystoreProps.getProperty("storeFile"))
+                storePassword = keystoreProps.getProperty("storePassword")
+                keyAlias = keystoreProps.getProperty("keyAlias")
+                keyPassword = keystoreProps.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            // Zonder key.properties wordt met debug-sleutel getekend (alleen om lokaal te testen).
+            signingConfig = signingConfigs.findByName("release") ?: signingConfigs.getByName("debug")
         }
     }
 }
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    // Vereist door flutter_local_notifications (java.time op oudere Android-versies).
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 }
