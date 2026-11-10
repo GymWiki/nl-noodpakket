@@ -129,3 +129,68 @@ Begeleide flow (7 onderdelen + samenvatting) waarmee een huishouden afspraken va
 - **Database**: schemaVersion 2 met zes nieuwe tabellen (`PlanMembers`, `PlanContacts`, `PlanPlaces`, `PlanAgreements`, `PlanLocations`, `PlanMeta`); migratie en migratietest staan in `database.dart` en `test/plan_domain_test.dart`.
 - **Toestemmingen**: contacten (`READ_CONTACTS` op Android) worden pas gevraagd bij "Kies uit contacten"; handmatig invullen werkt altijd. Camera/galerij pas bij "Foto toevoegen". Vul voor de Play-listing de verklaring voor de contactenpermissie in (alleen-lezen, op verzoek van de gebruiker, nergens opgeslagen of verstuurd).
 - **Bronnen**: `denkvooruit.nl/bereid-je-voor/noodplan` en `/praat-erover` (gelezen op 2026-11-10). Het uitgebreide noodplan en de noodkaart (PDF's) waren niet leesbaar.
+
+## Documentenkluis
+
+Plek voor kopieën van belangrijke documenten (paspoort, polissen, medische gegevens, ...), versleuteld op het toestel en ontgrendeld met biometrie of een kluis-PIN. 100% lokaal: geen cloud, account, analytics of crash-logging. In de app staat zichtbaar: *"Dit zijn eigen kopieën. De kluis is geen officieel identiteitsbewijs, geen DigiD en vervangt het origineel niet."*
+
+### Cryptografie en sleutelbeheer (`lib/features/kluis/crypto`)
+
+- **Envelope-encryptie**: één willekeurige datasleutel (DK, 256 bit) versleutelt elk bestand en de metadata met **AES-256-GCM** (pakket `cryptography`, uniek willekeurig 96-bit nonce per bestand, tag 128 bit). De bestands-id zit als AAD in de authenticatie, zodat bestanden niet kunnen worden omgewisseld. Er is geen eigen crypto geschreven.
+- **DK wordt drie keer onafhankelijk gewrapt** (`vault.json`): (a) door een sleutel uit de kluis-PIN via **Argon2id** (19 MiB, 2 iteraties, 1 lane = OWASP-minimum, parameters staan in de header), (b) door de **herstelcode** (160 bit, HKDF-SHA256), (c) door een **hardware-sleutel met biometrie**: Android Keystore (`AndroidOptions.biometric`, `requireBiometricsPerOperation`, alleen sterke biometrie) en iOS Keychain (`biometryCurrentSet`), via `flutter_secure_storage`.
+- **Biometrie gewijzigd** (sleutel ongeldig): de PIN wordt gevraagd en de DK wordt opnieuw aan een nieuwe hardwaresleutel gewrapt. Biometrie uit of niet beschikbaar: alleen PIN.
+- **Metadata** (titels, types, personen, notities, verloopdatums) staat als één versleutelde blob (`meta`); miniaturen zijn aparte versleutelde bestanden. Bestandsnamen zijn UUID's zonder extensie. Schrijven gaat atomair (tmp + rename), bij ontgrendelen worden verweesde bestanden opgeruimd.
+- **PIN**: minimaal 6 cijfers (maximaal 16), geen makkelijke patronen (111111, 123456, 121212, ...). **Wachttijd** na foute pogingen: 5 fouten = 30 s, daarna 1 min, 5 min, 15 min, 1 uur.
+- **Sleutelmateriaal in het geheugen** wordt na gebruik met nullen overschreven (`zero`). Dart garandeert dat niet volledig (garbage collector), het is best effort.
+- **Back-up** (`.noodkluis`, `vault_backup.dart`): wachtwoord (min. 10 tekens) -> Argon2id (32 MiB, 3 iteraties) -> AES-256-GCM per record, met header en volgnummer als AAD en een eindrecord met het aantal. Omwisselen, weglaten, afkappen, een verkeerd wachtwoord en een te nieuw bestand worden gedetecteerd; een mislukte import rolt alle geschreven bestanden terug. Importeren: eerst voorbeeld, dan samenvoegen of vervangen.
+
+### Keuze van pakketten (gecontroleerd op 2026-11-10)
+
+| Doel | Gekozen | Waarom / afgevallen |
+|---|---|---|
+| Crypto | `cryptography` 2.9 | Gevestigd, pure Dart, AES-GCM, Argon2id, HKDF. Argon2id draait in een isolate. |
+| Sleutel + biometrie | `flutter_secure_storage` 11.2 (+ `local_auth` voor beschikbaarheid) | Actief onderhouden (sept. 2026), ondersteunt Keystore per-operatie biometrie en Keychain `biometryCurrentSet`. `biometric_storage` is afgevallen: v5 mist een Android-namespace (bouwt niet met AGP 8) en v6 vereist een nieuwere Flutter. |
+| Scannen | `cunning_document_scanner` 3.1 | ML Kit (Android) en VisionKit (iOS) met randdetectie en bijsnijden. De plugin schrijft scans naar app-specifieke opslag; de app leest ze en overschrijft + verwijdert ze direct, en roept `cleanCache()` aan. |
+| Afbeeldingen | `image` (4.8.0, gepind) + `image_picker`, `file_picker` | Verkleinen naar max. 2400 px, JPEG-kwaliteit 85 (leesbaarheid gaat voor grootte); miniatuur 320 px. |
+| Pdf-weergave | `printing` (`Printing.raster`) | `pdfrx` (in-memory) is afgevallen: het downloaden van PDFium tijdens de build lukte niet. Op Android schrijft `printing` de pdf heel even naar een cachebestand en verwijdert het direct na het openen (zie "niet gedekt"). |
+| Schermbeveiliging | eigen native code (`MainActivity.kt`, `AppDelegate.swift`) | `screen_protector` bouwt niet (JVM-target-conflict). |
+| Watermerk | `dart:ui` (Canvas) | Diagonale, herhaalde tekst met Nederlandse tekens; resultaat wordt JPEG. |
+
+`dependency_overrides` bevat alleen `image: 4.8.0` (zie hierboven).
+
+### Veiligheidsmaatregelen op het toestel
+
+- **Geen leesbaar bestand op schijf**: de viewer ontsleutelt in het geheugen. Delen schrijft onvermijdelijk een tijdelijk bestand in een app-privémap (`vault_tmp`), dat direct na het delen wordt overschreven en verwijderd (als Android niet meldt wat er met het bestand gebeurt: na 90 seconden). Bij elke start worden restanten opgeruimd, ook tijdelijke bestanden van een onderbroken actie.
+- **Schermbeveiliging**: Android `FLAG_SECURE` op alle kluisschermen (screenshots, schermopname en recents-preview geblokkeerd); iOS toont een dekkende laag in de app-switcher en bij schermopname.
+- **Back-ups uitsluiten**: Android `dataExtractionRules` + `fullBackupContent` sluiten `vault/` en `vault_tmp/` uit van cloud-back-up en apparaatoverdracht; iOS zet `isExcludedFromBackup` op de kluismap. De Keychain-sleutel heeft toegangsniveau "passcode, alleen dit toestel". De eigen versleutelde export is de enige back-up.
+- **Automatisch vergrendelen**: direct (standaard) / 1 min / 5 min na naar de achtergrond gaan, en na 5 minuten inactiviteit in de app. Camera, bestandskiezer en deelmenu worden als "externe actie" behandeld, zodat een lopende actie niet verloren gaat.
+- **Meldingen** zijn neutraal ("Een document in je kluis verloopt binnenkort."), zonder titel, naam of nummer. Buiten de kluis staan alleen: *of* er documenten zijn en de anonieme herinneringstijden. De notificatietoestemming wordt pas gevraagd bij het eerste document met een verloopdatum.
+- **Geen documentnummers**: de app vraagt er nergens om; voor documenten alleen titel, type, persoon, verloopdatum en notitie.
+- Geen klembord, geen logs of analytics met documentinhoud.
+
+### Bedreigingsmodel
+
+**Gedekt**
+- *Gevonden of gestolen toestel*: documenten, miniaturen en metadata zijn versleuteld; de sleutel zit achter PIN (Argon2id) of een hardware-biometrische sleutel. Oplopende wachttijd tegen raden via de app.
+- *Malware zonder root*: de app-sandbox beschermt de bestanden; er staat geen leesbare inhoud op schijf; screenshots en schermopname worden geblokkeerd.
+- *Per ongeluk delen*: expliciete waarschuwing, watermerk met doel en datum voor identiteitsdocumenten, tip om het BSN af te dekken, tijdelijk bestand wordt overschreven.
+- *Verloren telefoon / nieuw toestel*: versleutelde back-up + herstelcode.
+
+**Niet gedekt (bewust of onvermijdelijk)**
+- Een toestel met root of jailbreak, malware met rootrechten, een gecompromitteerd besturingssysteem of toegankelijkheidsdiensten die het scherm uitlezen (FLAG_SECURE houdt die niet tegen), keyloggers.
+- *Offline raden van de PIN* door iemand met een volledige kopie van het bestandssysteem: een PIN van 6 cijfers heeft maar 1 miljoen mogelijkheden. De wachttijd werkt alleen in de app (de teller staat in een gewoon bestand). Gebruik daarom een langere PIN (tot 16 cijfers) en bewaar de herstelcode apart.
+- Wie PIN of herstelcode vergeet **en** geen back-up heeft, kan niets herstellen. Dat is bedoeld.
+- Geheugen: nullen schrijven is best effort; bij een live geheugendump kan inhoud zichtbaar zijn. Overschrijven van bestanden is op flashgeheugen geen garantie (wear leveling).
+- Op Android schrijft `printing` voor pdf-weergave kort een cachebestand (direct ontkoppeld na het openen); HEIC-bestanden die niet te comprimeren zijn blijven origineel en zonder miniatuur bewaard.
+- De ontvanger van een gedeeld bestand kan het verder verspreiden.
+- *Een zwak back-upwachtwoord* maakt het `.noodkluis`-bestand kwetsbaar voor raden.
+- De bestaande (niet-kluis) gegevens van de app, zoals het noodplan, vallen niet onder de kluis.
+
+### Privacylabels
+
+- **Google Play, Data safety**: *"Geen gegevens verzameld of gedeeld"*; alle gegevens blijven op het toestel. Toestemmingen: camera (alleen voor de ingebouwde scanner op toestellen zonder Google Play-services), contacten lezen (alleen bij "Kies uit contacten" in het noodplan), meldingen, biometrie. Verklaar de contactenpermissie in de Play Console.
+- **App Store, privacy**: *"Data Not Collected"*. Info.plist-teksten staan er: `NSFaceIDUsageDescription`, `NSCameraUsageDescription`, `NSPhotoLibraryUsageDescription`, `NSContactsUsageDescription`. Beantwoord de exportvraag over versleuteling (de app gebruikt standaard-AES voor lokale opslag en een eigen bestandsformaat) en overweeg `ITSAppUsesNonExemptEncryption` in te stellen.
+
+### Nog handmatig te testen
+
+Alles hierboven is getest op unit-, widget- en bestandsniveau, maar **niet op een echt toestel**: biometrie (Android Keystore en iOS Keychain/Face ID, inclusief wijzigen van vingerafdrukken), de documentscanner, FLAG_SECURE en de iOS-overlay, pdf-weergave, het deelmenu en de back-uprules. Test op zowel Android als iOS, met en zonder schermvergrendeling.
