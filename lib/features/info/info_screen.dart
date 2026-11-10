@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/l10n/strings.dart';
+import '../../core/theme.dart';
+import '../../core/ui.dart';
 
 class InfoScreen extends StatelessWidget {
   const InfoScreen({super.key});
@@ -16,84 +18,64 @@ class InfoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = Theme.of(context);
-    Widget section(String title, Widget body) => Padding(
-          padding: const EdgeInsets.only(bottom: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Semantics(
-                  header: true, child: Text(title, style: t.textTheme.titleLarge)),
-              const SizedBox(height: 8),
-              body,
-            ],
-          ),
-        );
+    final c = t.colorScheme;
 
     return Scaffold(
       appBar: AppBar(title: const Text(S.infoTitle)),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+        padding: Gap.page,
         children: [
-          Card(
-            color: t.colorScheme.tertiaryContainer,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(Icons.info_outline,
-                      color: t.colorScheme.onTertiaryContainer),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(S.disclaimer,
-                        style: TextStyle(
-                            color: t.colorScheme.onTertiaryContainer,
-                            fontWeight: FontWeight.w600)),
-                  ),
-                ],
+          SoftCard(
+            color: c.tertiaryContainer,
+            borderColor: Colors.transparent,
+            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Icon(Icons.info_outline_rounded, color: c.onTertiaryContainer),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(S.disclaimer,
+                    style: t.textTheme.bodyMedium?.copyWith(
+                        color: c.onTertiaryContainer, fontWeight: FontWeight.w600)),
               ),
-            ),
+            ]),
           ),
-          const SizedBox(height: 24),
-          section(S.infoWhyTitle, const Text(S.infoWhyBody)),
-          section(
-            S.infoTipsTitle,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                for (final tip in S.infoTips)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(top: 2, right: 8),
-                          child: Icon(Icons.check_circle_outline, size: 20),
-                        ),
-                        Expanded(child: Text(tip)),
-                      ],
+          const SectionHeader(S.infoWhyTitle),
+          const SoftCard(child: Text(S.infoWhyBody)),
+          const SectionHeader(S.infoTipsTitle),
+          SoftCard(
+            child: Column(children: [
+              for (final tip in S.infoTips)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2, right: 12),
+                      child: Icon(Icons.check_circle_rounded, size: 20, color: c.secondary),
                     ),
-                  ),
-              ],
-            ),
-          ),
-          section(
-            S.infoLinkTitle,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(S.infoLinkBody),
-                const SizedBox(height: 12),
-                FilledButton.icon(
-                  onPressed: () => _open(context),
-                  icon: const Icon(Icons.open_in_new),
-                  label: const Text(S.infoLinkButton),
+                    Expanded(child: Text(tip)),
+                  ]),
                 ),
-              ],
-            ),
+            ]),
           ),
-          section(S.infoPrivacyTitle, const Text(S.infoPrivacyBody)),
+          const SectionHeader(S.infoLinkTitle),
+          SoftCard(
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const Text(S.infoLinkBody),
+              const SizedBox(height: 14),
+              FilledButton.icon(
+                onPressed: () => _open(context),
+                icon: const Icon(Icons.open_in_new_rounded),
+                label: const Text(S.infoLinkButton),
+              ),
+            ]),
+          ),
+          const SectionHeader(S.infoPrivacyTitle),
+          SoftCard(
+            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Icon(Icons.lock_outline_rounded, color: c.primary),
+              const SizedBox(width: 12),
+              const Expanded(child: Text(S.infoPrivacyBody)),
+            ]),
+          ),
         ],
       ),
     );

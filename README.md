@@ -194,3 +194,12 @@ Plek voor kopieën van belangrijke documenten (paspoort, polissen, medische gege
 ### Nog handmatig te testen
 
 Alles hierboven is getest op unit-, widget- en bestandsniveau, maar **niet op een echt toestel**: biometrie (Android Keystore en iOS Keychain/Face ID, inclusief wijzigen van vingerafdrukken), de documentscanner, FLAG_SECURE en de iOS-overlay, pdf-weergave, het deelmenu en de back-uprules. Test op zowel Android als iOS, met en zonder schermvergrendeling.
+
+## Ontwerp ("Rustig helder")
+
+- **Navigatie**: vier tabs: *Start* (dashboard met voortgangsring, Bel 112, Eerste uur en maximaal drie volgende stappen), *Pakket* (checklist en "Vervangen" als segment), *Noodgevallen* (wiki, noodplan, kluis) en *Meer* (noodplan, kluis, info, instellingen). Voorheen vijf tabs.
+- **Kleur** (`lib/core/theme.dart`): diep blauw als anker, saliegroen voor "in huis", warm zand als zacht accent; rood alleen voor verlopen. Licht en donker zijn samen ontworpen; tekst haalt WCAG AA (primair 4,5:1 of beter).
+- **Vorm en ritme**: grote afgeronde vlakken (20 dp) met een subtiele lijn in plaats van schaduwen, 4/8-dp-ritme, tikdoelen van minimaal 48 dp, ronde afvinkvakjes.
+- **Typografie**: één lettertype (Roboto, meegeleverd), grote koppen, 17 sp lopende tekst, schaalt mee met de systeemtekstgrootte.
+- **Componenten** (`lib/core/ui.dart`): `SoftCard`, `IconBadge`, `ProgressRing`, `SectionHeader`, `PageTitle`. Alle schermen (ook wizard, kluis en formulieren) erven het thema.
+- **Beweging**: korte, rustige overgangen (Android fade-forwards, iOS Cupertino); de voortgangsring animeert niet als "animaties verminderen" aan staat.

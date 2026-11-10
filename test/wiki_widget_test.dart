@@ -124,7 +124,7 @@ void main() {
       expect(find.text(S.wikiFavorites), findsOneWidget);
       await t.enterText(find.byType(TextField), 'storm');
       await t.pumpAndSettle();
-      await t.tap(find.byIcon(Icons.star_border).first);
+      await t.tap(find.byIcon(Icons.star_border_rounded).first);
       await t.pump();
       expect(prefs.toggled, isNotEmpty);
     });

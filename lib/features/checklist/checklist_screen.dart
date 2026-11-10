@@ -5,9 +5,12 @@ import 'package:go_router/go_router.dart';
 import '../../core/format.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/providers.dart';
+import '../../core/theme.dart';
+import '../../core/ui.dart';
 import '../../domain/expiry.dart';
 import '../../domain/models.dart';
 import '../expiry/expiry_chip.dart';
+import '../expiry/expiry_screen.dart';
 import '../noodplan/domain/plan_models.dart';
 import '../noodplan/plan_providers.dart';
 import '../noodplan/ui/plan_overview_screen.dart';
@@ -41,14 +44,27 @@ List<Item> filterItems(
   }).toList();
 }
 
+IconData categoryIcon(String id) => switch (id) {
+      Cat.water => Icons.water_drop_outlined,
+      Cat.info => Icons.radio_outlined,
+      Cat.light => Icons.flashlight_on_outlined,
+      Cat.health => Icons.medical_services_outlined,
+      Cat.docs => Icons.folder_open_outlined,
+      Cat.other => Icons.category_outlined,
+      _ => Icons.label_outline,
+    };
+
+/// Tabblad "Pakket": checklist en "Vervangen" in twee segmenten.
 class ChecklistScreen extends ConsumerStatefulWidget {
-  const ChecklistScreen({super.key});
+  const ChecklistScreen({super.key, this.initialTab = 0});
+  final int initialTab;
 
   @override
   ConsumerState<ChecklistScreen> createState() => _ChecklistScreenState();
 }
 
 class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
+  late int _tab = widget.initialTab;
   ChecklistFilter _filter = ChecklistFilter.all;
   String _query = '';
 
@@ -60,39 +76,64 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
   };
 
   @override
+  void didUpdateWidget(ChecklistScreen old) {
+    super.didUpdateWidget(old);
+    if (old.initialTab != widget.initialTab) _tab = widget.initialTab;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final items = ref.watch(visibleItemsProvider);
     final lead = ref.watch(settingsProvider).value?.leadDays ?? 30;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(S.checklistTitle),
-        actions: [
-          IconButton(
-            tooltip: S.vaultTitle,
-            icon: const Icon(Icons.lock_outline),
-            onPressed: () => context.push('/kluis'),
+      floatingActionButton: _tab == 0
+          ? FloatingActionButton.extended(
+              onPressed: () => context.push('/item/new'),
+              icon: const Icon(Icons.add_rounded),
+              label: const Text(S.addItem),
+            )
+          : null,
+      body: SafeArea(
+        child: Column(children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const PageTitle(S.checklistTitle),
+              SizedBox(
+                width: double.infinity,
+                child: SegmentedButton<int>(
+                  showSelectedIcon: false,
+                  segments: const [
+                    ButtonSegment(value: 0, label: Text(S.segList), icon: Icon(Icons.checklist_rounded)),
+                    ButtonSegment(value: 1, label: Text(S.segReplace), icon: Icon(Icons.event_repeat_outlined)),
+                  ],
+                  selected: {_tab},
+                  onSelectionChanged: (s) => setState(() => _tab = s.first),
+                ),
+              ),
+              const SizedBox(height: Gap.s),
+            ]),
           ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.push('/item/new'),
-        icon: const Icon(Icons.add),
-        label: const Text(S.addItem),
-      ),
-      body: items.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, _) => Center(
-          child: Column(mainAxisSize: MainAxisSize.min, children: [
-            const Text(S.errorGeneric),
-            const SizedBox(height: 12),
-            FilledButton(
-              onPressed: () => ref.invalidate(allItemsProvider),
-              child: const Text(S.retry),
-            ),
-          ]),
-        ),
-        data: (all) => _body(context, all, lead),
+          Expanded(
+            child: _tab == 1
+                ? const ExpiryList()
+                : items.when(
+                    loading: () => const Center(child: CircularProgressIndicator()),
+                    error: (_, _) => Center(
+                      child: Column(mainAxisSize: MainAxisSize.min, children: [
+                        const Text(S.errorGeneric),
+                        const SizedBox(height: 12),
+                        FilledButton(
+                          onPressed: () => ref.invalidate(allItemsProvider),
+                          child: const Text(S.retry),
+                        ),
+                      ]),
+                    ),
+                    data: (all) => _body(context, all, lead),
+                  ),
+          ),
+        ]),
       ),
     );
   }
@@ -108,22 +149,23 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
     final done = all.where((i) => i.inHouse).length;
 
     return ListView(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
+      padding: const EdgeInsets.fromLTRB(20, 8, 20, 112),
       children: [
         const PlanBanner(),
         _ProgressCard(done: done, total: all.length),
         const _NoodpakketLocation(),
-        const SizedBox(height: 16),
+        const SizedBox(height: Gap.m),
         TextField(
           decoration: const InputDecoration(
             hintText: S.searchHint,
-            prefixIcon: Icon(Icons.search),
+            prefixIcon: Icon(Icons.search_rounded),
           ),
           onChanged: (v) => setState(() => _query = v),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: Gap.s),
         Wrap(
           spacing: 8,
+          runSpacing: 0,
           children: [
             for (final f in ChecklistFilter.values)
               ChoiceChip(
@@ -133,22 +175,29 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
               ),
           ],
         ),
-        const SizedBox(height: 8),
         if (shown.isEmpty)
           Padding(
-            padding: const EdgeInsets.all(32),
+            padding: const EdgeInsets.all(Gap.xl),
             child: Center(
-              child: Text(all.isEmpty ? S.emptyList : S.emptyFilter,
-                  textAlign: TextAlign.center),
+              child: Text(all.isEmpty ? S.emptyList : S.emptyFilter, textAlign: TextAlign.center),
             ),
           ),
         for (final c in cats) ...[
           _CategoryHeader(
+            id: c,
             name: categoryName(c),
             done: all.where((i) => i.category == c && i.inHouse).length,
             total: all.where((i) => i.category == c).length,
           ),
-          for (final i in byCat[c]!) _ItemTile(item: i, leadDays: lead),
+          SoftCard(
+            padding: EdgeInsets.zero,
+            child: Column(children: [
+              for (var n = 0; n < byCat[c]!.length; n++) ...[
+                if (n > 0) const Divider(indent: 64, endIndent: 16),
+                _ItemTile(item: byCat[c]![n], leadDays: lead),
+              ],
+            ]),
+          ),
         ],
       ],
     );
@@ -161,98 +210,58 @@ class _ProgressCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = Theme.of(context);
     final value = total == 0 ? 0.0 : done / total;
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Semantics(
-              label: S.progressTotal(done, total),
-              child: ExcludeSemantics(
-                child: Text(S.progressTotal(done, total),
-                    style: Theme.of(context).textTheme.titleMedium),
-              ),
-            ),
-            const SizedBox(height: 12),
-            LinearProgressIndicator(
-              value: value,
-              minHeight: 10,
-              borderRadius: BorderRadius.circular(5),
-            ),
-          ],
+    return SoftCard(
+      padding: const EdgeInsets.all(18),
+      child: Row(children: [
+        ProgressRing(
+          value: value,
+          size: 64,
+          stroke: 8,
+          child: Text('${(value * 100).round()}%', style: t.textTheme.titleSmall),
         ),
-      ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: Semantics(
+            label: S.progressTotal(done, total),
+            child: ExcludeSemantics(
+              child: Text(S.progressTotal(done, total), style: t.textTheme.titleMedium),
+            ),
+          ),
+        ),
+      ]),
     );
   }
 }
 
 class _CategoryHeader extends StatelessWidget {
-  const _CategoryHeader(
-      {required this.name, required this.done, required this.total});
-  final String name;
+  const _CategoryHeader({required this.id, required this.name, required this.done, required this.total});
+  final String id, name;
   final int done, total;
 
   @override
   Widget build(BuildContext context) {
     final t = Theme.of(context);
+    final complete = total > 0 && done == total;
     return Padding(
-      padding: const EdgeInsets.only(top: 20, bottom: 4),
+      padding: const EdgeInsets.only(top: Gap.l, bottom: Gap.s),
       child: Semantics(
         header: true,
         label: '$name, ${S.progressCategory(done, total)}',
         child: ExcludeSemantics(
           child: Row(children: [
+            Icon(categoryIcon(id), size: 22, color: t.colorScheme.onSurfaceVariant),
+            const SizedBox(width: 10),
             Expanded(child: Text(name, style: t.textTheme.titleMedium)),
-            Text(S.progressCategory(done, total),
-                style: t.textTheme.bodyMedium
-                    ?.copyWith(color: t.colorScheme.onSurfaceVariant)),
+            if (complete)
+              Icon(Icons.check_circle_rounded, size: 20, color: t.colorScheme.secondary)
+            else
+              Text(S.progressCategory(done, total),
+                  style: t.textTheme.bodyMedium?.copyWith(color: t.colorScheme.onSurfaceVariant)),
           ]),
         ),
       ),
-    );
-  }
-}
-
-class _ItemTile extends ConsumerWidget {
-  const _ItemTile({required this.item, required this.leadDays});
-  final Item item;
-  final int leadDays;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final status = statusFor(dueDate(item), DateTime.now(), leadDays);
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      minVerticalPadding: 8,
-      leading: Semantics(
-        label: S.itemSemantics(item.name, item.inHouse, quantityText(item)),
-        excludeSemantics: true,
-        checked: item.inHouse,
-        onTap: () =>
-            ref.read(itemRepositoryProvider).setInHouse(item.id, !item.inHouse),
-        child: Transform.scale(
-          scale: 1.2,
-          child: Checkbox(
-            value: item.inHouse,
-            onChanged: (v) =>
-                ref.read(itemRepositoryProvider).setInHouse(item.id, v ?? false),
-          ),
-        ),
-      ),
-      title: Text(item.name),
-      subtitle: Wrap(
-        spacing: 8,
-        crossAxisAlignment: WrapCrossAlignment.center,
-        children: [
-          Text(quantityText(item)),
-          if (status == ExpiryStatus.soon || status == ExpiryStatus.expired)
-            ExpiryChip(status: status, due: dueDate(item)!),
-        ],
-      ),
-      trailing: const Icon(Icons.chevron_right),
-      onTap: () => context.push('/item/${item.id}'),
     );
   }
 }
@@ -266,12 +275,75 @@ class _NoodpakketLocation extends ConsumerWidget {
     final where = ref.watch(planProvider).value?.locationText(PlanKeys.noodpakket) ?? '';
     if (where.isEmpty) return const SizedBox.shrink();
     return Padding(
-      padding: const EdgeInsets.only(top: 8, left: 4),
+      padding: const EdgeInsets.only(top: 10, left: 4),
       child: Row(children: [
         const Icon(Icons.place_outlined, size: 18),
         const SizedBox(width: 6),
         Expanded(child: Text(S.planNoodpakketAt(where))),
       ]),
+    );
+  }
+}
+
+class _ItemTile extends ConsumerWidget {
+  const _ItemTile({required this.item, required this.leadDays});
+  final Item item;
+  final int leadDays;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final t = Theme.of(context);
+    final status = statusFor(dueDate(item), DateTime.now(), leadDays);
+    final flagged = status == ExpiryStatus.soon || status == ExpiryStatus.expired;
+    void toggle() => ref.read(itemRepositoryProvider).setInHouse(item.id, !item.inHouse);
+
+    return InkWell(
+      onTap: () => context.push('/item/${item.id}'),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8, 6, 12, 6),
+        child: Row(children: [
+          Semantics(
+            label: S.itemSemantics(item.name, item.inHouse, quantityText(item)),
+            excludeSemantics: true,
+            checked: item.inHouse,
+            onTap: toggle,
+            child: Transform.scale(
+              scale: 1.25,
+              child: Checkbox(
+                value: item.inHouse,
+                onChanged: (v) =>
+                    ref.read(itemRepositoryProvider).setInHouse(item.id, v ?? false),
+              ),
+            ),
+          ),
+          const SizedBox(width: 6),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(
+                  item.name,
+                  style: t.textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: item.inHouse ? t.colorScheme.onSurfaceVariant : null,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 4,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    Text(quantityText(item), style: t.textTheme.bodyMedium?.copyWith(color: t.colorScheme.onSurfaceVariant)),
+                    if (flagged) ExpiryChip(status: status, due: dueDate(item)!),
+                  ],
+                ),
+              ]),
+            ),
+          ),
+          Icon(Icons.chevron_right_rounded, color: t.colorScheme.onSurfaceVariant),
+        ]),
+      ),
     );
   }
 }

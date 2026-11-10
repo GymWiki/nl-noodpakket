@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/format.dart';
 import '../../../core/l10n/strings.dart';
 import '../../../core/providers.dart';
+import '../../../core/ui.dart';
 import '../../../data/repositories/settings_repository.dart';
 import '../domain/plan_models.dart';
 import '../domain/plan_progress.dart';
@@ -12,7 +13,7 @@ import '../plan_providers.dart';
 import 'plan_import.dart';
 import 'plan_widgets.dart';
 
-/// Kaart bovenaan het tabblad "Noodgevallen".
+/// Kaart op het tabblad "Noodgevallen".
 class PlanEntryCard extends ConsumerWidget {
   const PlanEntryCard({super.key});
 
@@ -20,41 +21,32 @@ class PlanEntryCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final t = Theme.of(context);
     final progress = ref.watch(planProgressProvider);
-    return Card(
-      color: t.colorScheme.primaryContainer,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16),
-        onTap: () => context.push('/plan'),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(children: [
-            Icon(Icons.assignment_outlined, size: 36, color: t.colorScheme.onPrimaryContainer),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(S.planTitle,
-                    style: t.textTheme.titleLarge?.copyWith(color: t.colorScheme.onPrimaryContainer)),
-                const SizedBox(height: 4),
-                Text(
-                  progress.started
-                      ? S.planCardSub(progress.completed, progress.total)
-                      : S.planCardStart,
-                  style: TextStyle(color: t.colorScheme.onPrimaryContainer),
-                ),
-                if (progress.started) ...[
-                  const SizedBox(height: 8),
-                  LinearProgressIndicator(
-                    value: progress.completed / progress.total,
-                    minHeight: 8,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ],
-              ]),
+    return SoftCard(
+      onTap: () => context.push('/plan'),
+      child: Row(children: [
+        const IconBadge(Icons.assignment_outlined),
+        const SizedBox(width: 14),
+        Expanded(
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(S.planTitle, style: t.textTheme.titleMedium),
+            const SizedBox(height: 2),
+            Text(
+              progress.started
+                  ? S.planCardSub(progress.completed, progress.total)
+                  : S.planCardStart,
+              style: t.textTheme.bodyMedium?.copyWith(color: t.colorScheme.onSurfaceVariant),
             ),
-            Icon(Icons.chevron_right, color: t.colorScheme.onPrimaryContainer),
+            if (progress.started) ...[
+              const SizedBox(height: 10),
+              LinearProgressIndicator(
+                value: progress.completed / progress.total,
+                borderRadius: BorderRadius.circular(5),
+              ),
+            ],
           ]),
         ),
-      ),
+        Icon(Icons.chevron_right_rounded, color: t.colorScheme.onSurfaceVariant),
+      ]),
     );
   }
 }

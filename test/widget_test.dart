@@ -63,6 +63,13 @@ Widget wrap(Widget child, List<Override> overrides, {GoRouter? router}) =>
             ),
     );
 
+/// Hoog scherm: de nieuwe opmaak heeft meer witruimte, dus meer lijst buiten beeld.
+void tall(WidgetTester t) {
+  t.view.physicalSize = const Size(800, 2600);
+  t.view.devicePixelRatio = 1;
+  addTearDown(t.view.reset);
+}
+
 void main() {
   setUpAll(() => initializeDateFormatting('nl_NL'));
 
@@ -83,6 +90,7 @@ void main() {
         ];
 
     testWidgets('toont categorieën, items en voortgang', (t) async {
+      tall(t);
       await t.pumpWidget(wrap(const ChecklistScreen(), overrides(FakeRepo())));
       await t.pumpAndSettle();
       expect(find.text(S.progressTotal(1, 3)), findsOneWidget);
@@ -91,6 +99,7 @@ void main() {
     });
 
     testWidgets('filter Nog nodig verbergt items die in huis zijn', (t) async {
+      tall(t);
       await t.pumpWidget(wrap(const ChecklistScreen(), overrides(FakeRepo())));
       await t.pumpAndSettle();
       await t.tap(find.text(S.filterNeeded));
@@ -100,6 +109,7 @@ void main() {
     });
 
     testWidgets('filter Bijna verlopen en zoeken', (t) async {
+      tall(t);
       await t.pumpWidget(wrap(const ChecklistScreen(), overrides(FakeRepo())));
       await t.pumpAndSettle();
       await t.tap(find.text(S.filterExpiring));
@@ -116,6 +126,7 @@ void main() {
 
     testWidgets('afvinken roept de repository aan', (t) async {
       final repo = FakeRepo();
+      tall(t);
       await t.pumpWidget(wrap(const ChecklistScreen(), overrides(repo)));
       await t.pumpAndSettle();
       await t.tap(find.byType(Checkbox).at(1)); // Radio (tweede in categorie-volgorde: info)

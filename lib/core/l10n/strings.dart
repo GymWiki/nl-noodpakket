@@ -9,7 +9,36 @@ class S {
       'officiële instanties gemaakt.';
 
   // Navigatie
-  static const navChecklist = 'Checklist';
+  static const navHome = 'Start';
+  static const navMore = 'Meer';
+  static const segList = 'Lijst';
+  static const segReplace = 'Vervangen';
+
+  // Start (dashboard)
+  static const homeTitle = 'Rustig voorbereiden';
+  static const homeSub = 'Stap voor stap een noodpakket voor jouw huishouden.';
+  static String homeReady(int pct) => '$pct%';
+  static const homeToPacket = 'Naar je pakket';
+  static const homeNext = 'Volgende stappen';
+  static const homeFirstHour = 'Eerste uur';
+  static const homeStepPlan = 'Maak je noodplan';
+  static const homeStepPlanSub = 'Afspraken met je huishouden, in ongeveer 10 minuten.';
+  static String homeStepExpiring(int n) =>
+      n == 1 ? '1 ding om te vervangen of te controleren' : '$n dingen om te vervangen of te controleren';
+  static const homeStepExpiringSub = 'Bekijk wat binnenkort verloopt.';
+  static String homeStepCategory(String name) => 'Vul "$name" aan';
+  static String homeStepCategorySub(int done, int total) => '$done van $total in huis';
+  static const homeStepVault = 'Bewaar kopieën van je documenten';
+  static const homeStepVaultSub = 'Versleuteld op dit toestel, met biometrie.';
+  static const homeAllGood = 'Alles staat op orde';
+  static const homeAllGoodSub = 'Controleer je pakket elk half jaar.';
+
+  // Meer
+  static const moreTitle = 'Meer';
+  static const moreInfoSub = 'Waarom een noodpakket, tips en denkvooruit.nl';
+  static const moreSettingsSub = 'Huishouden, herinneringen, thema en back-up';
+
+  static const navChecklist = 'Pakket';
   static const navReplace = 'Vervangen';
   static const navInfo = 'Info';
   static const navSettings = 'Instellingen';

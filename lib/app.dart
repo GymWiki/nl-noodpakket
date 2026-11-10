@@ -8,7 +8,8 @@ import 'core/providers.dart';
 import 'core/theme.dart';
 import 'domain/expiry.dart';
 import 'features/checklist/checklist_screen.dart';
-import 'features/expiry/expiry_screen.dart';
+import 'features/home/home_screen.dart';
+import 'features/more/more_screen.dart';
 import 'features/info/info_screen.dart';
 import 'features/items/item_form_screen.dart';
 import 'features/onboarding/onboarding_screen.dart';
@@ -43,7 +44,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       final loc = state.matchedLocation;
       if (s == null) return loc == '/' ? null : '/';
       if (!s.onboarded) return loc == '/onboarding' ? null : '/onboarding';
-      if (loc == '/' || loc == '/onboarding') return '/checklist';
+      if (loc == '/' || loc == '/onboarding') return '/start';
       return null;
     },
     routes: [
@@ -99,31 +100,32 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
         ],
       ),
+      GoRoute(path: '/info', builder: (_, _) => const InfoScreen()),
+      GoRoute(
+        path: '/instellingen',
+        builder: (_, _) => const SettingsScreen(),
+        routes: [
+          GoRoute(path: 'verborgen', builder: (_, _) => const HiddenItemsScreen()),
+        ],
+      ),
       StatefulShellRoute.indexedStack(
         builder: (_, _, shell) => _Shell(shell: shell),
         branches: [
           StatefulShellBranch(routes: [
-            GoRoute(path: '/checklist', builder: (_, _) => const ChecklistScreen()),
+            GoRoute(path: '/start', builder: (_, _) => const HomeScreen()),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+              path: '/checklist',
+              builder: (_, st) =>
+                  ChecklistScreen(initialTab: st.uri.queryParameters['tab'] == 'vervangen' ? 1 : 0),
+            ),
           ]),
           StatefulShellBranch(routes: [
             GoRoute(path: '/noodgevallen', builder: (_, _) => const WikiOverviewScreen()),
           ]),
           StatefulShellBranch(routes: [
-            GoRoute(path: '/vervangen', builder: (_, _) => const ExpiryScreen()),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(path: '/info', builder: (_, _) => const InfoScreen()),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/instellingen',
-              builder: (_, _) => const SettingsScreen(),
-              routes: [
-                GoRoute(
-                    path: 'verborgen',
-                    builder: (_, _) => const HiddenItemsScreen()),
-              ],
-            ),
+            GoRoute(path: '/meer', builder: (_, _) => const MoreScreen()),
           ]),
         ],
       ),
@@ -145,25 +147,21 @@ class _Shell extends StatelessWidget {
             shell.goBranch(i, initialLocation: i == shell.currentIndex),
         destinations: const [
           NavigationDestination(
-              icon: Icon(Icons.checklist_outlined),
-              selectedIcon: Icon(Icons.checklist),
+              icon: Icon(Icons.home_outlined),
+              selectedIcon: Icon(Icons.home_rounded),
+              label: S.navHome),
+          NavigationDestination(
+              icon: Icon(Icons.inventory_2_outlined),
+              selectedIcon: Icon(Icons.inventory_2),
               label: S.navChecklist),
           NavigationDestination(
-              icon: Icon(Icons.emergency_outlined),
-              selectedIcon: Icon(Icons.emergency),
+              icon: Icon(Icons.health_and_safety_outlined),
+              selectedIcon: Icon(Icons.health_and_safety),
               label: S.navWiki),
           NavigationDestination(
-              icon: Icon(Icons.event_repeat_outlined),
-              selectedIcon: Icon(Icons.event_repeat),
-              label: S.navReplace),
-          NavigationDestination(
-              icon: Icon(Icons.info_outline),
-              selectedIcon: Icon(Icons.info),
-              label: S.navInfo),
-          NavigationDestination(
-              icon: Icon(Icons.settings_outlined),
-              selectedIcon: Icon(Icons.settings),
-              label: S.navSettings),
+              icon: Icon(Icons.grid_view_outlined),
+              selectedIcon: Icon(Icons.grid_view_rounded),
+              label: S.navMore),
         ],
       ),
     );
