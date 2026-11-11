@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mijnnoodpakket/data/seed/seed_items.dart';
 import 'package:mijnnoodpakket/domain/models.dart';
+import 'package:mijnnoodpakket/features/dashboard/domain/dash_prefs.dart';
 import 'package:mijnnoodpakket/features/dashboard/domain/maintenance.dart';
 import 'package:mijnnoodpakket/features/dashboard/domain/readiness.dart';
 import 'package:mijnnoodpakket/features/dashboard/domain/seasonal.dart';
@@ -33,6 +34,7 @@ Item item(
     );
 
 void main() {
+  prefsTests();
   final now = DateTime(2026, 11, 11, 12);
 
   group('seed: prioriteit en dekking', () {
@@ -349,5 +351,36 @@ void main() {
       expect(routineReminderTime(DateTime(2026, 12, 1), now), DateTime(2026, 12, 1, 10));
       expect(routineReminderTime(DateTime(2026, 11, 1), now), DateTime(2026, 11, 12, 10));
     });
+  });
+}
+
+void prefsTests() {
+  group('dashboard-voorkeuren', () {
+    test('lezen uit de opgeslagen waarden', () {
+      final p = DashPrefs.fromRaw({
+        DashKeys.later: encodeDayMap({'water': DateTime(2026, 11, 18)}),
+        DashKeys.dismissed: encodeSet({'plan', 'vault'}),
+        DashKeys.nlAlertDone: '2026-11-01',
+        DashKeys.maintDone: encodeDayMap({'rookmelder': DateTime(2026, 10, 1)}),
+        DashKeys.maintAnchor: '2026-05-11',
+        DashKeys.maintRemind: encodeSet({'powerbank'}),
+      });
+      expect(p.later['water'], DateTime(2026, 11, 18));
+      expect(p.dismissed, {'plan', 'vault'});
+      expect(p.nlAlertDone, DateTime(2026, 11, 1));
+      expect(p.maintDone['rookmelder'], DateTime(2026, 10, 1));
+      expect(p.maintAnchor, DateTime(2026, 5, 11));
+      expect(p.maintRemind, {'powerbank'});
+    });
+
+    test('lege of kapotte waarden geven veilige standaarden', () {
+      final p = DashPrefs.fromRaw({DashKeys.later: 'kapot', DashKeys.dismissed: '{', DashKeys.nlAlertDone: 'x'});
+      expect(p.later, isEmpty);
+      expect(p.dismissed, isEmpty);
+      expect(p.nlAlertDone, isNull);
+      expect(DashPrefs.fromRaw(const {}).maintAnchor, isNull);
+    });
+
+    test('dayString is stabiel', () => expect(dayString(DateTime(2026, 1, 5, 23)), '2026-01-05'));
   });
 }

@@ -15,10 +15,15 @@ class AppSettings {
     this.permissionAsked = false,
     this.planReminder = false,
     this.planBannerDismissed = false,
+    this.simpleStart = false,
+    this.raw = const {},
   });
 
   final Household household;
-  final bool onboarded, semiAnnual, permissionAsked, planReminder, planBannerDismissed;
+  final bool onboarded, semiAnnual, permissionAsked, planReminder, planBannerDismissed, simpleStart;
+
+  /// Alle opgeslagen sleutel/waarde-paren (voor losse voorkeuren, bijv. het dashboard).
+  final Map<String, String> raw;
   final int leadDays;
   final ThemeMode themeMode;
 
@@ -31,6 +36,7 @@ class AppSettings {
     bool? permissionAsked,
     bool? planReminder,
     bool? planBannerDismissed,
+    bool? simpleStart,
   }) =>
       AppSettings(
         household: household ?? this.household,
@@ -41,6 +47,8 @@ class AppSettings {
         permissionAsked: permissionAsked ?? this.permissionAsked,
         planReminder: planReminder ?? this.planReminder,
         planBannerDismissed: planBannerDismissed ?? this.planBannerDismissed,
+        simpleStart: simpleStart ?? this.simpleStart,
+        raw: raw,
       );
 
   Map<String, String> toMap() => {
@@ -52,6 +60,7 @@ class AppSettings {
         'permissionAsked': '$permissionAsked',
         'planReminder': '$planReminder',
         'planBannerDismissed': '$planBannerDismissed',
+        'simpleStart': '$simpleStart',
       };
 
   factory AppSettings.fromMap(Map<String, String> m) {
@@ -69,6 +78,8 @@ class AppSettings {
       permissionAsked: m['permissionAsked'] == 'true',
       planReminder: m['planReminder'] == 'true',
       planBannerDismissed: m['planBannerDismissed'] == 'true',
+      simpleStart: m['simpleStart'] == 'true',
+      raw: m,
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import '../dashboard/dashboard_providers.dart';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -166,6 +167,23 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             value: s.planReminder,
             onChanged: (v) => togglePlanReminder(context, ref, v),
           ),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            title: const Text(S.simpleStartTitle),
+            subtitle: const Text(S.simpleStartSub),
+            value: s.simpleStart,
+            onChanged: (v) => _update((s) => s.copyWith(simpleStart: v)),
+          ),
+          Builder(builder: (context) {
+            final hidden = ref.watch(hiddenSuggestionCountProvider);
+            return ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: const Text(S.restoreHidden),
+              subtitle: Text(S.restoreHiddenSub(hidden)),
+              enabled: hidden > 0,
+              onTap: hidden == 0 ? null : () => ref.read(dashActionsProvider).restoreHidden(),
+            );
+          }),
           header(S.setTheme),
           SegmentedButton<ThemeMode>(
             segments: const [

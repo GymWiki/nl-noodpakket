@@ -8,7 +8,10 @@ import 'core/providers.dart';
 import 'core/theme.dart';
 import 'domain/expiry.dart';
 import 'features/checklist/checklist_screen.dart';
-import 'features/home/home_screen.dart';
+import 'features/dashboard/dashboard_providers.dart';
+import 'features/dashboard/dashboard_screen.dart';
+import 'features/dashboard/dashboard_subscreens.dart';
+import 'features/more/my_plan_screen.dart';
 import 'features/noodhacks/hack_detail_screen.dart';
 import 'features/noodhacks/hacks_have_screen.dart';
 import 'features/noodhacks/hacks_out_screen.dart';
@@ -68,11 +71,15 @@ final routerProvider = Provider<GoRouter>((ref) {
         routes: [
           GoRoute(
             path: 'toevoegen',
-            builder: (_, st) => VaultGate(child: VaultAddScreen(docId: st.uri.queryParameters['doc'])),
+            builder: (_, st) => VaultGate(
+              child: VaultAddScreen(docId: st.uri.queryParameters['doc']),
+            ),
           ),
           GoRoute(
             path: 'doc/:id',
-            builder: (_, st) => VaultGate(child: VaultDocScreen(docId: st.pathParameters['id']!)),
+            builder: (_, st) => VaultGate(
+              child: VaultDocScreen(docId: st.pathParameters['id']!),
+            ),
           ),
           GoRoute(
             path: 'instellingen',
@@ -87,7 +94,8 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: 'wizard',
             builder: (_, st) => PlanWizardScreen(
-              section: PlanSection.values.asNameMap()[st.uri.queryParameters['s']],
+              section: PlanSection.values
+                  .asNameMap()[st.uri.queryParameters['s']],
             ),
           ),
           GoRoute(path: 'delen', builder: (_, _) => const PlanShareScreen()),
@@ -114,7 +122,11 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: ':id',
             builder: (_, st) => HackDetailScreen(id: st.pathParameters['id']!),
             routes: [
-              GoRoute(path: 'stappen', builder: (_, st) => HackStepsScreen(id: st.pathParameters['id']!)),
+              GoRoute(
+                path: 'stappen',
+                builder: (_, st) =>
+                    HackStepsScreen(id: st.pathParameters['id']!),
+              ),
             ],
           ),
         ],
@@ -124,28 +136,70 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/instellingen',
         builder: (_, _) => const SettingsScreen(),
         routes: [
-          GoRoute(path: 'verborgen', builder: (_, _) => const HiddenItemsScreen()),
+          GoRoute(
+            path: 'verborgen',
+            builder: (_, _) => const HiddenItemsScreen(),
+          ),
         ],
       ),
       StatefulShellRoute.indexedStack(
         builder: (_, _, shell) => _Shell(shell: shell),
         branches: [
-          StatefulShellBranch(routes: [
-            GoRoute(path: '/start', builder: (_, _) => const HomeScreen()),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/checklist',
-              builder: (_, st) =>
-                  ChecklistScreen(initialTab: st.uri.queryParameters['tab'] == 'vervangen' ? 1 : 0),
-            ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(path: '/noodgevallen', builder: (_, _) => const WikiOverviewScreen()),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(path: '/meer', builder: (_, _) => const MoreScreen()),
-          ]),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/start',
+                builder: (_, _) => const DashboardScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'suggesties',
+                    builder: (_, _) => const SuggestionsScreen(),
+                  ),
+                  GoRoute(
+                    path: 'nl-alert',
+                    builder: (_, _) => const NlAlertScreen(),
+                  ),
+                  GoRoute(
+                    path: 'onderhoud',
+                    builder: (_, _) => const MaintenanceScreen(),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/checklist',
+                builder: (_, st) => ChecklistScreen(
+                  initialTab: st.uri.queryParameters['tab'] == 'vervangen'
+                      ? 1
+                      : 0,
+                ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/noodgevallen',
+                builder: (_, _) => const WikiOverviewScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/mijn-plan',
+                builder: (_, _) => const MyPlanScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(path: '/meer', builder: (_, _) => const MoreScreen()),
+            ],
+          ),
         ],
       ),
     ],
@@ -160,28 +214,41 @@ class _Shell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: shell,
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: shell.currentIndex,
-        onDestinationSelected: (i) =>
-            shell.goBranch(i, initialLocation: i == shell.currentIndex),
-        destinations: const [
-          NavigationDestination(
+      // Tekst in de navigatiebalk groeit mee, maar blijft binnen de balk.
+      bottomNavigationBar: MediaQuery.withClampedTextScaling(
+        maxScaleFactor: 1.3,
+        child: NavigationBar(
+          selectedIndex: shell.currentIndex,
+          onDestinationSelected: (i) =>
+              shell.goBranch(i, initialLocation: i == shell.currentIndex),
+          destinations: const [
+            NavigationDestination(
               icon: Icon(Icons.home_outlined),
               selectedIcon: Icon(Icons.home_rounded),
-              label: S.navHome),
-          NavigationDestination(
+              label: S.navHome,
+            ),
+            NavigationDestination(
               icon: Icon(Icons.inventory_2_outlined),
               selectedIcon: Icon(Icons.inventory_2),
-              label: S.navChecklist),
-          NavigationDestination(
+              label: S.navChecklist,
+            ),
+            NavigationDestination(
               icon: Icon(Icons.health_and_safety_outlined),
               selectedIcon: Icon(Icons.health_and_safety),
-              label: S.navWiki),
-          NavigationDestination(
+              label: S.navWiki,
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.assignment_outlined),
+              selectedIcon: Icon(Icons.assignment),
+              label: S.navPlan,
+            ),
+            NavigationDestination(
               icon: Icon(Icons.grid_view_outlined),
               selectedIcon: Icon(Icons.grid_view_rounded),
-              label: S.navMore),
-        ],
+              label: S.navMore,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -207,8 +274,12 @@ class _NoodpakketAppState extends ConsumerState<NoodpakketApp> {
     final planAt = s.planReminder && plan != null
         ? planReminderTime(plan, DateTime.now())
         : null;
-    final vaultTimes = ref.read(vaultReminderTimesProvider).value ?? const <DateTime>[];
-    final sig = StringBuffer('${s.leadDays}|${s.semiAnnual}|$planAt|${vaultTimes.map((t) => t.millisecondsSinceEpoch).join(',')}');
+    final vaultTimes =
+        ref.read(vaultReminderTimesProvider).value ?? const <DateTime>[];
+    final maintTimes = ref.read(maintenanceReminderTimesProvider);
+    final sig = StringBuffer(
+      '${s.leadDays}|${s.semiAnnual}|$planAt|${vaultTimes.map((t) => t.millisecondsSinceEpoch).join(',')}|m${maintTimes.map((t) => t.millisecondsSinceEpoch).join(',')}',
+    );
     for (final i in items) {
       if (!i.hidden) sig.write('|${i.id}:${i.name}:${dueDate(i)}');
     }
@@ -217,11 +288,13 @@ class _NoodpakketAppState extends ConsumerState<NoodpakketApp> {
     ref
         .read(notificationServiceProvider)
         .reschedule(
-            items: items,
-            leadDays: s.leadDays,
-            semiAnnual: s.semiAnnual,
-            planReminderAt: planAt,
-            vaultReminders: vaultTimes)
+          items: items,
+          leadDays: s.leadDays,
+          semiAnnual: s.semiAnnual,
+          planReminderAt: planAt,
+          vaultReminders: vaultTimes,
+          maintenanceReminders: maintTimes,
+        )
         .catchError((Object _) {});
   }
 
@@ -231,9 +304,10 @@ class _NoodpakketAppState extends ConsumerState<NoodpakketApp> {
     ref.listen(settingsProvider, (_, _) => _reschedule());
     ref.listen(planProvider, (_, _) => _reschedule());
     ref.listen(vaultReminderTimesProvider, (_, _) => _reschedule());
+    ref.listen(maintenanceReminderTimesProvider, (_, _) => _reschedule());
     final mode =
         ref.watch(settingsProvider.select((s) => s.value?.themeMode)) ??
-            ThemeMode.system;
+        ThemeMode.system;
 
     return MaterialApp.router(
       title: S.appName,

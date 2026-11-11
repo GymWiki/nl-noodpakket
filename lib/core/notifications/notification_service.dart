@@ -57,6 +57,7 @@ class NotificationService {
     required bool semiAnnual,
     DateTime? planReminderAt,
     List<DateTime> vaultReminders = const [],
+    List<DateTime> maintenanceReminders = const [],
   }) async {
     await init();
     await _plugin.cancelAll();
@@ -104,6 +105,11 @@ class NotificationService {
     // Documentenkluis: bewust neutrale tekst, zonder titel, naam of nummer.
     for (final t in vaultReminders.take(100)) {
       await schedule(t, S.notifTitleVault, S.notifBodyVault);
+    }
+
+    // Onderhoud: alleen voor routines waarvoor de gebruiker zelf een herinnering aanzette.
+    for (final t in maintenanceReminders.take(20)) {
+      await schedule(t, S.notifTitleMaint, S.notifBodyMaint);
     }
 
     if (planReminderAt != null) {

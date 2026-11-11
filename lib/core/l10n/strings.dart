@@ -903,4 +903,153 @@ class S {
   static const notifTitleHalfYear = 'Check je noodpakket';
   static const notifBodyHalfYear =
       'Het is een half jaar geleden. Loop je noodpakket even na.';
+
+  // ---- Dashboard "Start" ----
+  static const navPlan = 'Mijn plan';
+  static const dashSub = 'Zo staat het ervoor, en wat je als eerste kunt doen.';
+  static const dashCall112 = 'Bel 112';
+  static const dashCall112Hint = 'Opent je telefoon-app met 112 ingevuld. Er wordt niet automatisch gebeld.';
+
+  static const dashReadyTitle = 'Paraatheid';
+  static String dashReadyDays(String d) => 'ongeveer $d van de 3 dagen zelfredzaam';
+  static const dashReadyEmpty = 'Begin met je pakket.';
+  static const dashReadyEmptySub = 'Vink aan wat je al hebt.';
+  static const dashReadyNeedQty =
+      'Vul bij water en eten in hoeveel je hebt. Dan kunnen we het uitrekenen.';
+  static const dashReadyGoal =
+      'Doel bereikt: je hebt water en eten voor 3 dagen. Controleer af en toe de houdbaarheid.';
+  static const dashReadyHow = 'Hoe is dit berekend?';
+  static const dashReadyEstimate = 'Dit is een schatting op basis van jouw invoer.';
+  static const dashHowTitle = 'Zo rekenen we';
+  static const dashHowGoal =
+      'Doel: 72 uur (3 dagen) zelfredzaam, zoals Denk Vooruit adviseert.';
+  static String dashHowWater(int persons, String liters, String days) =>
+      'Water: $liters liter in huis, gedeeld door 3 liter per persoon per dag voor $persons ${persons == 1 ? 'persoon' : 'personen'}. Dat is $days dagen.';
+  static String dashHowFood(int persons, String meals, String days) =>
+      'Eten: $meals maaltijden in huis, gedeeld door 3 maaltijden per persoon per dag voor $persons ${persons == 1 ? 'persoon' : 'personen'}. Dat is $days dagen. Die 3 maaltijden per dag is een eigen afspraak van deze app.';
+  static const dashHowMin = 'Het laagste van water en eten telt. Zonder water kom je niet verder met alleen eten, en andersom.';
+  static const dashHowRules =
+      'Alleen hoeveelheden die je invult tellen mee. Afgevinkt zonder hoeveelheid telt niet. Verlopen items tellen niet mee. Het aantal personen komt uit je huishouden.';
+  static String dashHowExcluded(int n) =>
+      n == 1 ? '1 verlopen item telt niet mee.' : '$n verlopen items tellen niet mee.';
+  static const dashStepsTitle = 'Drie stappen van Denk Vooruit';
+  static String dashStepPacket(int pct) => 'Noodpakket: $pct% compleet';
+  static String dashStepPlan(int done, int total) => 'Noodplan: $done van $total onderdelen';
+  static const dashStepPlanNone = 'Noodplan: nog niet gemaakt';
+  static const dashStepTalk = 'Praat erover met je huishouden';
+
+  static const dashNextTitle = 'Volgende stap';
+  static const dashShowAll = 'Toon alles';
+  static const dashLater = 'Later';
+  static const dashNotRelevant = 'Niet relevant';
+  static const dashLaterDone = 'We tonen dit over 7 dagen opnieuw.';
+  static const dashNotRelevantDone = 'Verborgen. Je kunt dit herstellen bij Instellingen.';
+  static const dashAllTitle = 'Alle suggesties';
+  static const dashAllEmpty = 'Alles op orde. Er is nu niets te doen.';
+
+  static const dashSugHouseholdT = 'Vul je huishouden aan';
+  static const dashSugHouseholdS = 'Dan klopt het aantal liters en maaltijden.';
+  static const dashSugHouseholdA = 'Aanpassen';
+  static const dashSugNlAlertT = 'Controleer of je NL-Alert ontvangt';
+  static const dashSugNlAlertS = 'Het kost een minuut.';
+  static const dashSugNlAlertA = 'Bekijk hoe';
+  static const dashSugWaterNoneT = 'Zet water in huis';
+  static const dashSugWaterNoneS = 'Reken op 3 liter per persoon per dag.';
+  static String dashSugWaterFewT(String d) => 'Je hebt water voor ongeveer $d dagen';
+  static const dashSugWaterFewS = 'Doel: 3 dagen.';
+  static const dashSugWaterA = 'Invullen';
+  static String dashSugExpiredT(int n) =>
+      n == 1 ? '1 ding is verlopen' : '$n dingen zijn verlopen';
+  static String dashSugSoonT(int n) =>
+      n == 1 ? '1 ding verloopt binnenkort' : '$n dingen verlopen binnenkort';
+  static const dashSugExpiringS = 'Vervang of controleer het.';
+  static const dashSugExpiringA = 'Bekijk';
+  static const dashSugPlanNewT = 'Maak je noodplan';
+  static const dashSugPlanNewS = 'Afspraken met je huishouden, in ongeveer 10 minuten.';
+  static const dashSugPlanFinishT = 'Maak je noodplan af';
+  static const dashSugPlanFinishS = 'Een paar onderdelen zijn nog leeg.';
+  static const dashSugPlanStaleT = 'Controleer of je noodplan nog klopt';
+  static const dashSugPlanStaleS = 'Je hebt het langer dan 6 maanden niet bekeken.';
+  static const dashSugPlanA = 'Open noodplan';
+  static const dashSugVaultT = 'Bewaar kopieën van je documenten';
+  static const dashSugVaultS = 'Versleuteld op dit toestel.';
+  static const dashSugVaultA = 'Open kluis';
+  static String dashSugItemT(String name) => 'Zorg voor: $name';
+  static const dashSugItemKritiek = 'Dit is belangrijk voor de eerste dagen.';
+  static const dashSugItemBelangrijk = 'Een goede aanvulling op je pakket.';
+  static const dashSugItemAanvullend = 'Als je er ruimte voor hebt.';
+  static const dashSugItemA = 'Bekijk';
+  static String dashSugMaintT(int n) =>
+      n == 1 ? '1 onderhoudstaak staat klaar' : '$n onderhoudstaken staan klaar';
+  static const dashSugMaintS = 'Bijvoorbeeld de rookmelder testen.';
+  static const dashSugMaintA = 'Bekijk';
+
+  static const dashExpiringTitle = 'Binnenkort vervangen';
+  static const dashExpiringAll = 'Alles bekijken';
+  static String dashExpiredOn(String d) => 'Verlopen op $d';
+  static String dashDueOn(String d) => 'Vervangen vóór $d';
+
+  static String dashSeasonNlAlertT(String d) => 'NL-Alert-testbericht op $d';
+  static const dashSeasonNlAlertS =
+      'Rond 12.00 uur. Zo weet je of je telefoon NL-Alert ontvangt.';
+  static const dashSeasonNlAlertA = 'Meer informatie';
+  static const dashSeasonWinterT = 'Nu relevant: winter';
+  static const dashSeasonWinterS =
+      'Koolmonoxide (CO) en kou. Lees de stappenplannen als je ze nog niet kent.';
+
+  static const dashPlanCard = 'Noodplan';
+  static const dashPlanNone = 'Nog niet gemaakt';
+  static String dashPlanPart(int d, int t) => '$d van $t onderdelen';
+  static const dashPlanDone = 'Compleet';
+  static const dashPlanStale = 'Even nalopen';
+  static const dashVaultCard = 'Kluis';
+  static const dashVaultNone = 'Nog niets bewaard';
+  static const dashVaultSome = 'Documenten bewaard';
+
+  static const maintTitle = 'Onderhoud';
+  static const maintSub = 'Kleine terugkerende controles. Je bepaalt zelf of je een herinnering wilt.';
+  static const maintRookmelder = 'Rookmelder testen';
+  static const maintPakket = 'Pakket controleren';
+  static const maintPowerbank = 'Powerbank opladen';
+  static const maintBatterijen = 'Batterijen controleren';
+  static const maintEveryMonth = 'Elke maand';
+  static const maintEveryHalfYear = 'Elk half jaar';
+  static const maintEveryYear = 'Elk jaar';
+  static String maintDue(String d) => 'Aan de beurt sinds $d';
+  static String maintNext(String d) => 'Volgende keer: $d';
+  static const maintDone = 'Gedaan';
+  static const maintRemind = 'Herinnering';
+  static const maintAll = 'Alle routines';
+  static const notifTitleMaint = 'Onderhoud';
+  static const notifBodyMaint = 'Er staat een onderhoudstaak voor je klaar.';
+
+  static const dashHouseholdTitle = 'Jouw huishouden';
+  static const dashHouseholdEdit = 'Aanpassen';
+
+  static const dashAllGoodLine = 'Alles op orde. Controleer je pakket elk half jaar.';
+
+  static const nlTitle = 'NL-Alert controleren';
+  static const nlIntro =
+      'NL-Alert is het waarschuwingssysteem van de overheid. Het stuurt een bericht naar telefoons in de buurt van een gevaar.';
+  static const nlFact1 = 'Het is gratis en je hoeft je er niet voor aan te melden.';
+  static const nlFact2 =
+      'Je telefoon moet aanstaan en bereik hebben om een bericht te ontvangen.';
+  static const nlFact3 =
+      'Elk half jaar is er een testbericht, op de eerste maandag van juni en december, rond 12.00 uur.';
+  static const nlFact4 =
+      'Krijg je het testbericht niet? Op nl-alert.nl staat uitleg per telefoon over wat je kunt controleren.';
+  static String nlNextTest(String d) => 'Het volgende testbericht is op $d.';
+  static const nlOpenSite = 'Ga naar nl-alert.nl';
+  static const nlDone = 'Gedaan';
+  static const nlDoneNote = 'Gemarkeerd als gedaan.';
+
+  static const simpleStartTitle = 'Eenvoudige start';
+  static const simpleStartSub = 'Toon op Start vier grote knoppen in plaats van het dashboard.';
+  static const restoreHidden = 'Verborgen suggesties herstellen';
+  static String restoreHiddenSub(int n) =>
+      n == 0 ? 'Er is niets verborgen.' : '$n verborgen. Tik om ze terug te zetten.';
+
+  static const myPlanTitle = 'Mijn plan';
+  static const myPlanSub = 'Afspraken en documenten voor als het nodig is.';
+  static const moreMaintSub = 'Rookmelder, powerbank en andere vaste controles';
 }

@@ -37,8 +37,7 @@ class MoreScreen extends StatelessWidget {
           padding: Gap.page,
           children: [
             const PageTitle(S.moreTitle),
-            row(Icons.assignment_outlined, S.planTitle, S.planCardStart, '/plan'),
-            row(Icons.lock_outline, S.vaultTitle, S.vaultEntrySub, '/kluis'),
+            row(Icons.build_circle_outlined, S.maintTitle, S.moreMaintSub, '/start/onderhoud'),
             row(Icons.info_outline_rounded, S.infoTitle, S.moreInfoSub, '/info'),
             row(Icons.tune_rounded, S.settingsTitle, S.moreSettingsSub, '/instellingen'),
             const SizedBox(height: Gap.s),
