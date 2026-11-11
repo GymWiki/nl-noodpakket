@@ -50,7 +50,7 @@ class CategoryTone {
   static const darkAccent = (s: 0.55, l: 0.62);
 
   /// Neutrale tinten: zelfde helderheid, bijna geen verzadiging.
-  static double _sat(CategoryTint t, double s) => t == CategoryTint.grey ? 0 : (t.neutral ? s * 0.28 : s);
+  static double _sat(CategoryTint t, double s) => t == CategoryTint.grey ? 0 : (t.neutral ? s * 0.5 : s);
 
   static Color _c(CategoryTint t, ({double s, double l}) p) =>
       HSLColor.fromAHSL(1, t.hue, _sat(t, p.s), p.l).toColor();

@@ -256,3 +256,11 @@ Eén niet-verbruikbare aankoop (`pro_unlock`), geen account. De prijs komt altij
 - Store-beschrijving: "Checklist, alle noodgevallen-stappenplannen, noodplan en noodmodus blijven gratis, en je documentenkluis tot 3 documenten. Pro (eenmalig) ontgrendelt de noodhacks, automatische herinneringen voor items die aan vervanging toe zijn en onbeperkt documenten." Let op: **noodmodus en voorleesmodus bestaan nog niet in de app**; noem ze pas in de store zodra ze er zijn. Controleer dat screenshots geen Pro-onderdelen (noodhack-stappenplannen, herinneringen, meer dan 3 documenten) als gratis tonen.
 - Op een echt toestel testen: kopen, annuleren, herstellen, herinstalleren, notificaties (ook toestemming weigeren) en de 4e kluisdocument-flow.
 
+## Categoriekleuren
+
+`lib/core/theme/category_palette.dart`: één tonale familie. Alleen het icoonbolletje (en in detailschermen een dunne accentlijn) krijgt kleur; kaarten, achtergronden en tekst blijven neutraal, en iconen en tekst dragen altijd de betekenis. Alle gekleurde tinten delen per thema dezelfde verzadiging en helderheid (alleen de hue verschilt). Rood en oranje komen er nooit in voor: die zijn gereserveerd voor 112, verlopen, waarschuwingen en "Doe dit nooit".
+
+Tinten: voorzieningen en water blauw, natuur en hygiëne teal, brand en gevaarlijke stoffen en licht/warmte/koken zacht oker, gezondheid roze, veiligheid violet, noodplan groen, kluis en documenten indigo, informatie en energie blauwgrijs, instellingen en overig grijs, eten bewaren lime (enige uitbreiding), onderhoud teal. De mythes gebruiken het bestaande waarschuwingspatroon (geen eigen tint). Eigen checklistcategorieën blijven grijs.
+
+Bewaakt door `test/category_palette_test.dart` (icoon op bolletje minstens 4,5:1 terwijl 3:1 de eis is, accentlijn minstens 3:1, tekst minstens 4,5:1, gelijke helderheid en verzadiging, geen rood of oranje, elke categorie heeft een tint) en `test/category_golden_test.dart` (screenshots in `test/goldens/`, licht, donker, 200% en protanopie/deuteranopie; regenereer met `flutter test --update-goldens`). Noodplan en Kluis staan alleen in de tab *Mijn plan*; de kaarten in Noodgevallen zijn weggehaald.
+

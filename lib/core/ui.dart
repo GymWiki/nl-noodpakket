@@ -158,13 +158,16 @@ class TintAccentLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ExcludeSemantics(
-        child: Container(
-          width: 48,
-          height: 4,
-          margin: const EdgeInsets.only(bottom: 12),
-          decoration: BoxDecoration(
-            color: tint.tone(Theme.of(context).brightness).accent,
-            borderRadius: BorderRadius.circular(Radii.pill),
+        child: Align(
+          alignment: AlignmentDirectional.centerStart,
+          child: Container(
+            width: 48,
+            height: 4,
+            margin: const EdgeInsets.only(bottom: 12),
+            decoration: BoxDecoration(
+              color: tint.tone(Theme.of(context).brightness).accent,
+              borderRadius: BorderRadius.circular(Radii.pill),
+            ),
           ),
         ),
       );
