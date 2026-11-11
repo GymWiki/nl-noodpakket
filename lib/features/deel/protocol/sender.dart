@@ -160,6 +160,7 @@ class ShareSenderSession {
       planSections: _offer.planSections,
       planBytes: planBytes.length,
       planHash: planBytes.isEmpty ? '' : await sha256Hex(planBytes),
+      planSectionHashes: _offer.planSectionHashes,
       docs: [
         for (final d in _offer.docs)
           ManifestDoc(

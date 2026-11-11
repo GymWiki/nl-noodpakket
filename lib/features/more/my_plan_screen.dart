@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../deel/deel_providers.dart';
 import '../../core/theme/category_palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -16,6 +17,7 @@ class MyPlanScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final t = Theme.of(context);
     final st = ref.watch(planVaultStatusProvider);
+    final shared = ref.watch(sharedPlansProvider).value ?? const [];
     Widget row(IconData icon, String title, String sub, String route, MenuItemKind kind) => Padding(
           padding: const EdgeInsets.only(bottom: 12),
           child: SoftCard(
@@ -45,6 +47,14 @@ class MyPlanScreen extends ConsumerWidget {
                 st.planStarted ? S.planCardSub(st.planDone, st.planTotal) : S.planCardStart, '/plan', MenuItemKind.plan),
             row(Icons.forum_outlined, S.planTalk, S.myPlanTalkSub, '/plan/gesprek', MenuItemKind.talk),
             row(Icons.lock_outline, S.vaultTitle, S.vaultEntrySub, '/kluis', MenuItemKind.vault),
+            row(Icons.qr_code_2_rounded, S.deelTitle, S.deelSub, '/delen', MenuItemKind.share),
+            row(Icons.qr_code_scanner_rounded, S.scanTitle, S.scanSub, '/delen/scan', MenuItemKind.scan),
+            if (shared.isNotEmpty) ...[
+              SectionHeader(S.sharedWithMe),
+              for (final p in shared)
+                row(Icons.people_outline_rounded, p.fromName.isEmpty ? S.sharedWithMe : S.sharedFrom(p.fromName),
+                    S.sharedVersionLine(p.version, '${p.receivedAt.day}-${p.receivedAt.month}-${p.receivedAt.year}'), '/delen/gedeeld/${p.planId}', MenuItemKind.plan),
+            ],
             const SizedBox(height: Gap.s),
             Text(S.disclaimer, style: t.textTheme.bodySmall),
           ],

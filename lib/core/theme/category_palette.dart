@@ -75,11 +75,13 @@ double contrastRatio(Color a, Color b) {
 // --- Toewijzing per scherm -------------------------------------------------
 
 /// Meer en Mijn plan.
-enum MenuItemKind { plan, talk, vault, info, settings, maintenance }
+enum MenuItemKind { plan, talk, share, scan, vault, info, settings, maintenance }
 
 CategoryTint menuTint(MenuItemKind k) => switch (k) {
       MenuItemKind.plan => CategoryTint.green,
       MenuItemKind.talk => CategoryTint.green,
+      MenuItemKind.share => CategoryTint.green,
+      MenuItemKind.scan => CategoryTint.green,
       MenuItemKind.vault => CategoryTint.indigo,
       MenuItemKind.info => CategoryTint.slate,
       MenuItemKind.settings => CategoryTint.grey,

@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:mijnnoodpakket/features/deel/deel_providers.dart';
+import 'package:mijnnoodpakket/features/deel/domain/shared_plan_logic.dart';
 import 'package:mijnnoodpakket/app.dart';
 import 'package:mijnnoodpakket/core/format.dart';
 import 'package:mijnnoodpakket/core/l10n/strings.dart';
@@ -58,6 +60,7 @@ List<Override> overrides(List<Item> items,
       visibleItemsProvider.overrideWithValue(AsyncValue.data(items)),
       settingsProvider.overrideWith((ref) => Stream.value(settings)),
       planProvider.overrideWith((ref) => Stream.value(const Plan())),
+      sharedPlansProvider.overrideWith((ref) => Stream.value(const <SharedPlan>[])),
       vaultHasDocsProvider.overrideWith((ref) => Stream.value(vault)),
       vaultDocCountProvider.overrideWith((ref) => Stream.value(vault ? 2 : null)),
       dashNowProvider.overrideWithValue(at ?? now),

@@ -1110,4 +1110,127 @@ class S {
   static const legalTerms = 'Gebruiksvoorwaarden';
   static const legalLicenses = 'Open-sourcelicenties';
   static const legalOpensInBrowser = 'Opent in je browser. Dit is de enige keer dat de app internet gebruikt, en alleen als jij tikt.';
+
+  // ---- Delen met een ander toestel (QR) ----
+  static const deelTitle = 'Deel met een ander toestel';
+  static const deelSub = 'Rechtstreeks via wifi, zonder server.';
+  static const scanTitle = 'Scan een noodplan';
+  static const scanSub = 'Neem een plan over van een ander toestel.';
+  static const sharedWithMe = 'Gedeeld met mij';
+  static String sharedFrom(String name) => 'van $name';
+  static const sharedReadOnly = 'Alleen-lezen. Scan opnieuw om het bij te werken.';
+  static String sharedVersionLine(int v, String date) => 'Versie $v, $date';
+  static const sharedRemove = 'Verwijderen';
+  static const sharedRemoveConfirm = 'Dit gedeelde plan van dit toestel verwijderen? Het plan bij de afzender blijft bestaan.';
+  static const sharedUseAsOwn = 'Gebruik als mijn eigen plan';
+  static const sharedUseAsOwnDone = 'Het plan is nu jouw eigen plan. Je kunt het aanpassen.';
+  static const sharedOwnExists = 'Je hebt al een eigen plan. Daarom kan dit plan niet als jouw eigen plan worden gebruikt.';
+  static const sharedCallHint = 'Tik op een nummer om de telefoon-app te openen. Er wordt nooit automatisch gebeld.';
+  static String deelLast(String date, String device, String what) =>
+      'Laatst gedeeld op $date met $device: $what';
+
+  static const deelChooseTitle = 'Wat wil je delen?';
+  static const deelYourName = 'Je naam, zichtbaar voor de ontvanger';
+  static const deelYourNameHint = 'Bijvoorbeeld Anna';
+  static const deelOptPersons = 'Per persoon';
+  static const deelOptContacts = 'Contacten';
+  static const deelOptPlaces = 'Verzamelplekken';
+  static const deelOptAgreements = 'Afspraken';
+  static const deelOptHome = 'Thuis';
+  static const deelOptPhotos = 'Foto\'s bij Thuis meesturen';
+  static const deelOptCare = 'Zorg en medisch';
+  static const deelOptCareSub = 'Staat standaard uit. Deel dit alleen als de ontvanger dit echt nodig heeft.';
+  static const deelDocsTitle = 'Documenten uit de kluis';
+  static const deelDocsNone = 'Geen gekozen';
+  static String deelDocsCount(int n) => n == 1 ? '1 document gekozen' : '$n documenten gekozen';
+  static const deelDocsChoose = 'Kies documenten';
+  static const deelDocsWarn =
+      'Een kopie van een identiteitsbewijs op meer toestellen vergroot het risico. Je kunt dit niet terughalen. Deel alleen met toestemming van de persoon om wie het gaat.';
+  static const deelDocsDone = 'Klaar';
+  static const deelStart = 'Toon QR-code';
+  static const deelNothingChosen = 'Kies eerst iets om te delen.';
+  static const deelLimits = 'Limieten: maximaal 50 documenten, 25 MB per pagina en 150 MB in totaal.';
+  static const deelNoPlanYet = 'Je hebt nog geen noodplan. Je kunt alleen documenten delen.';
+
+  static const deelAuthReason = 'Bevestig dat jij dit bent om je noodplan te delen.';
+  static const deelAuthFailed = 'Bevestigen is niet gelukt. Er is niets gedeeld.';
+  static const deelAuthUnavailable =
+      'Dit toestel heeft geen schermvergrendeling of biometrie ingesteld. Stel die eerst in om te kunnen delen.';
+  static const deelVaultLocked = 'Ontgrendel eerst je kluis om documenten te delen.';
+
+  static const deelQrTitle = 'Scan met het andere toestel';
+  static const deelQrHelp =
+      'Zet beide toestellen op hetzelfde wifi, of zet bij één toestel de hotspot aan en verbind het andere daarmee.';
+  static String deelCountdown(String t) => 'Nog $t';
+  static const deelCancel = 'Annuleren';
+  static const deelNoNetwork =
+      'Geen lokaal netwerk gevonden. Maak verbinding met wifi of zet een hotspot aan en probeer het opnieuw.';
+  static const deelBackgrounded = 'De sessie is gestopt omdat de app naar de achtergrond ging. Begin opnieuw.';
+  static const deelExpired = 'De code is verlopen. Begin opnieuw.';
+  static const deelWaiting = 'Wachten op het andere toestel';
+  static const deelQrLabel = 'QR-code om het andere toestel te laten verbinden';
+
+  static const deelVerifyTitle = 'Komt deze code overeen?';
+  static String deelVerifyBody(String device) =>
+      '$device wil verbinden. Controleer dat dezelfde code op dat toestel staat.';
+  static const deelVerifyBodyReceiver = 'Controleer dat dezelfde code op het andere toestel staat. Wacht tot daar op Toestaan is getikt.';
+  static const deelAllow = 'Toestaan';
+  static const deelDeny = 'Niet toestaan';
+  static const deelSending = 'Versturen';
+  static const deelReceiving = 'Ontvangen';
+  static String deelProgress(String done, String total) => '$done van $total';
+  static const deelDone = 'Klaar. Alles is overgedragen.';
+  static const deelDenied = 'Het andere toestel is niet toegestaan. Er is niets gedeeld.';
+  static const deelAborted = 'De overdracht is gestopt.';
+  static const deelFailedTimeout = 'Verbinden of wachten duurde te lang. Controleer het wifi en probeer opnieuw.';
+  static const deelFailedHandshake = 'Het andere toestel kon niet worden vertrouwd. Er is niets gedeeld. Begin opnieuw.';
+  static const deelFailedBad = 'Er kwamen gegevens binnen die niet kloppen. Er is niets opgeslagen.';
+  static const deelFailedTooLarge = 'Wat werd aangeboden is groter dan toegestaan. Er is niets opgeslagen.';
+  static const deelFailedHash = 'Een bestand kwam beschadigd aan. Dat document is niet opgeslagen.';
+  static const deelFailedUnsupported = 'Dit plan komt uit een nieuwere versie van de app. Werk de app bij en probeer opnieuw.';
+  static const deelFailedClosed = 'De verbinding is verbroken. Er is niets (meer) opgeslagen van het lopende document.';
+
+  static const scanHelpTitle = 'Scan de QR-code';
+  static const scanHelp = 'Richt de camera op de QR-code op het andere toestel.';
+  static const scanInvalid = 'Dit is geen geldige code voor NL-Noodpakket.';
+  static const scanCameraDenied = 'Zonder cameratoestemming kun je geen code scannen. Je kunt dit aanzetten in de instellingen van je toestel.';
+  static const scanConnecting = 'Verbinden';
+  static const scanConnectFail =
+      'Verbinden is niet gelukt. Staan beide toestellen op hetzelfde wifi of dezelfde hotspot? Sommige gastennetwerken laten dit niet toe.';
+
+  static const previewTitle = 'Dit wordt aangeboden';
+  static String previewFrom(String name) => 'Van $name';
+  static String previewPlan(int v, String date) => 'Noodplan, versie $v van $date';
+  static const previewNoPlan = 'Geen noodplan';
+  static const previewSections = 'Onderdelen';
+  static const secPersons = 'Personen';
+  static const secContacts = 'Contacten';
+  static const secPlaces = 'Verzamelplekken';
+  static const secAgreements = 'Afspraken';
+  static const secHome = 'Thuis';
+  static const secCare = 'Zorg en medisch';
+  static const previewDocs = 'Documenten';
+  static const previewPickDocs = 'Kies welke documenten je overneemt. Standaard staat niets aan.';
+  static const previewTake = 'Overnemen';
+  static const previewSaveAs = 'Opslaan als';
+  static const previewSaveShared = 'Gedeeld plan (alleen-lezen)';
+  static const previewSaveOwn = 'Mijn eigen plan';
+  static const previewHaveOwn = 'Je hebt al een eigen plan. Dat blijft ongemoeid; het wordt nooit overschreven of samengevoegd.';
+  static const previewNoVault = 'Om documenten op te slaan moet je eerst je eigen kluis instellen. Zonder kluis worden de documenten overgeslagen.';
+  static const previewVaultLocked = 'Ontgrendel je kluis om documenten te kunnen opslaan.';
+  static const previewSetUpVault = 'Kluis instellen';
+  static const previewUnlockVault = 'Kluis ontgrendelen';
+  static const previewUpToDate = 'Je hebt al de nieuwste versie van dit plan.';
+  static String previewNewVersion(int v, String date) => 'Nieuwe versie $v van $date. Bijwerken?';
+  static String previewChanged(String list) => 'Gewijzigd: $list';
+  static const previewUpdate = 'Bijwerken';
+  static const previewNothingChosen = 'Kies minstens iets om over te nemen.';
+  static String previewDocLine(String type, String size) => '$type, $size';
+  static const previewWarnNoDelete = 'Er wordt niets verwijderd. Documenten die de afzender niet meer heeft, blijven bij jou staan.';
+  static String doneStored(String what) => 'Opgeslagen: $what.';
+  static const whatPlan = 'plan';
+  static String whatPlanDocs(int n) => n == 1 ? 'plan en 1 document' : 'plan en $n documenten';
+  static String whatDocs(int n) => n == 1 ? '1 document' : '$n documenten';
+  static const deelLocalNetworkNote =
+      'Delen gebeurt rechtstreeks tussen twee toestellen op hetzelfde lokale netwerk, zonder server. De QR-code bevat geen gegevens.';
 }

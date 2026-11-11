@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:drift/drift.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../domain/models.dart';
 import '../../features/noodplan/domain/plan_models.dart';
@@ -15,6 +16,15 @@ Future<Directory> _defaultPhotoDir() async {
   final dir = Directory(p.join(docs.path, 'plan_photos'));
   if (!dir.existsSync()) dir.createSync(recursive: true);
   return dir;
+}
+
+const _kPlanId = 'plan_id';
+const _kPlanVersion = 'plan_version';
+
+class PlanIdentity {
+  const PlanIdentity(this.planId, this.version);
+  final String planId;
+  final int version;
 }
 
 /// Opslag van "Mijn noodplan". Alles lokaal; foto's staan als bestand in de
@@ -106,6 +116,27 @@ class PlanRepository {
 
   // ---------------------------------------------------------- schrijven
 
+  /// Stabiele id en oplopende versie van het eigen plan, zodat een ontvanger bij
+  /// delen een nieuwe versie herkent. Staat in de instellingentabel: geen schemawijziging.
+  Future<PlanIdentity> identity() async {
+    final id = await _raw(_kPlanId);
+    final v = int.tryParse(await _raw(_kPlanVersion) ?? '') ?? 0;
+    return PlanIdentity(id ?? '', v);
+  }
+
+  Future<String?> _raw(String key) async =>
+      (await (_db.select(_db.settingRows)..where((r) => r.key.equals(key))).getSingleOrNull())?.value;
+
+  Future<void> _setRaw(String key, String value) => _db
+      .into(_db.settingRows)
+      .insertOnConflictUpdate(SettingRowsCompanion.insert(key: key, value: value));
+
+  Future<void> _bumpVersion() async {
+    if (await _raw(_kPlanId) == null) await _setRaw(_kPlanId, const Uuid().v4());
+    final v = int.tryParse(await _raw(_kPlanVersion) ?? '') ?? 0;
+    await _setRaw(_kPlanVersion, '${v + 1}');
+  }
+
   /// Zorgt dat de metadata-rij bestaat en markeert het plan als gewijzigd.
   Future<void> _touch([PlanMetaCompanion? change]) async {
     final now = _now();
@@ -122,6 +153,7 @@ class PlanRepository {
           documents: change?.documents ?? const Value.absent(),
           skipped: change?.skipped ?? const Value.absent(),
         ));
+    await _bumpVersion();
   }
 
   /// Wijzigt metadata zonder het plan als "gewijzigd" te markeren.

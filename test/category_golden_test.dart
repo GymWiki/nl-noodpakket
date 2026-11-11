@@ -7,6 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:mijnnoodpakket/features/deel/deel_providers.dart';
+import 'package:mijnnoodpakket/features/deel/domain/shared_plan_logic.dart';
 import 'package:mijnnoodpakket/core/l10n/strings.dart';
 import 'package:mijnnoodpakket/core/providers.dart';
 import 'package:mijnnoodpakket/core/theme.dart';
@@ -45,6 +47,7 @@ final List<Override> _overrides = [
   wikiProvider.overrideWith((ref) async => wiki),
   wikiFavoritesProvider.overrideWith((ref) => Stream.value(<String>{})),
   planProvider.overrideWith((ref) => Stream.value(const Plan())),
+  sharedPlansProvider.overrideWith((ref) => Stream.value(const <SharedPlan>[])),
   allItemsProvider.overrideWithValue(const AsyncValue.data(<Item>[])),
   hacksProvider.overrideWith((ref) async => hacks),
   proUnlockedProvider.overrideWithValue(true),

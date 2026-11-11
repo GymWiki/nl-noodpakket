@@ -36,8 +36,10 @@ class ShareOffer {
     this.planVersion = 0,
     this.planUpdatedAt,
     this.planSections = const [],
+    this.planSectionHashes = const {},
     this.docs = const [],
   });
+  final Map<String, String> planSectionHashes;
   final String senderName;
 
   /// Plan als JSON (planbestandsformaat); null als geen plan wordt gedeeld.
@@ -77,8 +79,12 @@ class Manifest {
     required this.planBytes,
     required this.planHash,
     required this.docs,
+    this.planSectionHashes = const {},
   });
   static const schema = 1;
+
+  /// Korte hash per planonderdeel (alleen voor de updatemelding).
+  final Map<String, String> planSectionHashes;
 
   final String senderName, planId, planHash;
   final int planVersion, planBytes;
@@ -98,6 +104,7 @@ class Manifest {
         'planSections': planSections,
         'planBytes': planBytes,
         'planHash': planHash,
+        'planSectionHashes': planSectionHashes,
         'docs': [
           for (final d in docs)
             {
@@ -178,6 +185,11 @@ class Manifest {
       planBytes: planBytes,
       planHash: planBytes == 0 ? '' : hash(j['planHash']),
       docs: docs,
+      planSectionHashes: {
+        if (j['planSectionHashes'] is Map)
+          for (final e in (j['planSectionHashes'] as Map).entries.take(16))
+            if (e.key is String && e.value is String && RegExp(r'^[0-9a-f]{16}$').hasMatch(e.value as String)) e.key as String: e.value as String,
+      },
     );
     if (m.totalBytes > ShareLimits.maxTotalBytes) throw const ShareException(ShareError.tooLarge);
     return m;

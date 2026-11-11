@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import '../../deel/deel_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/l10n/strings.dart';
 import '../domain/plan_links.dart';
-import '../plan_providers.dart';
 
 /// "Jouw afspraken": het deel van het noodplan dat bij dit noodgeval hoort.
 class PlanWikiBlock extends ConsumerWidget {
@@ -15,8 +15,8 @@ class PlanWikiBlock extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final refs = planLinks[emergencyId];
     if (refs == null || refs.isEmpty) return const SizedBox.shrink();
-    final plan = ref.watch(planProvider).value;
-    if (plan == null) return const SizedBox.shrink();
+    final eff = ref.watch(effectivePlanProvider);
+    final plan = eff.plan;
     final t = Theme.of(context);
     final empties = [for (final r in refs) if (r.valueIn(plan).isEmpty) r];
 
@@ -32,6 +32,9 @@ class PlanWikiBlock extends ConsumerWidget {
               child: Text(S.planWikiBlock,
                   style: t.textTheme.titleLarge?.copyWith(color: t.colorScheme.onSecondaryContainer)),
             ),
+            if (eff.isShared)
+              Text(S.sharedFrom(eff.fromName!),
+                  style: t.textTheme.labelLarge?.copyWith(color: t.colorScheme.onSecondaryContainer)),
             const SizedBox(height: 8),
             for (final r in refs)
               Padding(
@@ -48,13 +51,14 @@ class PlanWikiBlock extends ConsumerWidget {
                   ),
                 ]),
               ),
-            FilledButton.tonal(
-              onPressed: () {
-                final target = (empties.isNotEmpty ? empties.first : refs.first).section;
-                context.push('/plan/wizard?s=${target.name}');
-              },
-              child: Text(empties.isNotEmpty ? S.planWikiFill : S.planWikiEdit),
-            ),
+            if (!eff.isShared)
+              FilledButton.tonal(
+                onPressed: () {
+                  final target = (empties.isNotEmpty ? empties.first : refs.first).section;
+                  context.push('/plan/wizard?s=${target.name}');
+                },
+                child: Text(empties.isNotEmpty ? S.planWikiFill : S.planWikiEdit),
+              ),
           ]),
         ),
       ),

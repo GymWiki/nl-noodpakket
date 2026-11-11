@@ -1,4 +1,9 @@
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, TargetPlatform;
+import 'features/deel/ui/scan_screen.dart';
+import 'features/deel/ui/share_docs_screen.dart';
+import 'features/deel/ui/share_qr_screen.dart';
+import 'features/deel/ui/share_setup_screen.dart';
+import 'features/deel/ui/shared_plan_screen.dart';
 import 'package:flutter/material.dart';
 import 'features/expiry/reminder_items.dart';
 import 'features/pro/pro_providers.dart';
@@ -88,6 +93,16 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: 'instellingen',
             builder: (_, _) => const VaultGate(child: VaultSettingsScreen()),
           ),
+        ],
+      ),
+      GoRoute(
+        path: '/delen',
+        builder: (_, _) => const ShareSetupScreen(),
+        routes: [
+          GoRoute(path: 'documenten', builder: (_, _) => const VaultGate(child: ShareDocsScreen())),
+          GoRoute(path: 'qr', builder: (_, st) => ShareQrScreen(launch: st.extra as ShareLaunch?)),
+          GoRoute(path: 'scan', builder: (_, _) => const ScanScreen()),
+          GoRoute(path: 'gedeeld/:id', builder: (_, st) => SharedPlanScreen(planId: st.pathParameters['id']!)),
         ],
       ),
       GoRoute(

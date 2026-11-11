@@ -27,7 +27,9 @@
 	<key>NSContactsUsageDescription</key>
 	<string>NL-Noodpakket gebruikt je contacten alleen als je zelf een contact kiest voor je noodplan. Er wordt niets verstuurd.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Met de camera kun je een foto maken van bijvoorbeeld je meterkast voor je noodplan. De foto blijft op je toestel.</string>
+	<string>Met de camera kun je een QR-code scannen om een noodplan over te nemen, of een foto maken van bijvoorbeeld je meterkast. Foto's blijven op je toestel.</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>NL-Noodpakket maakt rechtstreeks verbinding met een ander toestel op hetzelfde wifi om een noodplan te delen. Er wordt niets via internet verstuurd.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Je kunt een foto kiezen voor je noodplan. De foto blijft op je toestel.</string>
 	<key>LSApplicationQueriesSchemes</key>

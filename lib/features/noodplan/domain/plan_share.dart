@@ -171,11 +171,18 @@ String planToJsonString(
   ShareOptions o, {
   required DateTime now,
   Map<String, String> photos = const {},
+  String? planId,
+  int? version,
+  String? sender,
 }) {
   final map = <String, Object?>{
     'app': planFileApp,
     'schemaVersion': planFileSchemaVersion,
     'exportedAt': now.toIso8601String(),
+    // Alleen bij delen tussen toestellen: zo herkent de ontvanger een nieuwe versie van hetzelfde plan.
+    'planId': ?planId,
+    'version': ?version,
+    'sender': ?sender,
     'householdName': p.householdName,
     if (o.persons)
       'members': [
@@ -240,7 +247,12 @@ class ParsedPlanFile {
     required this.plan,
     required this.photos,
     required this.exportedAt,
+    this.planId = '',
+    this.version = 0,
+    this.sender = '',
   });
+  final String planId, sender;
+  final int version;
   final Plan plan;
   /// sleutel -> base64 (alleen als het bestand foto's bevat)
   final Map<String, String> photos;
@@ -318,6 +330,9 @@ ParsedPlanFile parsePlanFile(String source) {
       plan: plan,
       photos: photos,
       exportedAt: DateTime.tryParse(s(j['exportedAt'])),
+      planId: s(j['planId']),
+      version: j['version'] is int ? j['version'] as int : 0,
+      sender: s(j['sender']),
     );
   } on PlanFileException {
     rethrow;

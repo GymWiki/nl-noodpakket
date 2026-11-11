@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../deel/deel_providers.dart';
 import '../../core/providers.dart';
 import '../../data/repositories/settings_repository.dart';
 import '../../domain/expiry.dart';
@@ -118,9 +119,13 @@ class PlanVaultStatus {
     required this.planTotal,
     required this.planStale,
     required this.vaultHasDocs,
+    this.sharedFrom,
   });
   final bool planStarted, planStale, vaultHasDocs;
   final int planDone, planTotal;
+
+  /// Naam van wie een plan met mij deelde (als ik geen eigen plan heb).
+  final String? sharedFrom;
 }
 
 final planVaultStatusProvider = Provider<PlanVaultStatus>((ref) {
@@ -133,6 +138,7 @@ final planVaultStatusProvider = Provider<PlanVaultStatus>((ref) {
     planTotal: pr.total,
     planStale: pr.isComplete && planIsStale(last, ref.watch(dashNowProvider)),
     vaultHasDocs: ref.watch(vaultHasDocsProvider).value ?? false,
+    sharedFrom: ref.watch(effectivePlanProvider).fromName,
   );
 });
 

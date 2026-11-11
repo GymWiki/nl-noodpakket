@@ -556,7 +556,9 @@ class PlanVaultRow extends ConsumerWidget {
     final t = Theme.of(context);
     final c = t.colorScheme;
     final st = ref.watch(planVaultStatusProvider);
-    final planSub = !st.planStarted
+    final planSub = !st.planStarted && st.sharedFrom != null
+        ? '${S.sharedWithMe}: ${S.sharedFrom(st.sharedFrom!)}'
+        : !st.planStarted
         ? S.dashPlanNone
         : st.planDone < st.planTotal
             ? S.dashPlanPart(st.planDone, st.planTotal)

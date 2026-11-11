@@ -8,6 +8,8 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:mijnnoodpakket/features/deel/deel_providers.dart';
+import 'package:mijnnoodpakket/features/deel/domain/shared_plan_logic.dart';
 import 'package:mijnnoodpakket/core/l10n/strings.dart';
 import 'package:mijnnoodpakket/core/providers.dart';
 import 'package:mijnnoodpakket/data/repositories/plan_repository.dart';
@@ -194,6 +196,7 @@ Future<FakePlanRepo> pumpApp(
   final List<Override> overrides = [
     planRepositoryProvider.overrideWithValue(r),
     planProvider.overrideWith((ref) => r.stream()),
+    sharedPlansProvider.overrideWith((ref) => Stream.value(const <SharedPlan>[])),
     settingsProvider.overrideWith((ref) => Stream.value(settings)),
     wikiProvider.overrideWith((ref) async => wiki),
     wikiFavoritesProvider.overrideWith((ref) => Stream.value(<String>{})),
@@ -350,6 +353,7 @@ void main() {
       await t.pumpWidget(ProviderScope(
         overrides: [
           planProvider.overrideWith((ref) => r.stream()),
+          sharedPlansProvider.overrideWith((ref) => Stream.value(const <SharedPlan>[])),
           settingsProvider.overrideWith((ref) => Stream.value(const AppSettings())),
         ],
         child: const MaterialApp(
@@ -365,6 +369,7 @@ void main() {
       await t.pumpWidget(ProviderScope(
         overrides: [
           planProvider.overrideWith((ref) => r.stream()),
+          sharedPlansProvider.overrideWith((ref) => Stream.value(const <SharedPlan>[])),
           settingsProvider.overrideWith((ref) => Stream.value(const AppSettings())),
         ],
         child: const MaterialApp(home: Scaffold(body: PlanBanner())),
@@ -374,6 +379,7 @@ void main() {
       await t.pumpWidget(ProviderScope(
         overrides: [
           planProvider.overrideWith((ref) => FakePlanRepo().stream()),
+          sharedPlansProvider.overrideWith((ref) => Stream.value(const <SharedPlan>[])),
           settingsProvider.overrideWith(
               (ref) => Stream.value(const AppSettings(planBannerDismissed: true))),
         ],

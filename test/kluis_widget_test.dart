@@ -7,6 +7,8 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:mijnnoodpakket/features/deel/deel_providers.dart';
+import 'package:mijnnoodpakket/features/deel/domain/shared_plan_logic.dart';
 import 'package:mijnnoodpakket/features/pro/pro_providers.dart';
 import 'fake_purchase.dart';
 import 'package:mijnnoodpakket/core/l10n/strings.dart';
@@ -124,6 +126,7 @@ Future<FakeVault> pump(
     proUnlockedProvider.overrideWithValue(pro),
     purchaseServiceProvider.overrideWithValue(FakePurchaseService()),
     planProvider.overrideWith((ref) => Stream.value(const Plan())),
+    sharedPlansProvider.overrideWith((ref) => Stream.value(const <SharedPlan>[])),
     if (setupActive) setupActiveProvider.overrideWith(() => _Active()),
   ];
   await t.pumpWidget(ProviderScope(

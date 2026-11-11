@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../deel/deel_providers.dart';
 import '../../core/theme/category_palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,7 +9,6 @@ import '../../core/l10n/strings.dart';
 import '../../core/theme.dart';
 import '../../core/ui.dart';
 import '../noodhacks/hacks_links.dart';
-import '../noodplan/plan_providers.dart';
 import 'wiki_icons.dart';
 import 'wiki_models.dart';
 import 'wiki_pdf.dart';
@@ -120,7 +120,7 @@ class _WikiOverviewScreenState extends ConsumerState<WikiOverviewScreen> {
             ),
           const SizedBox(height: Gap.m),
           SoftCard(
-            onTap: () => shareMeterkastCard(context, d, plan: ref.read(planProvider).value),
+            onTap: () => shareMeterkastCard(context, d, plan: ref.read(effectivePlanProvider).plan),
             child: Row(children: [
               const IconBadge(Icons.picture_as_pdf_outlined, tint: CategoryTint.blue),
               const SizedBox(width: 14),
