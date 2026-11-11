@@ -277,6 +277,20 @@ Future<String> deviceLabel(SettingsRepository settings) async {
   return Platform.isIOS ? 'iPhone of iPad' : 'Android-toestel';
 }
 
+/// Slaat een ontvangen document op in de eigen kluis: direct versleuteld met de
+/// eigen kluissleutel, nooit leesbaar op schijf. Geen kluislimiet bij ontvangen
+/// (net als bij het terugzetten van een back-up).
+Future<void> storeReceivedDocument(VaultState vault, VaultController ctl, ReceivedDocument d) async {
+  if (!vault.unlocked) throw StateError('kluis vergrendeld');
+  await ctl.addDocument(NewDocument(
+    title: d.meta.title.isEmpty ? 'Document' : d.meta.title,
+    typeId: receiverTypeId(vault.meta, d.meta.typeId),
+    owner: d.meta.owner,
+    expiry: d.meta.expiry,
+    pages: [for (final b in d.pages) NewPage(b)],
+  ));
+}
+
 /// Vindt het kluistype dat bij de ontvanger bestaat; anders "overig".
 String receiverTypeId(VaultMeta meta, String wanted) => meta.typeOf(wanted) != null ? wanted : 'other';
 

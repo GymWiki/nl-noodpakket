@@ -162,16 +162,7 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
   }
 
   Future<void> _storeDocument(ReceivedDocument d) async {
-    final vault = ref.read(vaultProvider);
-    if (!vault.unlocked) throw StateError('kluis vergrendeld');
-    // Direct versleuteld met de eigen kluissleutel; nooit leesbaar op schijf.
-    await ref.read(vaultProvider.notifier).addDocument(NewDocument(
-          title: d.meta.title.isEmpty ? S.vaultTypeOther : d.meta.title,
-          typeId: receiverTypeId(vault.meta, d.meta.typeId),
-          owner: d.meta.owner,
-          expiry: d.meta.expiry,
-          pages: [for (final b in d.pages) NewPage(b)],
-        ));
+    await storeReceivedDocument(ref.read(vaultProvider), ref.read(vaultProvider.notifier), d);
   }
 
   @override

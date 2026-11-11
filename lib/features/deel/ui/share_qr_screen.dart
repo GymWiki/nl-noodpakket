@@ -209,7 +209,7 @@ class _ShareQrScreenState extends ConsumerState<ShareQrScreen> with WidgetsBindi
               child: Container(
                 color: Colors.white, // altijd wit voor de leesbaarheid, ook in donker thema
                 padding: const EdgeInsets.all(16),
-                child: QrImageView(data: _qr, size: 260, backgroundColor: Colors.white, version: QrVersions.auto),
+                child: QrImageView(key: ValueKey('qr:$_qr'), data: _qr, size: 260, backgroundColor: Colors.white, version: QrVersions.auto),
               ),
             ),
           ),

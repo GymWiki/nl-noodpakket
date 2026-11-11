@@ -52,6 +52,7 @@ void main() {
       'lib/features/kluis/ui/vault_share.dart',
       'lib/features/kluis/ui/vault_settings_screen.dart', // back-up, import, export
       'lib/features/kluis/ui/vault_add_screen.dart',
+      'lib/features/deel/', // delen met een ander toestel: nooit achter Pro
       'lib/data/',
       'lib/domain/',
     ];
