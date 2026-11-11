@@ -36,6 +36,13 @@ void main() {
       }
     });
 
+    test('het privacybeleid beschrijft delen via QR rechtstreeks op het lokale netwerk, zonder server', () {
+      final policy = File('docs/privacy.html').readAsStringSync().toLowerCase();
+      for (final w in ['qr-code', 'lokale netwerk', 'zonder server', 'verificatiecode', 'geen</strong> plan- of documentgegevens']) {
+        expect(policy.contains(w), isTrue, reason: w);
+      }
+    });
+
     test('het privacybeleid belooft niets wat de app niet doet: geen analytics-pakketten', () {
       final pubspec = File('pubspec.yaml').readAsStringSync().toLowerCase();
       for (final bad in ['firebase', 'analytics', 'sentry', 'crashlytics', 'admob', 'facebook', 'appsflyer', 'mixpanel']) {

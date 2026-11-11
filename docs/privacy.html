@@ -44,7 +44,8 @@
 <thead><tr><th>Toestemming</th><th>Waarvoor</th><th>Wanneer</th></tr></thead>
 <tbody>
 <tr><td>Meldingen</td><td>Herinneringen op je toestel (bijvoorbeeld controle van je noodplan of een vervangherinnering met Pro). Ze worden lokaal gepland.</td><td>Pas als jij een herinnering aanzet.</td></tr>
-<tr><td>Camera</td><td>Een document scannen of een foto maken voor je noodplan of de kluis.</td><td>Alleen als jij op scannen of fotograferen tikt.</td></tr>
+<tr><td>Camera</td><td>Een document scannen, een foto maken voor je noodplan of de kluis, of een QR-code scannen om een plan over te nemen.</td><td>Alleen als jij op scannen of fotograferen tikt.</td></tr>
+<tr><td>Lokaal netwerk (iPhone)</td><td>Rechtstreeks verbinden met een ander toestel om een plan te delen.</td><td>Alleen als jij deelt of een plan scant.</td></tr>
 <tr><td>Foto's of bestanden</td><td>Een foto of document kiezen voor je noodplan of de kluis, of een back-up terugzetten.</td><td>Alleen als jij iets kiest. De app leest alleen wat je kiest.</td></tr>
 <tr><td>Contacten</td><td>Een contactpersoon uit je adresboek kiezen voor je noodplan.</td><td>Alleen als jij "Kies uit contacten" tikt. Alleen het gekozen contact wordt overgenomen.</td></tr>
 <tr><td>Biometrie (vingerafdruk of gezicht)</td><td>De kluis ontgrendelen. De biometrische gegevens blijven bij het besturingssysteem; de app ontvangt alleen "gelukt" of "mislukt".</td><td>Alleen als jij biometrie voor de kluis aanzet.</td></tr>
@@ -52,27 +53,39 @@
 </table>
 <p>Bel 112 en andere nummers openen alleen de telefoon-app met het nummer ingevuld. De app belt nooit zelf.</p>
 
-<h2>5. Delen en back-ups</h2>
+<h2>5. Delen met een ander toestel (QR-code)</h2>
+<p>Je kunt je noodplan, en als je dat zelf kiest ook documenten uit je kluis, delen met een ander toestel met NL-Noodpakket. Dat gebeurt rechtstreeks tussen de twee toestellen op hetzelfde lokale netwerk (wifi of hotspot), versleuteld, zonder server en zonder internet.</p>
+<ul>
+<li>De QR-code bevat <strong>geen</strong> plan- of documentgegevens. Alleen een kort, eenmalig verbindingsgeheim en het lokale adres van jouw toestel. De code werkt maximaal 2 minuten en één keer.</li>
+<li>Voordat de QR-code verschijnt, vraagt de app opnieuw om je vingerafdruk, gezicht of toestelcode.</li>
+<li>Beide toestellen tonen een verificatiecode. Pas als jij op Toestaan tikt, wordt er iets verstuurd.</li>
+<li>De ontvanger ziet eerst wat er wordt aangeboden en kiest zelf wat wordt overgenomen. Documenten worden direct versleuteld opgeslagen met de kluissleutel van de ontvanger.</li>
+<li>Documenten uit je kluis delen kan alleen als jij ze apart aanvinkt. Een kopie van een identiteitsbewijs op meer toestellen vergroot het risico en is niet terug te halen.</li>
+<li>De app bewaart alleen een regel met de datum, de toestelnaam en wat (bijvoorbeeld &ldquo;plan en 2 documenten&rdquo;), nooit de inhoud. De ontwikkelaar ziet niets hiervan.</li>
+</ul>
+<p>Voor het scannen van de QR-code vraagt de app toegang tot de camera, en op iPhone toestemming voor het lokale netwerk. Beide alleen wanneer je deze functie gebruikt.</p>
+
+<h2>6. Delen en back-ups</h2>
 <p>Je kunt zelf kiezen om je noodplan, een pdf, een kluisdocument of een back-up te delen of te exporteren. Dat gaat via het deelmenu van je besturingssysteem naar de app of persoon die jij kiest. De ontwikkelaar ziet dat niet. Wat jij deelt, valt vanaf dat moment onder het beleid van de ontvanger.</p>
 <p>Een versleutelde kluisback-up (.noodkluis) is beschermd met een wachtwoord dat jij kiest. Dat wachtwoord, je PIN en je herstelcode kunnen niet door de ontwikkelaar worden hersteld. Raak je ze kwijt, dan kunnen de versleutelde gegevens niet worden teruggehaald.</p>
 <p>Het besturingssysteem kan een back-up van app-gegevens maken in de cloud (bijvoorbeeld Google-back-up of iCloud). De app sluit de documentenkluis daarvan uit. Andere gegevens van de app kunnen daar wel in meegenomen worden, afhankelijk van de instellingen van je toestel.</p>
 
-<h2>6. Internetgebruik</h2>
-<p>De app maakt alleen verbinding met internet als jij op een externe link tikt, bijvoorbeeld naar denkvooruit.nl of nl-alert.nl. Die sites worden in je eigen browser geopend en vallen onder het beleid van die sites. De app stuurt daarbij geen gegevens mee.</p>
+<h2>7. Internetgebruik</h2>
+<p>De app maakt alleen verbinding met internet als jij op een externe link tikt, bijvoorbeeld naar denkvooruit.nl of nl-alert.nl. Delen met een ander toestel gebruikt alleen je lokale netwerk, niet internet. Die sites worden in je eigen browser geopend en vallen onder het beleid van die sites. De app stuurt daarbij geen gegevens mee.</p>
 
-<h2>7. Aankoop van Pro</h2>
+<h2>8. Aankoop van Pro</h2>
 <p>Pro is een eenmalige aankoop via Google Play of de App Store. De betaling wordt volledig door die winkel afgehandeld. De ontwikkelaar ziet je betaalgegevens, naam of e-mailadres niet. De app bewaart alleen lokaal dat Pro is ontgrendeld, zodat het ook zonder internet werkt. Voor het herstellen van een aankoop vraagt de app de winkel van je toestel of Pro bij jouw account hoort.</p>
 
-<h2>8. Bewaartermijn en verwijderen</h2>
+<h2>9. Bewaartermijn en verwijderen</h2>
 <p>Gegevens blijven op je toestel tot jij ze verwijdert. Je kunt items en documenten verwijderen, "Alles resetten" gebruiken in Instellingen, of de app verwijderen. Daarmee verdwijnen alle lokale gegevens, behalve exports of back-ups die jij zelf hebt gemaakt en bewaard.</p>
 
-<h2>9. Kinderen</h2>
+<h2>10. Kinderen</h2>
 <p>De app is voor algemeen gebruik en verzamelt geen gegevens, ook niet van kinderen.</p>
 
-<h2>10. Je rechten</h2>
+<h2>11. Je rechten</h2>
 <p>Omdat de ontwikkelaar geen persoonsgegevens van jou heeft, kun je je gegevens zelf inzien, wijzigen, exporteren en verwijderen in de app. Heb je een vraag of klacht over privacy, dan kun je contact opnemen via de GitHub-repository. Je kunt ook een klacht indienen bij de Autoriteit Persoonsgegevens (autoriteitpersoonsgegevens.nl).</p>
 
-<h2>11. Wijzigingen</h2>
+<h2>12. Wijzigingen</h2>
 <p>Wijzigt de app zo dat dit beleid anders wordt, dan verschijnt hier een nieuwe versie met een nieuwe datum. Belangrijke wijzigingen worden ook in de releasenotes van de app genoemd.</p>
 
 <footer>

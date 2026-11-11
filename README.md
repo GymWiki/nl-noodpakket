@@ -285,3 +285,49 @@ Let op: de teksten zijn zorgvuldig opgesteld naar wat de app doet, maar niet jur
 - **Licenties**: Meer, Informatie, Open-sourcelicenties (`showLicensePage`).
 - **Nog open**: het updatepad vanaf de live-app is niet vast te stellen vanuit deze repo; test de update met de oude release. Zie `RELEASE_READINESS.md`.
 
+## Delen met een ander toestel (QR)
+
+Mijn plan, "Deel met een ander toestel" en "Scan een noodplan". Rechtstreeks tussen twee toestellen op hetzelfde lokale netwerk (wifi of hotspot), versleuteld, **zonder server, cloud, account of analytics**. Gratis, nooit achter Pro (`test/pro_protection_test.dart` bewaakt dat `lib/features/deel/` geen Pro-verwijzing bevat).
+
+**Afzender**: kies wat je deelt (documenten standaard niets, zorg standaard uit, foto's apart), daarna **altijd opnieuw biometrie of toestelcode** (`local_auth`, niet gecachet; zonder geslaagde bevestiging bestaat er geen QR-scherm). QR-scherm met FLAG_SECURE / app-switcher-overlay, wakelock, aftelling van 2 minuten en annuleren; naar de achtergrond gaan breekt de sessie af. Zodra een toestel verbindt toont de afzender dezelfde 6-cijferige verificatiecode als de ontvanger en de toestelnaam; pas na "Toestaan" gaat er iets over de lijn.
+
+**Ontvanger**: scannen (`mobile_scanner`, camera pas bij openen van dit scherm), code vergelijken, voorbeeld (van wie, versie en datum, onderdelen, documenten met type en grootte), zelf kiezen. Opslaan als **"Gedeeld plan" (alleen-lezen)** onder Mijn plan; zonder eigen plan ook als **"Mijn eigen plan"** (losgekoppelde kopie). Een eigen plan wordt nooit samengevoegd of overschreven. Een gedeeld plan wordt gebruikt voor de wiki-blokken "Jouw afspraken", de dashboardkaart en de meterkastkaart (met label "van ..." en zonder bewerkknop); telefoonnummers openen alleen de telefoon-app. Bijwerken: hogere versie van hetzelfde `planId` geeft "Nieuwe versie n van ... Bijwerken?" met de gewijzigde secties (via korte hashes per sectie in het manifest); gelijk of lager geeft "al de nieuwste". Er wordt nooit iets verwijderd bij de ontvanger.
+
+### Protocol (`lib/features/deel/protocol/`)
+- **QR-inhoud** (< 120 bytes, geen gegevens): `nlnp1;<ip>;<poort>;<sessie-id 8 bytes>;<geheim 32 bytes>`, base64url. Alleen privé-IPv4-adressen worden als doel geaccepteerd. Past later in een https-URL met `#`-fragment; dat is bewust nog niet gebouwd.
+- **Handshake**: `Noise_NNpsk0_25519_ChaChaPoly_SHA256` (Noise Protocol Framework, revisie 34), zelf samengesteld uit de primitieven van het pakket `cryptography` (X25519, ChaCha20-Poly1305, SHA-256, HMAC); geen eigen primitieven. Het QR-geheim is de PSK (wie het niet heeft kan niet afronden), beide kanten gebruiken verse tijdelijke sleutels (forward secrecy), de sessie-id zit in de prologue. De verificatiecode komt uit de handshake-hash; een tussenpersoon krijgt een andere code. **Let op**: dit is een eigen implementatie van het Noise-patroon en is alleen getest op onderlinge consistentie (twee kanten, verkeerd geheim, verkeerde prologue, geknoeid/herhaald/verwisseld bericht); er zijn geen officiële Noise-testvectoren tegen gelopen. Laat dit zo nodig door een beveiligingsspecialist beoordelen vóór je het breed uitrolt.
+- **Transport**: frames met 4-byte lengtekop (max 64 KiB), elk AEAD-versleuteld met nonce-teller, dus herhaling, herordening en wijziging worden geweigerd. Data in blokken van 32 KiB met SHA-256 per pagina en per plan; ontvanger ontvangt precies wat in het manifest stond.
+- **Server op de afzender**: alleen tijdens het QR-scherm, gebonden aan de gekozen lokale interface (wifi of hotspot; mobiele data en VPN-tunnels worden overgeslagen), willekeurige poort, één verbinding tegelijk en daarna meteen dicht, 2 minuten venster, 10 s handshake-timeout, 30 s inactiviteit. Fout geheim sluit de sessie; mislukte/stille verbindingen tellen mee (max. 3). Sleutels en geheim worden niet opgeslagen en na gebruik gewist.
+- **Onbetrouwbare invoer** (`ShareLimits`): geen compressie (dus geen decompressiebom), manifest max 40 KiB, max 50 documenten, 30 pagina's per document, 25 MB per pagina, 150 MB totaal, plan max 6 MB, tekstvelden max 200 tekens, id's alleen `[A-Za-z0-9_-]`, stuurtekens worden verwijderd, onbekende of nieuwere schemaversie wordt geweigerd, niets wordt geopend of uitgevoerd.
+- **Kluisdocumenten**: de afzender ontsleutelt alleen in het geheugen en leest pas bij het versturen opnieuw; de ontvanger versleutelt direct met de eigen kluissleutel (`addDocument`). Per document pas opslaan na volledige ontvangst en hashcontrole; bij een fout stopt de overdracht en wordt dat document niet opgeslagen. Er is geen kluislimiet bij ontvangen (net als bij een back-up terugzetten). Sleutels, herstelcode en PIN zitten niet in de overdracht. `test/deel_data_test.dart` controleert dat er bij de ontvanger geen leesbare restanten (JPEG-kop of originele bytes) op schijf staan.
+- **Plan-identiteit**: `plan_id` en een oplopende `plan_version` staan in de instellingentabel en worden bij elke planwijziging bijgewerkt (geen schemawijziging nodig); gedeelde plannen staan ook daar (`shared_plans`, `shared_plan:<id>`, max 20).
+
+### Gekozen packages (opgehaald 2026-11-11, pub.dev)
+`qr_flutter 4.1.0` (stabiel, laatst ruim 3 jaar geleden bijgewerkt, geen discontinued-melding), `mobile_scanner 7.5.0` (actief, 10 dagen oud), `local_auth 3.0.2` en `cryptography 2.9.0` (al in gebruik; het pakket adviseert `cryptography_flutter` voor snelheid, niet gebruikt). Het lokale IP komt uit `dart:io` (`NetworkInterface`), geen extra pakket. Wakelock via het bestaande `wakelock_plus`. De iOS-minimumversie van `mobile_scanner` kon ik niet uit de pakketbron lezen; controleer die bij de eerste Mac-build.
+
+### Platformeisen (officiële bronnen, 2026-11-11)
+- **Android**: `INTERNET`, `ACCESS_NETWORK_STATE`, `ACCESS_WIFI_STATE` staan in de manifest; `CAMERA` bestond al (runtime, door `mobile_scanner` bij openen van het scanscherm). Per developer.android.com/privacy-and-security/local-network-permission: Android 16 (API 36) voegt geen standaard runtime-permissie toe; Android 17 (API 37) voert `ACCESS_LOCAL_NETWORK` in, afgedwongen voor apps met **targetSdk 37 of hoger**; voor targetSdk 36 geldt een impliciete toekenning via INTERNET. **Zodra je targetSdk naar 37 verhoogt, moet `ACCESS_LOCAL_NETWORK` worden toegevoegd en getoetst.** Of `network_security_config`/cleartext-regels voor ruwe sockets gelden staat niet op de officiële pagina (die gaat over TLS/HTTP); ruwe sockets gebruiken dat niet, maar het is niet door mij bevestigd. Test op een echt toestel.
+- **iOS**: `NSLocalNetworkUsageDescription` (Nederlands) en een aangepaste `NSCameraUsageDescription` staan in `Info.plist`. Of een directe TCP-verbinding naar een lokaal IP zonder Bonjour de prompt toont en of `NSBonjourServices` nodig is, staat niet op de pagina's die ik kon lezen (TN3179 gaf alleen een titel); met de usage-tekst is het in elk geval correct afgehandeld als de prompt verschijnt. Het privacymanifest hoeft niet te veranderen (geen nieuwe verzamelde data, geen tracking).
+- **Winkelformulieren**: Data safety / App Privacy blijven **"geen gegevens verzameld of gedeeld"** (alles lokaal, geen server). Nieuw in de teksten: camera (ook voor QR) en op iPhone lokaal netwerk; het privacybeleid in `docs/privacy.html` beschrijft het delen.
+
+### Bewust niet in deze versie
+Geen https-link voor de camera-app (App/Universal Links), geen cloud of relay, geen automatische synchronisatie, geen bewerken van gedeelde plannen door de ontvanger, en geen schermhelderheid omhoog bij het QR-scherm (dat vraagt een extra plugin; de QR staat op een witte achtergrond met hoog contrast).
+
+### Handmatige testmatrix (emulators hebben geïsoleerde netwerken; test op echte toestellen)
+| Scenario | Android ↔ Android | Android ↔ iOS | iOS ↔ iOS |
+|---|---|---|---|
+| Gewone wifi | | | |
+| Hotspot van de afzender | | | |
+| Hotspot van de ontvanger | | | |
+| Gastennetwerk (client-isolatie): moet netjes falen met uitleg | | | |
+| VPN aan op een van beide | | | |
+| App naar de achtergrond tijdens overdracht (beide kanten) | | | |
+| Grote kluis (veel en grote documenten, limieten) | | | |
+| Plan alleen, documenten alleen, beide | | | |
+| Nieuwe versie sturen, dezelfde versie, oudere versie | | | |
+| Ontvanger zonder kluis / met vergrendelde kluis | | | |
+| Biometrie geweigerd, geen biometrie ingesteld (toestelcode) | | | |
+| Cameratoestemming geweigerd | | | |
+| Verkeerde of verlopen QR, QR twee keer scannen | | | |
+Controleer ook: er blijft geen leesbaar bestand achter in de app-map van de ontvanger, de QR-pagina is niet te screenshotten (Android) of verdwijnt in de app-switcher (iOS), en er wordt nergens automatisch gebeld.
+

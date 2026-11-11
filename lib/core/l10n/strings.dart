@@ -836,7 +836,8 @@ class S {
   static const infoPrivacyTitle = 'Jouw privacy';
   static const infoPrivacyBody =
       'Alle gegevens blijven op je toestel. De app heeft geen account, geen '
-      'analyse en geen tracking, en werkt volledig offline.';
+      'analyse en geen tracking, en werkt volledig offline. Delen met een ander '
+      'toestel gebeurt rechtstreeks via hetzelfde wifi, zonder server.';
   static const infoDisclaimerTitle = 'Let op';
 
   // Instellingen
