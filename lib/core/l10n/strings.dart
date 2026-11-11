@@ -1052,4 +1052,51 @@ class S {
   static const myPlanTitle = 'Mijn plan';
   static const myPlanSub = 'Afspraken en documenten voor als het nodig is.';
   static const moreMaintSub = 'Rookmelder, powerbank en andere vaste controles';
+
+  // ---- Pro ----
+  static const proName = 'NL-Noodpakket Pro';
+  static const proBadge = 'Pro';
+  static const paywallTitle = 'NL-Noodpakket Pro';
+  static const paywallGetTitle = 'Wat je erbij krijgt';
+  static const paywallGet1 = 'Alle noodhacks: stappenplannen voor als je pakket op is, met "Wat heb ik in huis?"';
+  static const paywallGet2 = 'Automatische herinneringen voor items die aan vervanging toe zijn';
+  static const paywallGet3 = 'Onbeperkt documenten in de kluis';
+  static const paywallFreeTitle = 'Dit blijft altijd gratis';
+  static const paywallFree1 = 'Checklist en houdbaarheidsoverzicht';
+  static const paywallFree2 = 'Alle noodgevallen-stappenplannen';
+  static const paywallFree3 = 'Noodplan, ook delen en back-up';
+  static const paywallFree4 = 'De kluis tot 3 documenten';
+  static const paywallFree5 = 'De gevaarlijke mythes';
+  static String paywallUnlock(String price) => 'Ontgrendel Pro, $price eenmalig';
+  static const paywallUnlockNoPrice = 'Ontgrendel Pro';
+  static const paywallNoSub = 'Geen abonnement. Eén keer betalen, geen account.';
+  static const paywallHelp = 'Pro helpt de ontwikkeling van de app te betalen.';
+  static const paywallRestore = 'Aankoop herstellen';
+  static const paywallNotNow = 'Niet nu';
+  static const paywallPriceLoading = 'De prijs komt uit de winkel van je toestel.';
+  static const proMsgThanks = 'Bedankt! Pro is ontgrendeld.';
+  static const proMsgRestored = 'Je aankoop is hersteld.';
+  static const proMsgNothing = 'Er is geen aankoop gevonden om te herstellen.';
+  static const proMsgCancelled = 'De aankoop is niet doorgegaan. Er is niets afgeschreven.';
+  static const proMsgPending = 'Je betaling wordt nog verwerkt. Pro wordt ontgrendeld zodra die klaar is.';
+  static const proMsgUnavailable = 'De winkel is nu niet bereikbaar. Probeer het later opnieuw.';
+  static const proMsgError = 'Er ging iets mis. Probeer het later opnieuw.';
+  static const proSettingsOn = 'Pro is ontgrendeld. Bedankt!';
+  static const proSettingsOff = 'Je gebruikt de gratis versie.';
+  static const proSettingsSub =
+      'Eenmalige aankoop, geen abonnement. Pro ontgrendelt de noodhacks, herinneringen voor vervanging en onbeperkt documenten in de kluis.';
+  static const proSettingsMore = 'Bekijk wat Pro is';
+
+  static String vaultFreeCounter(int n) => '$n van 3 gratis documenten';
+  static const vaultFreeCounterHint = 'Met Pro kun je er onbeperkt bewaren.';
+
+  static const hackProHint = 'Dit stappenplan hoort bij Pro. Twee proefhacks en alle mythes zijn gratis.';
+  static const hackProOnly = 'Details met Pro';
+
+  static const remindSwitch = 'Herinner mij vóór het verloopt';
+  static const remindSwitchSub = 'Een melding op je toestel voordat dit verloopt of vervangen moet worden.';
+  static const remindProOnly = 'Herinneringen zijn een Pro-functie';
+  static const remindProOnlySub =
+      'Je overzicht en datums blijven werken. Met Pro plannen we de meldingen voor je.';
+  static const dashRemindHint = 'Wil je een herinnering? Dat kan met Pro.';
 }

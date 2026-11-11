@@ -156,6 +156,7 @@ const _kAutoLock = 'kluis_autolock';
 const _kReminderDays = 'kluis_reminder_days';
 const _kHasDocs = 'kluis_has_docs';
 const _kReminders = 'kluis_reminders';
+const _kDocCount = 'kluis_doc_count';
 
 final vaultProvider = NotifierProvider<VaultController, VaultState>(VaultController.new);
 
@@ -164,6 +165,12 @@ final vaultHasDocsProvider = StreamProvider<bool>((ref) => ref
     .watch(settingsRepositoryProvider)
     .watchRaw(_kHasDocs)
     .map((v) => v == 'true'));
+
+/// Aantal documenten in de kluis; null als dat nog niet is vastgelegd.
+final vaultDocCountProvider = StreamProvider<int?>((ref) => ref
+    .watch(settingsRepositoryProvider)
+    .watchRaw(_kDocCount)
+    .map((v) => int.tryParse(v ?? '')));
 
 /// Neutrale herinneringstijden voor verlopende documenten.
 final vaultReminderTimesProvider = StreamProvider<List<DateTime>>((ref) => ref
@@ -447,7 +454,7 @@ class VaultController extends Notifier<VaultState> {
     _session = null;
     await _km.wipe();
     final settings = ref.read(settingsRepositoryProvider);
-    for (final k in [_kHasDocs, _kReminders]) {
+    for (final k in [_kHasDocs, _kReminders, _kDocCount]) {
       await settings.deleteRaw(k);
     }
     await _env!.files.ensure();
@@ -611,6 +618,8 @@ class VaultController extends Notifier<VaultState> {
   Future<void> _syncSideEffects(VaultMeta meta) async {
     final settings = ref.read(settingsRepositoryProvider);
     await settings.setRaw(_kHasDocs, '${meta.documents.isNotEmpty}');
+    // Alleen een aantal (voor "n van 3 gratis" op het dashboard), nooit namen of inhoud.
+    await settings.setRaw(_kDocCount, '${meta.documents.length}');
     final times = expiryReminderTimes(meta.documents, state.reminderDays, DateTime.now());
     await settings.setRaw(_kReminders, jsonEncode([for (final t in times) t.toIso8601String()]));
   }
