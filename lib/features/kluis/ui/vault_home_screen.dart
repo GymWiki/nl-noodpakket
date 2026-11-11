@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../pro/pro_models.dart';
+import '../../pro/pro_providers.dart';
+import '../../pro/pro_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -82,7 +85,12 @@ class _VaultHomeScreenState extends ConsumerState<VaultHomeScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.push('/kluis/toevoegen'),
+        onPressed: () async {
+          // Alleen een nieuw document boven de gratis limiet vraagt Pro; al het andere blijft vrij.
+          final ok = canAddVaultDocument(count: meta.documents.length, pro: ref.read(proUnlockedProvider)) ||
+              await requirePro(context, ref, ProFeature.vaultUnlimited);
+          if (ok && context.mounted) context.push('/kluis/toevoegen');
+        },
         icon: const Icon(Icons.add),
         label: const Text(S.vaultAddDocument),
       ),
@@ -103,6 +111,21 @@ class _VaultHomeScreenState extends ConsumerState<VaultHomeScreen> {
               ]),
             ),
           ),
+          if (!ref.watch(proUnlockedProvider)) ...[
+            const SizedBox(height: 12),
+            Semantics(
+              label: '${S.vaultFreeCounter(meta.documents.length)}. ${S.vaultFreeCounterHint}',
+              excludeSemantics: true,
+              child: Row(children: [
+                Icon(Icons.folder_open_outlined, size: 20, color: t.colorScheme.onSurfaceVariant),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(S.vaultFreeCounter(meta.documents.length),
+                      style: t.textTheme.bodyMedium?.copyWith(color: t.colorScheme.onSurfaceVariant)),
+                ),
+              ]),
+            ),
+          ],
           const SizedBox(height: 12),
           if (meta.documents.isEmpty)
             Padding(
