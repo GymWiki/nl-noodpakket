@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'theme.dart';
+import 'theme/category_palette.dart';
 
 /// Rustig vlak: witte (of donkere) kaart met subtiele rand, optioneel tikbaar.
 class SoftCard extends StatelessWidget {
@@ -42,23 +43,28 @@ class SoftCard extends StatelessWidget {
 
 /// Ronde pictogram-badge in een zachte tint.
 class IconBadge extends StatelessWidget {
-  const IconBadge(this.icon, {super.key, this.size = 44, this.background, this.foreground});
+  const IconBadge(this.icon, {super.key, this.size = 44, this.background, this.foreground, this.tint});
   final IconData icon;
   final double size;
   final Color? background, foreground;
 
+  /// Categoriekleur voor het bolletje; kleur is alleen een extra aanwijzing,
+  /// het icoon en de tekst ernaast blijven de betekenis dragen.
+  final CategoryTint? tint;
+
   @override
   Widget build(BuildContext context) {
     final c = Theme.of(context).colorScheme;
+    final tone = tint?.tone(Theme.of(context).brightness);
     return ExcludeSemantics(
       child: Container(
         width: size,
         height: size,
         decoration: BoxDecoration(
-          color: background ?? c.primaryContainer,
+          color: background ?? tone?.bubble ?? c.primaryContainer,
           shape: BoxShape.circle,
         ),
-        child: Icon(icon, size: size * 0.5, color: foreground ?? c.onPrimaryContainer),
+        child: Icon(icon, size: size * 0.5, color: foreground ?? tone?.icon ?? c.onPrimaryContainer),
       ),
     );
   }
@@ -142,4 +148,23 @@ class PageTitle extends StatelessWidget {
       ]),
     );
   }
+}
+
+/// Dunne accentlijn boven een titel in detailschermen (decoratief, niet voorgelezen).
+class TintAccentLine extends StatelessWidget {
+  const TintAccentLine(this.tint, {super.key});
+  final CategoryTint tint;
+
+  @override
+  Widget build(BuildContext context) => ExcludeSemantics(
+        child: Container(
+          width: 48,
+          height: 4,
+          margin: const EdgeInsets.only(bottom: 12),
+          decoration: BoxDecoration(
+            color: tint.tone(Theme.of(context).brightness).accent,
+            borderRadius: BorderRadius.circular(Radii.pill),
+          ),
+        ),
+      );
 }
