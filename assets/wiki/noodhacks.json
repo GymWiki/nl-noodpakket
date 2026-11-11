@@ -1,0 +1,700 @@
+{
+  "schemaVersion": 1,
+  "language": "nl",
+  "categories": [
+    { "id": "water", "titel": "Water", "icoon": "water" },
+    { "id": "koken", "titel": "Koken", "icoon": "cook" },
+    { "id": "eten", "titel": "Eten bewaren", "icoon": "food" },
+    { "id": "warmte", "titel": "Warmte", "icoon": "warm" },
+    { "id": "hygiene", "titel": "Toilet en hygiëne", "icoon": "hygiene" },
+    { "id": "energie", "titel": "Licht en energie", "icoon": "energy" },
+    { "id": "mythes", "titel": "Gevaarlijke mythes", "icoon": "myth" }
+  ],
+  "materialen": [
+    { "id": "flessen", "label": "Schone flessen of jerrycans", "icoon": "bottle" },
+    { "id": "doek", "label": "Schone doek of koffiefilter", "icoon": "cloth" },
+    { "id": "pan", "label": "Pan met deksel", "icoon": "pot" },
+    { "id": "kookbron", "label": "Campingbrander of barbecue (buiten)", "icoon": "burner" },
+    { "id": "bleek", "label": "Gewone chloorbleek (onparfumeerd)", "icoon": "bleach" },
+    { "id": "tabletten", "label": "Waterzuiveringstabletten", "icoon": "tablet" },
+    { "id": "vriezer", "label": "Vriezer met lege ruimte", "icoon": "freezer" },
+    { "id": "deken", "label": "Dekens of slaapzak", "icoon": "blanket" },
+    { "id": "handgel", "label": "Handgel of natte doekjes", "icoon": "hands" },
+    { "id": "zaklamp", "label": "Zaklamp of hoofdlamp", "icoon": "flashlight" },
+    { "id": "radio", "label": "Radio op batterijen of dynamo", "icoon": "radio" },
+    { "id": "powerbank", "label": "Opgeladen powerbank", "icoon": "powerbank" }
+  ],
+  "hacks": [
+    {
+      "id": "water-vinden",
+      "categorie": "water",
+      "titel": "Water vinden als de kraan droog is",
+      "label": "veilig",
+      "intro": "Zonder kraanwater heb je eerst je voorraad nodig. Daarna zoek je veilige bronnen.",
+      "materialen": ["flessen"],
+      "stappen": [
+        "Controleer de hoofdkraan in de meterkast of kruipruimte.",
+        "Vraag je buren of zij ook geen water hebben.",
+        "Gebruik eerst je drinkwatervoorraad: 3 liter per persoon per dag.",
+        "Duurt het langer dan 24 uur? Haal nooddrinkwater bij een distributiepunt van je gemeente. Neem een eigen schone emmer, fles of jerrycan mee.",
+        "Kook nooddrinkwater eerst 3 minuten. Laat het afkoelen en gebruik het dan.",
+        "Heb je niets anders? Smelt ijs en behandel dat water als ander water uit de omgeving: filter het en kook het."
+      ],
+      "waarschuwingen": [
+        "Drink nooit water uit de radiatoren of de cv-ketel.",
+        "In een flat kan bij stroomstoring de pomp uitvallen. De waterdruk valt dan weg."
+      ],
+      "reden": "",
+      "alternatiefIds": [],
+      "bronnen": [
+        { "naam": "Denk Vooruit: drinkwater", "url": "https://www.denkvooruit.nl/risicos/risicos-in-nederland/drinkwater" },
+        { "naam": "EPA: emergency disinfection of drinking water", "url": "https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water" },
+        { "naam": "CDC: making water safe in an emergency", "url": "https://www.cdc.gov/water-emergency/about/index.html" }
+      ],
+      "bronType": "officieel",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["drinkwater", "kraan", "waterstoring", "nooddrinkwater", "distributiepunt"],
+      "gerelateerdeNoodgevallen": ["uitval-water", "overstroming"],
+      "gerelateerdeChecklistItemIds": ["water"]
+    },
+    {
+      "id": "voorfilteren",
+      "categorie": "water",
+      "titel": "Troebel water voorfilteren",
+      "label": "veilig",
+      "intro": "Helder water is makkelijker te koken of te ontsmetten. Filteren maakt water zelf niet veilig.",
+      "materialen": ["doek"],
+      "stappen": [
+        "Laat troebel water rustig staan, zodat het vuil zakt.",
+        "Giet het heldere water voorzichtig af.",
+        "Giet het door een schone doek, keukenpapier of koffiefilter.",
+        "Kook het gefilterde water daarna 3 minuten, of ontsmet het."
+      ],
+      "waarschuwingen": [
+        "Filteren maakt water niet veilig. Een filter haalt niet alle ziektekiemen weg. Virussen blijven erin."
+      ],
+      "reden": "",
+      "alternatiefIds": [],
+      "bronnen": [
+        { "naam": "CDC: making water safe in an emergency", "url": "https://www.cdc.gov/water-emergency/about/index.html" },
+        { "naam": "EPA: emergency disinfection of drinking water", "url": "https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water" }
+      ],
+      "bronType": "algemeen",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["filter", "troebel", "koffiefilter", "schoonmaken"],
+      "gerelateerdeNoodgevallen": ["uitval-water"],
+      "gerelateerdeChecklistItemIds": ["water"]
+    },
+    {
+      "id": "water-koken",
+      "categorie": "water",
+      "titel": "Water koken",
+      "label": "veilig",
+      "intro": "Koken is de veiligste manier om water te zuiveren van ziektekiemen.",
+      "materialen": ["pan", "kookbron"],
+      "stappen": [
+        "Doe het water in een schone pan met deksel.",
+        "Breng het aan een rollende kook.",
+        "Laat het 3 minuten koken.",
+        "Laat het afkoelen in de afgedekte pan.",
+        "Giet het in schone flessen met een deksel."
+      ],
+      "waarschuwingen": [
+        "Drinkwaterbedrijven in Nederland adviseren 3 minuten koken. Buitenlandse bronnen noemen soms 1 minuut. Houd je aan 3 minuten.",
+        "Gebruik gekookt water uit een pan met deksel binnen 1 dag.",
+        "Gebruik een campingbrander of barbecue alleen buiten.",
+        "Koken haalt geen chemicaliën uit water."
+      ],
+      "reden": "",
+      "alternatiefIds": [],
+      "bronnen": [
+        { "naam": "Vitens: kookadvies drinkwater", "url": "https://www.vitens.nl/storing-en-onderhoud/kookadvies-drinkwater" },
+        { "naam": "Denk Vooruit: drinkwater", "url": "https://www.denkvooruit.nl/risicos/risicos-in-nederland/drinkwater" },
+        { "naam": "CDC: making water safe in an emergency", "url": "https://www.cdc.gov/water-emergency/about/index.html" }
+      ],
+      "bronType": "officieel",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["koken", "kookadvies", "ziektekiemen", "rollende kook"],
+      "gerelateerdeNoodgevallen": ["uitval-water", "overstroming"],
+      "gerelateerdeChecklistItemIds": ["water", "stove"]
+    },
+    {
+      "id": "water-ontsmetten-bleek",
+      "categorie": "water",
+      "titel": "Water ontsmetten met chloorbleek",
+      "label": "letop",
+      "intro": "Gebruik dit alleen als koken niet kan. Koken is veiliger.",
+      "materialen": ["bleek", "flessen"],
+      "stappen": [
+        "Kijk op het etiket van de bleek. Staat er gewone, onparfumeerde chloorbleek met 5% tot 9% natriumhypochloriet? Ga dan verder. Anders gebruik je geen bleek.",
+        "Filter troebel water eerst door een schone doek.",
+        "Doe 2 druppels bleek (ongeveer 0,1 ml) in 1 liter helder water.",
+        "Is het water troebel, gekleurd of ijskoud? Gebruik dan 2 keer zoveel.",
+        "Roer goed en laat het minstens 30 minuten staan.",
+        "Ruikt het water licht naar chloor? Dan is het klaar. Ruikt het niet? Doe nog een keer dezelfde hoeveelheid en wacht 15 minuten."
+      ],
+      "waarschuwingen": [
+        "Gebruik geen geparfumeerde bleek, geen bleek met kleurbescherming en geen bleek met toegevoegde schoonmaakmiddelen.",
+        "Staat er geen percentage op het etiket, of is het lager dan 5%? Gebruik dan geen bleek voor drinkwater.",
+        "Gebruik bleek die minder dan een jaar oud is. Oude bleek werkt minder goed.",
+        "Bleek haalt geen chemicaliën uit water.",
+        "Controleer deze hoeveelheden altijd met het etiket van jouw bleek."
+      ],
+      "reden": "",
+      "alternatiefIds": ["water-koken"],
+      "bronnen": [
+        { "naam": "CDC: making water safe in an emergency", "url": "https://www.cdc.gov/water-emergency/about/index.html" },
+        { "naam": "EPA: emergency disinfection of drinking water", "url": "https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water" }
+      ],
+      "bronType": "algemeen",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["bleek", "chloor", "ontsmetten", "druppels", "chloorbleek"],
+      "gerelateerdeNoodgevallen": ["uitval-water"],
+      "gerelateerdeChecklistItemIds": ["water"]
+    },
+    {
+      "id": "water-tabletten",
+      "categorie": "water",
+      "titel": "Waterzuiveringstabletten gebruiken",
+      "label": "letop",
+      "intro": "Tabletten doden de meeste ziektekiemen, maar niet allemaal. Koken blijft beter.",
+      "materialen": ["tabletten", "flessen"],
+      "stappen": [
+        "Lees de gebruiksaanwijzing op de verpakking.",
+        "Gebruik het aantal tabletten dat hoort bij de hoeveelheid water.",
+        "Wacht zo lang als op de verpakking staat voordat je drinkt."
+      ],
+      "waarschuwingen": [
+        "Chloortabletten werken niet tegen Cryptosporidium, een parasiet. Chloordioxidetabletten wel, als je de instructie precies volgt.",
+        "Koken is beter tegen parasieten.",
+        "Gebruik geen jodiumtabletten bij zwangerschap, schildklierproblemen of overgevoeligheid voor jodium."
+      ],
+      "reden": "",
+      "alternatiefIds": ["water-koken"],
+      "bronnen": [
+        { "naam": "CDC: making water safe in an emergency", "url": "https://www.cdc.gov/water-emergency/about/index.html" },
+        { "naam": "Vitens: kookadvies drinkwater", "url": "https://www.vitens.nl/storing-en-onderhoud/kookadvies-drinkwater" }
+      ],
+      "bronType": "algemeen",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["tabletten", "zuiveren", "jodium", "chloortabletten"],
+      "gerelateerdeNoodgevallen": ["uitval-water"],
+      "gerelateerdeChecklistItemIds": ["water"]
+    },
+    {
+      "id": "water-chemisch",
+      "categorie": "water",
+      "titel": "Water dat mogelijk met chemicaliën vervuild is",
+      "label": "letop",
+      "intro": "Koken en ontsmetten maken dit water niet veilig.",
+      "materialen": [],
+      "stappen": [
+        "Drink het water niet en gebruik het niet om mee te koken.",
+        "Gebruik flessenwater of een andere veilige bron.",
+        "Volg de adviezen van je drinkwaterbedrijf en je gemeente.",
+        "Neem contact op met je GGD als je klachten hebt."
+      ],
+      "waarschuwingen": [
+        "Ruikt het water naar brandstof of chemicaliën? Gebruik het dan niet."
+      ],
+      "reden": "",
+      "alternatiefIds": [],
+      "bronnen": [
+        { "naam": "CDC: making water safe in an emergency", "url": "https://www.cdc.gov/water-emergency/about/index.html" },
+        { "naam": "EPA: emergency disinfection of drinking water", "url": "https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water" }
+      ],
+      "bronType": "algemeen",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["chemisch", "vervuild", "gif", "niet drinken"],
+      "gerelateerdeNoodgevallen": ["uitval-water", "overstroming"],
+      "gerelateerdeChecklistItemIds": []
+    },
+    {
+      "id": "water-opslag",
+      "categorie": "water",
+      "titel": "Water bewaren en hoeveel je nodig hebt",
+      "label": "veilig",
+      "intro": "Zorg dat je minimaal 3 dagen water hebt.",
+      "materialen": ["flessen"],
+      "stappen": [
+        "Reken op 3 liter water per persoon per dag, voor minimaal 3 dagen.",
+        "Reken 2 liter om te drinken en 1 liter om eten mee te bereiden.",
+        "Bewaar het water in schone flessen of jerrycans met een deksel.",
+        "Ververs je water elk half jaar.",
+        "Reken voor huisdieren op 50 ml per kilo lichaamsgewicht per dag."
+      ],
+      "waarschuwingen": [],
+      "reden": "",
+      "alternatiefIds": [],
+      "bronnen": [
+        { "naam": "Denk Vooruit: drinkwater", "url": "https://www.denkvooruit.nl/risicos/risicos-in-nederland/drinkwater" },
+        { "naam": "Denk Vooruit: stel je noodpakket samen", "url": "https://www.denkvooruit.nl/bereid-je-voor/stel-je-noodpakket-samen" },
+        { "naam": "Waternet: water in uw noodpakket", "url": "https://www.waternet.nl/service-en-contact/problemen-met-water/denk-vooruit/" }
+      ],
+      "bronType": "officieel",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["voorraad", "3 liter", "opslag", "jerrycan", "huisdier"],
+      "gerelateerdeNoodgevallen": ["uitval-water"],
+      "gerelateerdeChecklistItemIds": ["water"]
+    },
+    {
+      "id": "eten-zonder-koken",
+      "categorie": "koken",
+      "titel": "Eten zonder te koken",
+      "label": "veilig",
+      "intro": "Zonder gas of stroom kies je eerst eten dat je niet hoeft te verwarmen.",
+      "materialen": [],
+      "stappen": [
+        "Kies eerst eten dat je niet hoeft te verwarmen, zoals wraps, knäckebröd en koude groente uit blik.",
+        "Eet eerst wat in de koelkast zit en daarna wat in de vriezer zit.",
+        "Eet daarna je voorraad uit pot, blik of kast."
+      ],
+      "waarschuwingen": [
+        "Eet geen blik dat bol staat, of waarvan de inhoud verkleurd, beschimmeld of troebel is."
+      ],
+      "reden": "",
+      "alternatiefIds": [],
+      "bronnen": [
+        { "naam": "Voedingscentrum: noodpakket met eten en drinken", "url": "https://www.voedingscentrum.nl/nl/service/vraag-en-antwoord/boodschappen-doen/moet-ik-een-noodpakket-met-eten-en-drinken-in-huis-hebben.aspx" }
+      ],
+      "bronType": "officieel",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["koud eten", "geen gas", "blik", "wraps", "voorraad"],
+      "gerelateerdeNoodgevallen": ["stroomstoring", "uitval-verwarming"],
+      "gerelateerdeChecklistItemIds": ["food", "snacks", "can_opener"]
+    },
+    {
+      "id": "buiten-koken",
+      "categorie": "koken",
+      "titel": "Koken met een campingbrander of barbecue",
+      "label": "letop",
+      "intro": "Dit mag alleen buiten. Binnen is het levensgevaarlijk.",
+      "materialen": ["kookbron", "pan"],
+      "stappen": [
+        "Gebruik een campinggaspit of barbecue alleen buiten.",
+        "Zet een barbecue niet op een balkon.",
+        "Zorg dat in huis altijd een rooster of raam op een kier staat."
+      ],
+      "waarschuwingen": [
+        "Een barbecue binnen is levensgevaarlijk. Er komt koolmonoxide vrij.",
+        "Heb je een CO-melder? Houd hem in de buurt van je kooktoestel."
+      ],
+      "reden": "",
+      "alternatiefIds": ["eten-zonder-koken"],
+      "bronnen": [
+        { "naam": "Voedingscentrum: noodpakket met eten en drinken", "url": "https://www.voedingscentrum.nl/nl/service/vraag-en-antwoord/boodschappen-doen/moet-ik-een-noodpakket-met-eten-en-drinken-in-huis-hebben.aspx" },
+        { "naam": "Brandweer: barbecueën", "url": "https://www.brandweer.nl/onderwerpen/barbecueen/" },
+        { "naam": "Brandweer: koolmonoxide", "url": "https://www.brandweer.nl/onderwerpen/koolmonoxide/" }
+      ],
+      "bronType": "officieel",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["campingstoof", "barbecue", "gasstel", "buiten koken", "koolmonoxide"],
+      "gerelateerdeNoodgevallen": ["stroomstoring", "uitval-verwarming"],
+      "gerelateerdeChecklistItemIds": ["stove"]
+    },
+    {
+      "id": "koelkast-stroomuitval",
+      "categorie": "eten",
+      "titel": "Eten in koelkast en vriezer bij stroomuitval",
+      "label": "letop",
+      "intro": "Houd de deuren dicht en eet in de juiste volgorde.",
+      "materialen": [],
+      "stappen": [
+        "Houd de deuren van koelkast en vriezer dicht.",
+        "Tot ongeveer 4 uur zonder stroom is er weinig aan de hand.",
+        "Eet eerst wat in de koelkast zit, dan wat in de vriezer zit, en daarna je voorraad.",
+        "Is de koelkast warmer dan 7 °C? Eet kwetsbare producten binnen 4 uur of verhit ze goed. Denk aan rauw vlees en vis, vleeswaren, zachte kaas, restjes, bereide maaltijden en gesneden groente en fruit.",
+        "Is de koelkast warmer dan 10 °C? Gooi kwetsbare producten weg."
+      ],
+      "waarschuwingen": [
+        "Een gesloten koelkast houdt eten ongeveer 4 uur koel. Een volle vriezer blijft ongeveer 48 uur koud, een halfvolle ongeveer 24 uur. Dit zijn schattingen.",
+        "Weet je niet hoe lang het eten te warm was? Gooi het dan weg.",
+        "Laat snel bederfelijk eten, zoals melk, vlees en vis, nooit langer dan 2 uur buiten de koelkast staan."
+      ],
+      "reden": "",
+      "alternatiefIds": [],
+      "bronnen": [
+        { "naam": "Voedingscentrum: koelkast of vriezer bij een stroomstoring", "url": "https://www.voedingscentrum.nl/nl/service/vraag-en-antwoord/veilig-eten/wat-moet-ik-doen-met-mijn-eten-in-de-koelkast-of-vriezer-bij-een-stroomstoring.aspx" },
+        { "naam": "Voedingscentrum: noodpakket met eten en drinken", "url": "https://www.voedingscentrum.nl/nl/service/vraag-en-antwoord/boodschappen-doen/moet-ik-een-noodpakket-met-eten-en-drinken-in-huis-hebben.aspx" },
+        { "naam": "Voedingscentrum: veilig bewaren", "url": "https://www.voedingscentrum.nl/nl/veilig-eten-voedselinfectie-voorkomen/veilig-bewaren.aspx" }
+      ],
+      "bronType": "officieel",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["koelkast", "vriezer", "stroomstoring", "bederven", "weggooien", "ontdooid"],
+      "gerelateerdeNoodgevallen": ["stroomstoring"],
+      "gerelateerdeChecklistItemIds": ["food"]
+    },
+    {
+      "id": "vriezer-ontdooid",
+      "categorie": "eten",
+      "titel": "Wat kun je met ontdooid eten uit de vriezer?",
+      "label": "letop",
+      "intro": "Kijk of het eten nog hard is. Dat bepaalt wat je ermee mag doen.",
+      "materialen": [],
+      "stappen": [
+        "Is het eten nog hard en zitten er ijskristallen in? Dan kun je het meestal weer invriezen of bereiden. De kwaliteit kan minder worden.",
+        "Is de buitenkant zacht? Vries het dan niet opnieuw in. Zet het in de koelkast en eet het dezelfde dag.",
+        "Is het echt zacht en ontdooid? Gooi vlees en vis weg. Eet ander eten zo snel mogelijk, liefst dezelfde dag.",
+        "Verhit diepvriesgroente voordat je het eet."
+      ],
+      "waarschuwingen": [
+        "Twijfel je? Gooi het dan weg."
+      ],
+      "reden": "",
+      "alternatiefIds": [],
+      "bronnen": [
+        { "naam": "Voedingscentrum: koelkast of vriezer bij een stroomstoring", "url": "https://www.voedingscentrum.nl/nl/service/vraag-en-antwoord/veilig-eten/wat-moet-ik-doen-met-mijn-eten-in-de-koelkast-of-vriezer-bij-een-stroomstoring.aspx" },
+        { "naam": "Voedingscentrum: noodpakket met eten en drinken", "url": "https://www.voedingscentrum.nl/nl/service/vraag-en-antwoord/boodschappen-doen/moet-ik-een-noodpakket-met-eten-en-drinken-in-huis-hebben.aspx" }
+      ],
+      "bronType": "officieel",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["ontdooid", "opnieuw invriezen", "vlees", "vis", "vriezer"],
+      "gerelateerdeNoodgevallen": ["stroomstoring"],
+      "gerelateerdeChecklistItemIds": ["food"]
+    },
+    {
+      "id": "vriezer-flessen",
+      "categorie": "eten",
+      "titel": "Flessen water in de vriezer",
+      "label": "veilig",
+      "intro": "Zo blijft een vriezer langer koud als de stroom uitvalt. Doe dit al vóór een storing.",
+      "materialen": ["flessen", "vriezer"],
+      "stappen": [
+        "Vul lege ruimte in een volle vriezer met flessen water.",
+        "Laat ruimte in de fles, want water zet uit als het bevriest.",
+        "Gebruik geen glazen flessen."
+      ],
+      "waarschuwingen": [],
+      "reden": "",
+      "alternatiefIds": [],
+      "bronnen": [
+        { "naam": "Voedingscentrum: noodpakket met eten en drinken", "url": "https://www.voedingscentrum.nl/nl/service/vraag-en-antwoord/boodschappen-doen/moet-ik-een-noodpakket-met-eten-en-drinken-in-huis-hebben.aspx" }
+      ],
+      "bronType": "officieel",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["vriezer", "koud houden", "flessen", "koeling"],
+      "gerelateerdeNoodgevallen": ["stroomstoring"],
+      "gerelateerdeChecklistItemIds": ["water"]
+    },
+    {
+      "id": "warm-kamer",
+      "categorie": "warmte",
+      "titel": "Warm blijven in een koud huis",
+      "label": "veilig",
+      "intro": "Zonder verwarming koelt een huis snel af. Maak het klein.",
+      "materialen": ["deken"],
+      "stappen": [
+        "Houd ramen en deuren gesloten, zodat de warmte binnenblijft.",
+        "Verwarm en bewoon vooral de kleinste ruimten van je huis.",
+        "Gebruik de dekens uit je noodpakket."
+      ],
+      "waarschuwingen": [
+        "Gebruik een barbecue of campingkooktoestel nooit binnen om te verwarmen. Dat is levensgevaarlijk."
+      ],
+      "reden": "",
+      "alternatiefIds": [],
+      "bronnen": [
+        { "naam": "Denk Vooruit: geen stroom", "url": "https://www.denkvooruit.nl/risicos/risicos-in-nederland/geen-stroom" },
+        { "naam": "Rijksoverheid: wat zit er in een noodpakket?", "url": "https://www.rijksoverheid.nl/documenten/vraag-en-antwoord/veiligheidsregios-en-crisisbeheersing/wat-zit-er-in-een-noodpakket" },
+        { "naam": "Brandweer: barbecueën", "url": "https://www.brandweer.nl/onderwerpen/barbecueen/" }
+      ],
+      "bronType": "officieel",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["kou", "verwarming", "dekens", "warm", "kleine kamer"],
+      "gerelateerdeNoodgevallen": ["stroomstoring", "uitval-verwarming", "kou-gladheid"],
+      "gerelateerdeChecklistItemIds": ["blankets", "warm_clothes"]
+    },
+    {
+      "id": "handen-schoon",
+      "categorie": "hygiene",
+      "titel": "Handen en lichaam schoonhouden zonder veel water",
+      "label": "veilig",
+      "intro": "Schone handen voorkomen ziekte, ook als water schaars is.",
+      "materialen": ["handgel"],
+      "stappen": [
+        "Gebruik desinfecterende gel of natte doekjes uit je noodpakket.",
+        "Heb je kraanwater en geldt er alleen een kookadvies? Dan mag je je handen wassen en douchen met kraanwater.",
+        "Was je handen vaak en goed met water en zeep, ongeveer 20 seconden."
+      ],
+      "waarschuwingen": [],
+      "reden": "",
+      "alternatiefIds": [],
+      "bronnen": [
+        { "naam": "Denk Vooruit: stel je noodpakket samen", "url": "https://www.denkvooruit.nl/bereid-je-voor/stel-je-noodpakket-samen" },
+        { "naam": "Vitens: kookadvies drinkwater", "url": "https://www.vitens.nl/storing-en-onderhoud/kookadvies-drinkwater" },
+        { "naam": "RIVM: hygiëne", "url": "https://www.rivm.nl/hygiene" }
+      ],
+      "bronType": "officieel",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["handen wassen", "hygiëne", "gel", "doekjes", "zeep"],
+      "gerelateerdeNoodgevallen": ["uitval-water"],
+      "gerelateerdeChecklistItemIds": ["wipes", "soap"]
+    },
+    {
+      "id": "licht-zonder-stroom",
+      "categorie": "energie",
+      "titel": "Licht zonder stroom",
+      "label": "veilig",
+      "intro": "Zorg voor licht dat je makkelijk kunt gebruiken in het donker.",
+      "materialen": ["zaklamp"],
+      "stappen": [
+        "Gebruik een zaklamp of hoofdlamp met extra batterijen.",
+        "Gebruik bij voorkeur LED-kaarsen als je kaarsen wilt gebruiken."
+      ],
+      "waarschuwingen": [],
+      "reden": "",
+      "alternatiefIds": [],
+      "bronnen": [
+        { "naam": "Denk Vooruit: stel je noodpakket samen", "url": "https://www.denkvooruit.nl/bereid-je-voor/stel-je-noodpakket-samen" },
+        { "naam": "Brandweer: veilige warme winter", "url": "https://www.brandweer.nl/onderwerpen/veilige-warme-winter/" }
+      ],
+      "bronType": "officieel",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["licht", "zaklamp", "kaarsen", "donker", "led"],
+      "gerelateerdeNoodgevallen": ["stroomstoring"],
+      "gerelateerdeChecklistItemIds": ["flashlight", "headlamp", "candles", "lighter"]
+    },
+    {
+      "id": "radio-informatie",
+      "categorie": "energie",
+      "titel": "Informatie krijgen zonder internet",
+      "label": "veilig",
+      "intro": "Bij een storing blijft de regionale omroep vaak op de radio te beluisteren.",
+      "materialen": ["radio"],
+      "stappen": [
+        "Gebruik een radio op batterijen, zonne-energie of met een dynamo.",
+        "Kies een radio die FM en/of DAB ontvangt.",
+        "Een DAB-radio ontvangt de regionale omroep automatisch.",
+        "Luister naar de regionale publieke omroep voor informatie."
+      ],
+      "waarschuwingen": [],
+      "reden": "",
+      "alternatiefIds": [],
+      "bronnen": [
+        { "naam": "Denk Vooruit: radio", "url": "https://www.denkvooruit.nl/bereid-je-voor/zo-krijg-je-een-waarschuwing/radio" }
+      ],
+      "bronType": "officieel",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["radio", "nieuws", "regionale omroep", "dab", "informatie"],
+      "gerelateerdeNoodgevallen": ["stroomstoring", "uitval-telecom"],
+      "gerelateerdeChecklistItemIds": ["radio", "batteries"]
+    },
+    {
+      "id": "powerbank",
+      "categorie": "energie",
+      "titel": "Je telefoon opgeladen houden",
+      "label": "veilig",
+      "intro": "Een opgeladen powerbank houdt je telefoon bruikbaar zonder stopcontact.",
+      "materialen": ["powerbank"],
+      "stappen": [
+        "Laad je powerbank op voordat je hem nodig hebt.",
+        "Gebruik hem om je telefoon op te laden.",
+        "Bewaar een oplaadkabel bij je noodpakket."
+      ],
+      "waarschuwingen": [],
+      "reden": "",
+      "alternatiefIds": [],
+      "bronnen": [
+        { "naam": "Denk Vooruit: geen stroom", "url": "https://www.denkvooruit.nl/risicos/risicos-in-nederland/geen-stroom" },
+        { "naam": "Rijksoverheid: wat zit er in een noodpakket?", "url": "https://www.rijksoverheid.nl/documenten/vraag-en-antwoord/veiligheidsregios-en-crisisbeheersing/wat-zit-er-in-een-noodpakket" }
+      ],
+      "bronType": "officieel",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["powerbank", "telefoon opladen", "batterij", "oplader"],
+      "gerelateerdeNoodgevallen": ["stroomstoring", "uitval-telecom"],
+      "gerelateerdeChecklistItemIds": ["powerbank", "cables"]
+    },
+    {
+      "id": "mythe-barbecue-binnen",
+      "categorie": "mythes",
+      "titel": "Binnen koken of verwarmen met een barbecue of campingstoof",
+      "label": "nooit",
+      "intro": "Dit klinkt handig als er geen gas of stroom is, maar het kan dodelijk zijn.",
+      "materialen": [],
+      "stappen": [
+        "Kook alleen buiten met een campingbrander of barbecue.",
+        "Houd in huis een rooster of raam op een kier.",
+        "Verwarm met dekens en een kleine ruimte."
+      ],
+      "waarschuwingen": [
+        "Hoofdpijn, misselijkheid, vermoeidheid of verwarring kunnen wijzen op koolmonoxide. Ga direct naar buiten en bel 112."
+      ],
+      "reden": "Een barbecue of campingstoof binnen geeft koolmonoxide af. Je kunt dat gas niet ruiken of zien. Het kan dodelijk zijn. De brandweer noemt een barbecue binnen levensgevaarlijk. Elk jaar overlijden in Nederland gemiddeld 5 tot 10 mensen aan koolmonoxidevergiftiging.",
+      "alternatiefIds": ["buiten-koken", "warm-kamer"],
+      "bronnen": [
+        { "naam": "Brandweer: barbecueën", "url": "https://www.brandweer.nl/onderwerpen/barbecueen/" },
+        { "naam": "Brandweer: koolmonoxide", "url": "https://www.brandweer.nl/onderwerpen/koolmonoxide/" },
+        { "naam": "Voedingscentrum: noodpakket met eten en drinken", "url": "https://www.voedingscentrum.nl/nl/service/vraag-en-antwoord/boodschappen-doen/moet-ik-een-noodpakket-met-eten-en-drinken-in-huis-hebben.aspx" }
+      ],
+      "bronType": "officieel",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["barbecue", "campingstoof", "koolmonoxide", "co", "verwarmen", "binnen"],
+      "gerelateerdeNoodgevallen": ["stroomstoring", "uitval-verwarming", "co-vergiftiging"],
+      "gerelateerdeChecklistItemIds": ["stove"]
+    },
+    {
+      "id": "mythe-cv-water",
+      "categorie": "mythes",
+      "titel": "Water uit de cv-ketel of radiator drinken",
+      "label": "nooit",
+      "intro": "Dit water lijkt schoon, maar is dat niet.",
+      "materialen": [],
+      "stappen": [
+        "Gebruik je drinkwatervoorraad.",
+        "Haal nooddrinkwater bij een distributiepunt als het langer dan 24 uur duurt."
+      ],
+      "waarschuwingen": [],
+      "reden": "Water uit radiatoren en de cv-ketel is niet veilig om te drinken, te koken of je mee te wassen.",
+      "alternatiefIds": ["water-vinden"],
+      "bronnen": [
+        { "naam": "CDC: making water safe in an emergency", "url": "https://www.cdc.gov/water-emergency/about/index.html" }
+      ],
+      "bronType": "algemeen",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["cv-water", "radiator", "cv-ketel", "drinken"],
+      "gerelateerdeNoodgevallen": ["uitval-water"],
+      "gerelateerdeChecklistItemIds": ["water"]
+    },
+    {
+      "id": "mythe-chemisch-koken",
+      "categorie": "mythes",
+      "titel": "Chemisch vervuild water veilig maken door koken of bleek",
+      "label": "nooit",
+      "intro": "Koken en bleek werken tegen ziektekiemen, niet tegen chemicaliën.",
+      "materialen": [],
+      "stappen": [
+        "Drink het water niet.",
+        "Gebruik flessenwater of een andere veilige bron.",
+        "Volg de adviezen van je drinkwaterbedrijf en je gemeente."
+      ],
+      "waarschuwingen": [],
+      "reden": "Koken en ontsmetten halen geen brandstof, giftige stoffen of zware metalen uit water. Het water kan er zelfs gevaarlijker door worden.",
+      "alternatiefIds": ["water-chemisch"],
+      "bronnen": [
+        { "naam": "CDC: making water safe in an emergency", "url": "https://www.cdc.gov/water-emergency/about/index.html" },
+        { "naam": "EPA: emergency disinfection of drinking water", "url": "https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water" }
+      ],
+      "bronType": "algemeen",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["chemisch", "koken", "bleek", "vervuild water"],
+      "gerelateerdeNoodgevallen": ["uitval-water", "overstroming"],
+      "gerelateerdeChecklistItemIds": []
+    },
+    {
+      "id": "mythe-filter-zonder-koken",
+      "categorie": "mythes",
+      "titel": "Gefilterd water zonder koken drinken",
+      "label": "nooit",
+      "intro": "Helder water is niet hetzelfde als veilig water.",
+      "materialen": [],
+      "stappen": [
+        "Filter troebel water voor.",
+        "Kook het daarna 3 minuten, of ontsmet het."
+      ],
+      "waarschuwingen": [],
+      "reden": "Een filter haalt niet alle ziektekiemen uit water. Virussen gaan er niet uit. Helder water kan dus nog steeds je ziek maken.",
+      "alternatiefIds": ["voorfilteren", "water-koken"],
+      "bronnen": [
+        { "naam": "CDC: making water safe in an emergency", "url": "https://www.cdc.gov/water-emergency/about/index.html" }
+      ],
+      "bronType": "algemeen",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["filter", "helder water", "koffiefilter", "drinken"],
+      "gerelateerdeNoodgevallen": ["uitval-water"],
+      "gerelateerdeChecklistItemIds": ["water"]
+    },
+    {
+      "id": "mythe-bleek-toevoegingen",
+      "categorie": "mythes",
+      "titel": "Geparfumeerde bleek of bleek met toevoegingen gebruiken voor drinkwater",
+      "label": "nooit",
+      "intro": "Niet elke bleek is geschikt om water mee te ontsmetten.",
+      "materialen": [],
+      "stappen": [
+        "Kook het water liever 3 minuten.",
+        "Gebruik bleek alleen als koken niet kan, en dan alleen gewone, onparfumeerde chloorbleek."
+      ],
+      "waarschuwingen": [],
+      "reden": "Geparfumeerde bleek, bleek met kleurbescherming en bleek met toegevoegde schoonmaakmiddelen is niet geschikt om drinkwater mee te ontsmetten.",
+      "alternatiefIds": ["water-koken", "water-ontsmetten-bleek"],
+      "bronnen": [
+        { "naam": "EPA: emergency disinfection of drinking water", "url": "https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water" }
+      ],
+      "bronType": "algemeen",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["bleek", "geparfumeerd", "schoonmaakmiddel", "ontsmetten"],
+      "gerelateerdeNoodgevallen": ["uitval-water"],
+      "gerelateerdeChecklistItemIds": []
+    },
+    {
+      "id": "mythe-opnieuw-invriezen",
+      "categorie": "mythes",
+      "titel": "Zacht ontdooid eten opnieuw invriezen",
+      "label": "nooit",
+      "intro": "Eten dat al zacht is geworden, is niet meer veilig om weer in te vriezen.",
+      "materialen": [],
+      "stappen": [
+        "Zet zacht ontdooid eten in de koelkast en eet het dezelfde dag.",
+        "Gooi ontdooid vlees en vis weg als het echt zacht is."
+      ],
+      "waarschuwingen": [],
+      "reden": "Eten dat zacht is ontdooid, mag je volgens het Voedingscentrum niet opnieuw invriezen. Alleen eten dat nog hard is met ijskristallen kan weer in de vriezer.",
+      "alternatiefIds": ["vriezer-ontdooid"],
+      "bronnen": [
+        { "naam": "Voedingscentrum: koelkast of vriezer bij een stroomstoring", "url": "https://www.voedingscentrum.nl/nl/service/vraag-en-antwoord/veilig-eten/wat-moet-ik-doen-met-mijn-eten-in-de-koelkast-of-vriezer-bij-een-stroomstoring.aspx" }
+      ],
+      "bronType": "officieel",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["invriezen", "ontdooid", "vlees", "vriezer"],
+      "gerelateerdeNoodgevallen": ["stroomstoring"],
+      "gerelateerdeChecklistItemIds": ["food"]
+    },
+    {
+      "id": "mythe-ruiktest",
+      "categorie": "mythes",
+      "titel": "Eten beoordelen op geur of smaak",
+      "label": "nooit",
+      "intro": "Eten dat goed ruikt, kan toch je ziek maken.",
+      "materialen": [],
+      "stappen": [
+        "Let op de bewaartijd en de temperatuur, niet alleen op geur.",
+        "Weet je niet hoe lang het eten te warm was? Gooi het weg."
+      ],
+      "waarschuwingen": [],
+      "reden": "Bacteriën, virussen en parasieten die je ziek maken, kun je niet ruiken of proeven. Bij twijfel is weggooien de veiligste keuze.",
+      "alternatiefIds": ["koelkast-stroomuitval"],
+      "bronnen": [
+        { "naam": "Voedingscentrum: voedselinfectie voorkomen", "url": "https://www.voedingscentrum.nl/nl/veilig-eten-voedselinfectie-voorkomen.aspx" },
+        { "naam": "Voedingscentrum: koelkast of vriezer bij een stroomstoring", "url": "https://www.voedingscentrum.nl/nl/service/vraag-en-antwoord/veilig-eten/wat-moet-ik-doen-met-mijn-eten-in-de-koelkast-of-vriezer-bij-een-stroomstoring.aspx" }
+      ],
+      "bronType": "officieel",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["ruiken", "proeven", "bederf", "ziek", "eten"],
+      "gerelateerdeNoodgevallen": ["stroomstoring"],
+      "gerelateerdeChecklistItemIds": ["food"]
+    },
+    {
+      "id": "mythe-twee-uur",
+      "categorie": "mythes",
+      "titel": "Snel bederfelijk eten langer dan 2 uur buiten de koelkast laten staan",
+      "label": "nooit",
+      "intro": "Bij stroomuitval telt elke tijd buiten de koeling.",
+      "materialen": [],
+      "stappen": [
+        "Zet bederfelijk eten binnen 2 uur terug in de koeling, of gooi het weg.",
+        "Houd de deuren van koelkast en vriezer dicht."
+      ],
+      "waarschuwingen": [],
+      "reden": "Eten dat snel bederft, zoals melk, vlees en vis, mag nooit langer dan 2 uur buiten de koelkast staan. Dit geldt ook voor restjes.",
+      "alternatiefIds": ["koelkast-stroomuitval"],
+      "bronnen": [
+        { "naam": "Voedingscentrum: veilig bewaren", "url": "https://www.voedingscentrum.nl/nl/veilig-eten-voedselinfectie-voorkomen/veilig-bewaren.aspx" }
+      ],
+      "bronType": "officieel",
+      "lastReviewed": "2026-11-11",
+      "trefwoorden": ["2 uur", "bederfelijk", "melk", "vlees", "kliekjes"],
+      "gerelateerdeNoodgevallen": ["stroomstoring"],
+      "gerelateerdeChecklistItemIds": ["food"]
+    }
+  ]
+}
