@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../pro/pro_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -43,6 +44,7 @@ class _Detail extends ConsumerWidget {
     final owned = ref.watch(hacksMaterialsProvider).value ?? const <String>{};
     final favs = ref.watch(hacksFavoritesProvider).value ?? const <String>{};
     final never = h.label == HackLabel.nooit;
+    if (hackLocked(h, pro: ref.watch(proUnlockedProvider))) return HackLockedView(hack: h);
 
     Widget section(String title) => SectionHeader(title);
 
@@ -225,6 +227,7 @@ class _HackStepsScreenState extends ConsumerState<HackStepsScreen> {
       data: (d) {
         final h = d.byId(widget.id);
         if (h == null) return Scaffold(appBar: AppBar(), body: const Center(child: Text(S.hacksNotFound)));
+        if (hackLocked(h, pro: ref.watch(proUnlockedProvider))) return HackLockedView(hack: h);
         return _build(context, h);
       },
     );

@@ -87,6 +87,7 @@
     },
     {
       "id": "water-koken",
+      "freePreview": true,
       "categorie": "water",
       "titel": "Water koken",
       "label": "veilig",
@@ -294,6 +295,7 @@
     },
     {
       "id": "koelkast-stroomuitval",
+      "freePreview": true,
       "categorie": "eten",
       "titel": "Eten in koelkast en vriezer bij stroomuitval",
       "label": "letop",

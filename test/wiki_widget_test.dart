@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:mijnnoodpakket/features/pro/pro_providers.dart';
 import 'package:mijnnoodpakket/core/l10n/strings.dart';
 import 'package:mijnnoodpakket/core/providers.dart';
 import 'package:mijnnoodpakket/domain/models.dart';
@@ -71,6 +72,7 @@ Future<void> pump(WidgetTester t, FakePrefs prefs, String start,
     wikiProvider.overrideWith((ref) async => data),
     wikiFavoritesProvider.overrideWith((ref) => Stream.value(favs)),
     wikiPrefsProvider.overrideWithValue(prefs),
+    proUnlockedProvider.overrideWithValue(false),
     planProvider.overrideWith((ref) => Stream.value(const Plan())),
     allItemsProvider.overrideWithValue(
         AsyncValue.data([item('radio', inHouse: true), item('batteries'), item('flashlight')])),

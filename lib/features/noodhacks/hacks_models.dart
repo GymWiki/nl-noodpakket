@@ -44,6 +44,7 @@ class Hack {
     required this.trefwoorden,
     required this.gerelateerdeNoodgevallen,
     required this.gerelateerdeChecklistItemIds,
+    this.freePreview = false,
   });
 
   final String id, categorie, titel, intro, reden, bronType;
@@ -52,6 +53,12 @@ class Hack {
   final List<String> gerelateerdeNoodgevallen, gerelateerdeChecklistItemIds;
   final List<HackSource> bronnen;
   final DateTime lastReviewed;
+
+  /// Proefhack: volledige inhoud ook zonder Pro.
+  final bool freePreview;
+
+  /// Gratis te lezen: proefhacks en alle mythes (waarschuwingen staan nooit achter een betaalmuur).
+  bool get isFree => freePreview || categorie == 'mythes' || label == HackLabel.nooit;
 
   static List<String> _strings(Map<String, dynamic> j, String k) {
     final v = j[k];
@@ -86,6 +93,7 @@ class Hack {
         trefwoorden: _strings(j, 'trefwoorden'),
         gerelateerdeNoodgevallen: _strings(j, 'gerelateerdeNoodgevallen'),
         gerelateerdeChecklistItemIds: _strings(j, 'gerelateerdeChecklistItemIds'),
+        freePreview: j['freePreview'] == true,
       );
 }
 

@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:mijnnoodpakket/features/pro/pro_providers.dart';
 import 'package:mijnnoodpakket/core/l10n/strings.dart';
 import 'package:mijnnoodpakket/features/noodhacks/hack_detail_screen.dart';
 import 'package:mijnnoodpakket/features/noodhacks/hacks_have_screen.dart';
@@ -74,6 +75,7 @@ Future<FakePrefs> pump(WidgetTester t, String start, {Set<String> owned = const 
     hacksMaterialsProvider.overrideWith((ref) => prefs.stream()),
     hacksFavoritesProvider.overrideWith((ref) => Stream.value(<String>{})),
     hacksPrefsProvider.overrideWithValue(prefs),
+    proUnlockedProvider.overrideWithValue(true),
   ];
   await t.pumpWidget(ProviderScope(
     overrides: overrides,

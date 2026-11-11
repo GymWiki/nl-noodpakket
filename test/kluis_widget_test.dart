@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:mijnnoodpakket/features/pro/pro_providers.dart';
 import 'package:mijnnoodpakket/core/l10n/strings.dart';
 import 'package:mijnnoodpakket/features/kluis/crypto/vault_keys.dart';
 import 'package:mijnnoodpakket/features/kluis/data/vault_controller.dart';
@@ -118,6 +119,7 @@ Future<FakeVault> pump(
   ]);
   final List<Override> overrides = [
     vaultProvider.overrideWith(() => fake),
+    proUnlockedProvider.overrideWithValue(true),
     planProvider.overrideWith((ref) => Stream.value(const Plan())),
     if (setupActive) setupActiveProvider.overrideWith(() => _Active()),
   ];

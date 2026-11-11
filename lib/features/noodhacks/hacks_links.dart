@@ -103,7 +103,7 @@ class HacksForItem extends ConsumerWidget {
             ActionChip(
               avatar: Icon(hackLabelIcon(h.label), size: 18),
               label: Text(h.titel),
-              onPressed: () => context.push('/hacks/${h.id}'),
+              onPressed: () => openHack(context, ref, h),
             ),
         ]),
       ]),
