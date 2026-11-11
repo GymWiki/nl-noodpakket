@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../core/theme/category_palette.dart';
+import '../../core/ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -108,6 +110,7 @@ class _Detail extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 40),
         children: [
+          TintAccentLine(wikiTint(e.categorie)),
           Text(e.intro, style: t.textTheme.bodyLarge),
           const SizedBox(height: 16),
           FilledButton.icon(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/theme/category_palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -251,7 +252,7 @@ class _CategoryHeader extends StatelessWidget {
         label: '$name, ${S.progressCategory(done, total)}',
         child: ExcludeSemantics(
           child: Row(children: [
-            Icon(categoryIcon(id), size: 22, color: t.colorScheme.onSurfaceVariant),
+            IconBadge(categoryIcon(id), size: 32, tint: checklistTint(id)),
             const SizedBox(width: 10),
             Expanded(child: Text(name, style: t.textTheme.titleMedium)),
             if (complete)

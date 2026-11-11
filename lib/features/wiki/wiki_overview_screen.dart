@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/theme/category_palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -6,10 +7,8 @@ import '../../core/dialer.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/theme.dart';
 import '../../core/ui.dart';
-import '../kluis/ui/vault_link.dart';
 import '../noodhacks/hacks_links.dart';
 import '../noodplan/plan_providers.dart';
-import '../noodplan/ui/plan_overview_screen.dart';
 import 'wiki_icons.dart';
 import 'wiki_models.dart';
 import 'wiki_pdf.dart';
@@ -81,10 +80,6 @@ class _WikiOverviewScreenState extends ConsumerState<WikiOverviewScreen> {
           _FirstHourCard(first: d.eersteUur),
           const SizedBox(height: 12),
           const HacksEntryCards(),
-          const SizedBox(height: 12),
-          const PlanEntryCard(),
-          const SizedBox(height: 12),
-          const VaultEntryCard(),
         ],
         if (searching) ...[
           if (results.isEmpty)
@@ -127,7 +122,7 @@ class _WikiOverviewScreenState extends ConsumerState<WikiOverviewScreen> {
           SoftCard(
             onTap: () => shareMeterkastCard(context, d, plan: ref.read(planProvider).value),
             child: Row(children: [
-              const IconBadge(Icons.picture_as_pdf_outlined),
+              const IconBadge(Icons.picture_as_pdf_outlined, tint: CategoryTint.blue),
               const SizedBox(width: 14),
               Expanded(
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -188,9 +183,9 @@ class _CategoryCard extends StatelessWidget {
       child: Theme(
         data: t.copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
-          leading: IconBadge(wikiIcon(category.icoon), size: 40),
+          leading: IconBadge(wikiIcon(category.icoon), size: 40, tint: wikiTint(category.id)),
           title: Text(category.titel, style: t.textTheme.titleMedium),
-          subtitle: Text('${items.length}'),
+          subtitle: Text(S.wikiSituations(items.length)),
           childrenPadding: const EdgeInsets.only(bottom: 8),
           children: [
             for (final e in items) _EmergencyTile(e: e, fav: favs.contains(e.id), favs: favs),
@@ -211,7 +206,7 @@ class _EmergencyTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
       minVerticalPadding: 12,
-      leading: Icon(wikiIcon(e.icoon)),
+      leading: IconBadge(wikiIcon(e.icoon), size: 36, tint: wikiTint(e.categorie)),
       title: Text(e.titel),
       trailing: IconButton(
         tooltip: fav ? S.wikiRemoveFavorite : S.wikiAddFavorite,

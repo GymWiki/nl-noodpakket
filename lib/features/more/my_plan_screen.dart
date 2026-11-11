@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/theme/category_palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -15,13 +16,13 @@ class MyPlanScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final t = Theme.of(context);
     final st = ref.watch(planVaultStatusProvider);
-    Widget row(IconData icon, String title, String sub, String route) => Padding(
+    Widget row(IconData icon, String title, String sub, String route, MenuItemKind kind) => Padding(
           padding: const EdgeInsets.only(bottom: 12),
           child: SoftCard(
             onTap: () => context.push(route),
             semanticLabel: '$title. $sub',
             child: Row(children: [
-              IconBadge(icon),
+              IconBadge(icon, tint: menuTint(kind)),
               const SizedBox(width: 14),
               Expanded(
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -41,9 +42,9 @@ class MyPlanScreen extends ConsumerWidget {
           children: [
             const PageTitle(S.myPlanTitle, subtitle: S.myPlanSub),
             row(Icons.assignment_outlined, S.planTitle,
-                st.planStarted ? S.planCardSub(st.planDone, st.planTotal) : S.planCardStart, '/plan'),
-            row(Icons.forum_outlined, S.planTalk, S.planTalkIntro, '/plan/gesprek'),
-            row(Icons.lock_outline, S.vaultTitle, S.vaultEntrySub, '/kluis'),
+                st.planStarted ? S.planCardSub(st.planDone, st.planTotal) : S.planCardStart, '/plan', MenuItemKind.plan),
+            row(Icons.forum_outlined, S.planTalk, S.planTalkIntro, '/plan/gesprek', MenuItemKind.talk),
+            row(Icons.lock_outline, S.vaultTitle, S.vaultEntrySub, '/kluis', MenuItemKind.vault),
             const SizedBox(height: Gap.s),
             Text(S.disclaimer, style: t.textTheme.bodySmall),
           ],

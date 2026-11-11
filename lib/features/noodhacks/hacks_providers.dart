@@ -60,6 +60,16 @@ IconData hackCategoryIcon(String name) => switch (name) {
       _ => Icons.tips_and_updates_outlined,
     };
 
+/// Icoon per categorie-id uit noodhacks.json.
+IconData hackCategoryIconById(String id) => hackCategoryIcon(switch (id) {
+      'koken' => 'cook',
+      'eten' => 'food',
+      'warmte' => 'warm',
+      'energie' => 'energy',
+      'mythes' => 'myth',
+      _ => id,
+    });
+
 IconData hackMaterialIcon(String name) => switch (name) {
       'bottle' => Icons.local_drink_outlined,
       'cloth' => Icons.dry_cleaning_outlined,

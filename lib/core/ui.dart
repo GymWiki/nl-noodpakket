@@ -110,9 +110,9 @@ class ProgressRing extends StatelessWidget {
 
 /// Kop van een sectie met optioneel iets aan de rechterkant.
 class SectionHeader extends StatelessWidget {
-  const SectionHeader(this.title, {super.key, this.trailing, this.padding = const EdgeInsets.only(top: Gap.l, bottom: Gap.s)});
+  const SectionHeader(this.title, {super.key, this.leading, this.trailing, this.padding = const EdgeInsets.only(top: Gap.l, bottom: Gap.s)});
   final String title;
-  final Widget? trailing;
+  final Widget? leading, trailing;
   final EdgeInsetsGeometry padding;
 
   @override
@@ -121,6 +121,7 @@ class SectionHeader extends StatelessWidget {
     return Padding(
       padding: padding,
       child: Row(children: [
+        if (leading != null) ...[leading!, const SizedBox(width: 12)],
         Expanded(child: Semantics(header: true, child: Text(title, style: t.textTheme.titleMedium))),
         ?trailing,
       ]),

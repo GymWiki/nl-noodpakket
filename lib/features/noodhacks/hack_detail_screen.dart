@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/theme/category_palette.dart';
 import '../pro/pro_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -63,6 +64,7 @@ class _Detail extends ConsumerWidget {
       body: ListView(
         padding: Gap.page,
         children: [
+          if (hackTint(h.categorie) case final tint?) TintAccentLine(tint),
           Align(alignment: Alignment.centerLeft, child: HackLabelBadge(h.label)),
           const SizedBox(height: 12),
           Text(h.titel, style: t.textTheme.headlineMedium),

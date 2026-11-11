@@ -135,7 +135,7 @@ class _HacksOverviewScreenState extends ConsumerState<HacksOverviewScreen> {
             list([for (final h in d.hacks) if (favs.contains(h.id)) h]),
           ],
           for (final cat in d.categories) ...[
-            SectionHeader(cat.titel),
+            SectionHeader(cat.titel, leading: HackCategoryBadge(cat.id, size: 32)),
             list([for (final h in d.hacks) if (h.categorie == cat.id) h]),
           ],
         ],

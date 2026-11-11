@@ -342,7 +342,7 @@ void main() {
       expect(find.text(S.planChangedSinceShare), findsNothing);
     });
 
-    testWidgets('entry-kaart en banner', (t) async {
+    testWidgets('banner', (t) async {
       t.view.physicalSize = const Size(800, 3200);
       t.view.devicePixelRatio = 1;
       addTearDown(t.view.reset);
@@ -353,11 +353,10 @@ void main() {
           settingsProvider.overrideWith((ref) => Stream.value(const AppSettings())),
         ],
         child: const MaterialApp(
-          home: Scaffold(body: Column(children: [PlanEntryCard(), PlanBanner()])),
+          home: Scaffold(body: Column(children: [PlanBanner()])),
         ),
       ));
       await t.pumpAndSettle();
-      expect(find.text(S.planCardStart), findsOneWidget);
       expect(find.text(S.planBannerText), findsOneWidget);
     });
 

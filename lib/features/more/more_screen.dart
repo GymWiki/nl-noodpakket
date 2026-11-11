@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/theme/category_palette.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/strings.dart';
@@ -12,12 +13,12 @@ class MoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = Theme.of(context);
-    Widget row(IconData icon, String title, String sub, String route) => Padding(
+    Widget row(IconData icon, String title, String sub, String route, MenuItemKind kind) => Padding(
           padding: const EdgeInsets.only(bottom: 12),
           child: SoftCard(
             onTap: () => context.push(route),
             child: Row(children: [
-              IconBadge(icon),
+              IconBadge(icon, tint: menuTint(kind)),
               const SizedBox(width: 14),
               Expanded(
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -37,9 +38,9 @@ class MoreScreen extends StatelessWidget {
           padding: Gap.page,
           children: [
             const PageTitle(S.moreTitle),
-            row(Icons.build_circle_outlined, S.maintTitle, S.moreMaintSub, '/start/onderhoud'),
-            row(Icons.info_outline_rounded, S.infoTitle, S.moreInfoSub, '/info'),
-            row(Icons.tune_rounded, S.settingsTitle, S.moreSettingsSub, '/instellingen'),
+            row(Icons.build_circle_outlined, S.maintTitle, S.moreMaintSub, '/start/onderhoud', MenuItemKind.maintenance),
+            row(Icons.info_outline_rounded, S.infoTitle, S.moreInfoSub, '/info', MenuItemKind.info),
+            row(Icons.tune_rounded, S.settingsTitle, S.moreSettingsSub, '/instellingen', MenuItemKind.settings),
             const SizedBox(height: Gap.s),
             Text(S.disclaimer, style: t.textTheme.bodySmall),
           ],

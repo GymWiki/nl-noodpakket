@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/theme/category_palette.dart';
 import '../kluis/data/vault_controller.dart';
 import '../pro/pro_providers.dart';
 import '../pro/pro_ui.dart';
@@ -258,6 +259,18 @@ class SuggestionText {
   final IconData icon;
 }
 
+/// Kleur van het icoonbolletje per soort suggestie (alleen een extra aanwijzing).
+CategoryTint suggestionTint(Suggestion s) => switch (s.kind) {
+      SuggestionKind.household => CategoryTint.slate,
+      SuggestionKind.nlAlert => CategoryTint.violet,
+      SuggestionKind.water => CategoryTint.blue,
+      SuggestionKind.expiring => CategoryTint.slate,
+      SuggestionKind.plan => CategoryTint.green,
+      SuggestionKind.vault => CategoryTint.indigo,
+      SuggestionKind.item => CategoryTint.blue,
+      SuggestionKind.maintenance => CategoryTint.teal,
+    };
+
 SuggestionText suggestionText(Suggestion s) => switch (s.kind) {
       SuggestionKind.household => const SuggestionText(
           S.dashSugHouseholdT, S.dashSugHouseholdS, S.dashSugHouseholdA, Icons.groups_outlined),
@@ -310,7 +323,7 @@ class SuggestionTile extends ConsumerWidget {
     final route = s.kind == SuggestionKind.maintenance ? '/start/onderhoud' : s.route;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        IconBadge(x.icon, size: 40),
+        IconBadge(x.icon, size: 40, tint: suggestionTint(s)),
         const SizedBox(width: 12),
         Expanded(
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -410,8 +423,9 @@ class ExpiringCard extends ConsumerWidget {
     return SoftCard(
       padding: const EdgeInsets.all(20),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Semantics(header: true, child: Text(S.dashExpiringTitle, style: t.textTheme.titleMedium)),
-        const SizedBox(height: 8),
+        SectionHeader(S.dashExpiringTitle,
+            padding: const EdgeInsets.only(bottom: 8),
+            leading: const IconBadge(Icons.event_repeat_outlined, size: 32, tint: CategoryTint.slate)),
         for (final e in shown)
           InkWell(
             onTap: () => context.push('/item/${e.item.id}'),
@@ -547,11 +561,11 @@ class PlanVaultRow extends ConsumerWidget {
             ? S.vaultFreeCounter(vaultCount) // alleen een aantal, nooit namen of inhoud
             : S.dashVaultSome;
 
-    Widget card(IconData icon, String title, String sub, String route) => SoftCard(
+    Widget card(IconData icon, String title, String sub, String route, CategoryTint tint) => SoftCard(
           onTap: () => context.push(route),
           semanticLabel: '$title. $sub',
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            IconBadge(icon, size: 40),
+            IconBadge(icon, size: 40, tint: tint),
             const SizedBox(height: 10),
             Text(title, style: t.textTheme.titleSmall?.copyWith(fontSize: 16)),
             const SizedBox(height: 2),
@@ -559,8 +573,8 @@ class PlanVaultRow extends ConsumerWidget {
           ]),
         );
 
-    final plan = card(Icons.assignment_outlined, S.dashPlanCard, planSub, '/plan');
-    final vault = card(Icons.lock_outline, S.dashVaultCard, vaultSub, '/kluis');
+    final plan = card(Icons.assignment_outlined, S.dashPlanCard, planSub, '/plan', CategoryTint.green);
+    final vault = card(Icons.lock_outline, S.dashVaultCard, vaultSub, '/kluis', CategoryTint.indigo);
     if (_bigText(context)) {
       return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [plan, const SizedBox(height: 12), vault]);
     }
@@ -602,8 +616,9 @@ class MaintenanceCard extends ConsumerWidget {
     return SoftCard(
       padding: const EdgeInsets.all(20),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Semantics(header: true, child: Text(S.maintTitle, style: t.textTheme.titleMedium)),
-        const SizedBox(height: 8),
+        SectionHeader(S.maintTitle,
+            padding: const EdgeInsets.only(bottom: 8),
+            leading: const IconBadge(Icons.build_circle_outlined, size: 32, tint: CategoryTint.teal)),
         for (final r in due.take(3))
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
@@ -662,7 +677,7 @@ class HouseholdCard extends ConsumerWidget {
       onTap: () => context.push('/instellingen'),
       semanticLabel: '${S.dashHouseholdTitle}: ${householdSummary(h)}. ${S.dashHouseholdEdit}',
       child: Row(children: [
-        const IconBadge(Icons.groups_outlined, size: 40),
+        const IconBadge(Icons.groups_outlined, size: 40, tint: CategoryTint.slate),
         const SizedBox(width: 12),
         Expanded(
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

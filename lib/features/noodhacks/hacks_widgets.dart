@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../core/theme/category_palette.dart';
+import '../../core/ui.dart';
+import 'hacks_providers.dart';
 import '../pro/pro_providers.dart';
 import '../pro/pro_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -49,6 +52,27 @@ class HackLabelBadge extends StatelessWidget {
   }
 }
 
+/// Icoonbolletje van een hackcategorie. De mythes gebruiken het bestaande
+/// waarschuwingspatroon (geen eigen categoriekleur).
+class HackCategoryBadge extends StatelessWidget {
+  const HackCategoryBadge(this.categoryId, {super.key, this.size = 36});
+  final String categoryId;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = Theme.of(context).colorScheme;
+    final tint = hackTint(categoryId);
+    return IconBadge(
+      hackCategoryIconById(categoryId),
+      size: size,
+      tint: tint,
+      background: tint == null ? c.errorContainer : null,
+      foreground: tint == null ? c.onErrorContainer : null,
+    );
+  }
+}
+
 /// Rij in een lijst met noodhacks.
 class HackTile extends ConsumerWidget {
   const HackTile({super.key, required this.hack, this.trailing, this.subtitle});
@@ -61,6 +85,7 @@ class HackTile extends ConsumerWidget {
     final locked = hackLocked(hack, pro: ref.watch(proUnlockedProvider));
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      leading: HackCategoryBadge(hack.categorie),
       title: Text(hack.titel),
       subtitle: Padding(
         padding: const EdgeInsets.only(top: 6),
