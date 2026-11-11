@@ -269,8 +269,8 @@ Bewaakt door `test/category_palette_test.dart` (icoon op bolletje minstens 4,5:1
 De pagina's staan in `docs/` (`index.html`, `privacy.html`, `terms.html`, `style.css`) en worden met GitHub Pages gepubliceerd. De app linkt ernaar onder Meer, Informatie, Juridisch (`lib/core/legal.dart`).
 
 Eenmalig instellen (dit kon ik niet zelf: er is geen `gh`-CLI of remote in deze omgeving):
-1. Maak een **publieke** repository `nl-noodpakket` onder het account `GymWiki` en push dit project (`git remote add origin https://github.com/GymWiki/nl-noodpakket.git`, `git push -u origin master`).
-2. Repository, Settings, Pages: Source "Deploy from a branch", branch `master`, map `/docs`.
+1. Maak een **publieke** repository `nl-noodpakket` onder het account `GymWiki` en push dit project (`git remote add origin https://github.com/GymWiki/nl-noodpakket.git`, `git push -u origin master:main`; de standaardbranch van de repo is `main`).
+2. Repository, Settings, Pages: Source "Deploy from a branch", branch `main`, map `/docs`.
 3. Na een minuut zijn de pagina's bereikbaar op `https://gymwiki.github.io/nl-noodpakket/privacy.html` en `.../terms.html`. Controleer beide URL's in een browser.
 4. Heet de repository of het account anders, pas dan alleen `legalBaseUrl` in `lib/core/legal.dart` aan (en de GitHub-Issues-links in `docs/`). `test/legal_test.dart` bewaakt dat de links, bestanden en toestemmingen kloppen.
 5. Vul dezelfde privacy-URL in Play Console (App-inhoud, Privacybeleid) en App Store Connect (App-informatie).
