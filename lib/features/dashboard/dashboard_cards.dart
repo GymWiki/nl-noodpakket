@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../kluis/data/vault_controller.dart';
+import '../pro/pro_providers.dart';
+import '../pro/pro_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -438,6 +441,24 @@ class ExpiringCard extends ConsumerWidget {
             child: const Text(S.dashExpiringAll),
           ),
         ),
+        if (!ref.watch(proUnlockedProvider) && !ref.watch(proHintDismissedProvider)) ...[
+          const Divider(height: 16),
+          Row(children: [
+            Expanded(
+              child: InkWell(
+                onTap: () => showPaywall(context),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(minHeight: 48),
+                  child: Align(alignment: Alignment.centerLeft, child: Text(S.dashRemindHint, style: t.textTheme.bodyMedium)),
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () => ref.read(settingsRepositoryProvider).setRaw(proHintDismissedKey, 'true'),
+              child: const Text(S.paywallNotNow),
+            ),
+          ]),
+        ],
       ]),
     );
   }
@@ -519,7 +540,12 @@ class PlanVaultRow extends ConsumerWidget {
             : st.planStale
                 ? S.dashPlanStale
                 : S.dashPlanDone;
-    final vaultSub = st.vaultHasDocs ? S.dashVaultSome : S.dashVaultNone;
+    final vaultCount = ref.watch(vaultDocCountProvider).value;
+    final vaultSub = !st.vaultHasDocs
+        ? S.dashVaultNone
+        : (!ref.watch(proUnlockedProvider) && vaultCount != null && vaultCount > 0)
+            ? S.vaultFreeCounter(vaultCount) // alleen een aantal, nooit namen of inhoud
+            : S.dashVaultSome;
 
     Widget card(IconData icon, String title, String sub, String route) => SoftCard(
           onTap: () => context.push(route),

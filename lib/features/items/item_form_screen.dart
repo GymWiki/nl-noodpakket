@@ -1,4 +1,6 @@
 // ignore_for_file: unnecessary_non_null_assertion
+import '../expiry/reminder_items.dart';
+import '../pro/pro_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -304,6 +306,22 @@ class _ItemFormScreenState extends ConsumerState<ItemFormScreen> {
                 onTap: _pickDate,
               ),
             ),
+            if (!_isNew && _expiry != null)
+              Builder(builder: (context) {
+                final pro = ref.watch(proUnlockedProvider);
+                final on = ref.watch(reminderItemsProvider).contains(widget.itemId);
+                return SwitchListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: const Text(S.remindSwitch),
+                  subtitle: Text(on && !pro
+                      ? S.remindProOnly
+                      : pro
+                          ? S.remindSwitchSub
+                          : S.remindProOnlySub),
+                  value: on,
+                  onChanged: (v) => toggleItemReminder(context, ref, widget.itemId, v),
+                );
+              }),
             DropdownButtonFormField<int?>(
               initialValue: _interval,
               decoration: const InputDecoration(labelText: S.fieldInterval),

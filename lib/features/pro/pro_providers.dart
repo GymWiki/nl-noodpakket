@@ -96,3 +96,9 @@ class ProController extends Notifier<ProState> {
 }
 
 final proControllerProvider = NotifierProvider<ProController, ProState>(ProController.new);
+
+/// "Niet nu" bij de rustige Pro-regel op het dashboard.
+const proHintDismissedKey = 'pro_hint_dismissed';
+
+final proHintDismissedProvider = Provider<bool>((ref) =>
+    ref.watch(settingsProvider.select((s) => s.value?.raw[proHintDismissedKey])) == 'true');

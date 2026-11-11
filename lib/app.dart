@@ -1,4 +1,7 @@
+import 'package:flutter/foundation.dart' show defaultTargetPlatform, TargetPlatform;
 import 'package:flutter/material.dart';
+import 'features/expiry/reminder_items.dart';
+import 'features/pro/pro_providers.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -264,12 +267,26 @@ class NoodpakketApp extends ConsumerStatefulWidget {
 class _NoodpakketAppState extends ConsumerState<NoodpakketApp> {
   String? _lastSignature;
 
+  @override
+  void initState() {
+    super.initState();
+    // De store-luisteraar moet vanaf het begin actief zijn (uitgestelde betalingen).
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final pro = ref.read(proControllerProvider.notifier);
+      // Stille controle alleen op Android; op iOS is herstellen altijd een eigen keuze (Apple-richtlijn).
+      if (defaultTargetPlatform == TargetPlatform.android) pro.restore(silent: true);
+    });
+  }
+
   /// Plant herinneringen opnieuw bij elke relevante wijziging (en dus ook
   /// bij elke app-start); ongewijzigde situatie wordt overgeslagen.
   void _reschedule() {
-    final items = ref.read(allItemsProvider).value;
+    final all = ref.read(allItemsProvider).value;
     final s = ref.read(settingsProvider).value;
-    if (items == null || s == null) return;
+    if (all == null || s == null) return;
+    // Vervangherinneringen: alleen met Pro en alleen voor items waarvoor de gebruiker ze aanzette.
+    final items = itemsToRemind(all, ref.read(reminderItemsProvider), pro: ref.read(proUnlockedProvider));
     final plan = ref.read(planProvider).value;
     final planAt = s.planReminder && plan != null
         ? planReminderTime(plan, DateTime.now())
@@ -304,6 +321,7 @@ class _NoodpakketAppState extends ConsumerState<NoodpakketApp> {
     ref.listen(settingsProvider, (_, _) => _reschedule());
     ref.listen(planProvider, (_, _) => _reschedule());
     ref.listen(vaultReminderTimesProvider, (_, _) => _reschedule());
+    ref.listen(proUnlockedProvider, (_, _) => _reschedule());
     ref.listen(maintenanceReminderTimesProvider, (_, _) => _reschedule());
     final mode =
         ref.watch(settingsProvider.select((s) => s.value?.themeMode)) ??

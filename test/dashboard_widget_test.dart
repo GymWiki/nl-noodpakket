@@ -59,6 +59,7 @@ List<Override> overrides(List<Item> items,
       settingsProvider.overrideWith((ref) => Stream.value(settings)),
       planProvider.overrideWith((ref) => Stream.value(const Plan())),
       vaultHasDocsProvider.overrideWith((ref) => Stream.value(vault)),
+      vaultDocCountProvider.overrideWith((ref) => Stream.value(vault ? 2 : null)),
       dashNowProvider.overrideWithValue(at ?? now),
     ];
 
@@ -177,7 +178,8 @@ void main() {
       expect(find.text(S.dashExpiringTitle), findsOneWidget);
       expect(find.text(S.dashPlanCard), findsOneWidget);
       expect(find.text(S.dashVaultCard), findsOneWidget);
-      expect(find.text(S.dashVaultSome), findsOneWidget);
+      expect(find.text(S.vaultFreeCounter(2)), findsOneWidget);
+      expect(find.text(S.dashRemindHint), findsOneWidget);
       expect(find.text(S.dashHouseholdTitle), findsOneWidget);
       expect(find.text(S.dashExpiredOn(fmtDate(DateTime(2026, 11, 1)))), findsOneWidget);
       expect(t.takeException(), isNull);

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import '../pro/pro_ui.dart';
 import '../dashboard/dashboard_providers.dart';
 import 'dart:io';
 
@@ -167,6 +168,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             value: s.planReminder,
             onChanged: (v) => togglePlanReminder(context, ref, v),
           ),
+          const ProSettingsSection(),
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
             title: const Text(S.simpleStartTitle),
