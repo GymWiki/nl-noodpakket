@@ -8,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:mijnnoodpakket/features/pro/pro_providers.dart';
+import 'fake_purchase.dart';
 import 'package:mijnnoodpakket/core/l10n/strings.dart';
 import 'package:mijnnoodpakket/features/noodhacks/hack_detail_screen.dart';
 import 'package:mijnnoodpakket/features/noodhacks/hacks_have_screen.dart';
@@ -50,7 +51,7 @@ class FakePrefs implements HacksPrefs {
   Future<void> close() => _c.close();
 }
 
-Future<FakePrefs> pump(WidgetTester t, String start, {Set<String> owned = const {}}) async {
+Future<FakePrefs> pump(WidgetTester t, String start, {Set<String> owned = const {}, bool pro = true}) async {
   t.view.physicalSize = const Size(800, 3600);
   t.view.devicePixelRatio = 1;
   addTearDown(t.view.reset);
@@ -75,7 +76,8 @@ Future<FakePrefs> pump(WidgetTester t, String start, {Set<String> owned = const 
     hacksMaterialsProvider.overrideWith((ref) => prefs.stream()),
     hacksFavoritesProvider.overrideWith((ref) => Stream.value(<String>{})),
     hacksPrefsProvider.overrideWithValue(prefs),
-    proUnlockedProvider.overrideWithValue(true),
+    proUnlockedProvider.overrideWithValue(pro),
+    purchaseServiceProvider.overrideWithValue(FakePurchaseService()),
   ];
   await t.pumpWidget(ProviderScope(
     overrides: overrides,
@@ -92,6 +94,70 @@ Future<FakePrefs> pump(WidgetTester t, String start, {Set<String> owned = const 
 
 void main() {
   setUpAll(() => initializeDateFormatting('nl_NL'));
+
+  group('zonder Pro', () {
+    testWidgets('overzicht en zoeken werken; Pro-hacks hebben een rustig Pro-label', (t) async {
+      await pump(t, '/hacks', pro: false);
+      expect(find.text(S.hacksDisclaimer), findsOneWidget);
+      expect(find.text('Water ontsmetten met chloorbleek'), findsOneWidget); // titel zichtbaar
+      expect(find.text(S.proBadge), findsWidgets);
+      await t.enterText(find.byType(TextField), 'koolmonoxide');
+      await t.pumpAndSettle();
+      expect(find.text('Binnen koken of verwarmen met een barbecue of campingstoof'), findsOneWidget);
+    });
+
+    testWidgets('tik op een Pro-hack opent de paywall en navigeert niet', (t) async {
+      await pump(t, '/hacks', pro: false);
+      await t.tap(find.text('Water ontsmetten met chloorbleek'));
+      await t.pumpAndSettle();
+      expect(find.text(S.paywallTitle), findsOneWidget);
+      expect(find.text(S.hacksDisclaimer), findsOneWidget); // nog op het overzicht
+      await t.tap(find.text(S.paywallNotNow));
+      await t.pumpAndSettle();
+      expect(find.text(S.paywallTitle), findsNothing);
+    });
+
+    testWidgets('proefhacks en mythes openen volledig, ook zonder Pro', (t) async {
+      for (final id in ['water-koken', 'koelkast-stroomuitval', 'mythe-barbecue-binnen']) {
+        await pump(t, '/hacks/$id', pro: false);
+        final h = data.byId(id)!;
+        expect(find.text(S.paywallTitle), findsNothing, reason: id);
+        expect(find.text(S.hackProHint), findsNothing, reason: id);
+        expect(find.text(h.titel), findsWidgets, reason: id);
+        if (h.categorie != 'mythes') expect(find.text(S.hacksStart), findsOneWidget, reason: id);
+      }
+    });
+
+    testWidgets('directe link naar een Pro-hack toont geen details, wel een uitnodiging', (t) async {
+      await pump(t, '/hacks/water-ontsmetten-bleek', pro: false);
+      expect(find.text(S.hackProHint), findsOneWidget);
+      expect(find.text(S.hacksStart), findsNothing);
+      await t.tap(find.text(S.hackProOnly));
+      await t.pumpAndSettle();
+      expect(find.text(S.paywallTitle), findsOneWidget);
+    });
+
+    testWidgets('directe link naar het stappenplan van een Pro-hack is vergrendeld', (t) async {
+      await pump(t, '/hacks/water-ontsmetten-bleek/stappen', pro: false);
+      expect(find.text(S.hackProHint), findsOneWidget);
+    });
+
+    testWidgets('"Wat heb ik in huis?" toont resultaten als titels; details alleen met Pro', (t) async {
+      await pump(t, '/hacks/in-huis', pro: false, owned: {'pan', 'kookbron'});
+      expect(find.text('Water koken'), findsWidgets);
+      await t.tap(find.text('Eten zonder te koken'));
+      await t.pumpAndSettle();
+      expect(find.text(S.paywallTitle), findsOneWidget);
+    });
+
+    testWidgets('met Pro opent dezelfde hack gewoon', (t) async {
+      await pump(t, '/hacks', pro: true);
+      expect(find.text(S.proBadge), findsNothing);
+      await t.tap(find.text('Water ontsmetten met chloorbleek'));
+      await t.pumpAndSettle();
+      expect(find.text(S.paywallTitle), findsNothing);
+    });
+  });
 
   group('overzicht', () {
     testWidgets('toont disclaimer, ingangen, categorieën en labels met icoon en tekst', (t) async {

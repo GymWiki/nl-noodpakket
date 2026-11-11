@@ -8,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:mijnnoodpakket/features/pro/pro_providers.dart';
+import 'fake_purchase.dart';
 import 'package:mijnnoodpakket/core/l10n/strings.dart';
 import 'package:mijnnoodpakket/features/kluis/crypto/vault_keys.dart';
 import 'package:mijnnoodpakket/features/kluis/data/vault_controller.dart';
@@ -106,6 +107,7 @@ Future<FakeVault> pump(
   Widget? child,
   String start = '/',
   bool setupActive = false,
+  bool pro = true,
 }) async {
   t.view.physicalSize = const Size(800, 3000);
   t.view.devicePixelRatio = 1;
@@ -119,7 +121,8 @@ Future<FakeVault> pump(
   ]);
   final List<Override> overrides = [
     vaultProvider.overrideWith(() => fake),
-    proUnlockedProvider.overrideWithValue(true),
+    proUnlockedProvider.overrideWithValue(pro),
+    purchaseServiceProvider.overrideWithValue(FakePurchaseService()),
     planProvider.overrideWith((ref) => Stream.value(const Plan())),
     if (setupActive) setupActiveProvider.overrideWith(() => _Active()),
   ];
@@ -335,6 +338,53 @@ void main() {
       await t.pumpAndSettle();
       expect(fake.calls.last, startsWith('recover:'));
       expect(find.text('KLUIS-INHOUD'), findsOneWidget);
+    });
+  });
+
+  group('Pro: gratis tot 3 documenten', () {
+    VaultState withDocs(int n) => VaultState(
+          status: VaultStatus.unlocked,
+          meta: VaultMeta(documents: [for (var i = 0; i < n; i++) doc('d$i', 'Document $i', 'passport')]),
+        );
+
+    testWidgets('met 2 documenten: teller en toevoegen werkt zonder paywall', (t) async {
+      await pump(t, withDocs(2), child: const VaultHomeScreen(), pro: false);
+      expect(find.text(S.vaultFreeCounter(2)), findsOneWidget);
+      await t.tap(find.text(S.vaultAddDocument));
+      await t.pumpAndSettle();
+      expect(find.text('toevoegen'), findsOneWidget);
+      expect(find.text(S.paywallTitle), findsNothing);
+    });
+
+    testWidgets('het 4e document opent de paywall; "Niet nu" laat alles zoals het was', (t) async {
+      await pump(t, withDocs(3), child: const VaultHomeScreen(), pro: false);
+      expect(find.text(S.vaultFreeCounter(3)), findsOneWidget);
+      await t.tap(find.text(S.vaultAddDocument));
+      await t.pumpAndSettle();
+      expect(find.text(S.paywallTitle), findsOneWidget);
+      expect(find.text('toevoegen'), findsNothing);
+      await t.tap(find.text(S.paywallNotNow));
+      await t.pumpAndSettle();
+      expect(find.text(S.paywallTitle), findsNothing);
+      expect(find.text('Document 0'), findsOneWidget);
+    });
+
+    testWidgets('meer dan 3 documenten blijven zichtbaar en bruikbaar zonder Pro', (t) async {
+      await pump(t, withDocs(5), child: const VaultHomeScreen(), pro: false);
+      for (var i = 0; i < 5; i++) {
+        expect(find.text('Document $i'), findsOneWidget);
+      }
+      await t.tap(find.text('Document 4'));
+      await t.pumpAndSettle();
+      expect(find.text('doc d4'), findsOneWidget); // openen is nooit geblokkeerd
+    });
+
+    testWidgets('met Pro: onbeperkt, geen teller en geen paywall', (t) async {
+      await pump(t, withDocs(5), child: const VaultHomeScreen());
+      expect(find.textContaining('gratis documenten'), findsNothing);
+      await t.tap(find.text(S.vaultAddDocument));
+      await t.pumpAndSettle();
+      expect(find.text('toevoegen'), findsOneWidget);
     });
   });
 
