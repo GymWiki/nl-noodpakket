@@ -107,10 +107,4 @@ void main() {
       expect(searchEmergencies(all, '  '), hasLength(all.length));
     });
   });
-
-  test('koppeling item -> noodgevallen', () {
-    final d = load();
-    expect(d.forItem('radio').map((e) => e.id), contains('stroomstoring'));
-    expect(d.forItem('bestaat_niet'), isEmpty);
-  });
 }

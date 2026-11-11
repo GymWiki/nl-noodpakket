@@ -127,13 +127,10 @@ void main() {
     });
   });
 
-  test('koppelingen: noodgevallen en checklist-items vinden hacks', () {
+  test('koppelingen: noodgevallen vinden hacks', () {
     final d = load();
     expect(d.forEmergency('uitval-water').map((h) => h.id), containsAll(['water-vinden', 'water-koken']));
     expect(d.forEmergency('stroomstoring').map((h) => h.id), contains('koelkast-stroomuitval'));
-    expect(d.forItem('water'), isNotEmpty);
-    expect(d.forItem('stove').map((h) => h.id), contains('buiten-koken'));
-    expect(d.forItem('bestaat_niet'), isEmpty);
   });
 
   test('validatie vangt fouten', () {

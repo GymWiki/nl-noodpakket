@@ -106,12 +106,6 @@ class WikiData {
     return null;
   }
 
-  /// Noodgevallen waarbij dit checklist-item handig is.
-  List<WikiEmergency> forItem(String itemId) => [
-        for (final e in emergencies)
-          if (e.voorbereidenItemIds.contains(itemId)) e,
-      ];
-
   factory WikiData.parse(String source) {
     final j = jsonDecode(source);
     if (j is! Map<String, dynamic>) {

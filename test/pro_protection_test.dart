@@ -14,7 +14,6 @@ void main() {
     'lib/features/kluis/ui/vault_home_screen.dart': 'alleen de knop "Document toevoegen" en de teller',
     'lib/features/noodhacks/hacks_widgets.dart': 'tegels, openHack en vergrendeld detail',
     'lib/features/noodhacks/hack_detail_screen.dart': 'vergrendeld detail en stappenplan van Pro-hacks',
-    'lib/features/noodhacks/hacks_links.dart': 'checklistkoppelingen volgen dezelfde regel',
     'lib/features/expiry/reminder_items.dart': 'alleen het inplannen van vervangherinneringen',
     'lib/features/items/item_form_screen.dart': 'alleen de schakelaar voor herinneringen',
     'lib/features/dashboard/dashboard_cards.dart': 'rustige regel en kluisteller',

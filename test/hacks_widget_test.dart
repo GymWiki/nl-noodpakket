@@ -68,7 +68,6 @@ Future<FakePrefs> pump(WidgetTester t, String start, {Set<String> owned = const 
     GoRoute(path: '/wiki/:id', builder: (_, st) => Scaffold(body: Text('wiki ${st.pathParameters['id']}'))),
     GoRoute(path: '/links', builder: (_, _) => const Scaffold(body: SingleChildScrollView(child: Column(children: [
       HacksForEmergency(emergencyId: 'uitval-water'),
-      HacksForItem(itemId: 'stove'),
     ])))),
   ]);
   final List<Override> overrides = [
@@ -302,11 +301,9 @@ void main() {
     });
   });
 
-  testWidgets('koppelingen: noodgeval- en checklistblok tonen passende hacks', (t) async {
+  testWidgets('koppelingen: het noodgevalblok toont passende hacks', (t) async {
     await pump(t, '/links');
     expect(find.text(S.hacksRelatedBlock), findsOneWidget);
     expect(find.text('Water vinden als de kraan droog is'), findsOneWidget);
-    expect(find.text('${S.hacksHandy}:'), findsOneWidget);
-    expect(find.widgetWithText(ActionChip, 'Koken met een campingbrander of barbecue'), findsOneWidget);
   });
 }

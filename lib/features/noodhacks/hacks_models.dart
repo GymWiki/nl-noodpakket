@@ -127,11 +127,6 @@ class HackData {
           if (h.gerelateerdeNoodgevallen.contains(wikiId)) h,
       ];
 
-  List<Hack> forItem(String itemId) => [
-        for (final h in hacks)
-          if (h.gerelateerdeChecklistItemIds.contains(itemId)) h,
-      ];
-
   factory HackData.parse(String source) {
     final j = jsonDecode(source);
     if (j is! Map<String, dynamic>) throw const FormatException('geen object');

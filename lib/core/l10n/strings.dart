@@ -93,7 +93,6 @@ class S {
   static const wikiViewSteps = 'Toon één stap per scherm';
   static const wikiRestart = 'Opnieuw beginnen';
   static const wikiAllDone = 'Je hebt alle stappen doorlopen.';
-  static const wikiHandy = 'Handig bij';
   static const wikiOpenLinkError = 'Kon de link niet openen.';
   static const wikiCallError = 'Kon de telefoon-app niet openen.';
   static const wikiPdfCard = 'Meterkastkaart (PDF)';

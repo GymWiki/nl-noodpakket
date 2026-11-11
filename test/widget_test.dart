@@ -192,6 +192,14 @@ void main() {
       expect(find.text('home'), findsOneWidget); // scherm gesloten
     });
 
+    testWidgets('itemdetail toont geen "Handig bij" of "Handige hacks" meer', (t) async {
+      await open(t, 'radio', [mk('radio', 'Radio', Cat.info), mk('stove', 'Kooktoestel', Cat.light)]);
+      expect(find.text(S.whyTitle), findsOneWidget); // de rest van het detail blijft
+      expect(find.textContaining('Handig bij'), findsNothing);
+      expect(find.textContaining('Handige hacks'), findsNothing);
+      expect(find.byType(ActionChip), findsNothing);
+    });
+
     testWidgets('standaarditem: toont uitleg en aanbevolen hoeveelheid', (t) async {
       await open(t, 'a', [mk('a', 'Zaklamp', Cat.light)]);
       expect(find.text('Zaklamp'), findsOneWidget);

@@ -83,30 +83,3 @@ class HacksForEmergency extends ConsumerWidget {
     );
   }
 }
-
-/// "Handige hacks" bij een checklist-item.
-class HacksForItem extends ConsumerWidget {
-  const HacksForItem({super.key, required this.itemId});
-  final String itemId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final list = ref.watch(hacksProvider).value?.forItem(itemId) ?? const <Hack>[];
-    if (list.isEmpty) return const SizedBox.shrink();
-    return Padding(
-      padding: const EdgeInsets.only(top: 16),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text('${S.hacksHandy}:', style: Theme.of(context).textTheme.titleSmall),
-        const SizedBox(height: 4),
-        Wrap(spacing: 8, runSpacing: 4, children: [
-          for (final h in list)
-            ActionChip(
-              avatar: Icon(hackLabelIcon(h.label), size: 18),
-              label: Text(h.titel),
-              onPressed: () => openHack(context, ref, h),
-            ),
-        ]),
-      ]),
-    );
-  }
-}

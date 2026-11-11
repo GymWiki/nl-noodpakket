@@ -11,9 +11,7 @@ import '../../core/providers.dart';
 import '../../data/repositories/item_repository.dart';
 import '../../domain/expiry.dart';
 import '../../domain/models.dart';
-import '../wiki/wiki_providers.dart';
 import '../kluis/ui/vault_link.dart';
-import '../noodhacks/hacks_links.dart';
 
 const _newCategoryKey = '__new__';
 const _intervals = [1, 3, 6, 12, 24];
@@ -367,8 +365,6 @@ class _ItemFormScreenState extends ConsumerState<ItemFormScreen> {
               maxLines: 3,
               textCapitalization: TextCapitalization.sentences,
             ),
-            if (!_isNew) _HandyFor(itemId: id),
-            if (!_isNew) HacksForItem(itemId: id),
             if (!_isNew && const {'id_copies', 'usb'}.contains(id)) ...[
               const SizedBox(height: 16),
               const VaultLinkTile(title: S.vaultOpen),
@@ -421,39 +417,6 @@ class _ItemFormScreenState extends ConsumerState<ItemFormScreen> {
               ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-/// "Handig bij: Stroomstoring, ..." met links naar de noodgevallen-wiki.
-class _HandyFor extends ConsumerWidget {
-  const _HandyFor({required this.itemId});
-  final String itemId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final list = ref.watch(wikiProvider).value?.forItem(itemId) ?? const [];
-    if (list.isEmpty) return const SizedBox.shrink();
-    return Padding(
-      padding: const EdgeInsets.only(top: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('${S.wikiHandy}:', style: Theme.of(context).textTheme.titleSmall),
-          const SizedBox(height: 4),
-          Wrap(
-            spacing: 8,
-            runSpacing: 4,
-            children: [
-              for (final e in list)
-                ActionChip(
-                  label: Text(e.titel),
-                  onPressed: () => context.push('/wiki/${e.id}'),
-                ),
-            ],
-          ),
-        ],
       ),
     );
   }
