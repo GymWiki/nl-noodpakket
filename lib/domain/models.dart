@@ -12,6 +12,12 @@ class Cat {
   static const standard = [water, info, light, health, docs, other];
 }
 
+/// Hoe belangrijk een item is voor de eerste dagen.
+enum ItemPriority { kritiek, belangrijk, aanvullend }
+
+/// Telt een item mee voor de zelfredzaamheid in dagen?
+enum Coverage { none, water, food }
+
 /// Voorwaarde waaronder een standaarditem relevant is.
 enum Need { baby, child, pet, medication }
 
@@ -98,8 +104,12 @@ class SeedItem {
     this.perSenior = 0,
     this.perPet = 0,
     this.need,
+    this.priority = ItemPriority.aanvullend,
+    this.coverage = Coverage.none,
   });
 
+  final ItemPriority priority;
+  final Coverage coverage;
   final String id, category, name, why, unit;
   final String? shelfAdvice;
   final int? intervalMonths;
@@ -127,8 +137,12 @@ class Item {
     this.notes = '',
     this.shelfAdvice,
     this.suggestedIntervalMonths,
+    this.priority = ItemPriority.aanvullend,
+    this.coverage = Coverage.none,
   });
 
+  final ItemPriority priority;
+  final Coverage coverage;
   final String id, name, category, why, unit, notes;
   final bool isCustom, hidden, inHouse;
   final double recommended;

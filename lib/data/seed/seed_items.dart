@@ -6,7 +6,7 @@ import '../../domain/models.dart';
 const seedItems = <SeedItem>[
   // Water en voeding
   SeedItem(
-    id: 'water', category: Cat.water, name: 'Drinkwater', unit: 'liter',
+    id: 'water', priority: ItemPriority.kritiek, coverage: Coverage.water, category: Cat.water, name: 'Drinkwater', unit: 'liter',
     why: 'Zonder stroom of leidingwater heb je toch dagelijks water nodig. '
         'Reken op 3 liter per persoon per dag, voor 3 dagen.',
     shelfAdvice: 'Vervang flessen ongeveer elk jaar of volgens de datum op de fles.',
@@ -14,7 +14,7 @@ const seedItems = <SeedItem>[
     perAdult: 9, perChild: 9, perBaby: 9, perSenior: 9, perPet: 2,
   ),
   SeedItem(
-    id: 'food', category: Cat.water, name: 'Houdbaar eten voor 3 dagen', unit: 'maaltijden',
+    id: 'food', priority: ItemPriority.kritiek, coverage: Coverage.food, category: Cat.water, name: 'Houdbaar eten voor 3 dagen', unit: 'maaltijden',
     why: 'Eten dat je niet hoeft te koelen of te koken, zoals blikgroente, '
         'noten, gedroogd fruit, havermout, houdbare melk, pasta en rijst.',
     shelfAdvice: 'Gebruik wat bijna verloopt en vul aan (rouleren).',
@@ -28,26 +28,26 @@ const seedItems = <SeedItem>[
     perAdult: 6, perChild: 6, perSenior: 6,
   ),
   SeedItem(
-    id: 'baby_food', category: Cat.water, name: 'Babyvoeding', unit: 'potjes of porties',
+    id: 'baby_food', priority: ItemPriority.kritiek, category: Cat.water, name: 'Babyvoeding', unit: 'potjes of porties',
     why: "Baby's kunnen niet zomaar overstappen op ander eten. "
         'Zorg voor flesvoeding of potjes voor minimaal 3 dagen.',
     shelfAdvice: 'Controleer de houdbaarheid regelmatig.', intervalMonths: 6,
     perBaby: 9, need: Need.baby,
   ),
   SeedItem(
-    id: 'pet_food', category: Cat.water, name: 'Huisdiervoer', unit: 'dagrantsoenen',
+    id: 'pet_food', priority: ItemPriority.belangrijk, category: Cat.water, name: 'Huisdiervoer', unit: 'dagrantsoenen',
     why: 'Je huisdier heeft ook eten nodig. Rekenhulp voor water: '
         'ongeveer 50 ml per kilo lichaamsgewicht per dag.',
     shelfAdvice: 'Controleer de houdbaarheid regelmatig.', intervalMonths: 6,
     perPet: 3, need: Need.pet,
   ),
   SeedItem(
-    id: 'can_opener', category: Cat.water, name: 'Handmatige blikopener',
+    id: 'can_opener', priority: ItemPriority.belangrijk, category: Cat.water, name: 'Handmatige blikopener',
     why: 'Blikvoedsel is lang houdbaar, maar zonder opener kom je er niet in.',
     base: 1,
   ),
   SeedItem(
-    id: 'stove', category: Cat.water,
+    id: 'stove', priority: ItemPriority.belangrijk, category: Cat.water,
     name: 'Kookmogelijkheid (campingstoof + brandstof)',
     why: 'Om warm te eten of water te koken. Alleen buiten gebruiken: '
         'binnen koken op gas of brandstof is gevaarlijk.',
@@ -63,30 +63,30 @@ const seedItems = <SeedItem>[
 
   // Informatie en communicatie
   SeedItem(
-    id: 'radio', category: Cat.info, name: 'Radio op batterijen of zwengel',
+    id: 'radio', priority: ItemPriority.kritiek, category: Cat.info, name: 'Radio op batterijen of zwengel',
     why: 'Als internet en tv uitvallen, blijft radio vaak werken. '
         'Luister bijvoorbeeld naar NPO Radio 1 voor actuele informatie.',
     base: 1,
   ),
   SeedItem(
-    id: 'batteries', category: Cat.info, name: 'Extra batterijen', unit: 'stuks',
+    id: 'batteries', priority: ItemPriority.belangrijk, category: Cat.info, name: 'Extra batterijen', unit: 'stuks',
     why: 'Voor radio en zaklamp. Zonder batterijen werken ze niet.',
     shelfAdvice: 'Controleer de houdbaarheidsdatum elk jaar.', intervalMonths: 12,
     base: 8,
   ),
   SeedItem(
-    id: 'powerbank', category: Cat.info, name: 'Powerbank (opgeladen)',
+    id: 'powerbank', priority: ItemPriority.kritiek, category: Cat.info, name: 'Powerbank (opgeladen)',
     why: 'Zo kun je je telefoon blijven gebruiken als er geen stroom is.',
     shelfAdvice: 'Laad hem elk half jaar even op.', intervalMonths: 6,
     perAdult: 1, perSenior: 1,
   ),
   SeedItem(
-    id: 'cables', category: Cat.info, name: 'Oplaadkabels',
+    id: 'cables', priority: ItemPriority.belangrijk, category: Cat.info, name: 'Oplaadkabels',
     why: 'Een powerbank is niets waard zonder de juiste kabel.',
     base: 1,
   ),
   SeedItem(
-    id: 'phone_numbers', category: Cat.info,
+    id: 'phone_numbers', priority: ItemPriority.belangrijk, category: Cat.info,
     name: 'Belangrijke telefoonnummers op papier',
     why: 'Je telefoon kan leeg zijn. Schrijf nummers van familie, buren, '
         'huisarts en school op.',
@@ -101,12 +101,12 @@ const seedItems = <SeedItem>[
 
   // Licht en warmte
   SeedItem(
-    id: 'flashlight', category: Cat.light, name: 'Zaklamp',
+    id: 'flashlight', priority: ItemPriority.kritiek, category: Cat.light, name: 'Zaklamp',
     why: 'Veiliger dan kaarsen en altijd direct bruikbaar in het donker.',
     perAdult: 1, perSenior: 1,
   ),
   SeedItem(
-    id: 'headlamp', category: Cat.light, name: 'Hoofdlamp',
+    id: 'headlamp', priority: ItemPriority.belangrijk, category: Cat.light, name: 'Hoofdlamp',
     why: 'Je hebt je handen vrij, handig bij koken of verzorgen in het donker.',
     base: 1,
   ),
@@ -121,12 +121,12 @@ const seedItems = <SeedItem>[
     base: 1,
   ),
   SeedItem(
-    id: 'blankets', category: Cat.light, name: 'Extra dekens of slaapzak',
+    id: 'blankets', priority: ItemPriority.belangrijk, category: Cat.light, name: 'Extra dekens of slaapzak',
     why: 'Zonder verwarming koelt een huis snel af.',
     perAdult: 1, perChild: 1, perBaby: 1, perSenior: 1,
   ),
   SeedItem(
-    id: 'warm_clothes', category: Cat.light, name: 'Warme kleding', unit: 'sets',
+    id: 'warm_clothes', priority: ItemPriority.belangrijk, category: Cat.light, name: 'Warme kleding', unit: 'sets',
     why: 'Meerdere lagen houden je warm als de verwarming uitvalt.',
     perAdult: 1, perChild: 1, perBaby: 1, perSenior: 1,
   ),
@@ -138,26 +138,26 @@ const seedItems = <SeedItem>[
 
   // Gezondheid en hygiëne
   SeedItem(
-    id: 'first_aid', category: Cat.health, name: 'EHBO-set',
+    id: 'first_aid', priority: ItemPriority.belangrijk, category: Cat.health, name: 'EHBO-set',
     why: 'Voor kleine wonden en ongelukjes. Lees de gebruiksaanwijzing vooraf.',
     shelfAdvice: 'Controleer de inhoud en houdbaarheid elk jaar.', intervalMonths: 12,
     base: 1,
   ),
   SeedItem(
-    id: 'medication', category: Cat.health, name: 'Persoonlijke medicatie', unit: 'dagen',
+    id: 'medication', priority: ItemPriority.kritiek, category: Cat.health, name: 'Persoonlijke medicatie', unit: 'dagen',
     why: 'Zorg voor minimaal 3 dagen voorraad van wat je dagelijks nodig hebt.',
     shelfAdvice: 'Controleer de houdbaarheid en vul aan, elk half jaar.',
     intervalMonths: 6,
     base: 3, need: Need.medication,
   ),
   SeedItem(
-    id: 'prescription', category: Cat.health,
+    id: 'prescription', priority: ItemPriority.belangrijk, category: Cat.health,
     name: 'Kopie van recept of medicatieoverzicht',
     why: 'Zo kan een arts of apotheker snel helpen als je medicijnen kwijt bent.',
     base: 1, need: Need.medication,
   ),
   SeedItem(
-    id: 'painkillers', category: Cat.health, name: 'Pijnstillers', unit: 'strips',
+    id: 'painkillers', priority: ItemPriority.belangrijk, category: Cat.health, name: 'Pijnstillers', unit: 'strips',
     why: 'Voor hoofdpijn, koorts of pijn. Let op de leeftijd en dosering.',
     shelfAdvice: 'Check de houdbaarheid elk jaar.', intervalMonths: 12,
     base: 1,
@@ -171,23 +171,23 @@ const seedItems = <SeedItem>[
     base: 1,
   ),
   SeedItem(
-    id: 'toilet_paper', category: Cat.health, name: 'Toiletpapier', unit: 'rollen',
+    id: 'toilet_paper', priority: ItemPriority.belangrijk, category: Cat.health, name: 'Toiletpapier', unit: 'rollen',
     why: 'Eén van de eerste dingen waar je gemak van hebt.',
     perAdult: 1, perChild: 1, perSenior: 1,
   ),
   SeedItem(
-    id: 'wipes', category: Cat.health, name: 'Vochtige doekjes', unit: 'pakken',
+    id: 'wipes', priority: ItemPriority.belangrijk, category: Cat.health, name: 'Vochtige doekjes', unit: 'pakken',
     why: 'Om je te wassen als er geen water is.',
     shelfAdvice: 'Check de houdbaarheid elk jaar.', intervalMonths: 12,
     base: 1,
   ),
   SeedItem(
-    id: 'soap', category: Cat.health, name: 'Zeep of handgel',
+    id: 'soap', priority: ItemPriority.belangrijk, category: Cat.health, name: 'Zeep of handgel',
     why: 'Handen schoon houden voorkomt ziekte, ook zonder stromend water.',
     base: 1,
   ),
   SeedItem(
-    id: 'toothbrush', category: Cat.health, name: 'Tandenborstel en tandpasta',
+    id: 'toothbrush', priority: ItemPriority.belangrijk, category: Cat.health, name: 'Tandenborstel en tandpasta',
     unit: 'sets',
     why: 'Mondverzorging blijft belangrijk, ook in een noodsituatie.',
     perAdult: 1, perChild: 1, perSenior: 1,
@@ -199,7 +199,7 @@ const seedItems = <SeedItem>[
     base: 1,
   ),
   SeedItem(
-    id: 'diapers', category: Cat.health, name: 'Luiers',
+    id: 'diapers', priority: ItemPriority.kritiek, category: Cat.health, name: 'Luiers',
     why: 'Reken op ongeveer 6 luiers per baby per dag.',
     perBaby: 18, need: Need.baby,
   ),
@@ -221,7 +221,7 @@ const seedItems = <SeedItem>[
 
   // Documenten en geld
   SeedItem(
-    id: 'id_copies', category: Cat.docs, name: 'Kopieën van ID en paspoort',
+    id: 'id_copies', priority: ItemPriority.belangrijk, category: Cat.docs, name: 'Kopieën van ID en paspoort',
     unit: 'sets',
     why: 'Bewaar kopieën apart van de originelen, in een waterdichte hoes.',
     shelfAdvice: 'Controleer of ze nog geldig zijn.', intervalMonths: 12,
@@ -233,7 +233,7 @@ const seedItems = <SeedItem>[
     base: 1,
   ),
   SeedItem(
-    id: 'cash', category: Cat.docs, name: 'Contant geld (kleine coupures)', unit: '€',
+    id: 'cash', priority: ItemPriority.belangrijk, category: Cat.docs, name: 'Contant geld (kleine coupures)', unit: '€',
     why: 'Pinnen en betalen kan uitvallen. Richtlijn: €70 per volwassene en €30 per kind '
         'voor de eerste 72 uur. Je kunt dit langzaam opbouwen.',
     perAdult: 70, perChild: 30, perSenior: 70,
@@ -259,7 +259,7 @@ const seedItems = <SeedItem>[
     base: 1,
   ),
   SeedItem(
-    id: 'smoke_detector', category: Cat.other, name: 'Rookmelders',
+    id: 'smoke_detector', priority: ItemPriority.belangrijk, category: Cat.other, name: 'Rookmelders',
     why: 'Verplicht: minimaal één werkende rookmelder op elke verdieping. '
         'Plaats ze in de hal of overloop en in slaapkamers.',
     shelfAdvice: 'Test ze elke maand met de testknop en vervang de melder na 10 jaar.',
@@ -267,7 +267,7 @@ const seedItems = <SeedItem>[
     base: 1,
   ),
   SeedItem(
-    id: 'co_detector', category: Cat.other, name: 'Koolmonoxidemelder',
+    id: 'co_detector', priority: ItemPriority.belangrijk, category: Cat.other, name: 'Koolmonoxidemelder',
     why: 'Koolmonoxide kun je niet ruiken of zien. Een melder (NEN-EN 50291) '
         'in de ruimte van het verwarmingstoestel waarschuwt je op tijd.',
     base: 1,

@@ -36,6 +36,8 @@ List<Item> assembleItems(List<ItemRow> rows, Household h) {
       notes: r?.notes ?? '',
       shelfAdvice: s.shelfAdvice,
       suggestedIntervalMonths: s.intervalMonths,
+      priority: s.priority,
+      coverage: s.coverage,
     ));
   }
   for (final r in rows.where((r) => r.isCustom)) {
