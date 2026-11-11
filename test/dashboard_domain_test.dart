@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mijnnoodpakket/core/format.dart';
 import 'package:mijnnoodpakket/data/seed/seed_items.dart';
 import 'package:mijnnoodpakket/domain/models.dart';
 import 'package:mijnnoodpakket/features/dashboard/domain/dash_prefs.dart';
@@ -35,6 +36,7 @@ Item item(
 
 void main() {
   prefsTests();
+  unitTests();
   final now = DateTime(2026, 11, 11, 12);
 
   group('seed: prioriteit en dekking', () {
@@ -351,6 +353,16 @@ void main() {
       expect(routineReminderTime(DateTime(2026, 12, 1), now), DateTime(2026, 12, 1, 10));
       expect(routineReminderTime(DateTime(2026, 11, 1), now), DateTime(2026, 11, 12, 10));
     });
+  });
+}
+
+void unitTests() {
+  test('enkelvoud bij 1: stuk, set, maaltijd', () {
+    expect(unitFor('stuks', 1), 'stuk');
+    expect(unitFor('stuks', 2), 'stuks');
+    expect(unitFor('sets', 1), 'set');
+    expect(unitFor('liter', 1), 'liter');
+    expect(unitFor('maaltijden', 1), 'maaltijd');
   });
 }
 

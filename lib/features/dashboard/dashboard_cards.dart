@@ -133,12 +133,14 @@ class ReadinessCard extends ConsumerWidget {
     final empty = !r.hasInput && !r.needsQuantities;
 
     final days = fmtQty(r.displayDays);
-    final headline = empty ? S.dashReadyEmpty : S.dashReadyDays(days);
+    // Alleen afgevinkt, nog geen hoeveelheden: geen "0 van 3", maar een duidelijke vraag.
+    final fill = !r.hasInput && r.needsQuantities;
+    final headline = empty ? S.dashReadyEmpty : (fill ? S.dashReadyFill : S.dashReadyDays(days));
     final String? note = empty
         ? S.dashReadyEmptySub
         : r.goalReached
             ? S.dashReadyGoal
-            : (!r.hasInput && r.needsQuantities)
+            : fill
                 ? S.dashReadyNeedQty
                 : null;
 
@@ -163,12 +165,12 @@ class ReadinessCard extends ConsumerWidget {
         const SizedBox(height: 12),
         Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Semantics(
-            label: empty ? S.dashReadyEmpty : S.dashReadyDays(days),
+            label: empty ? S.dashReadyEmpty : (fill ? S.dashReadyFill : S.dashReadyDays(days)),
             excludeSemantics: true,
             child: ProgressRing(
-              value: empty ? 0 : r.ringValue,
+              value: empty || fill ? 0 : r.ringValue,
               size: 96,
-              child: empty
+              child: empty || fill
                   ? Icon(Icons.inventory_2_outlined, color: c.onSurfaceVariant)
                   : Padding(
                       padding: const EdgeInsets.all(14),
@@ -192,7 +194,7 @@ class ReadinessCard extends ConsumerWidget {
             ]),
           ),
         ]),
-        if (!empty) ...[
+        if (!empty && !fill) ...[
           const SizedBox(height: 4),
           Align(
             alignment: Alignment.centerLeft,
@@ -334,27 +336,34 @@ class SuggestionTile extends ConsumerWidget {
         ),
       ]),
       const SizedBox(height: 8),
-      Wrap(spacing: 4, runSpacing: 0, crossAxisAlignment: WrapCrossAlignment.center, children: [
-        FilledButton.tonal(
-          onPressed: () => context.push(route),
-          style: FilledButton.styleFrom(minimumSize: const Size(0, 48)),
-          child: Text(x.action),
+      Row(children: [
+        Expanded(
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: FilledButton.tonal(
+              onPressed: () => context.push(route),
+              style: FilledButton.styleFrom(minimumSize: const Size(0, 48)),
+              child: Text(x.action),
+            ),
+          ),
         ),
-        TextButton(
-          onPressed: () async {
-            await actions.later(s.id);
-            messenger.showSnackBar(const SnackBar(content: Text(S.dashLaterDone)));
+        // "Later" en "Niet relevant" blijven beschikbaar, maar rustig in een menu.
+        PopupMenuButton<String>(
+          tooltip: S.moreOptions,
+          icon: const Icon(Icons.more_horiz_rounded),
+          onSelected: (v) async {
+            if (v == 'later') {
+              await actions.later(s.id);
+              messenger.showSnackBar(const SnackBar(content: Text(S.dashLaterDone)));
+            } else {
+              await actions.dismiss(s.id);
+              messenger.showSnackBar(const SnackBar(content: Text(S.dashNotRelevantDone)));
+            }
           },
-          style: TextButton.styleFrom(minimumSize: const Size(0, 48)),
-          child: const Text(S.dashLater),
-        ),
-        TextButton(
-          onPressed: () async {
-            await actions.dismiss(s.id);
-            messenger.showSnackBar(const SnackBar(content: Text(S.dashNotRelevantDone)));
-          },
-          style: TextButton.styleFrom(minimumSize: const Size(0, 48)),
-          child: const Text(S.dashNotRelevant),
+          itemBuilder: (_) => const [
+            PopupMenuItem(value: 'later', child: Text(S.dashLater)),
+            PopupMenuItem(value: 'dismiss', child: Text(S.dashNotRelevant)),
+          ],
         ),
       ]),
     ]);

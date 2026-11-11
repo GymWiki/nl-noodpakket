@@ -6,6 +6,20 @@ import 'l10n/strings.dart';
 String fmtQty(double v) =>
     v == v.roundToDouble() ? v.toInt().toString() : v.toStringAsFixed(1).replaceAll('.', ',');
 
+/// "1 stuks" wordt "1 stuk": enkelvoud van de gangbare eenheden.
+String unitFor(String unit, double n) {
+  if (n != 1) return unit;
+  return switch (unit.toLowerCase()) {
+    'stuks' => 'stuk',
+    'sets' => 'set',
+    'maaltijden' => 'maaltijd',
+    'pakken' => 'pak',
+    'flessen' => 'fles',
+    'blikken' => 'blik',
+    _ => unit,
+  };
+}
+
 String fmtDate(DateTime d) => DateFormat('d MMM yyyy', 'nl_NL').format(d);
 
 /// Naam van een categorie; eigen categorieën zijn hun eigen naam.
@@ -32,7 +46,7 @@ int compareCategories(String a, String b) {
 String quantityText(Item i) {
   final target = fmtQty(i.target);
   if (i.quantityHave != null) {
-    return '${fmtQty(i.quantityHave!)} van $target ${i.unit}';
+    return '${fmtQty(i.quantityHave!)} van $target ${unitFor(i.unit, i.target)}';
   }
-  return '$target ${i.unit}';
+  return '$target ${unitFor(i.unit, i.target)}';
 }

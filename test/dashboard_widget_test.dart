@@ -270,6 +270,26 @@ void main() {
       h.dispose();
     });
 
+    testWidgets('"Later" en "Niet relevant" staan in het menu bij elke suggestie', (t) async {
+      await tall(t);
+      await t.pumpWidget(wrap(const DashboardScreen(), overrides(const [])));
+      await t.pumpAndSettle();
+      expect(find.text(S.dashLater), findsNothing); // niet meer als losse knoppen
+      await t.tap(find.byTooltip(S.moreOptions).first);
+      await t.pumpAndSettle();
+      expect(find.text(S.dashLater), findsOneWidget);
+      expect(find.text(S.dashNotRelevant), findsOneWidget);
+    });
+
+    testWidgets('afgevinkt zonder hoeveelheid: vraag in plaats van "0 van 3"', (t) async {
+      await tall(t);
+      final only = [item('water', coverage: Coverage.water, inHouse: true)];
+      await t.pumpWidget(wrap(const DashboardScreen(), overrides(only)));
+      await t.pumpAndSettle();
+      expect(find.text(S.dashReadyFill), findsWidgets);
+      expect(find.textContaining('0 van de 3'), findsNothing);
+    });
+
     testWidgets('Eenvoudige start: vier grote knoppen', (t) async {
       await tall(t);
       final o = overrides(full, settings: const AppSettings(onboarded: true, simpleStart: true));

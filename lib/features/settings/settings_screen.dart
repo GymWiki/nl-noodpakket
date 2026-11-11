@@ -169,6 +169,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             onChanged: (v) => togglePlanReminder(context, ref, v),
           ),
           const ProSettingsSection(),
+          header(S.setDisplay),
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
             title: const Text(S.simpleStartTitle),
@@ -186,7 +187,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               onTap: hidden == 0 ? null : () => ref.read(dashActionsProvider).restoreHidden(),
             );
           }),
-          header(S.setTheme),
+          Padding(
+            padding: const EdgeInsets.only(top: 12, bottom: 8),
+            child: Text(S.setTheme, style: t.textTheme.titleSmall),
+          ),
           SegmentedButton<ThemeMode>(
             segments: const [
               ButtonSegment(value: ThemeMode.system, label: Text(S.themeSystem)),

@@ -43,7 +43,7 @@ class MyPlanScreen extends ConsumerWidget {
             const PageTitle(S.myPlanTitle, subtitle: S.myPlanSub),
             row(Icons.assignment_outlined, S.planTitle,
                 st.planStarted ? S.planCardSub(st.planDone, st.planTotal) : S.planCardStart, '/plan', MenuItemKind.plan),
-            row(Icons.forum_outlined, S.planTalk, S.planTalkIntro, '/plan/gesprek', MenuItemKind.talk),
+            row(Icons.forum_outlined, S.planTalk, S.myPlanTalkSub, '/plan/gesprek', MenuItemKind.talk),
             row(Icons.lock_outline, S.vaultTitle, S.vaultEntrySub, '/kluis', MenuItemKind.vault),
             const SizedBox(height: Gap.s),
             Text(S.disclaimer, style: t.textTheme.bodySmall),

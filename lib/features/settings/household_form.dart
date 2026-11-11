@@ -40,15 +40,17 @@ class _Stepper extends StatelessWidget {
     return Semantics(
       container: true,
       label: S.hhCount(label, value),
-      child: Row(children: [
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: Row(children: [
         Expanded(
             child: ExcludeSemantics(
                 child:
                     Text(label, style: Theme.of(context).textTheme.titleMedium))),
         IconButton.filledTonal(
           tooltip: S.hhLess(label),
-          iconSize: 28,
-          constraints: const BoxConstraints(minWidth: 56, minHeight: 56),
+          iconSize: 24,
+          constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
           onPressed: value > min ? () => onChanged(value - 1) : null,
           icon: const Icon(Icons.remove),
         ),
@@ -62,12 +64,13 @@ class _Stepper extends StatelessWidget {
         ),
         IconButton.filledTonal(
           tooltip: S.hhMore(label),
-          iconSize: 28,
-          constraints: const BoxConstraints(minWidth: 56, minHeight: 56),
+          iconSize: 24,
+          constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
           onPressed: value < 20 ? () => onChanged(value + 1) : null,
           icon: const Icon(Icons.add),
         ),
       ]),
+      ),
     );
   }
 }

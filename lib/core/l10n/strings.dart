@@ -906,7 +906,7 @@ class S {
 
   // ---- Dashboard "Start" ----
   static const navPlan = 'Mijn plan';
-  static const dashSub = 'Zo staat het ervoor, en wat je als eerste kunt doen.';
+  static const dashSub = 'Zo staat het ervoor.';
   static const dashCall112 = 'Bel 112';
   static const dashCall112Hint = 'Opent je telefoon-app met 112 ingevuld. Er wordt niet automatisch gebeld.';
 
@@ -919,6 +919,9 @@ class S {
   static const dashReadyGoal =
       'Doel bereikt: je hebt water en eten voor 3 dagen. Controleer af en toe de houdbaarheid.';
   static const dashReadyHow = 'Hoe is dit berekend?';
+  static const dashReadyFill = 'Vul in hoeveel je hebt';
+  static const moreOptions = 'Meer opties';
+  static const setDisplay = 'Weergave';
   static const dashReadyEstimate = 'Dit is een schatting op basis van jouw invoer.';
   static const dashHowTitle = 'Zo rekenen we';
   static const dashHowGoal =
@@ -1050,7 +1053,8 @@ class S {
       n == 0 ? 'Er is niets verborgen.' : '$n verborgen. Tik om ze terug te zetten.';
 
   static const myPlanTitle = 'Mijn plan';
-  static const myPlanSub = 'Afspraken en documenten voor als het nodig is.';
+  static const myPlanSub = 'Afspraken en documenten.';
+  static const myPlanTalkSub = 'Eén vraag per kaart, samen met je huishouden.';
   static const moreMaintSub = 'Rookmelder, powerbank en andere vaste controles';
 
   // ---- Pro ----

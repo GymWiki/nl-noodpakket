@@ -89,10 +89,10 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
 
     return Scaffold(
       floatingActionButton: _tab == 0
-          ? FloatingActionButton.extended(
+          ? FloatingActionButton(
+              tooltip: S.addItem,
               onPressed: () => context.push('/item/new'),
-              icon: const Icon(Icons.add_rounded),
-              label: const Text(S.addItem),
+              child: const Icon(Icons.add_rounded),
             )
           : null,
       body: SafeArea(
