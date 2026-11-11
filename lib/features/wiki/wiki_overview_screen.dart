@@ -7,6 +7,7 @@ import '../../core/l10n/strings.dart';
 import '../../core/theme.dart';
 import '../../core/ui.dart';
 import '../kluis/ui/vault_link.dart';
+import '../noodhacks/hacks_links.dart';
 import '../noodplan/plan_providers.dart';
 import '../noodplan/ui/plan_overview_screen.dart';
 import 'wiki_icons.dart';
@@ -78,6 +79,8 @@ class _WikiOverviewScreenState extends ConsumerState<WikiOverviewScreen> {
         const SizedBox(height: Gap.m),
         if (!searching) ...[
           _FirstHourCard(first: d.eersteUur),
+          const SizedBox(height: 12),
+          const HacksEntryCards(),
           const SizedBox(height: 12),
           const PlanEntryCard(),
           const SizedBox(height: 12),

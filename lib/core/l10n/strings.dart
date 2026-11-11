@@ -633,6 +633,71 @@ class S {
   static const vaultTypeOwnership = "Eigendomsbewijzen en inventaris-foto's";
   static const vaultTypeOther = 'Overig';
 
+  // Noodhacks
+  static const hacksTitle = 'Noodhacks';
+  static const hacksDisclaimer =
+      'Dit zijn noodmaatregelen voor als normale voorzieningen ontbreken. Bij levensgevaar '
+      'bel je 112. Deze app vertegenwoordigt de Nederlandse overheid niet.';
+  static const hacksEntrySub = 'Praktische tips voor als je pakket op is.';
+  static const hacksSearchHint = 'Zoek: water, koken, koelkast…';
+  static const hacksFilterAll = 'Alles';
+  static const hacksLabelSafe = 'Veilig';
+  static const hacksLabelCaution = 'Let op';
+  static const hacksLabelNever = 'Doe dit nooit';
+  static const hacksNoResults = 'Geen noodhack gevonden. Probeer een ander woord.';
+  static const hacksLoadError = 'De noodhacks konden niet worden geladen.';
+  static const hacksNotFound = 'Deze noodhack bestaat niet.';
+  static const hacksIntroOut = 'Mijn pakket is op';
+  static const hacksIntroOutSub = 'Wat doe je eerst? In vijf stappen.';
+  static const hacksHave = 'Wat heb ik in huis?';
+  static const hacksHaveSub = 'Kies je spullen en zie wat daarmee kan.';
+  static const hacksNeed = 'Wat heb je nodig';
+  static const hacksSteps = 'Zo doe je het';
+  static const hacksWarnings = 'Let op';
+  static const hacksWhyNot = 'Waarom niet?';
+  static const hacksInstead = 'Doe dit in plaats daarvan';
+  static const hacksStart = 'Start stappenplan';
+  static const hacksSources = 'Bronnen';
+  static const hacksSourceOfficial = 'Bron: officiële Nederlandse bron.';
+  static const hacksSourceGeneral = 'Bron: gezaghebbende algemene bron (internationaal). Nederlandse adviezen gaan voor.';
+  static String hacksReviewed(String d) => 'Laatst gecontroleerd: $d';
+  static const hacksYouHave = 'Heb je in huis';
+  static const hacksNoMaterial = 'Geen speciale spullen nodig';
+  static const hacksStepsList = 'Toon als lijst';
+  static const hacksStepsOne = 'Eén stap per scherm';
+  static const hacksReadFirst = 'Eerst lezen';
+  static const hacksRelatedBlock = 'Als je pakket op is';
+  static const hacksAllHacks = 'Alle noodhacks';
+  static const hacksHandy = 'Handige hacks';
+  static const hacksAddFav = 'Voeg toe aan favorieten';
+  static const hacksRemoveFav = 'Verwijder uit favorieten';
+  static const hacksFavorites = 'Favorieten';
+  // "Wat heb ik in huis?"
+  static const hacksHaveTitle = 'Wat heb ik in huis?';
+  static const hacksHaveIntro = 'Tik aan wat je hebt. Je ziet welke noodhacks daarmee kunnen.';
+  static const hacksHavePossible = 'Dit kan nu';
+  static const hacksHaveAlmost = 'Bijna: er ontbreekt iets';
+  static String hacksMissing(String what) => 'Je mist: $what';
+  static const hacksHaveNone = 'Kies hierboven wat je hebt.';
+  static const hacksHaveSaved = 'Je keuze wordt onthouden op dit toestel.';
+  static const hacksHaveClear = 'Alles wissen';
+  // "Mijn pakket is op"
+  static const hacksOutTitle = 'Mijn pakket is op';
+  static const hacksOutIntro =
+      'Doe dit in volgorde. Water gaat voor, daarna warmte, hygiëne en eten. Zoek ook hulp bij anderen.';
+  static const hacksOut1 = 'Water';
+  static const hacksOut2 = 'Warmte';
+  static const hacksOut3 = 'Toilet en hygiëne';
+  static const hacksOut4 = 'Eten';
+  static const hacksOut5 = 'Hulp zoeken';
+  static const hacksOutHelp = [
+    'Luister naar de regionale omroep op een radio op batterijen.',
+    'Vraag je buren om hulp en bied hulp aan.',
+    'Kijk op rijksoverheid.nl of vraag je gemeente of veiligheidsregio om informatie.',
+    'Is er langer dan 24 uur geen kraanwater? Haal nooddrinkwater bij het distributiepunt van je gemeente.',
+  ];
+  static const hacksOutFirstHour = 'Eerste-uur kaart';
+
   // Categorieën
   static const catWater = 'Water en voeding';
   static const catInfo = 'Informatie en communicatie';

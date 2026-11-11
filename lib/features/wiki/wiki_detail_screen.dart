@@ -8,6 +8,7 @@ import '../../core/l10n/strings.dart';
 import '../../core/providers.dart';
 import '../../domain/models.dart';
 import '../kluis/ui/vault_link.dart';
+import '../noodhacks/hacks_links.dart';
 import '../noodplan/ui/plan_wiki_block.dart';
 import 'wiki_models.dart';
 import 'wiki_providers.dart';
@@ -153,6 +154,7 @@ class _Detail extends ConsumerWidget {
                 onTap: () => openDialer(context, c.nummer),
               ),
           ],
+          HacksForEmergency(emergencyId: e.id),
           PlanWikiBlock(emergencyId: e.id),
           if (const {'overstroming', 'natuurbrand', 'brand-in-huis', 'kernongeval'}.contains(e.id))
             const VaultLinkTile(title: S.vaultNoodmapOpen, padding: EdgeInsets.only(top: 16)),

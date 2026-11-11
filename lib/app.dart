@@ -9,6 +9,10 @@ import 'core/theme.dart';
 import 'domain/expiry.dart';
 import 'features/checklist/checklist_screen.dart';
 import 'features/home/home_screen.dart';
+import 'features/noodhacks/hack_detail_screen.dart';
+import 'features/noodhacks/hacks_have_screen.dart';
+import 'features/noodhacks/hacks_out_screen.dart';
+import 'features/noodhacks/hacks_overview_screen.dart';
 import 'features/more/more_screen.dart';
 import 'features/info/info_screen.dart';
 import 'features/items/item_form_screen.dart';
@@ -97,6 +101,21 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: 'stappen',
             builder: (_, st) => WikiStepsScreen(id: st.pathParameters['id']!),
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/hacks',
+        builder: (_, _) => const HacksOverviewScreen(),
+        routes: [
+          GoRoute(path: 'pakket-op', builder: (_, _) => const HacksOutScreen()),
+          GoRoute(path: 'in-huis', builder: (_, _) => const HacksHaveScreen()),
+          GoRoute(
+            path: ':id',
+            builder: (_, st) => HackDetailScreen(id: st.pathParameters['id']!),
+            routes: [
+              GoRoute(path: 'stappen', builder: (_, st) => HackStepsScreen(id: st.pathParameters['id']!)),
+            ],
           ),
         ],
       ),

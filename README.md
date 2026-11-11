@@ -203,3 +203,17 @@ Alles hierboven is getest op unit-, widget- en bestandsniveau, maar **niet op ee
 - **Typografie**: één lettertype (Roboto, meegeleverd), grote koppen, 17 sp lopende tekst, schaalt mee met de systeemtekstgrootte.
 - **Componenten** (`lib/core/ui.dart`): `SoftCard`, `IconBadge`, `ProgressRing`, `SectionHeader`, `PageTitle`. Alle schermen (ook wizard, kluis en formulieren) erven het thema.
 - **Beweging**: korte, rustige overgangen (Android fade-forwards, iOS Cupertino); de voortgangsring animeert niet als "animaties verminderen" aan staat.
+
+## Noodhacks
+
+Praktische tips voor als het noodpakket op of ontoereikend is, binnen het tabblad Noodgevallen (kaarten "Mijn pakket is op" en "Noodhacks"). Overzicht met zoeken en labelfilter, detail met materialen, stappen, waarschuwingen, bron en controledatum, stappenplan (één stap per scherm, waarschuwingen eerst), "Wat heb ik in huis?" (materiaalchips, onthouden op dit toestel), "Mijn pakket is op" (volgorde: water, warmte, hygiëne, eten, hulp zoeken) en een sectie Gevaarlijke mythes.
+
+- **Inhoud**: `assets/wiki/noodhacks.json` (schemaVersion 1): categorieën, vaste materialenlijst en hacks (`label`: veilig / letop / nooit, `materialen`, `stappen`, `waarschuwingen`, `reden` + `alternatiefIds` bij "nooit", `bronnen`, `bronType`, `lastReviewed`, koppelingen naar wiki-noodgevallen en checklist-items). Labels tonen altijd icoon én tekst.
+- **Validatie** (`test/hacks_data_test.dart`): unieke id's, minstens 1 stap, materiaal-, checklist- en wiki-id's bestaan, elke "nooit"-hack heeft een reden, een veilig alternatief en hoort bij de mythes, elke hack heeft een https-bron. De test bewaakt ook de kerncijfers (koken 3 minuten, bleek 5% tot 9% en 30 minuten) en dat onbewezen onderwerpen er niet in zitten.
+- **Koppelingen**: blok "Als je pakket op is" in de wiki-detailschermen (Stroomstoring, Uitval water, Uitval gas/verwarming, Strenge kou, Overstroming) en "Handige hacks" in het itemdetail van de checklist.
+
+### Wat is gecontroleerd en wat is weggelaten (2026-11-11)
+
+Elke hack is vergeleken met officiële of gezaghebbende bronnen (Denk Vooruit, Voedingscentrum, Brandweer, Vitens, Waternet, CDC, EPA). **Stappen zonder bron zijn weggelaten.** Weggelaten omdat er geen onderbouwing kon worden gevonden: hooikist en thermoskoken, blik au bain-marie, gasslang-advies, regenwater en gesmolten sneeuw, zand-houtskoolfilter, noodtoilet, riool/wc afsluiten, bleek mengen met andere middelen, generator, kaarsenkachel, hete baksteen, thuisbatterij, telefoon-batterijtips, kruik en lagen kleding, de categorie Gezondheid (onderkoeling, ORS, noodverband; het Rode Kruis was niet bereikbaar). Afwijkingen: koken is **3 minuten** (Nederlandse drinkwaterbedrijven; CDC noemt 1 minuut); een barbecue mag **niet op een balkon** (Brandweer); koolmonoxide-slachtoffers zijn volgens de Brandweer gemiddeld **5 tot 10 per jaar**; de koelkastgrens is 7 °C (en 10 °C voor weggooien) volgens het Voedingscentrum.
+
+**Bleek**: alleen een statische instructie (CDC en EPA: onparfumeerde bleek van 5% tot 9%, 2 druppels ≈ 0,1 ml per liter, dubbel bij troebel water, 30 minuten wachten, chloorlucht controleren) met een etiketwaarschuwing en "koken is veiliger". Er is **geen rekenhulpmiddel** gebouwd: er is geen officiële Nederlandse bron voor de concentratie van Nederlandse bleek, en de bronnen geven geen tabel buiten 5% tot 9% (CDC) of 6% en 8,25% (EPA).
