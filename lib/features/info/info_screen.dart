@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../core/dialer.dart';
 import '../../core/l10n/strings.dart';
+import '../../core/legal.dart';
 import '../../core/theme.dart';
 import '../../core/ui.dart';
 
@@ -75,6 +77,39 @@ class InfoScreen extends StatelessWidget {
               const SizedBox(width: 12),
               const Expanded(child: Text(S.infoPrivacyBody)),
             ]),
+          ),
+          const SectionHeader(S.legalTitle),
+          SoftCard(
+            padding: EdgeInsets.zero,
+            child: Column(children: [
+              ListTile(
+                leading: const Icon(Icons.privacy_tip_outlined),
+                title: const Text(S.legalPrivacy),
+                trailing: const Icon(Icons.open_in_new_rounded),
+                onTap: () => openExternal(context, privacyUrl),
+              ),
+              const Divider(indent: 16, endIndent: 16),
+              ListTile(
+                leading: const Icon(Icons.description_outlined),
+                title: const Text(S.legalTerms),
+                trailing: const Icon(Icons.open_in_new_rounded),
+                onTap: () => openExternal(context, termsUrl),
+              ),
+              const Divider(indent: 16, endIndent: 16),
+              ListTile(
+                leading: const Icon(Icons.article_outlined),
+                title: const Text(S.legalLicenses),
+                trailing: const Icon(Icons.chevron_right_rounded),
+                onTap: () => showLicensePage(
+                  context: context,
+                  applicationName: S.appName,
+                ),
+              ),
+            ]),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8, left: 4),
+            child: Text(S.legalOpensInBrowser, style: t.textTheme.bodySmall),
           ),
         ],
       ),

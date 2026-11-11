@@ -217,9 +217,10 @@ class _Shell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: shell,
-      // Tekst in de navigatiebalk groeit mee, maar blijft binnen de balk.
+      // Labels in de navigatiebalk schalen niet mee: anders breekt "Noodgevallen" midden in het woord.
+      // De rest van de app schaalt wel volledig mee.
       bottomNavigationBar: MediaQuery.withClampedTextScaling(
-        maxScaleFactor: 1.3,
+        maxScaleFactor: 1.0,
         child: NavigationBar(
           selectedIndex: shell.currentIndex,
           onDestinationSelected: (i) =>

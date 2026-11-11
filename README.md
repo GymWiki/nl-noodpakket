@@ -264,3 +264,24 @@ Tinten: voorzieningen en water blauw, natuur en hygiëne teal, brand en gevaarli
 
 Bewaakt door `test/category_palette_test.dart` (icoon op bolletje minstens 4,5:1 terwijl 3:1 de eis is, accentlijn minstens 3:1, tekst minstens 4,5:1, gelijke helderheid en verzadiging, geen rood of oranje, elke categorie heeft een tint) en `test/category_golden_test.dart` (screenshots in `test/goldens/`, licht, donker, 200% en protanopie/deuteranopie; regenereer met `flutter test --update-goldens`). Noodplan en Kluis staan alleen in de tab *Mijn plan*; de kaarten in Noodgevallen zijn weggehaald.
 
+## Privacybeleid en voorwaarden (GitHub Pages)
+
+De pagina's staan in `docs/` (`index.html`, `privacy.html`, `terms.html`, `style.css`) en worden met GitHub Pages gepubliceerd. De app linkt ernaar onder Meer, Informatie, Juridisch (`lib/core/legal.dart`).
+
+Eenmalig instellen (dit kon ik niet zelf: er is geen `gh`-CLI of remote in deze omgeving):
+1. Maak een **publieke** repository `nl-noodpakket` onder het account `GymWiki` en push dit project (`git remote add origin https://github.com/GymWiki/nl-noodpakket.git`, `git push -u origin master`).
+2. Repository, Settings, Pages: Source "Deploy from a branch", branch `master`, map `/docs`.
+3. Na een minuut zijn de pagina's bereikbaar op `https://gymwiki.github.io/nl-noodpakket/privacy.html` en `.../terms.html`. Controleer beide URL's in een browser.
+4. Heet de repository of het account anders, pas dan alleen `legalBaseUrl` in `lib/core/legal.dart` aan (en de GitHub-Issues-links in `docs/`). `test/legal_test.dart` bewaakt dat de links, bestanden en toestemmingen kloppen.
+5. Vul dezelfde privacy-URL in Play Console (App-inhoud, Privacybeleid) en App Store Connect (App-informatie).
+
+Let op: de teksten zijn zorgvuldig opgesteld naar wat de app doet, maar niet juridisch getoetst. Laat ze zo nodig controleren. De pagina's noemen geen e-mailadres; contact loopt via GitHub Issues.
+
+## Release-controles (na de audit van 2026-11-11)
+
+- **Signing**: `flutter build appbundle --release` faalt bewust zonder `android/key.properties`. Een release-APK voor lokaal testen mag nog met de debug-sleutel. Controleer na het bouwen met `apksigner verify --print-certs` dat het certificaat niet `Android Debug` is.
+- **Obfuscatie (optioneel)**: `flutter build appbundle --release --obfuscate --split-debug-info=build/symbols` en bewaar `build/symbols` voor crashrapporten.
+- **iOS**: `ios/Runner/PrivacyInfo.xcprivacy` (geen tracking, geen verzamelde data) staat in het Xcode-project, maar is op Windows niet gebouwd. Bouw op een Mac met Xcode 26 en bekijk het privacyrapport (Product, Archive, Generate Privacy Report). `ITSAppUsesNonExemptEncryption` is **bewust niet** ingevuld: de kluis gebruikt versleuteling en de exportverklaring is jouw juridische keuze. Vul in Info.plist `false` in als je vindt dat je onder de vrijstelling valt, of beantwoord de vraag in App Store Connect.
+- **Licenties**: Meer, Informatie, Open-sourcelicenties (`showLicensePage`).
+- **Nog open**: het updatepad vanaf de live-app is niet vast te stellen vanuit deze repo; test de update met de oude release. Zie `RELEASE_READINESS.md`.
+

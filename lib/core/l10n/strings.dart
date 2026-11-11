@@ -1104,4 +1104,10 @@ class S {
   static const dashRemindHint = 'Wil je een herinnering? Dat kan met Pro.';
 
   static String wikiSituations(int n) => n == 1 ? '1 situatie' : '$n situaties';
+
+  static const legalTitle = 'Juridisch';
+  static const legalPrivacy = 'Privacybeleid';
+  static const legalTerms = 'Gebruiksvoorwaarden';
+  static const legalLicenses = 'Open-sourcelicenties';
+  static const legalOpensInBrowser = 'Opent in je browser. Dit is de enige keer dat de app internet gebruikt, en alleen als jij tikt.';
 }

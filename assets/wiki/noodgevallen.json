@@ -100,7 +100,7 @@
         "Klik niet op links van afzenders die je niet kent. Controleer altijd de afzender."
       ],
       "stappenDaarna": [
-        "Heb je hulp nodig na online oplichting of hacking? Bel de DigiHulplijn: 0800-1508."
+        "Lukt het niet om zelf je online beveiliging in te stellen, bijvoorbeeld inloggen in twee stappen? Bel de DigiHulplijn: 0800-1508."
       ],
       "bel112Als": ["Er is levensgevaar."],
       "voorbereidenItemIds": ["radio", "batteries", "cash", "phone_numbers", "usb", "powerbank"],
@@ -501,7 +501,7 @@
       "trefwoorden": ["brandwond", "verbranding", "verbrand", "heet water", "koelen", "eerste hulp", "ehbo"],
       "intro": "Je of iemand anders heeft zich verbrand. Koel de wond direct.",
       "stappenNu": [
-        "Koel de brandwond minimaal 10 minuten met lauw, zacht stromend leidingwater.",
+        "Koel de brandwond 10 minuten met lauw, zacht stromend leidingwater.",
         "Heb je geen kraan? Gebruik ander water. Elk water is beter dan niet koelen.",
         "Verwijder tijdens het koelen kleding, sieraden en luier.",
         "Koel alleen de wond, zodat je niet onderkoeld raakt.",

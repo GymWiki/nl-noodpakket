@@ -39,7 +39,7 @@ android {
     }
 
     signingConfigs {
-        // TODO: maak android/key.properties (zie README) met de upload-keystore van de bestaande listing.
+        // Zet android/key.properties neer (zie README) met de upload-keystore van de bestaande listing.
         if (keystoreProps.containsKey("storeFile")) {
             create("release") {
                 storeFile = file(keystoreProps.getProperty("storeFile"))
@@ -52,6 +52,14 @@ android {
 
     buildTypes {
         release {
+            // Voor de store: een AAB zonder upload-sleutel is nooit toegestaan.
+            // Lokaal testen met een release-APK mag wel met de debug-sleutel.
+            if (gradle.startParameter.taskNames.any { it.contains("bundle", ignoreCase = true) } &&
+                signingConfigs.findByName("release") == null) {
+                throw GradleException(
+                    "android/key.properties ontbreekt: een AAB voor de store mag niet met de debug-sleutel worden getekend (zie README)."
+                )
+            }
             // Zonder key.properties wordt met debug-sleutel getekend (alleen om lokaal te testen).
             signingConfig = signingConfigs.findByName("release") ?: signingConfigs.getByName("debug")
         }
