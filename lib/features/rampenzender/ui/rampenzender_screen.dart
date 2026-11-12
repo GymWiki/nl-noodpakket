@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import '../../../core/l10n/strings.dart';
 import '../../../core/legal.dart';
 import '../../../core/dialer.dart';
-import '../../../core/providers.dart';
 import '../../../core/theme.dart';
 import '../../../core/ui.dart';
 import '../data/rampenzender_models.dart';
@@ -279,11 +278,7 @@ class _DoneButton extends ConsumerWidget {
     }
     return FilledButton.icon(
       style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(60)),
-      onPressed: () async {
-        await ref.read(radioActionsProvider).setRadioReady(true);
-        // Het checklistitem "Radio" erbij bijwerken: wie zijn radio instelt, heeft er een.
-        await ref.read(itemRepositoryProvider).setInHouse('radio', true);
-      },
+      onPressed: () => ref.read(radioActionsProvider).setRadioReady(true),
       icon: const Icon(Icons.radio_button_checked_rounded),
       label: const Text(RZ.markDone, style: TextStyle(fontSize: 18)),
     );

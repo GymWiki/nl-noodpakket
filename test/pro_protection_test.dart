@@ -53,6 +53,8 @@ void main() {
       'lib/features/kluis/ui/vault_settings_screen.dart', // back-up, import, export
       'lib/features/kluis/ui/vault_add_screen.dart',
       'lib/features/deel/', // delen met een ander toestel: nooit achter Pro
+      'lib/features/rampenzender/', // rampenzender: nooit achter Pro
+      'lib/features/noodhacks/hacks_out_screen.dart', // bevat de regel "Stem je radio af op"
       'lib/data/',
       'lib/domain/',
     ];

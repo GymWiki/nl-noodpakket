@@ -42,7 +42,7 @@ class RadioActions {
 
   Future<void> chooseRegion(String gm) async {
     final repo = _ref.read(settingsRepositoryProvider);
-    if (_ref.read(radioPrefsProvider).gm != gm) {
+    if (await repo.getRaw(RadioKeys.gm) != gm) {
       await repo.deleteRaw(RadioKeys.area);
       await repo.deleteRaw(RadioKeys.set);
     }
@@ -60,9 +60,17 @@ class RadioActions {
       ? _ref.read(settingsRepositoryProvider).deleteRaw(RadioKeys.area)
       : _ref.read(settingsRepositoryProvider).setRaw(RadioKeys.area, id);
 
-  Future<void> setRadioReady(bool v) => v
-      ? _ref.read(settingsRepositoryProvider).setRaw(RadioKeys.set, 'true')
-      : _ref.read(settingsRepositoryProvider).deleteRaw(RadioKeys.set);
+  /// "Ik heb mijn radio ingesteld". Aanvinken werkt ook het checklistitem "Radio" bij
+  /// (wie zijn radio instelt, heeft er een); terugzetten laat de checklist met rust.
+  Future<void> setRadioReady(bool v) async {
+    final repo = _ref.read(settingsRepositoryProvider);
+    if (v) {
+      await repo.setRaw(RadioKeys.set, 'true');
+      await _ref.read(itemRepositoryProvider).setInHouse('radio', true);
+    } else {
+      await repo.deleteRaw(RadioKeys.set);
+    }
+  }
 }
 
 final radioActionsProvider = Provider((ref) => RadioActions(ref));

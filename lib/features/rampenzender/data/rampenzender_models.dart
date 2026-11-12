@@ -79,7 +79,7 @@ class RadioResult {
   final Broadcaster? broadcaster;
   final List<Transmission> areas;
 
-  /// Meerdere gebieden en geen aantoonbare koppeling: de gebruiker kiest zelf.
+  /// Meer dan één gebied (geen aantoonbare koppeling naar één gebied): de gebruiker kiest zelf.
   final bool mustChoose;
   final Broadcaster national;
   final Transmission nationalTx;
@@ -190,7 +190,7 @@ class RadioData {
       region: r,
       broadcaster: b,
       areas: ok ? areas : const [],
-      mustChoose: ok && r.areaIds == null && areas.length > 1,
+      mustChoose: ok && areas.length > 1,
       national: national,
       nationalTx: nationalTx,
       checkedOn: dates.last,

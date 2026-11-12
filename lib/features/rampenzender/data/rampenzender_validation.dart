@@ -146,7 +146,7 @@ List<String> validateRampenzenders(Map<String, dynamic> j) {
       for (final a in (ids as List)) {
         if (!tIds.contains(a)) {
           err('gemeente $gm: onbekend gebied $a');
-        } else if (!areasOf[bId]!.contains(a)) {
+        } else if (areasOf[bId]?.contains(a) != true) {
           err('gemeente $gm: gebied $a hoort niet bij omroep $bId');
         }
       }
