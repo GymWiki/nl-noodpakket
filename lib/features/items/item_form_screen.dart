@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/calm.dart';
 import '../../core/format.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/providers.dart';
+import '../../core/theme.dart';
+import '../../core/ui.dart';
 import '../../data/repositories/item_repository.dart';
 import '../../domain/expiry.dart';
 import '../../domain/models.dart';
@@ -201,7 +204,7 @@ class _ItemFormScreenState extends ConsumerState<ItemFormScreen> {
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+          padding: const EdgeInsets.fromLTRB(Space.screen, 8, Space.screen, 32),
           children: [
             if (custom) ...[
               TextFormField(
@@ -244,7 +247,23 @@ class _ItemFormScreenState extends ConsumerState<ItemFormScreen> {
               Text(categoryName(item!.category),
                   style: TextStyle(color: scheme.onSurfaceVariant)),
             ],
-            const SizedBox(height: 16),
+            // Compact, maar altijd zichtbaar: waarom dit belangrijk is.
+            if (!custom) ...[
+              const SizedBox(height: Space.group),
+              Container(
+                padding: const EdgeInsets.all(Space.group),
+                decoration: BoxDecoration(
+                  color: scheme.surfaceContainerLowest,
+                  borderRadius: BorderRadius.circular(Radii.control),
+                ),
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(S.whyTitle, style: Theme.of(context).textTheme.titleSmall),
+                  const SizedBox(height: 4),
+                  Text(item!.why, style: Theme.of(context).textTheme.bodyMedium),
+                ]),
+              ),
+            ],
+            const SectionHeader(S.itemStatus),
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text(S.fieldInHouse),
@@ -282,7 +301,7 @@ class _ItemFormScreenState extends ConsumerState<ItemFormScreen> {
                 ),
               ),
             ]),
-            const SizedBox(height: 24),
+            const SectionHeader(S.itemReminder),
             Semantics(
               button: true,
               label: '${S.fieldExpiry}: '
@@ -358,7 +377,11 @@ class _ItemFormScreenState extends ConsumerState<ItemFormScreen> {
                 ),
               ),
             ],
-            const SizedBox(height: 16),
+            const SizedBox(height: Space.section),
+            ExpandableSection(
+              title: S.itemMore,
+              initiallyExpanded: custom || _notes.text.isNotEmpty,
+              children: [
             TextFormField(
               controller: _notes,
               decoration: const InputDecoration(labelText: S.fieldNotes),
@@ -377,30 +400,18 @@ class _ItemFormScreenState extends ConsumerState<ItemFormScreen> {
                 ),
               ),
             ],
-            const SizedBox(height: 24),
-            if (custom)
+            if (custom) ...[
+              const SizedBox(height: Space.group),
               TextFormField(
                 controller: _why,
                 decoration: const InputDecoration(
                     labelText: S.fieldWhy, hintText: S.fieldWhyHint),
                 maxLines: 3,
-              )
-            else
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(S.whyTitle,
-                          style: Theme.of(context).textTheme.titleMedium),
-                      const SizedBox(height: 8),
-                      Text(item!.why),
-                    ],
-                  ),
-                ),
               ),
-            const SizedBox(height: 24),
+            ],
+              ],
+            ),
+            const SizedBox(height: Space.section),
             FilledButton(
               onPressed: () => _save(custom, id),
               child: const Text(S.save),

@@ -7,6 +7,7 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../../core/dialer.dart';
 import '../../core/format.dart';
+import '../../core/calm.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/theme.dart';
 import '../../core/ui.dart';
@@ -48,6 +49,7 @@ class _Detail extends ConsumerWidget {
     if (hackLocked(h, pro: ref.watch(proUnlockedProvider))) return HackLockedView(hack: h);
 
     Widget section(String title) => SectionHeader(title);
+    // Koppen volgen de vaste ruimte: 24 dp erboven, 8 dp eronder (zie SectionHeader).
 
     return Scaffold(
       appBar: AppBar(
@@ -159,28 +161,26 @@ class _Detail extends ConsumerWidget {
           ],
           if (h.alternatiefIds.isNotEmpty) ...[
             section(never ? S.hacksInstead : S.hacksHandy),
-            SoftCard(
-              padding: EdgeInsets.zero,
-              child: Column(children: [
-                for (final a in h.alternatiefIds)
-                  if (data.byId(a) != null) HackTile(hack: data.byId(a)!),
-              ]),
-            ),
+            CalmListGroup(children: [
+              for (final a in h.alternatiefIds)
+                if (data.byId(a) != null) HackTile(hack: data.byId(a)!),
+            ]),
           ],
-          section(S.hacksSources),
-          Text(h.bronType == 'officieel' ? S.hacksSourceOfficial : S.hacksSourceGeneral,
-              style: t.textTheme.bodySmall),
-          const SizedBox(height: 4),
-          for (final b in h.bronnen)
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              dense: true,
-              leading: const Icon(Icons.open_in_new_rounded, size: 20),
-              title: Text(b.naam),
-              onTap: () => openExternal(context, b.url),
-            ),
-          const SizedBox(height: 8),
-          Text(S.hacksReviewed(fmtDate(h.lastReviewed)), style: t.textTheme.bodySmall),
+          const SizedBox(height: Space.section),
+          ExpandableSection(title: S.hacksSources, children: [
+            Text(h.bronType == 'officieel' ? S.hacksSourceOfficial : S.hacksSourceGeneral,
+                style: t.textTheme.bodySmall),
+            const SizedBox(height: 4),
+            for (final b in h.bronnen)
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                dense: true,
+                leading: const Icon(Icons.open_in_new_rounded, size: 20),
+                title: Text(b.naam),
+                onTap: () => openExternal(context, b.url),
+              ),
+            Text(S.hacksReviewed(fmtDate(h.lastReviewed)), style: t.textTheme.bodySmall),
+          ]),
           const SizedBox(height: 8),
           Text(S.hacksDisclaimer, style: t.textTheme.bodySmall),
         ],

@@ -204,6 +204,10 @@ void main() {
       expect(find.text(S.hacksSteps), findsOneWidget);
       expect(find.text('Laat het 3 minuten koken.'), findsOneWidget);
       expect(find.text(S.hacksStart), findsOneWidget);
+      // Bronnen zijn inklapbaar (rustiger): klap uit.
+      await t.ensureVisible(find.text(S.hacksSources));
+      await t.tap(find.text(S.hacksSources));
+      await t.pumpAndSettle();
       expect(find.textContaining('Laatst gecontroleerd'), findsOneWidget);
       expect(find.text(S.hacksSourceOfficial), findsOneWidget);
     });
@@ -214,6 +218,10 @@ void main() {
       expect(find.text(S.hacksLabelCaution), findsNWidgets(2));
       expect(find.byIcon(Icons.warning_amber_rounded), findsWidgets);
       expect(find.text('Water koken'), findsOneWidget); // alternatief
+      // Bronnen zijn inklapbaar (rustiger): klap uit.
+      await t.ensureVisible(find.text(S.hacksSources));
+      await t.tap(find.text(S.hacksSources));
+      await t.pumpAndSettle();
       expect(find.text(S.hacksSourceGeneral), findsOneWidget);
     });
 

@@ -911,6 +911,9 @@ class S {
   static const dashSub = 'Zo staat het ervoor.';
   static const dashOverviewTitle = 'Meer overzicht';
   static const wikiMoreHelp = 'Extra hulp';
+  static const itemStatus = 'Status';
+  static const itemReminder = 'Herinnering';
+  static const itemMore = 'Meer';
   static const dashCall112 = 'Bel 112';
   static const dashCall112Hint = 'Opent je telefoon-app met 112 ingevuld. Er wordt niet automatisch gebeld.';
 
