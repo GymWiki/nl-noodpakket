@@ -7,6 +7,7 @@ import '../../../core/l10n/strings.dart';
 import '../../../core/legal.dart';
 import '../../../core/dialer.dart';
 import '../../../core/theme.dart';
+import '../../../core/calm.dart';
 import '../../../core/ui.dart';
 import '../data/rampenzender_models.dart';
 import '../rampenzender_providers.dart';
@@ -221,26 +222,28 @@ class _Explain extends StatelessWidget {
             ),
           ]),
         );
-    return SoftCard(
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    // "Zo stel je je radio in" en de tip blijven zichtbaar; de rest staat onder "Meer uitleg".
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      SoftCard(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          block(RZ.howHeading, '${RZ.howFm}\n\n${RZ.howDab}', Icons.tune_rounded),
+          block(RZ.tipHeading, RZ.tip, Icons.star_outline_rounded),
+        ]),
+      ),
+      const SizedBox(height: Space.tight),
+      ExpandableSection(title: RZ.moreExplain, children: [
         block(RZ.whyHeading, RZ.why, Icons.help_outline_rounded),
-        block(RZ.howHeading, '${RZ.howFm}\n\n${RZ.howDab}', Icons.tune_rounded),
-        block(RZ.tipHeading, RZ.tip, Icons.star_outline_rounded),
-        Consumer(builder: (context, ref, _) {
-          return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            block(RZ.adviceHeading, RZ.advice, Icons.radio_outlined),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: TextButton.icon(
-                onPressed: () => context.go('/checklist'),
-                icon: const Icon(Icons.checklist_rounded),
-                label: const Text(RZ.adviceLink),
-              ),
-            ),
-          ]);
-        }),
+        block(RZ.adviceHeading, RZ.advice, Icons.radio_outlined),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: TextButton.icon(
+            onPressed: () => context.go('/checklist'),
+            icon: const Icon(Icons.checklist_rounded),
+            label: const Text(RZ.adviceLink),
+          ),
+        ),
       ]),
-    );
+    ]);
   }
 }
 
@@ -339,8 +342,6 @@ class _Footer extends StatelessWidget {
           ),
         ),
       ],
-      const SizedBox(height: Gap.m),
-      Text(S.disclaimer, style: t.textTheme.bodySmall),
     ]);
   }
 }

@@ -406,8 +406,12 @@ void main() {
       expect(find.text('Zoek op de naam: Radio Noord'), findsOneWidget);
       expect(find.text('NPO Radio 1 (heel Nederland)'), findsOneWidget);
       expect(find.text(RZ.nationalFm), findsOneWidget);
-      expect(find.text(RZ.whyHeading), findsOneWidget);
       expect(find.text(RZ.howHeading), findsOneWidget);
+      // "Waarom deze zender" staat onder "Meer uitleg" (rustiger): klap uit.
+      await t.ensureVisible(find.text(RZ.moreExplain));
+      await t.tap(find.text(RZ.moreExplain));
+      await t.pumpAndSettle();
+      expect(find.text(RZ.whyHeading), findsOneWidget);
       expect(find.textContaining(RZ.tip), findsOneWidget);
       expect(find.textContaining('Gegevens gecontroleerd op 12 november 2026'), findsOneWidget);
       expect(find.text(RZ.report), findsOneWidget);

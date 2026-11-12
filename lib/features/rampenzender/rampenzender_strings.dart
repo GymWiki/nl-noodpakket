@@ -69,6 +69,7 @@ class RZ {
   static const markedDoneSub = 'Fijn. Controleer elk jaar even of je zender nog klopt.';
   static const undo = 'Toch nog niet ingesteld';
 
+  static const moreExplain = 'Meer uitleg';
   static const adviceHeading = 'Welke radio heb ik nodig?';
   static const advice =
       'Kies bij voorkeur een radio die FM én DAB+ ontvangt en werkt op batterijen of met een zwengel. '
