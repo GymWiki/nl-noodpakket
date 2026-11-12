@@ -132,9 +132,8 @@ void main() {
       testWidgets('Noodgevallen', (t) async {
         await show(t, const WikiOverviewScreen(), brightness: b, size: const Size(400, 1500));
         expect(t.takeException(), isNull);
-        // "n situaties" in plaats van een kaal aantal
-        expect(find.text(S.wikiSituations(wiki.emergencies.where((e) => e.categorie == wiki.categories.first.id).length)),
-            findsOneWidget);
+        // Rustig: één lijst met categorieën, zonder teller per categorie.
+        expect(find.text(wiki.categories.first.titel), findsOneWidget);
         await golden(t, 'noodgevallen_${b.name}');
       });
 
