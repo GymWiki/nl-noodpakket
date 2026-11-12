@@ -2,53 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/calm.dart';
 import '../../core/l10n/strings.dart';
+import '../../core/theme/category_palette.dart';
 import '../../core/ui.dart';
 import 'hacks_models.dart';
 import 'hacks_providers.dart';
 import 'hacks_widgets.dart';
 
-/// Kaarten op het tabblad Noodgevallen: "Mijn pakket is op" en "Noodhacks".
+/// Twee rijen in "Extra hulp" op het tabblad Noodgevallen: "Mijn pakket is op" en "Noodhacks".
 class HacksEntryCards extends StatelessWidget {
   const HacksEntryCards({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final t = Theme.of(context);
-    final c = t.colorScheme;
+    final c = Theme.of(context).colorScheme;
     return Column(children: [
-      SoftCard(
-        color: c.primaryContainer,
-        borderColor: Colors.transparent,
+      StatusRow(
+        icon: Icons.inventory_2_outlined,
+        tint: CategoryTint.blue,
+        title: S.hacksIntroOut,
+        subtitle: S.hacksIntroOutSub,
         onTap: () => context.push('/hacks/pakket-op'),
-        child: Row(children: [
-          IconBadge(Icons.inventory_2_outlined, background: c.surface.withValues(alpha: 0.6), foreground: c.onPrimaryContainer),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(S.hacksIntroOut, style: t.textTheme.titleMedium?.copyWith(color: c.onPrimaryContainer)),
-              const SizedBox(height: 2),
-              Text(S.hacksIntroOutSub, style: t.textTheme.bodyMedium?.copyWith(color: c.onPrimaryContainer)),
-            ]),
-          ),
-          Icon(Icons.chevron_right_rounded, color: c.onPrimaryContainer),
-        ]),
       ),
-      const SizedBox(height: 12),
-      SoftCard(
+      Divider(height: 1, indent: Space.screen, endIndent: Space.screen, color: c.outlineVariant),
+      StatusRow(
+        icon: Icons.tips_and_updates_outlined,
+        tint: CategoryTint.blue,
+        title: S.hacksTitle,
+        subtitle: S.hacksEntrySub,
         onTap: () => context.push('/hacks'),
-        child: Row(children: [
-          const IconBadge(Icons.tips_and_updates_outlined),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(S.hacksTitle, style: t.textTheme.titleMedium),
-              const SizedBox(height: 2),
-              Text(S.hacksEntrySub, style: t.textTheme.bodyMedium?.copyWith(color: c.onSurfaceVariant)),
-            ]),
-          ),
-          Icon(Icons.chevron_right_rounded, color: c.onSurfaceVariant),
-        ]),
       ),
     ]);
   }

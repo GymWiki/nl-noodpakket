@@ -3,6 +3,7 @@ import '../../core/theme/category_palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/calm.dart';
 import '../../core/format.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/providers.dart';
@@ -98,7 +99,7 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
       body: SafeArea(
         child: Column(children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
+            padding: const EdgeInsets.fromLTRB(Space.screen, 8, Space.screen, 0),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const PageTitle(S.checklistTitle),
               SizedBox(
@@ -150,12 +151,12 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
     final done = all.where((i) => i.inHouse).length;
 
     return ListView(
-      padding: const EdgeInsets.fromLTRB(20, 8, 20, 112),
+      padding: const EdgeInsets.fromLTRB(Space.screen, 8, Space.screen, 112),
       children: [
         const PlanBanner(),
         _ProgressCard(done: done, total: all.length),
         const _NoodpakketLocation(),
-        const SizedBox(height: Gap.m),
+        const SizedBox(height: Space.group),
         TextField(
           decoration: const InputDecoration(
             hintText: S.searchHint,
@@ -164,17 +165,19 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
           onChanged: (v) => setState(() => _query = v),
         ),
         const SizedBox(height: Gap.s),
-        Wrap(
-          spacing: 8,
-          runSpacing: 0,
-          children: [
-            for (final f in ChecklistFilter.values)
+        // Eén filterrij die zijwaarts scrolt, in plaats van een rij die over twee regels wrapt.
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(children: [
+            for (final f in ChecklistFilter.values) ...[
               ChoiceChip(
                 label: Text(_labels[f]!),
                 selected: _filter == f,
                 onSelected: (_) => setState(() => _filter = f),
               ),
-          ],
+              const SizedBox(width: Space.tight),
+            ],
+          ]),
         ),
         if (shown.isEmpty)
           Padding(
@@ -214,12 +217,12 @@ class _ProgressCard extends StatelessWidget {
     final t = Theme.of(context);
     final value = total == 0 ? 0.0 : done / total;
     return SoftCard(
-      padding: const EdgeInsets.all(18),
+      padding: const EdgeInsets.all(Space.group),
       child: Row(children: [
         ProgressRing(
           value: value,
-          size: 64,
-          stroke: 8,
+          size: 56,
+          stroke: 7,
           child: Text('${(value * 100).round()}%', style: t.textTheme.titleSmall),
         ),
         const SizedBox(width: 16),
@@ -246,7 +249,7 @@ class _CategoryHeader extends StatelessWidget {
     final t = Theme.of(context);
     final complete = total > 0 && done == total;
     return Padding(
-      padding: const EdgeInsets.only(top: Gap.l, bottom: Gap.s),
+      padding: const EdgeInsets.only(top: Space.section, bottom: Space.tight),
       child: Semantics(
         header: true,
         label: '$name, ${S.progressCategory(done, total)}',

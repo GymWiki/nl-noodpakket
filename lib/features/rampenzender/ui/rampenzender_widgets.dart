@@ -175,24 +175,16 @@ class RadioEntryCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final t = Theme.of(context);
     final res = ref.watch(radioResultProvider);
     final done = ref.watch(radioPrefsProvider.select((p) => p.radioSet));
     final sub = res == null ? RZ.entrySub : '${res.region.name}${done ? ': ${RZ.markedDone.toLowerCase()}' : ''}';
-    return SoftCard(
+    return StatusRow(
+      icon: Icons.radio_rounded,
+      tint: CategoryTint.blue,
+      title: RZ.entryTitle,
+      subtitle: sub,
       onTap: () => context.push('/rampenzender'),
       semanticLabel: '${RZ.entryTitle}. $sub',
-      child: Row(children: [
-        const IconBadge(Icons.radio_rounded, tint: CategoryTint.blue),
-        const SizedBox(width: 14),
-        Expanded(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(RZ.entryTitle, style: t.textTheme.titleSmall?.copyWith(fontSize: 16)),
-            Text(sub, style: t.textTheme.bodyMedium?.copyWith(color: t.colorScheme.onSurfaceVariant)),
-          ]),
-        ),
-        const Icon(Icons.chevron_right_rounded),
-      ]),
     );
   }
 }

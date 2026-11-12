@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/calm.dart';
 import '../../core/format.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/providers.dart';
@@ -52,7 +53,7 @@ class ExpiryList extends ConsumerWidget {
           groups.putIfAbsent(section(e.$2), () => []).add(e);
         }
         return ListView(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
+          padding: const EdgeInsets.fromLTRB(Space.screen, 0, Space.screen, 32),
           children: [
             for (final g in groups.entries) ...[
               SectionHeader(g.key),

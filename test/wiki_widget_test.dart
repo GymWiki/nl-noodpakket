@@ -151,6 +151,12 @@ void main() {
       await pump(t, FakePrefs(), '/wiki/stroomstoring');
       expect(find.text(S.wikiNow), findsOneWidget);
       expect(find.text(S.wikiPrepare), findsOneWidget);
+      // "Voorbereiden" en "Bronnen" zijn inklapbaar (rustiger): klap ze uit.
+      for (final title in [S.wikiPrepare, S.wikiSources]) {
+        await t.ensureVisible(find.text(title));
+        await t.tap(find.text(title));
+        await t.pumpAndSettle();
+      }
       expect(find.textContaining(S.wikiPrepareHave), findsOneWidget); // radio in huis
       expect(find.textContaining(S.wikiPrepareNeed), findsWidgets);
       expect(find.text(S.wikiSources), findsOneWidget);
@@ -159,6 +165,9 @@ void main() {
 
     testWidgets('tik op voorbereid item gaat naar het checklist-item', (t) async {
       await pump(t, FakePrefs(), '/wiki/stroomstoring');
+      await t.ensureVisible(find.text(S.wikiPrepare));
+      await t.tap(find.text(S.wikiPrepare));
+      await t.pumpAndSettle();
       await t.tap(find.text('Item radio'));
       await t.pumpAndSettle();
       expect(find.text('item radio'), findsOneWidget);

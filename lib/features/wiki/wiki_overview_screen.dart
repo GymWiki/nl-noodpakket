@@ -4,6 +4,7 @@ import '../../core/theme/category_palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/calm.dart';
 import '../../core/dialer.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/theme.dart';
@@ -70,7 +71,7 @@ class _WikiOverviewScreenState extends ConsumerState<WikiOverviewScreen> {
             label: const Text(S.wikiCall112, style: TextStyle(fontSize: 20)),
           ),
         ),
-        const SizedBox(height: Gap.m),
+        const SizedBox(height: Space.group),
         TextField(
           decoration: const InputDecoration(
             hintText: S.wikiSearchHint,
@@ -78,14 +79,8 @@ class _WikiOverviewScreenState extends ConsumerState<WikiOverviewScreen> {
           ),
           onChanged: (v) => setState(() => _query = v),
         ),
-        const SizedBox(height: Gap.m),
-        if (!searching) ...[
-          _FirstHourCard(first: d.eersteUur),
-          const SizedBox(height: 12),
-          const HacksEntryCards(),
-          const SizedBox(height: 12),
-          const RadioEntryCard(),
-        ],
+        const SizedBox(height: Space.group),
+        if (!searching) _FirstHourCard(first: d.eersteUur),
         if (searching) ...[
           if (results.isEmpty)
             const Padding(
@@ -93,55 +88,48 @@ class _WikiOverviewScreenState extends ConsumerState<WikiOverviewScreen> {
               child: Text(S.wikiNoResults, textAlign: TextAlign.center),
             ),
           if (results.isNotEmpty)
-            SoftCard(
-              padding: EdgeInsets.zero,
-              child: Column(children: [
-                for (var i = 0; i < results.length; i++) ...[
-                  if (i > 0) const Divider(indent: 72, endIndent: 16),
-                  _EmergencyTile(e: results[i], fav: favs.contains(results[i].id), favs: favs),
-                ],
-              ]),
-            ),
+            CalmListGroup(children: [
+              for (final r in results) _EmergencyTile(e: r, fav: favs.contains(r.id), favs: favs),
+            ]),
         ] else ...[
-          if (favs.isNotEmpty) ...[
-            const SectionHeader(S.wikiFavorites),
-            SoftCard(
-              padding: EdgeInsets.zero,
-              child: Column(children: [
+          if (favs.isNotEmpty)
+            CalmSection(
+              title: S.wikiFavorites,
+              child: CalmListGroup(children: [
                 for (final e in d.emergencies.where((e) => favs.contains(e.id)))
                   _EmergencyTile(e: e, fav: true, favs: favs),
               ]),
             ),
-          ],
-          const SizedBox(height: Gap.s),
-          for (final c in d.categories)
-            Padding(
-              padding: const EdgeInsets.only(top: 12),
-              child: _CategoryCard(
-                category: c,
-                items: d.emergencies.where((e) => e.categorie == c.id).toList(),
-                favs: favs,
-              ),
-            ),
-          const SizedBox(height: Gap.m),
-          SoftCard(
-            onTap: () => shareMeterkastCard(context, d,
-                plan: ref.read(effectivePlanProvider).plan,
-                radioLines: radioDocLines(ref.read(radioResultProvider), areaId: ref.read(radioPrefsProvider).area)),
-            child: Row(children: [
-              const IconBadge(Icons.picture_as_pdf_outlined, tint: CategoryTint.blue),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(S.wikiPdfCard, style: t.textTheme.titleSmall?.copyWith(fontSize: 16)),
-                  Text(S.wikiPdfCardSub,
-                      style: t.textTheme.bodyMedium?.copyWith(color: t.colorScheme.onSurfaceVariant)),
-                ]),
+          // Eén lijst met alle categorieën; uitklappen toont de situaties.
+          CalmSection(
+            child: CalmListGroup(children: [
+              for (final c in d.categories)
+                _CategoryRow(
+                  category: c,
+                  items: d.emergencies.where((e) => e.categorie == c.id).toList(),
+                  favs: favs,
+                ),
+            ]),
+          ),
+          // Rustige ingangen onderaan: geen gelijke kaarten tussen de categorieën.
+          CalmSection(
+            title: S.wikiMoreHelp,
+            child: CalmListGroup(children: [
+              const HacksEntryCards(),
+              const RadioEntryCard(),
+              StatusRow(
+                icon: Icons.picture_as_pdf_outlined,
+                tint: CategoryTint.blue,
+                title: S.wikiPdfCard,
+                subtitle: S.wikiPdfCardSub,
+                onTap: () => shareMeterkastCard(context, d,
+                    plan: ref.read(effectivePlanProvider).plan,
+                    radioLines: radioDocLines(ref.read(radioResultProvider), areaId: ref.read(radioPrefsProvider).area)),
               ),
             ]),
           ),
         ],
-        const SizedBox(height: Gap.l),
+        const SizedBox(height: Space.section),
         Text(S.disclaimer, style: t.textTheme.bodySmall),
       ],
     );
@@ -176,8 +164,8 @@ class _FirstHourCard extends StatelessWidget {
   }
 }
 
-class _CategoryCard extends StatelessWidget {
-  const _CategoryCard({required this.category, required this.items, required this.favs});
+class _CategoryRow extends StatelessWidget {
+  const _CategoryRow({required this.category, required this.items, required this.favs});
   final WikiCategory category;
   final List<WikiEmergency> items;
   final Set<String> favs;
@@ -185,19 +173,15 @@ class _CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = Theme.of(context);
-    return SoftCard(
-      padding: EdgeInsets.zero,
-      child: Theme(
-        data: t.copyWith(dividerColor: Colors.transparent),
-        child: ExpansionTile(
-          leading: IconBadge(wikiIcon(category.icoon), size: 40, tint: wikiTint(category.id)),
-          title: Text(category.titel, style: t.textTheme.titleMedium),
-          subtitle: Text(S.wikiSituations(items.length)),
-          childrenPadding: const EdgeInsets.only(bottom: 8),
-          children: [
-            for (final e in items) _EmergencyTile(e: e, fav: favs.contains(e.id), favs: favs),
-          ],
-        ),
+    return Theme(
+      data: t.copyWith(dividerColor: Colors.transparent),
+      child: ExpansionTile(
+        leading: IconBadge(wikiIcon(category.icoon), size: 40, tint: wikiTint(category.id)),
+        title: Text(category.titel, style: t.textTheme.titleSmall?.copyWith(fontSize: 16)),
+        childrenPadding: const EdgeInsets.only(bottom: Space.tight),
+        children: [
+          for (final e in items) _EmergencyTile(e: e, fav: favs.contains(e.id), favs: favs),
+        ],
       ),
     );
   }

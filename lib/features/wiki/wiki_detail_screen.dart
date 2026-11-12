@@ -1,6 +1,7 @@
 import '../rampenzender/ui/rampenzender_widgets.dart';
 import 'package:flutter/material.dart';
 import '../../core/theme/category_palette.dart';
+import '../../core/calm.dart';
 import '../../core/ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -57,7 +58,7 @@ class _Detail extends ConsumerWidget {
     Widget title(String text) => Padding(
           padding: const EdgeInsets.only(top: 24, bottom: 8),
           child: Semantics(
-              header: true, child: Text(text, style: t.textTheme.titleLarge)),
+              header: true, child: Text(text, style: t.textTheme.titleMedium)),
         );
 
     Widget numbered(List<String> steps) => Column(
@@ -109,7 +110,7 @@ class _Detail extends ConsumerWidget {
         ],
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 40),
+        padding: const EdgeInsets.fromLTRB(Space.screen, 8, Space.screen, 40),
         children: [
           TintAccentLine(wikiTint(e.categorie)),
           Text(e.intro, style: t.textTheme.bodyLarge),
@@ -122,9 +123,10 @@ class _Detail extends ConsumerWidget {
           ),
           title(S.wikiNow),
           numbered(e.stappenNu),
+          // "Nu doen" blijft zichtbaar; "Daarna" is uit te klappen.
           if (e.stappenDaarna.isNotEmpty) ...[
-            title(S.wikiAfter),
-            numbered(e.stappenDaarna),
+            const SizedBox(height: Space.section),
+            ExpandableSection(title: S.wikiAfter, children: [numbered(e.stappenDaarna)]),
           ],
           if (e.bel112Als.isNotEmpty) ...[
             title(S.wikiCall112If),
@@ -164,35 +166,38 @@ class _Detail extends ConsumerWidget {
           if (const {'overstroming', 'natuurbrand', 'brand-in-huis', 'kernongeval'}.contains(e.id))
             const VaultLinkTile(title: S.vaultNoodmapOpen, padding: EdgeInsets.only(top: 16)),
           if (prepare.isNotEmpty) ...[
-            title(S.wikiPrepare),
-            for (final i in prepare)
+            const SizedBox(height: Space.group),
+            ExpandableSection(title: S.wikiPrepare, children: [
+              for (final i in prepare)
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  minVerticalPadding: 8,
+                  leading: Icon(
+                    i.inHouse ? Icons.check_circle : Icons.radio_button_unchecked,
+                    color: i.inHouse ? t.colorScheme.primary : null,
+                  ),
+                  title: Text(i.name),
+                  subtitle: Text(
+                      '${i.inHouse ? S.wikiPrepareHave : S.wikiPrepareNeed} · ${quantityText(i)}'),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => context.push('/item/${i.id}'),
+                ),
+            ]),
+          ],
+          const SizedBox(height: Space.group),
+          ExpandableSection(title: S.wikiSources, children: [
+            for (final b in e.bronnen)
               ListTile(
                 contentPadding: EdgeInsets.zero,
-                minVerticalPadding: 8,
-                leading: Icon(
-                  i.inHouse ? Icons.check_circle : Icons.radio_button_unchecked,
-                  color: i.inHouse ? t.colorScheme.primary : null,
-                ),
-                title: Text(i.name),
-                subtitle: Text(
-                    '${i.inHouse ? S.wikiPrepareHave : S.wikiPrepareNeed} · ${quantityText(i)}'),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: () => context.push('/item/${i.id}'),
+                dense: true,
+                leading: const Icon(Icons.open_in_new, size: 20),
+                title: Text(b.naam),
+                onTap: () => openExternal(context, b.url),
               ),
-          ],
-          title(S.wikiSources),
-          for (final b in e.bronnen)
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              dense: true,
-              leading: const Icon(Icons.open_in_new, size: 20),
-              title: Text(b.naam),
-              onTap: () => openExternal(context, b.url),
-            ),
-          const SizedBox(height: 8),
-          Text(S.wikiReviewed(fmtDate(e.lastReviewed)),
-              style: t.textTheme.bodySmall?.copyWith(color: t.colorScheme.onSurfaceVariant)),
-          const SizedBox(height: 8),
+            Text(S.wikiReviewed(fmtDate(e.lastReviewed)),
+                style: t.textTheme.bodySmall?.copyWith(color: t.colorScheme.onSurfaceVariant)),
+          ]),
+          const SizedBox(height: Space.group),
           Text(S.wikiRule,
               style: t.textTheme.bodySmall?.copyWith(color: t.colorScheme.onSurfaceVariant)),
         ],
