@@ -10,7 +10,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:mijnnoodpakket/features/deel/deel_providers.dart';
 import 'package:mijnnoodpakket/features/deel/domain/shared_plan_logic.dart';
-import 'package:mijnnoodpakket/core/l10n/strings.dart';
 import 'package:mijnnoodpakket/core/providers.dart';
 import 'package:mijnnoodpakket/core/theme.dart';
 import 'package:mijnnoodpakket/domain/models.dart';
