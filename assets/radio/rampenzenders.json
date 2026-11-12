@@ -1,0 +1,4096 @@
+{
+ "schemaVersion": 1,
+ "generatedAt": "2026-11-12",
+ "sources": [
+  {
+   "id": "dv-radio",
+   "title": "Denk vooruit: Radio (overzicht FM-radiozenders en DAB-frequenties)",
+   "publisher": "Rijksoverheid, campagne Denk vooruit",
+   "url": "https://www.denkvooruit.nl/bereid-je-voor/zo-krijg-je-een-waarschuwing/radio",
+   "pageDate": "2025-12-03"
+  },
+  {
+   "id": "cbs-gebieden-2026",
+   "title": "Gebieden in Nederland 2026 (tabel 86247NED): gemeente, provincie en veiligheidsregio",
+   "publisher": "CBS",
+   "url": "https://opendata.cbs.nl/ODataApi/odata/86247NED/TypedDataSet",
+   "pageDate": "2026-01-01"
+  },
+  {
+   "id": "rtvnoord-ontvangst",
+   "title": "Radio ontvangst",
+   "publisher": "RTV Noord",
+   "url": "https://www.rtvnoord.nl/ontvangst"
+  },
+  {
+   "id": "omropfryslan-frekwinsjes",
+   "title": "Ontvangst en frequenties",
+   "publisher": "Omrop Fryslân",
+   "url": "https://www.omropfryslan.nl/nl/service/untgangst-en-frekwinsjes"
+  },
+  {
+   "id": "rtvdrenthe-rampenzender",
+   "title": "Rampenzender Radio Drenthe",
+   "publisher": "RTV Drenthe",
+   "url": "https://www.rtvdrenthe.nl/rampenzender"
+  },
+  {
+   "id": "rtvoost-ontvangst",
+   "title": "Ontvangst",
+   "publisher": "RTV Oost",
+   "url": "https://www.rtvoost.nl/ontvangst"
+  },
+  {
+   "id": "gld-rampenzender",
+   "title": "Calamiteiten in Gelderland",
+   "publisher": "Omroep Gelderland",
+   "url": "https://www.gld.nl/rampenzender"
+  },
+  {
+   "id": "omroepflevoland-frequenties",
+   "title": "Frequenties",
+   "publisher": "Omroep Flevoland",
+   "url": "https://www.omroepflevoland.nl/info/frequenties"
+  },
+  {
+   "id": "omroepflevoland-calamiteiten",
+   "title": "Calamiteitenzender",
+   "publisher": "Omroep Flevoland",
+   "url": "https://www.omroepflevoland.nl/info/calamiteiten"
+  },
+  {
+   "id": "omroepflevoland-dab-2022",
+   "title": "Omroep Flevoland te horen via nieuwe DAB+ frequentie (24 augustus 2022)",
+   "publisher": "Omroep Flevoland",
+   "url": "https://www.omroepflevoland.nl/nieuws/298823/omroep-flevoland-te-horen-via-nieuwe-dab-frequentie"
+  },
+  {
+   "id": "rtvutrecht-ontvangst",
+   "title": "Ontvangst Radio en TV",
+   "publisher": "RTV Utrecht",
+   "url": "https://www.rtvutrecht.nl/hoe-ontvang-je-ons"
+  },
+  {
+   "id": "rtvutrecht-dab",
+   "title": "Radio M Utrecht op DAB+",
+   "publisher": "RTV Utrecht",
+   "url": "https://www.rtvutrecht.nl/radio-m-utrecht-op-dab"
+  },
+  {
+   "id": "nhnieuws-home",
+   "title": "NH Nieuws (regio's, o.a. Gooi, en Calamiteitenzender)",
+   "publisher": "NH Media",
+   "url": "https://www.nhnieuws.nl/calamiteitenzender"
+  },
+  {
+   "id": "omroepwest-ontvangst",
+   "title": "Hoe ontvang je Radio West en TV West?",
+   "publisher": "Omroep West",
+   "url": "https://www.omroepwest.nl/ontvangst"
+  },
+  {
+   "id": "omroepwest-calamiteitenzender",
+   "title": "Calamiteitenzender",
+   "publisher": "Omroep West",
+   "url": "https://www.omroepwest.nl/calamiteitenzender"
+  },
+  {
+   "id": "rijnmond-ontvangst",
+   "title": "Ontvangst",
+   "publisher": "Rijnmond",
+   "url": "https://www.rijnmond.nl/ontvangst"
+  },
+  {
+   "id": "rijnmond-rampenzender",
+   "title": "Rampenzender Rijnmond: bij nood op 93.4 FM",
+   "publisher": "Rijnmond",
+   "url": "https://www.rijnmond.nl/rampenzender"
+  },
+  {
+   "id": "rijnmond-veiligheidsregio",
+   "title": "Veiligheidsregio's in Rijnmond",
+   "publisher": "Rijnmond",
+   "url": "https://www.rijnmond.nl/rampenzender/veiligheidsregio"
+  },
+  {
+   "id": "omroepzeeland-frequenties",
+   "title": "Ontvangst",
+   "publisher": "Omroep Zeeland",
+   "url": "https://www.omroepzeeland.nl/frequenties"
+  },
+  {
+   "id": "omroepzeeland-rampenzender",
+   "title": "Calamiteitenzender",
+   "publisher": "Omroep Zeeland",
+   "url": "https://www.omroepzeeland.nl/rampenzender"
+  },
+  {
+   "id": "omroepbrabant-rampenzender",
+   "title": "Omroep Brabant: de rampenzender van de provincie",
+   "publisher": "Omroep Brabant",
+   "url": "https://www.omroepbrabant.nl/rampenzender"
+  },
+  {
+   "id": "l1-ontvangst",
+   "title": "Ontvangst",
+   "publisher": "L1",
+   "url": "https://www.l1.nl/ontvangst"
+  },
+  {
+   "id": "l1-rampenzender",
+   "title": "Rampenzender",
+   "publisher": "L1",
+   "url": "https://www.l1.nl/rampenzender"
+  },
+  {
+   "id": "dares-nn-v4",
+   "title": "MKK DARES Noord-Nederland, versie 4 (januari 2026)",
+   "publisher": "DARES",
+   "url": "https://nn.dares.nl/wp-content/uploads/sites/5/2026/01/MKK-DARES-Noord-Nederland-V4.pdf",
+   "pageDate": "2026-01"
+  },
+  {
+   "id": "dares-mwb",
+   "title": "DARES meterkastkaart Midden en West Brabant, versie 1.0 (3 februari 2025)",
+   "publisher": "DARES",
+   "url": "https://r20.dares.nl/wp-content/uploads/sites/11/2025/02/DARES-Meterkast-kaart-MiddenWestBrabant.pdf",
+   "pageDate": "2025-02-03"
+  },
+  {
+   "id": "worlddab-nl",
+   "title": "Netherlands: Multiplexes (landelijke NPO-multiplex)",
+   "publisher": "WorldDAB",
+   "url": "https://www.worlddab.org/countries/netherlands/multiplexes"
+  }
+ ],
+ "veiligheidsregios": [
+  {
+   "id": "VR01",
+   "name": "Groningen"
+  },
+  {
+   "id": "VR02",
+   "name": "Fryslân"
+  },
+  {
+   "id": "VR03",
+   "name": "Drenthe"
+  },
+  {
+   "id": "VR04",
+   "name": "IJsselland"
+  },
+  {
+   "id": "VR05",
+   "name": "Twente"
+  },
+  {
+   "id": "VR06",
+   "name": "Noord- en Oost-Gelderland"
+  },
+  {
+   "id": "VR07",
+   "name": "Gelderland-Midden"
+  },
+  {
+   "id": "VR08",
+   "name": "Gelderland-Zuid"
+  },
+  {
+   "id": "VR09",
+   "name": "Utrecht"
+  },
+  {
+   "id": "VR10",
+   "name": "Noord-Holland-Noord"
+  },
+  {
+   "id": "VR11",
+   "name": "Zaanstreek-Waterland"
+  },
+  {
+   "id": "VR12",
+   "name": "Kennemerland"
+  },
+  {
+   "id": "VR13",
+   "name": "Amsterdam-Amstelland"
+  },
+  {
+   "id": "VR14",
+   "name": "Gooi en Vechtstreek"
+  },
+  {
+   "id": "VR15",
+   "name": "Haaglanden"
+  },
+  {
+   "id": "VR16",
+   "name": "Hollands-Midden"
+  },
+  {
+   "id": "VR17",
+   "name": "Rotterdam-Rijnmond"
+  },
+  {
+   "id": "VR18",
+   "name": "Zuid-Holland-Zuid"
+  },
+  {
+   "id": "VR19",
+   "name": "Zeeland"
+  },
+  {
+   "id": "VR20",
+   "name": "Midden- en West-Brabant"
+  },
+  {
+   "id": "VR21",
+   "name": "Brabant-Noord"
+  },
+  {
+   "id": "VR22",
+   "name": "Brabant-Zuidoost"
+  },
+  {
+   "id": "VR23",
+   "name": "Limburg-Noord"
+  },
+  {
+   "id": "VR24",
+   "name": "Limburg-Zuid"
+  },
+  {
+   "id": "VR25",
+   "name": "Flevoland"
+  }
+ ],
+ "broadcasters": [
+  {
+   "id": "noord",
+   "name": "RTV Noord",
+   "stationName": "Radio Noord",
+   "type": "regionaal",
+   "website": "https://www.rtvnoord.nl",
+   "rampenzenderVoor": [
+    "VR01"
+   ],
+   "lastReviewed": "2026-11-12",
+   "sourceIds": [
+    "dv-radio",
+    "rtvnoord-ontvangst",
+    "dares-nn-v4"
+   ]
+  },
+  {
+   "id": "fryslan",
+   "name": "Omrop Fryslân",
+   "stationName": "Omrop Fryslân Radio",
+   "type": "regionaal",
+   "website": "https://www.omropfryslan.nl",
+   "rampenzenderVoor": [
+    "VR02"
+   ],
+   "lastReviewed": "2026-11-12",
+   "sourceIds": [
+    "dv-radio",
+    "omropfryslan-frekwinsjes"
+   ]
+  },
+  {
+   "id": "drenthe",
+   "name": "RTV Drenthe",
+   "stationName": "Radio Drenthe",
+   "type": "regionaal",
+   "website": "https://www.rtvdrenthe.nl",
+   "rampenzenderVoor": [
+    "VR03"
+   ],
+   "lastReviewed": "2026-11-12",
+   "sourceIds": [
+    "dv-radio",
+    "rtvdrenthe-rampenzender",
+    "dares-nn-v4"
+   ]
+  },
+  {
+   "id": "oost",
+   "name": "RTV Oost",
+   "stationName": "Radio Oost",
+   "type": "regionaal",
+   "website": "https://www.rtvoost.nl",
+   "rampenzenderVoor": [
+    "VR04",
+    "VR05"
+   ],
+   "lastReviewed": "2026-11-12",
+   "sourceIds": [
+    "dv-radio",
+    "rtvoost-ontvangst"
+   ]
+  },
+  {
+   "id": "gelderland",
+   "name": "Omroep Gelderland",
+   "stationName": "Radio Gelderland",
+   "type": "regionaal",
+   "website": "https://www.gld.nl",
+   "rampenzenderVoor": [
+    "VR06",
+    "VR07",
+    "VR08"
+   ],
+   "lastReviewed": "2026-11-12",
+   "sourceIds": [
+    "dv-radio",
+    "gld-rampenzender"
+   ]
+  },
+  {
+   "id": "flevoland",
+   "name": "Omroep Flevoland",
+   "stationName": "Omroep Flevoland radio",
+   "type": "regionaal",
+   "website": "https://www.omroepflevoland.nl",
+   "rampenzenderVoor": [
+    "VR25"
+   ],
+   "lastReviewed": "2026-11-12",
+   "sourceIds": [
+    "dv-radio",
+    "omroepflevoland-frequenties",
+    "omroepflevoland-calamiteiten"
+   ]
+  },
+  {
+   "id": "utrecht",
+   "name": "RTV Utrecht",
+   "stationName": "Radio M Utrecht",
+   "type": "regionaal",
+   "website": "https://www.rtvutrecht.nl",
+   "rampenzenderVoor": [
+    "VR09"
+   ],
+   "lastReviewed": "2026-11-12",
+   "sourceIds": [
+    "dv-radio",
+    "rtvutrecht-ontvangst"
+   ]
+  },
+  {
+   "id": "nh",
+   "name": "NH Media",
+   "stationName": "NH Radio",
+   "type": "regionaal",
+   "website": "https://www.nhnieuws.nl",
+   "rampenzenderVoor": [
+    "VR10",
+    "VR11",
+    "VR12",
+    "VR13",
+    "VR14"
+   ],
+   "lastReviewed": "2026-11-12",
+   "sourceIds": [
+    "dv-radio",
+    "nhnieuws-home"
+   ]
+  },
+  {
+   "id": "west",
+   "name": "Omroep West",
+   "stationName": "Radio West",
+   "type": "regionaal",
+   "website": "https://www.omroepwest.nl",
+   "rampenzenderVoor": [
+    "VR15",
+    "VR16"
+   ],
+   "lastReviewed": "2026-11-12",
+   "sourceIds": [
+    "dv-radio",
+    "omroepwest-ontvangst",
+    "omroepwest-calamiteitenzender"
+   ]
+  },
+  {
+   "id": "rijnmond",
+   "name": "Omroep Rijnmond",
+   "stationName": "Radio Rijnmond",
+   "type": "regionaal",
+   "website": "https://www.rijnmond.nl",
+   "rampenzenderVoor": [
+    "VR17",
+    "VR18"
+   ],
+   "lastReviewed": "2026-11-12",
+   "sourceIds": [
+    "dv-radio",
+    "rijnmond-ontvangst",
+    "rijnmond-rampenzender",
+    "rijnmond-veiligheidsregio"
+   ]
+  },
+  {
+   "id": "zeeland",
+   "name": "Omroep Zeeland",
+   "stationName": "Omroep Zeeland Radio",
+   "type": "regionaal",
+   "website": "https://www.omroepzeeland.nl",
+   "rampenzenderVoor": [
+    "VR19"
+   ],
+   "lastReviewed": "2026-11-12",
+   "sourceIds": [
+    "dv-radio",
+    "omroepzeeland-frequenties",
+    "omroepzeeland-rampenzender"
+   ]
+  },
+  {
+   "id": "brabant",
+   "name": "Omroep Brabant",
+   "stationName": "Omroep Brabant Radio",
+   "type": "regionaal",
+   "website": "https://www.omroepbrabant.nl",
+   "rampenzenderVoor": [
+    "VR20",
+    "VR21",
+    "VR22"
+   ],
+   "lastReviewed": "2026-11-12",
+   "sourceIds": [
+    "dv-radio",
+    "omroepbrabant-rampenzender",
+    "dares-mwb"
+   ]
+  },
+  {
+   "id": "l1",
+   "name": "L1",
+   "stationName": "L1 Radio",
+   "type": "regionaal",
+   "website": "https://www.l1.nl",
+   "rampenzenderVoor": [
+    "VR23",
+    "VR24"
+   ],
+   "lastReviewed": "2026-11-12",
+   "sourceIds": [
+    "dv-radio",
+    "l1-ontvangst",
+    "l1-rampenzender"
+   ]
+  },
+  {
+   "id": "npo-radio-1",
+   "name": "NPO Radio 1",
+   "stationName": "NPO Radio 1",
+   "type": "landelijk",
+   "website": "https://www.nporadio1.nl",
+   "rampenzenderVoor": [],
+   "lastReviewed": "2026-11-12",
+   "sourceIds": [
+    "worlddab-nl",
+    "dares-nn-v4"
+   ]
+  }
+ ],
+ "transmissions": [
+  {
+   "id": "noord-groningen",
+   "broadcasterId": "noord",
+   "area": "Groningen",
+   "fmMHz": [
+    97.5
+   ],
+   "dab": {
+    "channel": "7C",
+    "searchName": "Radio Noord"
+   },
+   "notes": "",
+   "sourceIds": [
+    "rtvnoord-ontvangst",
+    "dv-radio",
+    "dares-nn-v4"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "fryslan-fryslan",
+   "broadcasterId": "fryslan",
+   "area": "Fryslân en de Noordoostpolder",
+   "fmMHz": [
+    92.2
+   ],
+   "dab": {
+    "channel": "5A",
+    "searchName": "Omrop Fryslân Radio"
+   },
+   "notes": "",
+   "sourceIds": [
+    "omropfryslan-frekwinsjes",
+    "dv-radio"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "fryslan-ooststellingwerf",
+   "broadcasterId": "fryslan",
+   "area": "Regio Ooststellingwerf",
+   "fmMHz": [
+    92.5
+   ],
+   "dab": {
+    "channel": "5A",
+    "searchName": "Omrop Fryslân Radio"
+   },
+   "notes": "",
+   "sourceIds": [
+    "omropfryslan-frekwinsjes",
+    "dv-radio"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "drenthe-drenthe",
+   "broadcasterId": "drenthe",
+   "area": "Grote delen van Drenthe",
+   "fmMHz": [
+    90.8
+   ],
+   "dab": {
+    "channel": "7C",
+    "searchName": "Radio Drenthe"
+   },
+   "notes": "",
+   "sourceIds": [
+    "rtvdrenthe-rampenzender",
+    "dv-radio",
+    "dares-nn-v4"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "drenthe-zuidoost",
+   "broadcasterId": "drenthe",
+   "area": "Zuidoost-Drenthe en Emmen",
+   "fmMHz": [
+    99.3
+   ],
+   "dab": {
+    "channel": "7C",
+    "searchName": "Radio Drenthe"
+   },
+   "notes": "",
+   "sourceIds": [
+    "rtvdrenthe-rampenzender",
+    "dv-radio",
+    "dares-nn-v4"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "oost-noordwest-overijssel",
+   "broadcasterId": "oost",
+   "area": "Noordwest-Overijssel (Zwolle)",
+   "fmMHz": [
+    99.4
+   ],
+   "dab": {
+    "channel": "6A",
+    "searchName": "Radio Oost"
+   },
+   "notes": "",
+   "sourceIds": [
+    "rtvoost-ontvangst",
+    "dv-radio"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "oost-deventer",
+   "broadcasterId": "oost",
+   "area": "Deventer",
+   "fmMHz": [
+    97.9
+   ],
+   "dab": {
+    "channel": "6A",
+    "searchName": "Radio Oost"
+   },
+   "notes": "",
+   "sourceIds": [
+    "rtvoost-ontvangst",
+    "dv-radio"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "oost-zuid-salland",
+   "broadcasterId": "oost",
+   "area": "Zuid-Salland",
+   "fmMHz": [
+    95.6
+   ],
+   "dab": {
+    "channel": "6A",
+    "searchName": "Radio Oost"
+   },
+   "notes": "",
+   "sourceIds": [
+    "rtvoost-ontvangst",
+    "dv-radio"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "oost-twente",
+   "broadcasterId": "oost",
+   "area": "Twente",
+   "fmMHz": [
+    89.4
+   ],
+   "dab": {
+    "channel": "6A",
+    "searchName": "Radio Oost"
+   },
+   "notes": "",
+   "sourceIds": [
+    "rtvoost-ontvangst",
+    "dv-radio"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "gelderland-arnhem-nijmegen",
+   "broadcasterId": "gelderland",
+   "area": "Arnhem en Nijmegen",
+   "fmMHz": [
+    88.9
+   ],
+   "dab": {
+    "channel": "12B",
+    "searchName": "Radio Gelderland"
+   },
+   "notes": "",
+   "sourceIds": [
+    "gld-rampenzender",
+    "dv-radio",
+    "rtvutrecht-dab"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "gelderland-achterhoek",
+   "broadcasterId": "gelderland",
+   "area": "Achterhoek",
+   "fmMHz": [
+    90.4
+   ],
+   "dab": {
+    "channel": "12B",
+    "searchName": "Radio Gelderland"
+   },
+   "notes": "",
+   "sourceIds": [
+    "gld-rampenzender",
+    "dv-radio",
+    "rtvutrecht-dab"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "gelderland-betuwe",
+   "broadcasterId": "gelderland",
+   "area": "Betuwe",
+   "fmMHz": [
+    99.6
+   ],
+   "dab": {
+    "channel": "12B",
+    "searchName": "Radio Gelderland"
+   },
+   "notes": "",
+   "sourceIds": [
+    "gld-rampenzender",
+    "dv-radio",
+    "rtvutrecht-dab"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "gelderland-veluwe",
+   "broadcasterId": "gelderland",
+   "area": "Veluwe",
+   "fmMHz": [
+    103.5
+   ],
+   "dab": {
+    "channel": "12B",
+    "searchName": "Radio Gelderland"
+   },
+   "notes": "",
+   "sourceIds": [
+    "gld-rampenzender",
+    "dv-radio",
+    "rtvutrecht-dab"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "flevoland-flevoland",
+   "broadcasterId": "flevoland",
+   "area": "Flevoland",
+   "fmMHz": [
+    89.8
+   ],
+   "dab": {
+    "channel": "8B",
+    "searchName": "Omroep Flevoland"
+   },
+   "notes": "",
+   "sourceIds": [
+    "omroepflevoland-frequenties",
+    "omroepflevoland-calamiteiten",
+    "dv-radio"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "utrecht-provincie",
+   "broadcasterId": "utrecht",
+   "area": "Provincie Utrecht",
+   "fmMHz": [
+    93.1
+   ],
+   "dab": {
+    "channel": "12B",
+    "searchName": "Radio M Utrecht"
+   },
+   "notes": "",
+   "sourceIds": [
+    "rtvutrecht-ontvangst",
+    "dv-radio",
+    "rtvutrecht-dab"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "utrecht-rhenen",
+   "broadcasterId": "utrecht",
+   "area": "Rhenen en omgeving",
+   "fmMHz": [
+    97.9
+   ],
+   "dab": {
+    "channel": "12B",
+    "searchName": "Radio M Utrecht"
+   },
+   "notes": "",
+   "sourceIds": [
+    "rtvutrecht-ontvangst",
+    "dv-radio",
+    "rtvutrecht-dab"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "nh-noord-holland",
+   "broadcasterId": "nh",
+   "area": "Noord-Holland",
+   "fmMHz": [
+    88.7,
+    88.9,
+    93.9
+   ],
+   "dab": {
+    "channel": "8B",
+    "searchName": "NH Radio"
+   },
+   "notes": "De frequentie verschilt per plek in Noord-Holland. Probeer de drie frequenties tot je NH Radio hoort.",
+   "sourceIds": [
+    "dv-radio",
+    "omroepflevoland-dab-2022"
+   ],
+   "verification": "enkele-bron",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "west-haaglanden-hollands-midden",
+   "broadcasterId": "west",
+   "area": "Haaglanden en Hollands Midden",
+   "fmMHz": [
+    89.3
+   ],
+   "dab": {
+    "channel": "5B",
+    "searchName": "Radio West"
+   },
+   "notes": "",
+   "sourceIds": [
+    "omroepwest-ontvangst",
+    "omroepwest-calamiteitenzender",
+    "dv-radio"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "rijnmond-rijnmond",
+   "broadcasterId": "rijnmond",
+   "area": "Rotterdam-Rijnmond en Zuid-Holland-Zuid",
+   "fmMHz": [
+    93.4
+   ],
+   "dab": {
+    "channel": "5B",
+    "searchName": "Radio Rijnmond"
+   },
+   "notes": "",
+   "sourceIds": [
+    "rijnmond-ontvangst",
+    "rijnmond-rampenzender",
+    "dv-radio"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "zeeland-zeeland",
+   "broadcasterId": "zeeland",
+   "area": "Bijna heel Zeeland",
+   "fmMHz": [
+    87.9
+   ],
+   "dab": {
+    "channel": "5B",
+    "searchName": "Omroep Zeeland Radio"
+   },
+   "notes": "",
+   "sourceIds": [
+    "omroepzeeland-frequenties",
+    "omroepzeeland-rampenzender",
+    "dv-radio"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "zeeland-west",
+   "broadcasterId": "zeeland",
+   "area": "West-Walcheren en West-Zeeuws-Vlaanderen",
+   "fmMHz": [
+    98.4
+   ],
+   "dab": {
+    "channel": "5B",
+    "searchName": "Omroep Zeeland Radio"
+   },
+   "notes": "",
+   "sourceIds": [
+    "omroepzeeland-frequenties",
+    "omroepzeeland-rampenzender",
+    "dv-radio"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "brabant-west",
+   "broadcasterId": "brabant",
+   "area": "West-Brabant",
+   "fmMHz": [
+    91.0
+   ],
+   "dab": {
+    "channel": "7C",
+    "searchName": "Omroep Brabant"
+   },
+   "notes": "",
+   "sourceIds": [
+    "omroepbrabant-rampenzender",
+    "dv-radio",
+    "dares-mwb"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "brabant-midden",
+   "broadcasterId": "brabant",
+   "area": "Midden-Brabant",
+   "fmMHz": [
+    91.9
+   ],
+   "dab": {
+    "channel": "7C",
+    "searchName": "Omroep Brabant"
+   },
+   "notes": "",
+   "sourceIds": [
+    "omroepbrabant-rampenzender",
+    "dv-radio",
+    "dares-mwb"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "brabant-noordoost",
+   "broadcasterId": "brabant",
+   "area": "Noordoost-Brabant",
+   "fmMHz": [
+    95.8
+   ],
+   "dab": {
+    "channel": "7C",
+    "searchName": "Omroep Brabant"
+   },
+   "notes": "",
+   "sourceIds": [
+    "omroepbrabant-rampenzender",
+    "dv-radio"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "brabant-zuidoost",
+   "broadcasterId": "brabant",
+   "area": "Zuidoost-Brabant",
+   "fmMHz": [
+    87.6
+   ],
+   "dab": {
+    "channel": "7C",
+    "searchName": "Omroep Brabant"
+   },
+   "notes": "",
+   "sourceIds": [
+    "omroepbrabant-rampenzender",
+    "dv-radio"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "l1-noord-midden",
+   "broadcasterId": "l1",
+   "area": "Noord- en Midden-Limburg",
+   "fmMHz": [
+    100.3
+   ],
+   "dab": {
+    "channel": "7C",
+    "searchName": "L1 Radio"
+   },
+   "notes": "",
+   "sourceIds": [
+    "l1-ontvangst",
+    "l1-rampenzender",
+    "dv-radio"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "l1-zuid",
+   "broadcasterId": "l1",
+   "area": "Zuid-Limburg",
+   "fmMHz": [
+    95.3
+   ],
+   "dab": {
+    "channel": "7C",
+    "searchName": "L1 Radio"
+   },
+   "notes": "",
+   "sourceIds": [
+    "l1-ontvangst",
+    "l1-rampenzender",
+    "dv-radio"
+   ],
+   "verification": "meerdere-bronnen",
+   "lastReviewed": "2026-11-12"
+  },
+  {
+   "id": "npo-radio-1-landelijk",
+   "area": "Heel Nederland",
+   "fmMHz": [],
+   "dab": {
+    "channel": "12C",
+    "searchName": "NPO Radio 1"
+   },
+   "notes": "De FM-frequentie van NPO Radio 1 kan per plek verschillen. In geen enkele officiële bron vonden we een gecontroleerde lijst per zendmast, dus tonen we geen losse frequentie. Zoek op de FM-band naar NPO Radio 1. DAB+ staat op het landelijke kanaal.",
+   "sourceIds": [
+    "worlddab-nl",
+    "dares-nn-v4"
+   ],
+   "verification": "enkele-bron",
+   "broadcasterId": "npo-radio-1",
+   "lastReviewed": "2026-11-12"
+  }
+ ],
+ "regions": [
+  {
+   "gm": "GM0518",
+   "name": "'s-Gravenhage",
+   "aliases": [
+    "Den Haag"
+   ],
+   "vr": "VR15",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM0796",
+   "name": "'s-Hertogenbosch",
+   "aliases": [
+    "Den Bosch"
+   ],
+   "vr": "VR21",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1680",
+   "name": "Aa en Hunze",
+   "vr": "VR03",
+   "province": "Drenthe",
+   "broadcasterId": "drenthe",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0358",
+   "name": "Aalsmeer",
+   "vr": "VR13",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0197",
+   "name": "Aalten",
+   "vr": "VR06",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0059",
+   "name": "Achtkarspelen",
+   "vr": "VR02",
+   "province": "Fryslân",
+   "broadcasterId": "fryslan",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0482",
+   "name": "Alblasserdam",
+   "vr": "VR18",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM0613",
+   "name": "Albrandswaard",
+   "vr": "VR17",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM0361",
+   "name": "Alkmaar",
+   "vr": "VR10",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0141",
+   "name": "Almelo",
+   "vr": "VR05",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0034",
+   "name": "Almere",
+   "vr": "VR25",
+   "province": "Flevoland",
+   "broadcasterId": "flevoland",
+   "areaIds": [
+    "flevoland-flevoland"
+   ]
+  },
+  {
+   "gm": "GM0484",
+   "name": "Alphen aan den Rijn",
+   "vr": "VR16",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM1723",
+   "name": "Alphen-Chaam",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM1959",
+   "name": "Altena",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM0060",
+   "name": "Ameland",
+   "vr": "VR02",
+   "province": "Fryslân",
+   "broadcasterId": "fryslan",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0307",
+   "name": "Amersfoort",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0362",
+   "name": "Amstelveen",
+   "vr": "VR13",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0363",
+   "name": "Amsterdam",
+   "vr": "VR13",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0200",
+   "name": "Apeldoorn",
+   "vr": "VR06",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0202",
+   "name": "Arnhem",
+   "vr": "VR07",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": [
+    "gelderland-arnhem-nijmegen"
+   ]
+  },
+  {
+   "gm": "GM0106",
+   "name": "Assen",
+   "vr": "VR03",
+   "province": "Drenthe",
+   "broadcasterId": "drenthe",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0743",
+   "name": "Asten",
+   "vr": "VR22",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0744",
+   "name": "Baarle-Nassau",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM0308",
+   "name": "Baarn",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0489",
+   "name": "Barendrecht",
+   "vr": "VR17",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM0203",
+   "name": "Barneveld",
+   "vr": "VR07",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0888",
+   "name": "Beek (L.)",
+   "vr": "VR24",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1954",
+   "name": "Beekdaelen",
+   "vr": "VR24",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0889",
+   "name": "Beesel",
+   "vr": "VR23",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1945",
+   "name": "Berg en Dal",
+   "vr": "VR08",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1724",
+   "name": "Bergeijk",
+   "vr": "VR22",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0893",
+   "name": "Bergen (L.)",
+   "vr": "VR23",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0373",
+   "name": "Bergen (NH.)",
+   "vr": "VR10",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0748",
+   "name": "Bergen op Zoom",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM1859",
+   "name": "Berkelland",
+   "vr": "VR06",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1721",
+   "name": "Bernheze",
+   "vr": "VR21",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0753",
+   "name": "Best",
+   "vr": "VR22",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0209",
+   "name": "Beuningen",
+   "vr": "VR08",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0375",
+   "name": "Beverwijk",
+   "vr": "VR12",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM1728",
+   "name": "Bladel",
+   "vr": "VR22",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0376",
+   "name": "Blaricum",
+   "vr": "VR14",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0377",
+   "name": "Bloemendaal",
+   "vr": "VR12",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM1901",
+   "name": "Bodegraven-Reeuwijk",
+   "vr": "VR16",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM0755",
+   "name": "Boekel",
+   "vr": "VR21",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1681",
+   "name": "Borger-Odoorn",
+   "vr": "VR03",
+   "province": "Drenthe",
+   "broadcasterId": "drenthe",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0147",
+   "name": "Borne",
+   "vr": "VR05",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0654",
+   "name": "Borsele",
+   "vr": "VR19",
+   "province": "Zeeland",
+   "broadcasterId": "zeeland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0757",
+   "name": "Boxtel",
+   "vr": "VR21",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0758",
+   "name": "Breda",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM1876",
+   "name": "Bronckhorst",
+   "vr": "VR06",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0213",
+   "name": "Brummen",
+   "vr": "VR06",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0899",
+   "name": "Brunssum",
+   "vr": "VR24",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0312",
+   "name": "Bunnik",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0313",
+   "name": "Bunschoten",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0214",
+   "name": "Buren",
+   "vr": "VR08",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0502",
+   "name": "Capelle aan den IJssel",
+   "vr": "VR17",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM0383",
+   "name": "Castricum",
+   "vr": "VR10",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0109",
+   "name": "Coevorden",
+   "vr": "VR03",
+   "province": "Drenthe",
+   "broadcasterId": "drenthe",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1706",
+   "name": "Cranendonck",
+   "vr": "VR22",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0216",
+   "name": "Culemborg",
+   "vr": "VR08",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0148",
+   "name": "Dalfsen",
+   "vr": "VR04",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1891",
+   "name": "Dantumadiel",
+   "vr": "VR02",
+   "province": "Fryslân",
+   "broadcasterId": "fryslan",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0310",
+   "name": "De Bilt",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1940",
+   "name": "De Fryske Marren",
+   "vr": "VR02",
+   "province": "Fryslân",
+   "broadcasterId": "fryslan",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0736",
+   "name": "De Ronde Venen",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1690",
+   "name": "De Wolden",
+   "vr": "VR03",
+   "province": "Drenthe",
+   "broadcasterId": "drenthe",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0503",
+   "name": "Delft",
+   "vr": "VR15",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM0400",
+   "name": "Den Helder",
+   "vr": "VR10",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0762",
+   "name": "Deurne",
+   "vr": "VR22",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0150",
+   "name": "Deventer",
+   "vr": "VR04",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": [
+    "oost-deventer"
+   ]
+  },
+  {
+   "gm": "GM0384",
+   "name": "Diemen",
+   "vr": "VR13",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM1980",
+   "name": "Dijk en Waard",
+   "vr": "VR10",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM1774",
+   "name": "Dinkelland",
+   "vr": "VR05",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0221",
+   "name": "Doesburg",
+   "vr": "VR07",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0222",
+   "name": "Doetinchem",
+   "vr": "VR06",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0766",
+   "name": "Dongen",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM0505",
+   "name": "Dordrecht",
+   "vr": "VR18",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM0498",
+   "name": "Drechterland",
+   "vr": "VR10",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM1719",
+   "name": "Drimmelen",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM0303",
+   "name": "Dronten",
+   "vr": "VR25",
+   "province": "Flevoland",
+   "broadcasterId": "flevoland",
+   "areaIds": [
+    "flevoland-flevoland"
+   ]
+  },
+  {
+   "gm": "GM0225",
+   "name": "Druten",
+   "vr": "VR08",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0226",
+   "name": "Duiven",
+   "vr": "VR07",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1711",
+   "name": "Echt-Susteren",
+   "vr": "VR23",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0385",
+   "name": "Edam-Volendam",
+   "vr": "VR11",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0228",
+   "name": "Ede",
+   "vr": "VR07",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0317",
+   "name": "Eemnes",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1979",
+   "name": "Eemsdelta",
+   "vr": "VR01",
+   "province": "Groningen",
+   "broadcasterId": "noord",
+   "areaIds": [
+    "noord-groningen"
+   ]
+  },
+  {
+   "gm": "GM0770",
+   "name": "Eersel",
+   "vr": "VR22",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1903",
+   "name": "Eijsden-Margraten",
+   "vr": "VR24",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0772",
+   "name": "Eindhoven",
+   "vr": "VR22",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0230",
+   "name": "Elburg",
+   "vr": "VR06",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0114",
+   "name": "Emmen",
+   "vr": "VR03",
+   "province": "Drenthe",
+   "broadcasterId": "drenthe",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0388",
+   "name": "Enkhuizen",
+   "vr": "VR10",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0153",
+   "name": "Enschede",
+   "vr": "VR05",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0232",
+   "name": "Epe",
+   "vr": "VR06",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0233",
+   "name": "Ermelo",
+   "vr": "VR06",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0777",
+   "name": "Etten-Leur",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM0779",
+   "name": "Geertruidenberg",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM1771",
+   "name": "Geldrop-Mierlo",
+   "vr": "VR22",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1652",
+   "name": "Gemert-Bakel",
+   "vr": "VR22",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0907",
+   "name": "Gennep",
+   "vr": "VR23",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0784",
+   "name": "Gilze en Rijen",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM1924",
+   "name": "Goeree-Overflakkee",
+   "vr": "VR17",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM0664",
+   "name": "Goes",
+   "vr": "VR19",
+   "province": "Zeeland",
+   "broadcasterId": "zeeland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0785",
+   "name": "Goirle",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM1942",
+   "name": "Gooise Meren",
+   "vr": "VR14",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0512",
+   "name": "Gorinchem",
+   "vr": "VR18",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM0513",
+   "name": "Gouda",
+   "vr": "VR16",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM0014",
+   "name": "Groningen",
+   "vr": "VR01",
+   "province": "Groningen",
+   "broadcasterId": "noord",
+   "areaIds": [
+    "noord-groningen"
+   ]
+  },
+  {
+   "gm": "GM1729",
+   "name": "Gulpen-Wittem",
+   "vr": "VR24",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0158",
+   "name": "Haaksbergen",
+   "vr": "VR05",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0392",
+   "name": "Haarlem",
+   "vr": "VR12",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0394",
+   "name": "Haarlemmermeer",
+   "vr": "VR12",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM1655",
+   "name": "Halderberge",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM0160",
+   "name": "Hardenberg",
+   "vr": "VR04",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0243",
+   "name": "Harderwijk",
+   "vr": "VR06",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0523",
+   "name": "Hardinxveld-Giessendam",
+   "vr": "VR18",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM0072",
+   "name": "Harlingen",
+   "vr": "VR02",
+   "province": "Fryslân",
+   "broadcasterId": "fryslan",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0244",
+   "name": "Hattem",
+   "vr": "VR06",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0396",
+   "name": "Heemskerk",
+   "vr": "VR12",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0397",
+   "name": "Heemstede",
+   "vr": "VR12",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0246",
+   "name": "Heerde",
+   "vr": "VR06",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0074",
+   "name": "Heerenveen",
+   "vr": "VR02",
+   "province": "Fryslân",
+   "broadcasterId": "fryslan",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0917",
+   "name": "Heerlen",
+   "vr": "VR24",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1658",
+   "name": "Heeze-Leende",
+   "vr": "VR22",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0399",
+   "name": "Heiloo",
+   "vr": "VR10",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0163",
+   "name": "Hellendoorn",
+   "vr": "VR05",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0794",
+   "name": "Helmond",
+   "vr": "VR22",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0531",
+   "name": "Hendrik-Ido-Ambacht",
+   "vr": "VR18",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM0164",
+   "name": "Hengelo (O.)",
+   "vr": "VR05",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1966",
+   "name": "Het Hogeland",
+   "vr": "VR01",
+   "province": "Groningen",
+   "broadcasterId": "noord",
+   "areaIds": [
+    "noord-groningen"
+   ]
+  },
+  {
+   "gm": "GM0252",
+   "name": "Heumen",
+   "vr": "VR08",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0797",
+   "name": "Heusden",
+   "vr": "VR21",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0534",
+   "name": "Hillegom",
+   "vr": "VR16",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM0798",
+   "name": "Hilvarenbeek",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM0402",
+   "name": "Hilversum",
+   "vr": "VR14",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM1963",
+   "name": "Hoeksche Waard",
+   "vr": "VR18",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM1735",
+   "name": "Hof van Twente",
+   "vr": "VR05",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1911",
+   "name": "Hollands Kroon",
+   "vr": "VR10",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0118",
+   "name": "Hoogeveen",
+   "vr": "VR03",
+   "province": "Drenthe",
+   "broadcasterId": "drenthe",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0405",
+   "name": "Hoorn",
+   "vr": "VR10",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM1507",
+   "name": "Horst aan de Maas",
+   "vr": "VR23",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0321",
+   "name": "Houten",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0406",
+   "name": "Huizen",
+   "vr": "VR14",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0677",
+   "name": "Hulst",
+   "vr": "VR19",
+   "province": "Zeeland",
+   "broadcasterId": "zeeland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0353",
+   "name": "IJsselstein",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1884",
+   "name": "Kaag en Braassem",
+   "vr": "VR16",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM0166",
+   "name": "Kampen",
+   "vr": "VR04",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0678",
+   "name": "Kapelle",
+   "vr": "VR19",
+   "province": "Zeeland",
+   "broadcasterId": "zeeland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0537",
+   "name": "Katwijk",
+   "vr": "VR16",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM0928",
+   "name": "Kerkrade",
+   "vr": "VR24",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1598",
+   "name": "Koggenland",
+   "vr": "VR10",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0542",
+   "name": "Krimpen aan den IJssel",
+   "vr": "VR17",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM1931",
+   "name": "Krimpenerwaard",
+   "vr": "VR16",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM1659",
+   "name": "Laarbeek",
+   "vr": "VR22",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1982",
+   "name": "Land van Cuijk",
+   "vr": "VR21",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0882",
+   "name": "Landgraaf",
+   "vr": "VR24",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0415",
+   "name": "Landsmeer",
+   "vr": "VR11",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM1621",
+   "name": "Lansingerland",
+   "vr": "VR17",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM0417",
+   "name": "Laren (NH.)",
+   "vr": "VR14",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0080",
+   "name": "Leeuwarden",
+   "vr": "VR02",
+   "province": "Fryslân",
+   "broadcasterId": "fryslan",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0546",
+   "name": "Leiden",
+   "vr": "VR16",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM0547",
+   "name": "Leiderdorp",
+   "vr": "VR16",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM1916",
+   "name": "Leidschendam-Voorburg",
+   "vr": "VR15",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM0995",
+   "name": "Lelystad",
+   "vr": "VR25",
+   "province": "Flevoland",
+   "broadcasterId": "flevoland",
+   "areaIds": [
+    "flevoland-flevoland"
+   ]
+  },
+  {
+   "gm": "GM1640",
+   "name": "Leudal",
+   "vr": "VR23",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0327",
+   "name": "Leusden",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1705",
+   "name": "Lingewaard",
+   "vr": "VR07",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0553",
+   "name": "Lisse",
+   "vr": "VR16",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM0262",
+   "name": "Lochem",
+   "vr": "VR06",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0809",
+   "name": "Loon op Zand",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM0331",
+   "name": "Lopik",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0168",
+   "name": "Losser",
+   "vr": "VR05",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0263",
+   "name": "Maasdriel",
+   "vr": "VR08",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1641",
+   "name": "Maasgouw",
+   "vr": "VR23",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1991",
+   "name": "Maashorst",
+   "vr": "VR21",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0556",
+   "name": "Maassluis",
+   "vr": "VR17",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM0935",
+   "name": "Maastricht",
+   "vr": "VR24",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0420",
+   "name": "Medemblik",
+   "vr": "VR10",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0938",
+   "name": "Meerssen",
+   "vr": "VR24",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1948",
+   "name": "Meierijstad",
+   "vr": "VR21",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0119",
+   "name": "Meppel",
+   "vr": "VR03",
+   "province": "Drenthe",
+   "broadcasterId": "drenthe",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0687",
+   "name": "Middelburg (Z.)",
+   "vr": "VR19",
+   "province": "Zeeland",
+   "broadcasterId": "zeeland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1842",
+   "name": "Midden-Delfland",
+   "vr": "VR15",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM1731",
+   "name": "Midden-Drenthe",
+   "vr": "VR03",
+   "province": "Drenthe",
+   "broadcasterId": "drenthe",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1952",
+   "name": "Midden-Groningen",
+   "vr": "VR01",
+   "province": "Groningen",
+   "broadcasterId": "noord",
+   "areaIds": [
+    "noord-groningen"
+   ]
+  },
+  {
+   "gm": "GM1709",
+   "name": "Moerdijk",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM1978",
+   "name": "Molenlanden",
+   "vr": "VR18",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM1955",
+   "name": "Montferland",
+   "vr": "VR06",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0335",
+   "name": "Montfoort",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0944",
+   "name": "Mook en Middelaar",
+   "vr": "VR23",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1740",
+   "name": "Neder-Betuwe",
+   "vr": "VR08",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0946",
+   "name": "Nederweert",
+   "vr": "VR23",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0356",
+   "name": "Nieuwegein",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0569",
+   "name": "Nieuwkoop",
+   "vr": "VR16",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM0267",
+   "name": "Nijkerk",
+   "vr": "VR07",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0268",
+   "name": "Nijmegen",
+   "vr": "VR08",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": [
+    "gelderland-arnhem-nijmegen"
+   ]
+  },
+  {
+   "gm": "GM1930",
+   "name": "Nissewaard",
+   "vr": "VR17",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM1970",
+   "name": "Noardeast-Fryslân",
+   "vr": "VR02",
+   "province": "Fryslân",
+   "broadcasterId": "fryslan",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1695",
+   "name": "Noord-Beveland",
+   "vr": "VR19",
+   "province": "Zeeland",
+   "broadcasterId": "zeeland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1699",
+   "name": "Noordenveld",
+   "vr": "VR03",
+   "province": "Drenthe",
+   "broadcasterId": "drenthe",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0171",
+   "name": "Noordoostpolder",
+   "vr": "VR25",
+   "province": "Flevoland",
+   "broadcasterId": "flevoland",
+   "areaIds": [
+    "flevoland-flevoland"
+   ]
+  },
+  {
+   "gm": "GM0575",
+   "name": "Noordwijk",
+   "vr": "VR16",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM0820",
+   "name": "Nuenen, Gerwen en Nederwetten",
+   "vr": "VR22",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0302",
+   "name": "Nunspeet",
+   "vr": "VR06",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0579",
+   "name": "Oegstgeest",
+   "vr": "VR16",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM0823",
+   "name": "Oirschot",
+   "vr": "VR22",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0824",
+   "name": "Oisterwijk",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM1895",
+   "name": "Oldambt",
+   "vr": "VR01",
+   "province": "Groningen",
+   "broadcasterId": "noord",
+   "areaIds": [
+    "noord-groningen"
+   ]
+  },
+  {
+   "gm": "GM0269",
+   "name": "Oldebroek",
+   "vr": "VR06",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0173",
+   "name": "Oldenzaal",
+   "vr": "VR05",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1773",
+   "name": "Olst-Wijhe",
+   "vr": "VR04",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0175",
+   "name": "Ommen",
+   "vr": "VR04",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1586",
+   "name": "Oost Gelre",
+   "vr": "VR06",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0826",
+   "name": "Oosterhout",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM0085",
+   "name": "Ooststellingwerf",
+   "vr": "VR02",
+   "province": "Fryslân",
+   "broadcasterId": "fryslan",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0431",
+   "name": "Oostzaan",
+   "vr": "VR11",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0432",
+   "name": "Opmeer",
+   "vr": "VR10",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0086",
+   "name": "Opsterland",
+   "vr": "VR02",
+   "province": "Fryslân",
+   "broadcasterId": "fryslan",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0828",
+   "name": "Oss",
+   "vr": "VR21",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1509",
+   "name": "Oude IJsselstreek",
+   "vr": "VR06",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0437",
+   "name": "Ouder-Amstel",
+   "vr": "VR13",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0589",
+   "name": "Oudewater",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1734",
+   "name": "Overbetuwe",
+   "vr": "VR07",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0590",
+   "name": "Papendrecht",
+   "vr": "VR18",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM1894",
+   "name": "Peel en Maas",
+   "vr": "VR23",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0765",
+   "name": "Pekela",
+   "vr": "VR01",
+   "province": "Groningen",
+   "broadcasterId": "noord",
+   "areaIds": [
+    "noord-groningen"
+   ]
+  },
+  {
+   "gm": "GM1926",
+   "name": "Pijnacker-Nootdorp",
+   "vr": "VR15",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM0439",
+   "name": "Purmerend",
+   "vr": "VR11",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0273",
+   "name": "Putten",
+   "vr": "VR06",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0177",
+   "name": "Raalte",
+   "vr": "VR04",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0703",
+   "name": "Reimerswaal",
+   "vr": "VR19",
+   "province": "Zeeland",
+   "broadcasterId": "zeeland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0274",
+   "name": "Renkum",
+   "vr": "VR07",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0339",
+   "name": "Renswoude",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1667",
+   "name": "Reusel-De Mierden",
+   "vr": "VR22",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0275",
+   "name": "Rheden",
+   "vr": "VR07",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0340",
+   "name": "Rhenen",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": [
+    "utrecht-rhenen",
+    "utrecht-provincie"
+   ]
+  },
+  {
+   "gm": "GM0597",
+   "name": "Ridderkerk",
+   "vr": "VR17",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM1742",
+   "name": "Rijssen-Holten",
+   "vr": "VR05",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0603",
+   "name": "Rijswijk (ZH.)",
+   "vr": "VR15",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM1669",
+   "name": "Roerdalen",
+   "vr": "VR23",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0957",
+   "name": "Roermond",
+   "vr": "VR23",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1674",
+   "name": "Roosendaal",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM0599",
+   "name": "Rotterdam",
+   "vr": "VR17",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM0277",
+   "name": "Rozendaal",
+   "vr": "VR07",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0840",
+   "name": "Rucphen",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM0441",
+   "name": "Schagen",
+   "vr": "VR10",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0279",
+   "name": "Scherpenzeel",
+   "vr": "VR07",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0606",
+   "name": "Schiedam",
+   "vr": "VR17",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM0088",
+   "name": "Schiermonnikoog",
+   "vr": "VR02",
+   "province": "Fryslân",
+   "broadcasterId": "fryslan",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1676",
+   "name": "Schouwen-Duiveland",
+   "vr": "VR19",
+   "province": "Zeeland",
+   "broadcasterId": "zeeland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0965",
+   "name": "Simpelveld",
+   "vr": "VR24",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0845",
+   "name": "Sint-Michielsgestel",
+   "vr": "VR21",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1883",
+   "name": "Sittard-Geleen",
+   "vr": "VR24",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0610",
+   "name": "Sliedrecht",
+   "vr": "VR18",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM1714",
+   "name": "Sluis",
+   "vr": "VR19",
+   "province": "Zeeland",
+   "broadcasterId": "zeeland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0090",
+   "name": "Smallingerland",
+   "vr": "VR02",
+   "province": "Fryslân",
+   "broadcasterId": "fryslan",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0342",
+   "name": "Soest",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0847",
+   "name": "Someren",
+   "vr": "VR22",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0848",
+   "name": "Son en Breugel",
+   "vr": "VR22",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0037",
+   "name": "Stadskanaal",
+   "vr": "VR01",
+   "province": "Groningen",
+   "broadcasterId": "noord",
+   "areaIds": [
+    "noord-groningen"
+   ]
+  },
+  {
+   "gm": "GM0180",
+   "name": "Staphorst",
+   "vr": "VR04",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0532",
+   "name": "Stede Broec",
+   "vr": "VR10",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0851",
+   "name": "Steenbergen",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM1708",
+   "name": "Steenwijkerland",
+   "vr": "VR04",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0971",
+   "name": "Stein (L.)",
+   "vr": "VR24",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1904",
+   "name": "Stichtse Vecht",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1900",
+   "name": "Súdwest-Fryslân",
+   "vr": "VR02",
+   "province": "Fryslân",
+   "broadcasterId": "fryslan",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0715",
+   "name": "Terneuzen",
+   "vr": "VR19",
+   "province": "Zeeland",
+   "broadcasterId": "zeeland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0093",
+   "name": "Terschelling",
+   "vr": "VR02",
+   "province": "Fryslân",
+   "broadcasterId": "fryslan",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0448",
+   "name": "Texel",
+   "vr": "VR10",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM1525",
+   "name": "Teylingen",
+   "vr": "VR16",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM0716",
+   "name": "Tholen",
+   "vr": "VR19",
+   "province": "Zeeland",
+   "broadcasterId": "zeeland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0281",
+   "name": "Tiel",
+   "vr": "VR08",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0855",
+   "name": "Tilburg",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM0183",
+   "name": "Tubbergen",
+   "vr": "VR05",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1700",
+   "name": "Twenterand",
+   "vr": "VR05",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1730",
+   "name": "Tynaarlo",
+   "vr": "VR03",
+   "province": "Drenthe",
+   "broadcasterId": "drenthe",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0737",
+   "name": "Tytsjerksteradiel",
+   "vr": "VR02",
+   "province": "Fryslân",
+   "broadcasterId": "fryslan",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0450",
+   "name": "Uitgeest",
+   "vr": "VR12",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0451",
+   "name": "Uithoorn",
+   "vr": "VR13",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0184",
+   "name": "Urk",
+   "vr": "VR25",
+   "province": "Flevoland",
+   "broadcasterId": "flevoland",
+   "areaIds": [
+    "flevoland-flevoland"
+   ]
+  },
+  {
+   "gm": "GM0344",
+   "name": "Utrecht",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1581",
+   "name": "Utrechtse Heuvelrug",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0981",
+   "name": "Vaals",
+   "vr": "VR24",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0994",
+   "name": "Valkenburg aan de Geul",
+   "vr": "VR24",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0858",
+   "name": "Valkenswaard",
+   "vr": "VR22",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0047",
+   "name": "Veendam",
+   "vr": "VR01",
+   "province": "Groningen",
+   "broadcasterId": "noord",
+   "areaIds": [
+    "noord-groningen"
+   ]
+  },
+  {
+   "gm": "GM0345",
+   "name": "Veenendaal",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0717",
+   "name": "Veere",
+   "vr": "VR19",
+   "province": "Zeeland",
+   "broadcasterId": "zeeland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0861",
+   "name": "Veldhoven",
+   "vr": "VR22",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0453",
+   "name": "Velsen",
+   "vr": "VR12",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0983",
+   "name": "Venlo",
+   "vr": "VR23",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0984",
+   "name": "Venray",
+   "vr": "VR23",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1961",
+   "name": "Vijfheerenlanden",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0622",
+   "name": "Vlaardingen",
+   "vr": "VR17",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM0096",
+   "name": "Vlieland",
+   "vr": "VR02",
+   "province": "Fryslân",
+   "broadcasterId": "fryslan",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0718",
+   "name": "Vlissingen",
+   "vr": "VR19",
+   "province": "Zeeland",
+   "broadcasterId": "zeeland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0986",
+   "name": "Voerendaal",
+   "vr": "VR24",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1992",
+   "name": "Voorne aan Zee",
+   "vr": "VR17",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM0626",
+   "name": "Voorschoten",
+   "vr": "VR16",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM0285",
+   "name": "Voorst",
+   "vr": "VR06",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0865",
+   "name": "Vught",
+   "vr": "VR21",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1949",
+   "name": "Waadhoeke",
+   "vr": "VR02",
+   "province": "Fryslân",
+   "broadcasterId": "fryslan",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0866",
+   "name": "Waalre",
+   "vr": "VR22",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0867",
+   "name": "Waalwijk",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM0627",
+   "name": "Waddinxveen",
+   "vr": "VR16",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM0289",
+   "name": "Wageningen",
+   "vr": "VR07",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0629",
+   "name": "Wassenaar",
+   "vr": "VR15",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM0852",
+   "name": "Waterland",
+   "vr": "VR11",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0988",
+   "name": "Weert",
+   "vr": "VR23",
+   "province": "Limburg",
+   "broadcasterId": "l1",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1960",
+   "name": "West Betuwe",
+   "vr": "VR08",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0668",
+   "name": "West Maas en Waal",
+   "vr": "VR08",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1969",
+   "name": "Westerkwartier",
+   "vr": "VR01",
+   "province": "Groningen",
+   "broadcasterId": "noord",
+   "areaIds": [
+    "noord-groningen"
+   ]
+  },
+  {
+   "gm": "GM1701",
+   "name": "Westerveld",
+   "vr": "VR03",
+   "province": "Drenthe",
+   "broadcasterId": "drenthe",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0293",
+   "name": "Westervoort",
+   "vr": "VR07",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1950",
+   "name": "Westerwolde",
+   "vr": "VR01",
+   "province": "Groningen",
+   "broadcasterId": "noord",
+   "areaIds": [
+    "noord-groningen"
+   ]
+  },
+  {
+   "gm": "GM1783",
+   "name": "Westland",
+   "vr": "VR15",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM0098",
+   "name": "Weststellingwerf",
+   "vr": "VR02",
+   "province": "Fryslân",
+   "broadcasterId": "fryslan",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0189",
+   "name": "Wierden",
+   "vr": "VR05",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0296",
+   "name": "Wijchen",
+   "vr": "VR08",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1696",
+   "name": "Wijdemeren",
+   "vr": "VR14",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0352",
+   "name": "Wijk bij Duurstede",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0294",
+   "name": "Winterswijk",
+   "vr": "VR06",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0873",
+   "name": "Woensdrecht",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM0632",
+   "name": "Woerden",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0880",
+   "name": "Wormerland",
+   "vr": "VR11",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0351",
+   "name": "Woudenberg",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0479",
+   "name": "Zaanstad",
+   "vr": "VR11",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0297",
+   "name": "Zaltbommel",
+   "vr": "VR08",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0473",
+   "name": "Zandvoort",
+   "vr": "VR12",
+   "province": "Noord-Holland",
+   "broadcasterId": "nh",
+   "areaIds": [
+    "nh-noord-holland"
+   ]
+  },
+  {
+   "gm": "GM0050",
+   "name": "Zeewolde",
+   "vr": "VR25",
+   "province": "Flevoland",
+   "broadcasterId": "flevoland",
+   "areaIds": [
+    "flevoland-flevoland"
+   ]
+  },
+  {
+   "gm": "GM0355",
+   "name": "Zeist",
+   "vr": "VR09",
+   "province": "Utrecht",
+   "broadcasterId": "utrecht",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0299",
+   "name": "Zevenaar",
+   "vr": "VR07",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0637",
+   "name": "Zoetermeer",
+   "vr": "VR15",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM0638",
+   "name": "Zoeterwoude",
+   "vr": "VR16",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM1892",
+   "name": "Zuidplas",
+   "vr": "VR16",
+   "province": "Zuid-Holland",
+   "broadcasterId": "west",
+   "areaIds": [
+    "west-haaglanden-hollands-midden"
+   ]
+  },
+  {
+   "gm": "GM0879",
+   "name": "Zundert",
+   "vr": "VR20",
+   "province": "Noord-Brabant",
+   "broadcasterId": "brabant",
+   "areaIds": [
+    "brabant-west",
+    "brabant-midden"
+   ]
+  },
+  {
+   "gm": "GM0301",
+   "name": "Zutphen",
+   "vr": "VR06",
+   "province": "Gelderland",
+   "broadcasterId": "gelderland",
+   "areaIds": null
+  },
+  {
+   "gm": "GM1896",
+   "name": "Zwartewaterland",
+   "vr": "VR04",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  },
+  {
+   "gm": "GM0642",
+   "name": "Zwijndrecht",
+   "vr": "VR18",
+   "province": "Zuid-Holland",
+   "broadcasterId": "rijnmond",
+   "areaIds": [
+    "rijnmond-rijnmond"
+   ]
+  },
+  {
+   "gm": "GM0193",
+   "name": "Zwolle",
+   "vr": "VR04",
+   "province": "Overijssel",
+   "broadcasterId": "oost",
+   "areaIds": null
+  }
+ ]
+}

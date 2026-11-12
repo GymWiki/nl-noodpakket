@@ -1,0 +1,120 @@
+{
+  "_readme": "Met de hand gecontroleerde brongegevens voor assets/radio/rampenzenders.json. Zie tool/README_rampenzenders.md. Wijzig dit bestand, draai daarna: dart run tool/generate_rampenzenders.dart",
+  "reviewed": "2026-11-12",
+  "sources": [
+    {"id": "dv-radio", "title": "Denk vooruit: Radio (overzicht FM-radiozenders en DAB-frequenties)", "publisher": "Rijksoverheid, campagne Denk vooruit", "url": "https://www.denkvooruit.nl/bereid-je-voor/zo-krijg-je-een-waarschuwing/radio", "pageDate": "2025-12-03"},
+    {"id": "cbs-gebieden-2026", "title": "Gebieden in Nederland 2026 (tabel 86247NED): gemeente, provincie en veiligheidsregio", "publisher": "CBS", "url": "https://opendata.cbs.nl/ODataApi/odata/86247NED/TypedDataSet", "pageDate": "2026-01-01"},
+    {"id": "rtvnoord-ontvangst", "title": "Radio ontvangst", "publisher": "RTV Noord", "url": "https://www.rtvnoord.nl/ontvangst"},
+    {"id": "omropfryslan-frekwinsjes", "title": "Ontvangst en frequenties", "publisher": "Omrop Fryslân", "url": "https://www.omropfryslan.nl/nl/service/untgangst-en-frekwinsjes"},
+    {"id": "rtvdrenthe-rampenzender", "title": "Rampenzender Radio Drenthe", "publisher": "RTV Drenthe", "url": "https://www.rtvdrenthe.nl/rampenzender"},
+    {"id": "rtvoost-ontvangst", "title": "Ontvangst", "publisher": "RTV Oost", "url": "https://www.rtvoost.nl/ontvangst"},
+    {"id": "gld-rampenzender", "title": "Calamiteiten in Gelderland", "publisher": "Omroep Gelderland", "url": "https://www.gld.nl/rampenzender"},
+    {"id": "omroepflevoland-frequenties", "title": "Frequenties", "publisher": "Omroep Flevoland", "url": "https://www.omroepflevoland.nl/info/frequenties"},
+    {"id": "omroepflevoland-calamiteiten", "title": "Calamiteitenzender", "publisher": "Omroep Flevoland", "url": "https://www.omroepflevoland.nl/info/calamiteiten"},
+    {"id": "omroepflevoland-dab-2022", "title": "Omroep Flevoland te horen via nieuwe DAB+ frequentie (24 augustus 2022)", "publisher": "Omroep Flevoland", "url": "https://www.omroepflevoland.nl/nieuws/298823/omroep-flevoland-te-horen-via-nieuwe-dab-frequentie"},
+    {"id": "rtvutrecht-ontvangst", "title": "Ontvangst Radio en TV", "publisher": "RTV Utrecht", "url": "https://www.rtvutrecht.nl/hoe-ontvang-je-ons"},
+    {"id": "rtvutrecht-dab", "title": "Radio M Utrecht op DAB+", "publisher": "RTV Utrecht", "url": "https://www.rtvutrecht.nl/radio-m-utrecht-op-dab"},
+    {"id": "nhnieuws-home", "title": "NH Nieuws (regio's, o.a. Gooi, en Calamiteitenzender)", "publisher": "NH Media", "url": "https://www.nhnieuws.nl/calamiteitenzender"},
+    {"id": "omroepwest-ontvangst", "title": "Hoe ontvang je Radio West en TV West?", "publisher": "Omroep West", "url": "https://www.omroepwest.nl/ontvangst"},
+    {"id": "omroepwest-calamiteitenzender", "title": "Calamiteitenzender", "publisher": "Omroep West", "url": "https://www.omroepwest.nl/calamiteitenzender"},
+    {"id": "rijnmond-ontvangst", "title": "Ontvangst", "publisher": "Rijnmond", "url": "https://www.rijnmond.nl/ontvangst"},
+    {"id": "rijnmond-rampenzender", "title": "Rampenzender Rijnmond: bij nood op 93.4 FM", "publisher": "Rijnmond", "url": "https://www.rijnmond.nl/rampenzender"},
+    {"id": "rijnmond-veiligheidsregio", "title": "Veiligheidsregio's in Rijnmond", "publisher": "Rijnmond", "url": "https://www.rijnmond.nl/rampenzender/veiligheidsregio"},
+    {"id": "omroepzeeland-frequenties", "title": "Ontvangst", "publisher": "Omroep Zeeland", "url": "https://www.omroepzeeland.nl/frequenties"},
+    {"id": "omroepzeeland-rampenzender", "title": "Calamiteitenzender", "publisher": "Omroep Zeeland", "url": "https://www.omroepzeeland.nl/rampenzender"},
+    {"id": "omroepbrabant-rampenzender", "title": "Omroep Brabant: de rampenzender van de provincie", "publisher": "Omroep Brabant", "url": "https://www.omroepbrabant.nl/rampenzender"},
+    {"id": "l1-ontvangst", "title": "Ontvangst", "publisher": "L1", "url": "https://www.l1.nl/ontvangst"},
+    {"id": "l1-rampenzender", "title": "Rampenzender", "publisher": "L1", "url": "https://www.l1.nl/rampenzender"},
+    {"id": "dares-nn-v4", "title": "MKK DARES Noord-Nederland, versie 4 (januari 2026)", "publisher": "DARES", "url": "https://nn.dares.nl/wp-content/uploads/sites/5/2026/01/MKK-DARES-Noord-Nederland-V4.pdf", "pageDate": "2026-01"},
+    {"id": "dares-mwb", "title": "DARES meterkastkaart Midden en West Brabant, versie 1.0 (3 februari 2025)", "publisher": "DARES", "url": "https://r20.dares.nl/wp-content/uploads/sites/11/2025/02/DARES-Meterkast-kaart-MiddenWestBrabant.pdf", "pageDate": "2025-02-03"},
+    {"id": "worlddab-nl", "title": "Netherlands: Multiplexes (landelijke NPO-multiplex)", "publisher": "WorldDAB", "url": "https://www.worlddab.org/countries/netherlands/multiplexes"}
+  ],
+  "broadcasters": [
+    {"id": "noord", "name": "RTV Noord", "stationName": "Radio Noord", "website": "https://www.rtvnoord.nl", "vr": ["VR01"], "sourceIds": ["dv-radio", "rtvnoord-ontvangst", "dares-nn-v4"]},
+    {"id": "fryslan", "name": "Omrop Fryslân", "stationName": "Omrop Fryslân Radio", "website": "https://www.omropfryslan.nl", "vr": ["VR02"], "sourceIds": ["dv-radio", "omropfryslan-frekwinsjes"]},
+    {"id": "drenthe", "name": "RTV Drenthe", "stationName": "Radio Drenthe", "website": "https://www.rtvdrenthe.nl", "vr": ["VR03"], "sourceIds": ["dv-radio", "rtvdrenthe-rampenzender", "dares-nn-v4"]},
+    {"id": "oost", "name": "RTV Oost", "stationName": "Radio Oost", "website": "https://www.rtvoost.nl", "vr": ["VR04", "VR05"], "sourceIds": ["dv-radio", "rtvoost-ontvangst"]},
+    {"id": "gelderland", "name": "Omroep Gelderland", "stationName": "Radio Gelderland", "website": "https://www.gld.nl", "vr": ["VR06", "VR07", "VR08"], "sourceIds": ["dv-radio", "gld-rampenzender"]},
+    {"id": "flevoland", "name": "Omroep Flevoland", "stationName": "Omroep Flevoland radio", "website": "https://www.omroepflevoland.nl", "vr": ["VR25"], "sourceIds": ["dv-radio", "omroepflevoland-frequenties", "omroepflevoland-calamiteiten"]},
+    {"id": "utrecht", "name": "RTV Utrecht", "stationName": "Radio M Utrecht", "website": "https://www.rtvutrecht.nl", "vr": ["VR09"], "sourceIds": ["dv-radio", "rtvutrecht-ontvangst"]},
+    {"id": "nh", "name": "NH Media", "stationName": "NH Radio", "website": "https://www.nhnieuws.nl", "vr": ["VR10", "VR11", "VR12", "VR13", "VR14"], "sourceIds": ["dv-radio", "nhnieuws-home"]},
+    {"id": "west", "name": "Omroep West", "stationName": "Radio West", "website": "https://www.omroepwest.nl", "vr": ["VR15", "VR16"], "sourceIds": ["dv-radio", "omroepwest-ontvangst", "omroepwest-calamiteitenzender"]},
+    {"id": "rijnmond", "name": "Omroep Rijnmond", "stationName": "Radio Rijnmond", "website": "https://www.rijnmond.nl", "vr": ["VR17", "VR18"], "sourceIds": ["dv-radio", "rijnmond-ontvangst", "rijnmond-rampenzender", "rijnmond-veiligheidsregio"]},
+    {"id": "zeeland", "name": "Omroep Zeeland", "stationName": "Omroep Zeeland Radio", "website": "https://www.omroepzeeland.nl", "vr": ["VR19"], "sourceIds": ["dv-radio", "omroepzeeland-frequenties", "omroepzeeland-rampenzender"]},
+    {"id": "brabant", "name": "Omroep Brabant", "stationName": "Omroep Brabant Radio", "website": "https://www.omroepbrabant.nl", "vr": ["VR20", "VR21", "VR22"], "sourceIds": ["dv-radio", "omroepbrabant-rampenzender", "dares-mwb"]},
+    {"id": "l1", "name": "L1", "stationName": "L1 Radio", "website": "https://www.l1.nl", "vr": ["VR23", "VR24"], "sourceIds": ["dv-radio", "l1-ontvangst", "l1-rampenzender"]}
+  ],
+  "national": {
+    "id": "npo-radio-1",
+    "name": "NPO Radio 1",
+    "type": "landelijk",
+    "website": "https://www.nporadio1.nl",
+    "transmission": {
+      "id": "npo-radio-1-landelijk",
+      "area": "Heel Nederland",
+      "fmMHz": [],
+      "dab": {"channel": "12C", "searchName": "NPO Radio 1"},
+      "notes": "De FM-frequentie van NPO Radio 1 kan per plek verschillen. In geen enkele officiële bron vonden we een gecontroleerde lijst per zendmast, dus tonen we geen losse frequentie. Zoek op de FM-band naar NPO Radio 1. DAB+ staat op het landelijke kanaal.",
+      "sourceIds": ["worlddab-nl", "dares-nn-v4"],
+      "verification": "enkele-bron"
+    }
+  },
+  "transmissions": [
+    {"id": "noord-groningen", "broadcasterId": "noord", "area": "Groningen", "fmMHz": [97.5], "dab": {"channel": "7C", "searchName": "Radio Noord"}, "notes": "", "sourceIds": ["rtvnoord-ontvangst", "dv-radio", "dares-nn-v4"], "verification": "meerdere-bronnen"},
+
+    {"id": "fryslan-fryslan", "broadcasterId": "fryslan", "area": "Fryslân en de Noordoostpolder", "fmMHz": [92.2], "dab": {"channel": "5A", "searchName": "Omrop Fryslân Radio"}, "notes": "", "sourceIds": ["omropfryslan-frekwinsjes", "dv-radio"], "verification": "meerdere-bronnen"},
+    {"id": "fryslan-ooststellingwerf", "broadcasterId": "fryslan", "area": "Regio Ooststellingwerf", "fmMHz": [92.5], "dab": {"channel": "5A", "searchName": "Omrop Fryslân Radio"}, "notes": "", "sourceIds": ["omropfryslan-frekwinsjes", "dv-radio"], "verification": "meerdere-bronnen"},
+
+    {"id": "drenthe-drenthe", "broadcasterId": "drenthe", "area": "Grote delen van Drenthe", "fmMHz": [90.8], "dab": {"channel": "7C", "searchName": "Radio Drenthe"}, "notes": "", "sourceIds": ["rtvdrenthe-rampenzender", "dv-radio", "dares-nn-v4"], "verification": "meerdere-bronnen"},
+    {"id": "drenthe-zuidoost", "broadcasterId": "drenthe", "area": "Zuidoost-Drenthe en Emmen", "fmMHz": [99.3], "dab": {"channel": "7C", "searchName": "Radio Drenthe"}, "notes": "", "sourceIds": ["rtvdrenthe-rampenzender", "dv-radio", "dares-nn-v4"], "verification": "meerdere-bronnen"},
+
+    {"id": "oost-noordwest-overijssel", "broadcasterId": "oost", "area": "Noordwest-Overijssel (Zwolle)", "fmMHz": [99.4], "dab": {"channel": "6A", "searchName": "Radio Oost"}, "notes": "", "sourceIds": ["rtvoost-ontvangst", "dv-radio"], "verification": "meerdere-bronnen"},
+    {"id": "oost-deventer", "broadcasterId": "oost", "area": "Deventer", "fmMHz": [97.9], "dab": {"channel": "6A", "searchName": "Radio Oost"}, "notes": "", "sourceIds": ["rtvoost-ontvangst", "dv-radio"], "verification": "meerdere-bronnen"},
+    {"id": "oost-zuid-salland", "broadcasterId": "oost", "area": "Zuid-Salland", "fmMHz": [95.6], "dab": {"channel": "6A", "searchName": "Radio Oost"}, "notes": "", "sourceIds": ["rtvoost-ontvangst", "dv-radio"], "verification": "meerdere-bronnen"},
+    {"id": "oost-twente", "broadcasterId": "oost", "area": "Twente", "fmMHz": [89.4], "dab": {"channel": "6A", "searchName": "Radio Oost"}, "notes": "", "sourceIds": ["rtvoost-ontvangst", "dv-radio"], "verification": "meerdere-bronnen"},
+
+    {"id": "gelderland-arnhem-nijmegen", "broadcasterId": "gelderland", "area": "Arnhem en Nijmegen", "fmMHz": [88.9], "dab": {"channel": "12B", "searchName": "Radio Gelderland"}, "notes": "", "sourceIds": ["gld-rampenzender", "dv-radio", "rtvutrecht-dab"], "verification": "meerdere-bronnen"},
+    {"id": "gelderland-achterhoek", "broadcasterId": "gelderland", "area": "Achterhoek", "fmMHz": [90.4], "dab": {"channel": "12B", "searchName": "Radio Gelderland"}, "notes": "", "sourceIds": ["gld-rampenzender", "dv-radio", "rtvutrecht-dab"], "verification": "meerdere-bronnen"},
+    {"id": "gelderland-betuwe", "broadcasterId": "gelderland", "area": "Betuwe", "fmMHz": [99.6], "dab": {"channel": "12B", "searchName": "Radio Gelderland"}, "notes": "", "sourceIds": ["gld-rampenzender", "dv-radio", "rtvutrecht-dab"], "verification": "meerdere-bronnen"},
+    {"id": "gelderland-veluwe", "broadcasterId": "gelderland", "area": "Veluwe", "fmMHz": [103.5], "dab": {"channel": "12B", "searchName": "Radio Gelderland"}, "notes": "", "sourceIds": ["gld-rampenzender", "dv-radio", "rtvutrecht-dab"], "verification": "meerdere-bronnen"},
+
+    {"id": "flevoland-flevoland", "broadcasterId": "flevoland", "area": "Flevoland", "fmMHz": [89.8], "dab": {"channel": "8B", "searchName": "Omroep Flevoland"}, "notes": "", "sourceIds": ["omroepflevoland-frequenties", "omroepflevoland-calamiteiten", "dv-radio"], "verification": "meerdere-bronnen"},
+
+    {"id": "utrecht-provincie", "broadcasterId": "utrecht", "area": "Provincie Utrecht", "fmMHz": [93.1], "dab": {"channel": "12B", "searchName": "Radio M Utrecht"}, "notes": "", "sourceIds": ["rtvutrecht-ontvangst", "dv-radio", "rtvutrecht-dab"], "verification": "meerdere-bronnen"},
+    {"id": "utrecht-rhenen", "broadcasterId": "utrecht", "area": "Rhenen en omgeving", "fmMHz": [97.9], "dab": {"channel": "12B", "searchName": "Radio M Utrecht"}, "notes": "", "sourceIds": ["rtvutrecht-ontvangst", "dv-radio", "rtvutrecht-dab"], "verification": "meerdere-bronnen"},
+
+    {"id": "nh-noord-holland", "broadcasterId": "nh", "area": "Noord-Holland", "fmMHz": [88.7, 88.9, 93.9], "dab": {"channel": "8B", "searchName": "NH Radio"}, "notes": "De frequentie verschilt per plek in Noord-Holland. Probeer de drie frequenties tot je NH Radio hoort.", "sourceIds": ["dv-radio", "omroepflevoland-dab-2022"], "verification": "enkele-bron"},
+
+    {"id": "west-haaglanden-hollands-midden", "broadcasterId": "west", "area": "Haaglanden en Hollands Midden", "fmMHz": [89.3], "dab": {"channel": "5B", "searchName": "Radio West"}, "notes": "", "sourceIds": ["omroepwest-ontvangst", "omroepwest-calamiteitenzender", "dv-radio"], "verification": "meerdere-bronnen"},
+
+    {"id": "rijnmond-rijnmond", "broadcasterId": "rijnmond", "area": "Rotterdam-Rijnmond en Zuid-Holland-Zuid", "fmMHz": [93.4], "dab": {"channel": "5B", "searchName": "Radio Rijnmond"}, "notes": "", "sourceIds": ["rijnmond-ontvangst", "rijnmond-rampenzender", "dv-radio"], "verification": "meerdere-bronnen"},
+
+    {"id": "zeeland-zeeland", "broadcasterId": "zeeland", "area": "Bijna heel Zeeland", "fmMHz": [87.9], "dab": {"channel": "5B", "searchName": "Omroep Zeeland Radio"}, "notes": "", "sourceIds": ["omroepzeeland-frequenties", "omroepzeeland-rampenzender", "dv-radio"], "verification": "meerdere-bronnen"},
+    {"id": "zeeland-west", "broadcasterId": "zeeland", "area": "West-Walcheren en West-Zeeuws-Vlaanderen", "fmMHz": [98.4], "dab": {"channel": "5B", "searchName": "Omroep Zeeland Radio"}, "notes": "", "sourceIds": ["omroepzeeland-frequenties", "omroepzeeland-rampenzender", "dv-radio"], "verification": "meerdere-bronnen"},
+
+    {"id": "brabant-west", "broadcasterId": "brabant", "area": "West-Brabant", "fmMHz": [91.0], "dab": {"channel": "7C", "searchName": "Omroep Brabant"}, "notes": "", "sourceIds": ["omroepbrabant-rampenzender", "dv-radio", "dares-mwb"], "verification": "meerdere-bronnen"},
+    {"id": "brabant-midden", "broadcasterId": "brabant", "area": "Midden-Brabant", "fmMHz": [91.9], "dab": {"channel": "7C", "searchName": "Omroep Brabant"}, "notes": "", "sourceIds": ["omroepbrabant-rampenzender", "dv-radio", "dares-mwb"], "verification": "meerdere-bronnen"},
+    {"id": "brabant-noordoost", "broadcasterId": "brabant", "area": "Noordoost-Brabant", "fmMHz": [95.8], "dab": {"channel": "7C", "searchName": "Omroep Brabant"}, "notes": "", "sourceIds": ["omroepbrabant-rampenzender", "dv-radio"], "verification": "meerdere-bronnen"},
+    {"id": "brabant-zuidoost", "broadcasterId": "brabant", "area": "Zuidoost-Brabant", "fmMHz": [87.6], "dab": {"channel": "7C", "searchName": "Omroep Brabant"}, "notes": "", "sourceIds": ["omroepbrabant-rampenzender", "dv-radio"], "verification": "meerdere-bronnen"},
+
+    {"id": "l1-noord-midden", "broadcasterId": "l1", "area": "Noord- en Midden-Limburg", "fmMHz": [100.3], "dab": {"channel": "7C", "searchName": "L1 Radio"}, "notes": "", "sourceIds": ["l1-ontvangst", "l1-rampenzender", "dv-radio"], "verification": "meerdere-bronnen"},
+    {"id": "l1-zuid", "broadcasterId": "l1", "area": "Zuid-Limburg", "fmMHz": [95.3], "dab": {"channel": "7C", "searchName": "L1 Radio"}, "notes": "", "sourceIds": ["l1-ontvangst", "l1-rampenzender", "dv-radio"], "verification": "meerdere-bronnen"}
+  ],
+  "areaLinks": {
+    "_comment": "Alleen waar een bron de gemeente of VR aantoonbaar aan een gebied koppelt. Alles wat hier niet staat: gebruiker kiest zelf uit de lijst met gebieden van de omroep.",
+    "vr": {
+      "VR20": ["brabant-west", "brabant-midden"]
+    },
+    "gm": {
+      "GM0202": ["gelderland-arnhem-nijmegen"],
+      "GM0268": ["gelderland-arnhem-nijmegen"],
+      "GM0150": ["oost-deventer"],
+      "GM0340": ["utrecht-rhenen", "utrecht-provincie"]
+    },
+    "singleArea": ["noord", "flevoland", "west", "rijnmond", "nh"]
+  },
+  "aliases": {
+    "'s-Gravenhage": ["Den Haag"],
+    "'s-Hertogenbosch": ["Den Bosch"]
+  }
+}
