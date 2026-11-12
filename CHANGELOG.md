@@ -14,6 +14,10 @@ Delen met een ander toestel
 - Deel je noodplan (en als je dat zelf kiest documenten uit je kluis) via een QR-code met een ander toestel op hetzelfde wifi. Rechtstreeks en versleuteld, zonder server. Gratis.
 - Plannen die met jou zijn gedeeld staan onder Mijn plan, alleen-lezen en bij te werken door opnieuw te scannen.
 
+Rampenzender
+- Kies je gemeente en zie de FM-frequentie en het DAB+-kanaal van de rampenzender van jouw regio, plus NPO Radio 1. Zo stel je je radio vooraf in. Gratis, volledig offline, zonder locatie.
+- Staat ook op het startscherm, in de Eerste-uur kaart, in Mijn pakket is op, in je noodplan en op de meterkastkaart.
+
 Pro (eenmalige aankoop, geen abonnement)
 - Ontgrendelt de noodhacks, herinneringen voor items die aan vervanging toe zijn en onbeperkt documenten in de kluis.
 - Gratis blijven: checklist, houdbaarheidsoverzicht, alle noodgevallen-stappenplannen, noodplan, de kluis tot 3 documenten en de gevaarlijke mythes.

@@ -332,3 +332,11 @@ Geen https-link voor de camera-app (App/Universal Links), geen cloud of relay, g
 | Verkeerde of verlopen QR, QR twee keer scannen | | | |
 Controleer ook: er blijft geen leesbaar bestand achter in de app-map van de ontvanger, de QR-pagina is niet te screenshotten (Android) of verdwijnt in de app-switcher (iOS), en er wordt nergens automatisch gebeld.
 
+
+## Rampenzender
+
+Per gemeente de FM-frequentie en het DAB+-kanaal van de rampenzender (regionale publieke omroep) en NPO Radio 1.
+Alles zit gebundeld in `assets/radio/rampenzenders.json`. Er zijn geen netwerkaanroepen en geen locatie.
+Het vernieuwen van de data staat in `tool/README_rampenzenders.md`:
+`dart run tool/generate_rampenzenders.dart` en `dart run tool/validate_rampenzenders.dart`.
+Alleen gegevens die met officiële of gezaghebbende bronnen zijn te onderbouwen staan erin; per regel staan bronnen en controledatum.
