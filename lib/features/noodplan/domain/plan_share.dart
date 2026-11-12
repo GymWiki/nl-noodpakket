@@ -174,6 +174,7 @@ String planToJsonString(
   String? planId,
   int? version,
   String? sender,
+  String? radioGm,
 }) {
   final map = <String, Object?>{
     'app': planFileApp,
@@ -183,6 +184,8 @@ String planToJsonString(
     'planId': ?planId,
     'version': ?version,
     'sender': ?sender,
+    // Alleen het gemeente-id van de gekozen rampenzender-regio, nooit de dataset zelf.
+    if (radioGm != null && RegExp(r'^GM\d{4}$').hasMatch(radioGm)) 'radioGm': radioGm,
     'householdName': p.householdName,
     if (o.persons)
       'members': [
@@ -250,8 +253,9 @@ class ParsedPlanFile {
     this.planId = '',
     this.version = 0,
     this.sender = '',
+    this.radioGm = '',
   });
-  final String planId, sender;
+  final String planId, sender, radioGm;
   final int version;
   final Plan plan;
   /// sleutel -> base64 (alleen als het bestand foto's bevat)
@@ -333,6 +337,7 @@ ParsedPlanFile parsePlanFile(String source) {
       planId: s(j['planId']),
       version: j['version'] is int ? j['version'] as int : 0,
       sender: s(j['sender']),
+      radioGm: RegExp(r'^GM\d{4}$').hasMatch(s(j['radioGm'])) ? s(j['radioGm']) : '',
     );
   } on PlanFileException {
     rethrow;

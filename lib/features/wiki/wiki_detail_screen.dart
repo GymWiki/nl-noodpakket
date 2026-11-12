@@ -1,3 +1,4 @@
+import '../rampenzender/ui/rampenzender_widgets.dart';
 import 'package:flutter/material.dart';
 import '../../core/theme/category_palette.dart';
 import '../../core/ui.dart';
@@ -113,6 +114,7 @@ class _Detail extends ConsumerWidget {
           TintAccentLine(wikiTint(e.categorie)),
           Text(e.intro, style: t.textTheme.bodyLarge),
           const SizedBox(height: 16),
+          if (isFirstHour) ...[const RadioTuneLine(), const SizedBox(height: 16)],
           FilledButton.icon(
             onPressed: () => context.push('/wiki/${e.id}/stappen'),
             icon: const Icon(Icons.play_arrow),

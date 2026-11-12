@@ -1,3 +1,4 @@
+import '../../rampenzender/rampenzender_providers.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -89,6 +90,7 @@ class _ShareQrScreenState extends ConsumerState<ShareQrScreen> with WidgetsBindi
         vault: ref.read(vaultProvider),
         ctl: ref.read(vaultProvider.notifier),
         draft: widget.launch!.draft,
+        radioGm: ref.read(radioPrefsProvider).gm,
       );
       final s = await ref.read(senderStarterProvider)(offer, addr);
       if (!mounted) {

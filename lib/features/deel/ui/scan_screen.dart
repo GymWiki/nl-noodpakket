@@ -1,3 +1,4 @@
+import '../../rampenzender/rampenzender_providers.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -147,6 +148,11 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
     final ownEmpty = !(ref.read(planProvider).value?.hasContent ?? false);
     if (_saveOwn && ownEmpty) {
       await ref.read(planRepositoryProvider).replaceAll(parsed.plan, photos: parsed.photos);
+      // Alleen de regio-id; een eigen keuze wordt nooit overschreven.
+      if (parsed.radioGm.isNotEmpty && ref.read(radioPrefsProvider).gm == null) {
+        final known = await ref.read(radioDataProvider.future);
+        if (known.regionByGm(parsed.radioGm) != null) await ref.read(radioActionsProvider).chooseRegion(parsed.radioGm);
+      }
       return;
     }
     await ref.read(sharedPlanStoreProvider).save(SharedPlan(

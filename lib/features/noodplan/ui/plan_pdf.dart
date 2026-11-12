@@ -5,6 +5,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 import '../../../core/l10n/strings.dart';
+import '../../rampenzender/rampenzender_strings.dart';
 import '../../wiki/wiki_models.dart';
 import '../domain/plan_models.dart';
 import '../domain/plan_share.dart';
@@ -20,6 +21,7 @@ Future<Uint8List> buildPlanPdf(
   required WikiData wiki,
   required DateTime now,
   required int version,
+  List<String> radioLines = const [],
 }) async {
   // Roboto (Apache 2.0) uit de assets: ondersteunt tekens zoals ë.
   final regular = pw.Font.ttf(await rootBundle.load('assets/fonts/Roboto-Regular.ttf'));
@@ -129,6 +131,11 @@ Future<Uint8List> buildPlanPdf(
       if (plan.documents.trim().isNotEmpty) line(S.planCareDocuments, plan.documents.trim()),
     ]);
   }
+
+  // Rampenzender: de frequenties van de gekozen regio (alleen wat gecontroleerd is).
+  section(RZ.planRadioLabel, [
+    for (final l in radioLines) pw.Padding(padding: const pw.EdgeInsets.only(bottom: 3), child: pw.Text(l)),
+  ]);
 
   // Verkleinde Eerste-uur kaart.
   final first = wiki.eersteUur;

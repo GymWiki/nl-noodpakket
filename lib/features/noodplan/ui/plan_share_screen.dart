@@ -1,3 +1,5 @@
+import '../../rampenzender/data/radio_lines.dart';
+import '../../rampenzender/rampenzender_providers.dart';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -50,7 +52,8 @@ class _PlanShareScreenState extends ConsumerState<PlanShareScreen> {
 
   Future<Uint8List> _pdf(Plan plan, int version) async {
     final wiki = await ref.read(wikiProvider.future);
-    return buildPlanPdf(plan, _o, wiki: wiki, now: DateTime.now(), version: version);
+    final radio = radioDocLines(ref.read(radioResultProvider), areaId: ref.read(radioPrefsProvider).area);
+    return buildPlanPdf(plan, _o, wiki: wiki, now: DateTime.now(), version: version, radioLines: radio);
   }
 
   Future<void> _sharePdf() => _run((plan, v) async {

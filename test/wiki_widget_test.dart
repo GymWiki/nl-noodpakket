@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:mijnnoodpakket/features/rampenzender/rampenzender_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -75,6 +76,7 @@ Future<void> pump(WidgetTester t, FakePrefs prefs, String start,
     wikiFavoritesProvider.overrideWith((ref) => Stream.value(favs)),
     wikiPrefsProvider.overrideWithValue(prefs),
     proUnlockedProvider.overrideWithValue(false),
+    radioPrefsProvider.overrideWithValue(const RadioPrefs()),
     planProvider.overrideWith((ref) => Stream.value(const Plan())),
     sharedPlansProvider.overrideWith((ref) => Stream.value(const <SharedPlan>[])),
     allItemsProvider.overrideWithValue(

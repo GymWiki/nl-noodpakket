@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/theme.dart';
 import '../../core/ui.dart';
+import '../rampenzender/ui/rampenzender_widgets.dart';
 import 'hacks_providers.dart';
 import 'hacks_widgets.dart';
 
@@ -52,6 +53,8 @@ class HacksOutScreen extends ConsumerWidget {
           padding: Gap.page,
           children: [
             Text(S.hacksOutIntro, style: t.textTheme.bodyLarge),
+            const SizedBox(height: Gap.m),
+            const RadioTuneLine(),
             const SizedBox(height: Gap.m),
             for (var i = 0; i < _steps.length; i++) ...[
               Padding(

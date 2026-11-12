@@ -1,3 +1,5 @@
+import '../../rampenzender/rampenzender_providers.dart';
+import '../../rampenzender/rampenzender_strings.dart';
 import 'dart:io' show File, Platform;
 
 import 'package:flutter/material.dart';
@@ -108,6 +110,20 @@ class _HouseholdStepState extends ConsumerState<HouseholdStep> {
             label: const Text(S.planAddPet),
           ),
         ]),
+        const FieldGap(),
+        Consumer(builder: (context, ref, _) {
+          final r = ref.watch(radioResultProvider);
+          return Card(
+            child: ListTile(
+              minVerticalPadding: 12,
+              leading: const Icon(Icons.radio_rounded),
+              title: Text(RZ.settingsRow),
+              subtitle: Text(r == null ? RZ.settingsNone : '${r.region.name}, ${r.broadcaster?.name ?? ''}'),
+              trailing: const Icon(Icons.chevron_right_rounded),
+              onTap: () => context.push('/rampenzender/kies'),
+            ),
+          );
+        }),
       ],
     );
   }

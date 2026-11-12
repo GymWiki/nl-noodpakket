@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:mijnnoodpakket/features/rampenzender/rampenzender_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show ByteData, FontLoader;
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -46,6 +47,7 @@ const deuteranopia = <double>[
 final List<Override> _overrides = [
   wikiProvider.overrideWith((ref) async => wiki),
   wikiFavoritesProvider.overrideWith((ref) => Stream.value(<String>{})),
+  radioPrefsProvider.overrideWithValue(const RadioPrefs()),
   planProvider.overrideWith((ref) => Stream.value(const Plan())),
   sharedPlansProvider.overrideWith((ref) => Stream.value(const <SharedPlan>[])),
   allItemsProvider.overrideWithValue(const AsyncValue.data(<Item>[])),

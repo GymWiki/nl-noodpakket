@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:mijnnoodpakket/features/rampenzender/rampenzender_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -76,6 +77,7 @@ Future<FakePrefs> pump(WidgetTester t, String start, {Set<String> owned = const 
     hacksFavoritesProvider.overrideWith((ref) => Stream.value(<String>{})),
     hacksPrefsProvider.overrideWithValue(prefs),
     proUnlockedProvider.overrideWithValue(pro),
+    radioPrefsProvider.overrideWithValue(const RadioPrefs()),
     purchaseServiceProvider.overrideWithValue(FakePurchaseService()),
   ];
   await t.pumpWidget(ProviderScope(

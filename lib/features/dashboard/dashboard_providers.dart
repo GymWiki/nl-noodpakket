@@ -1,3 +1,4 @@
+import '../rampenzender/rampenzender_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../deel/deel_providers.dart';
@@ -152,8 +153,12 @@ class DashboardData {
     required this.seasonal,
     required this.maintenanceDue,
     required this.simpleStart,
+    this.radioPending = false,
   });
   final bool hasItems;
+
+  /// Rampenzender: nog niet als ingesteld aangevinkt.
+  final bool radioPending;
   final Readiness readiness;
   final List<Suggestion> suggestions;
   final List<({Item item, DateTime due, ExpiryStatus status})> expiring;
@@ -170,6 +175,7 @@ final dashboardDataProvider = Provider<DashboardData>((ref) => DashboardData(
       seasonal: ref.watch(seasonalProvider),
       maintenanceDue: ref.watch(maintenanceDueProvider),
       simpleStart: ref.watch(settingsProvider.select((s) => s.value?.simpleStart)) ?? false,
+      radioPending: !ref.watch(radioPrefsProvider.select((p) => p.radioSet)),
     ));
 
 /// Schrijfacties van het dashboard (alles in de lokale instellingen).

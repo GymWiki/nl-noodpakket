@@ -28,6 +28,8 @@ import 'features/more/more_screen.dart';
 import 'features/info/info_screen.dart';
 import 'features/items/item_form_screen.dart';
 import 'features/onboarding/onboarding_screen.dart';
+import 'features/rampenzender/ui/rampenzender_screen.dart';
+import 'features/rampenzender/ui/region_picker_screen.dart';
 import 'features/settings/settings_screen.dart';
 import 'features/kluis/data/vault_controller.dart';
 import 'features/kluis/ui/vault_add_screen.dart';
@@ -69,6 +71,11 @@ final routerProvider = Provider<GoRouter>((ref) {
             const Scaffold(body: Center(child: CircularProgressIndicator())),
       ),
       GoRoute(path: '/onboarding', builder: (_, _) => const OnboardingScreen()),
+      GoRoute(
+        path: '/rampenzender',
+        builder: (_, _) => const RampenzenderScreen(),
+        routes: [GoRoute(path: 'kies', builder: (_, _) => const RegionPickerScreen())],
+      ),
       GoRoute(
         path: '/item/:id',
         builder: (_, st) => ItemFormScreen(itemId: st.pathParameters['id']!),

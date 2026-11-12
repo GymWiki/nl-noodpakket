@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:mijnnoodpakket/features/rampenzender/rampenzender_providers.dart';
 import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -114,7 +115,7 @@ final unlocked = VaultState(
 );
 
 Widget app(GoRouter router, List<Override> overrides, {double scale = 1}) => ProviderScope(
-      overrides: overrides,
+      overrides: [radioPrefsProvider.overrideWithValue(const RadioPrefs()), ...overrides],
       child: MaterialApp.router(
         routerConfig: router,
         locale: const Locale('nl', 'NL'),

@@ -9,6 +9,9 @@ import '../../core/l10n/strings.dart';
 import '../../core/theme.dart';
 import '../../core/ui.dart';
 import '../noodhacks/hacks_links.dart';
+import '../rampenzender/data/radio_lines.dart';
+import '../rampenzender/rampenzender_providers.dart';
+import '../rampenzender/ui/rampenzender_widgets.dart';
 import 'wiki_icons.dart';
 import 'wiki_models.dart';
 import 'wiki_pdf.dart';
@@ -80,6 +83,8 @@ class _WikiOverviewScreenState extends ConsumerState<WikiOverviewScreen> {
           _FirstHourCard(first: d.eersteUur),
           const SizedBox(height: 12),
           const HacksEntryCards(),
+          const SizedBox(height: 12),
+          const RadioEntryCard(),
         ],
         if (searching) ...[
           if (results.isEmpty)
@@ -120,7 +125,9 @@ class _WikiOverviewScreenState extends ConsumerState<WikiOverviewScreen> {
             ),
           const SizedBox(height: Gap.m),
           SoftCard(
-            onTap: () => shareMeterkastCard(context, d, plan: ref.read(effectivePlanProvider).plan),
+            onTap: () => shareMeterkastCard(context, d,
+                plan: ref.read(effectivePlanProvider).plan,
+                radioLines: radioDocLines(ref.read(radioResultProvider), areaId: ref.read(radioPrefsProvider).area)),
             child: Row(children: [
               const IconBadge(Icons.picture_as_pdf_outlined, tint: CategoryTint.blue),
               const SizedBox(width: 14),

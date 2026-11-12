@@ -1,3 +1,5 @@
+import '../rampenzender/rampenzender_providers.dart';
+import '../rampenzender/rampenzender_strings.dart';
 import 'dart:convert';
 import '../pro/pro_ui.dart';
 import '../dashboard/dashboard_providers.dart';
@@ -143,6 +145,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             value: s.household,
             onChanged: (h) => _update((s) => s.copyWith(household: h)),
           ),
+          header(RZ.settingsRow),
+          Consumer(builder: (context, ref, _) {
+            final r = ref.watch(radioResultProvider);
+            return ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(Icons.radio_rounded),
+              title: Text(r == null ? RZ.settingsNone : RZ.settingsValue(r.region.name)),
+              subtitle: Text(r?.broadcaster?.name ?? RZ.entrySub),
+              trailing: const Icon(Icons.chevron_right_rounded),
+              onTap: () => context.push('/rampenzender/kies'),
+            );
+          }),
           header(S.setNotifications),
           DropdownButtonFormField<int>(
             initialValue: s.leadDays,

@@ -192,6 +192,7 @@ Future<ShareOffer> buildOffer({
   required VaultState vault,
   required VaultController ctl,
   required DeelDraft draft,
+  String? radioGm,
 }) async {
   final name = draft.name.trim().isEmpty ? '' : draft.name.trim();
 
@@ -216,6 +217,7 @@ Future<ShareOffer> buildOffer({
         planId: planId,
         version: planVersion,
         sender: name,
+        radioGm: radioGm,
       );
       if (utf8.encode(planJson).length > ShareLimits.maxPlanBytes) {
         throw const ShareOfferException('plan te groot');

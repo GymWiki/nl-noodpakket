@@ -11,6 +11,7 @@ import '../../core/l10n/strings.dart';
 import '../noodplan/domain/plan_models.dart';
 import '../noodplan/domain/plan_share.dart';
 import '../noodplan/ui/plan_pdf.dart';
+import '../rampenzender/rampenzender_strings.dart';
 import 'wiki_models.dart';
 
 /// Stappenplannen op de meterkastkaart (de meest voorkomende thuis-situaties).
@@ -23,7 +24,7 @@ const meterkastPlanIds = [
 ];
 
 /// Maakt de afdrukbare kaart (A4). Alleen inhoud uit de wiki-JSON, geen netwerk.
-Future<Uint8List> buildMeterkastPdf(WikiData d) async {
+Future<Uint8List> buildMeterkastPdf(WikiData d, {List<String> radioLines = const []}) async {
   // Roboto (Apache 2.0) uit de assets: ondersteunt tekens zoals ë en €.
   final regular = pw.Font.ttf(await rootBundle.load('assets/fonts/Roboto-Regular.ttf'));
   final bold = pw.Font.ttf(await rootBundle.load('assets/fonts/Roboto-Bold.ttf'));
@@ -99,6 +100,10 @@ Future<Uint8List> buildMeterkastPdf(WikiData d) async {
         ),
         heading(d.eersteUur.titel, size: 18),
         steps(d.eersteUur.stappenNu),
+        if (radioLines.isNotEmpty) ...[
+          heading(RZ.planRadioLabel),
+          for (final l in radioLines) pw.Padding(padding: const pw.EdgeInsets.only(bottom: 3), child: pw.Text(l)),
+        ],
         for (final e in plans) plan(e),
       ],
     ),
@@ -109,15 +114,16 @@ Future<Uint8List> buildMeterkastPdf(WikiData d) async {
 /// Opent het systeem-printmenu (afdrukken, opslaan als PDF of delen).
 /// Is er een noodplan, dan is de meterkastkaart dat plan (met Eerste-uur kaart);
 /// anders de standaardkaart met de belangrijkste stappenplannen.
-Future<void> shareMeterkastCard(BuildContext context, WikiData d, {Plan? plan}) async {
+Future<void> shareMeterkastCard(BuildContext context, WikiData d,
+    {Plan? plan, List<String> radioLines = const []}) async {
   final messenger = ScaffoldMessenger.of(context);
   try {
     await Printing.layoutPdf(
       name: 'meterkastkaart.pdf',
       onLayout: (_) => plan != null && plan.hasContent
           ? buildPlanPdf(plan, const ShareOptions(),
-              wiki: d, now: DateTime.now(), version: plan.sharedVersion + 1)
-          : buildMeterkastPdf(d),
+              wiki: d, now: DateTime.now(), version: plan.sharedVersion + 1, radioLines: radioLines)
+          : buildMeterkastPdf(d, radioLines: radioLines),
     );
   } catch (_) {
     messenger.showSnackBar(const SnackBar(content: Text(S.wikiPdfError)));

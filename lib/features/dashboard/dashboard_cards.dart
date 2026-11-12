@@ -14,6 +14,7 @@ import '../../core/ui.dart';
 import '../../domain/expiry.dart';
 import '../../domain/models.dart';
 import '../wiki/wiki_providers.dart';
+import '../rampenzender/ui/rampenzender_widgets.dart';
 import 'dashboard_providers.dart';
 import 'domain/maintenance.dart';
 import 'domain/readiness.dart';
@@ -50,15 +51,16 @@ final dashboardCards = <DashCard>[
       priority: 2,
       isVisible: (d) => d.suggestions.isEmpty && d.hasItems,
       build: (_) => const AllGoodCard()),
-  DashCard(id: 'expiring', priority: 3, isVisible: (d) => d.expiring.isNotEmpty, build: (_) => const ExpiringCard()),
-  DashCard(id: 'seasonal', priority: 4, isVisible: (d) => d.seasonal != null, build: (_) => const SeasonalCardView()),
-  DashCard(id: 'planvault', priority: 5, isVisible: (_) => true, build: (_) => const PlanVaultRow()),
+  DashCard(id: 'radio', priority: 3, isVisible: (d) => d.radioPending, build: (_) => const RadioDashCard()),
+  DashCard(id: 'expiring', priority: 4, isVisible: (d) => d.expiring.isNotEmpty, build: (_) => const ExpiringCard()),
+  DashCard(id: 'seasonal', priority: 5, isVisible: (d) => d.seasonal != null, build: (_) => const SeasonalCardView()),
+  DashCard(id: 'planvault', priority: 6, isVisible: (_) => true, build: (_) => const PlanVaultRow()),
   DashCard(
       id: 'maintenance',
-      priority: 6,
+      priority: 7,
       isVisible: (d) => d.maintenanceDue.isNotEmpty,
       build: (_) => const MaintenanceCard()),
-  DashCard(id: 'household', priority: 7, isVisible: (_) => true, build: (_) => const HouseholdCard()),
+  DashCard(id: 'household', priority: 8, isVisible: (_) => true, build: (_) => const HouseholdCard()),
 ];
 
 /// Zichtbare kaarten in vaste volgorde, begrensd op [maxDashCards] (de noodbalk telt niet mee).
