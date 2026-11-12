@@ -18,6 +18,8 @@ import '../../core/l10n/strings.dart';
 import '../../core/providers.dart';
 import '../../data/repositories/settings_repository.dart';
 import '../noodplan/ui/plan_overview_screen.dart' show togglePlanReminder;
+import '../../core/calm.dart';
+import '../../core/theme.dart';
 import 'household_form.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -130,15 +132,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final s = ref.watch(settingsProvider).value ?? const AppSettings();
     final t = Theme.of(context);
     Widget header(String text) => Padding(
-          padding: const EdgeInsets.only(top: 24, bottom: 8),
-          child: Semantics(
-              header: true, child: Text(text, style: t.textTheme.titleLarge)),
+          padding: const EdgeInsets.only(top: Space.section, bottom: Space.tight),
+          child: Semantics(header: true, child: Text(text, style: t.textTheme.titleMedium)),
         );
 
     return Scaffold(
       appBar: AppBar(title: const Text(S.settingsTitle)),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
+        padding: const EdgeInsets.fromLTRB(Space.screen, 0, Space.screen, Gap.xl),
         children: [
           header(S.setHousehold),
           HouseholdForm(
@@ -146,64 +147,66 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             onChanged: (h) => _update((s) => s.copyWith(household: h)),
           ),
           header(RZ.settingsRow),
-          Consumer(builder: (context, ref, _) {
-            final r = ref.watch(radioResultProvider);
-            return ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: const Icon(Icons.radio_rounded),
-              title: Text(r == null ? RZ.settingsNone : RZ.settingsValue(r.region.name)),
-              subtitle: Text(r?.broadcaster?.name ?? RZ.entrySub),
-              trailing: const Icon(Icons.chevron_right_rounded),
-              onTap: () => context.push('/rampenzender/kies'),
-            );
-          }),
+          CalmListGroup(children: [
+            Consumer(builder: (context, ref, _) {
+              final r = ref.watch(radioResultProvider);
+              return StatusRow(
+                icon: Icons.radio_rounded,
+                title: r == null ? RZ.settingsNone : RZ.settingsValue(r.region.name),
+                subtitle: r?.broadcaster?.name ?? RZ.entrySub,
+                onTap: () => context.push('/rampenzender/kies'),
+              );
+            }),
+          ]),
           header(S.setNotifications),
-          DropdownButtonFormField<int>(
-            initialValue: s.leadDays,
-            decoration: const InputDecoration(labelText: S.setLeadTime),
-            items: [
-              for (final d in {7, 14, 30, 60, s.leadDays}.toList()..sort())
-                DropdownMenuItem(value: d, child: Text(S.leadDays(d))),
-            ],
-            onChanged: (v) =>
-                v == null ? null : _update((s) => s.copyWith(leadDays: v)),
+          Padding(
+            padding: const EdgeInsets.only(bottom: Space.group),
+            child: DropdownButtonFormField<int>(
+              initialValue: s.leadDays,
+              decoration: const InputDecoration(labelText: S.setLeadTime),
+              items: [
+                for (final d in {7, 14, 30, 60, s.leadDays}.toList()..sort())
+                  DropdownMenuItem(value: d, child: Text(S.leadDays(d))),
+              ],
+              onChanged: (v) => v == null ? null : _update((s) => s.copyWith(leadDays: v)),
+            ),
           ),
-          SwitchListTile(
-            contentPadding: EdgeInsets.zero,
-            title: const Text(S.setSemiAnnual),
-            subtitle: const Text(S.setSemiAnnualSub),
-            value: s.semiAnnual,
-            onChanged: (v) => _toggleSemiAnnual(s, v),
-          ),
-          SwitchListTile(
-            contentPadding: EdgeInsets.zero,
-            title: const Text(S.planReminder),
-            subtitle: const Text(S.planReminderSub),
-            value: s.planReminder,
-            onChanged: (v) => togglePlanReminder(context, ref, v),
-          ),
+          CalmListGroup(children: [
+            SwitchListTile(
+              title: const Text(S.setSemiAnnual),
+              subtitle: const Text(S.setSemiAnnualSub),
+              value: s.semiAnnual,
+              onChanged: (v) => _toggleSemiAnnual(s, v),
+            ),
+            SwitchListTile(
+              title: const Text(S.planReminder),
+              subtitle: const Text(S.planReminderSub),
+              value: s.planReminder,
+              onChanged: (v) => togglePlanReminder(context, ref, v),
+            ),
+          ]),
           const ProSettingsSection(),
           header(S.setDisplay),
-          SwitchListTile(
-            contentPadding: EdgeInsets.zero,
-            title: const Text(S.simpleStartTitle),
-            subtitle: const Text(S.simpleStartSub),
-            value: s.simpleStart,
-            onChanged: (v) => _update((s) => s.copyWith(simpleStart: v)),
-          ),
-          Builder(builder: (context) {
-            final hidden = ref.watch(hiddenSuggestionCountProvider);
-            return ListTile(
-              contentPadding: EdgeInsets.zero,
-              title: const Text(S.restoreHidden),
-              subtitle: Text(S.restoreHiddenSub(hidden)),
-              enabled: hidden > 0,
-              onTap: hidden == 0 ? null : () => ref.read(dashActionsProvider).restoreHidden(),
-            );
-          }),
+          CalmListGroup(children: [
+            SwitchListTile(
+              title: const Text(S.simpleStartTitle),
+              subtitle: const Text(S.simpleStartSub),
+              value: s.simpleStart,
+              onChanged: (v) => _update((s) => s.copyWith(simpleStart: v)),
+            ),
+            Builder(builder: (context) {
+              final hidden = ref.watch(hiddenSuggestionCountProvider);
+              return ListTile(
+                title: const Text(S.restoreHidden),
+                subtitle: Text(S.restoreHiddenSub(hidden)),
+                enabled: hidden > 0,
+                onTap: hidden == 0 ? null : () => ref.read(dashActionsProvider).restoreHidden(),
+              );
+            }),
+          ]),
           Padding(
-            padding: const EdgeInsets.only(top: 12, bottom: 8),
-            child: Text(S.setTheme, style: t.textTheme.titleSmall),
+            padding: const EdgeInsets.only(top: Space.group, bottom: Space.tight),
+            child: Text(S.setTheme, style: t.textTheme.bodySmall),
           ),
           SegmentedButton<ThemeMode>(
             segments: const [
@@ -212,49 +215,48 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ButtonSegment(value: ThemeMode.dark, label: Text(S.themeDark)),
             ],
             selected: {s.themeMode},
-            onSelectionChanged: (v) =>
-                _update((s) => s.copyWith(themeMode: v.first)),
+            onSelectionChanged: (v) => _update((s) => s.copyWith(themeMode: v.first)),
           ),
           header(S.setData),
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: const Icon(Icons.ios_share),
-            title: const Text(S.exportData),
-            subtitle: const Text(S.exportSub),
-            onTap: _export,
-          ),
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: const Icon(Icons.file_open_outlined),
-            title: const Text(S.importData),
-            subtitle: const Text(S.importSub),
-            onTap: _import,
-          ),
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: const Icon(Icons.visibility_off_outlined),
-            title: const Text(S.hiddenItems),
-            onTap: () => context.push('/instellingen/verborgen'),
-          ),
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: const Icon(Icons.restore),
-            title: const Text(S.restoreDefaults),
-            subtitle: const Text(S.restoreDefaultsSub),
-            onTap: _restore,
-          ),
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: Icon(Icons.delete_outline, color: t.colorScheme.error),
-            title: Text(S.resetAll, style: TextStyle(color: t.colorScheme.error)),
-            subtitle: const Text(S.resetAllSub),
-            onTap: _reset,
-          ),
-          header(S.about),
-          const Text(S.disclaimer),
+          CalmListGroup(children: [
+            ListTile(
+              leading: const Icon(Icons.ios_share),
+              title: const Text(S.exportData),
+              subtitle: const Text(S.exportSub),
+              onTap: _export,
+            ),
+            ListTile(
+              leading: const Icon(Icons.file_open_outlined),
+              title: const Text(S.importData),
+              subtitle: const Text(S.importSub),
+              onTap: _import,
+            ),
+            ListTile(
+              leading: const Icon(Icons.visibility_off_outlined),
+              title: const Text(S.hiddenItems),
+              onTap: () => context.push('/instellingen/verborgen'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.restore),
+              title: const Text(S.restoreDefaults),
+              subtitle: const Text(S.restoreDefaultsSub),
+              onTap: _restore,
+            ),
+          ]),
+          // Onomkeerbare actie staat apart, onderaan.
+          const SizedBox(height: Space.section),
+          CalmListGroup(children: [
+            ListTile(
+              leading: Icon(Icons.delete_outline, color: t.colorScheme.error),
+              title: Text(S.resetAll, style: TextStyle(color: t.colorScheme.error)),
+              subtitle: const Text(S.resetAllSub),
+              onTap: _reset,
+            ),
+          ]),
+          // De overheidsdisclaimer staat bij Meer en in Informatie; hier alleen de versie.
           if (_version.isNotEmpty) ...[
-            const SizedBox(height: 8),
-            Text(S.version(_version)),
+            const SizedBox(height: Space.section),
+            Text(S.version(_version), style: t.textTheme.bodySmall),
           ],
         ],
       ),

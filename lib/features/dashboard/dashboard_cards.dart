@@ -6,6 +6,7 @@ import '../pro/pro_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/calm.dart';
 import '../../core/dialer.dart';
 import '../../core/format.dart';
 import '../../core/l10n/strings.dart';
@@ -30,17 +31,23 @@ class DashCard {
     required this.isVisible,
     required this.build,
     this.slim = false,
+    this.group,
   });
 
   final String id;
   final int priority;
   final bool slim;
+
+  /// Kaarten met dezelfde [group] direct na elkaar worden samen in één lijstvlak getoond.
+  final String? group;
   final bool Function(DashboardData d) isVisible;
   final Widget Function(BuildContext context) build;
 }
 
 /// Ongeveer zes kaarten tegelijk, naast de smalle noodbalk.
 const maxDashCards = 6;
+
+const overviewGroup = 'overview';
 
 final dashboardCards = <DashCard>[
   DashCard(id: 'emergency', priority: 0, slim: true, isVisible: (_) => true, build: (_) => const EmergencyBar()),
@@ -51,16 +58,22 @@ final dashboardCards = <DashCard>[
       priority: 2,
       isVisible: (d) => d.suggestions.isEmpty && d.hasItems,
       build: (_) => const AllGoodCard()),
-  DashCard(id: 'radio', priority: 3, isVisible: (d) => d.radioPending, build: (_) => const RadioDashCard()),
-  DashCard(id: 'expiring', priority: 4, isVisible: (d) => d.expiring.isNotEmpty, build: (_) => const ExpiringCard()),
-  DashCard(id: 'seasonal', priority: 5, isVisible: (d) => d.seasonal != null, build: (_) => const SeasonalCardView()),
-  DashCard(id: 'planvault', priority: 6, isVisible: (_) => true, build: (_) => const PlanVaultRow()),
+  DashCard(id: 'expiring', priority: 3, isVisible: (d) => d.expiring.isNotEmpty, build: (_) => const ExpiringCard()),
+  DashCard(id: 'seasonal', priority: 4, isVisible: (d) => d.seasonal != null, build: (_) => const SeasonalCardView()),
   DashCard(
       id: 'maintenance',
-      priority: 7,
+      priority: 5,
       isVisible: (d) => d.maintenanceDue.isNotEmpty,
       build: (_) => const MaintenanceCard()),
-  DashCard(id: 'household', priority: 8, isVisible: (_) => true, build: (_) => const HouseholdCard()),
+  // Rustige lijst "Meer overzicht": één vlak, één regel per onderdeel.
+  DashCard(
+      id: 'radio',
+      priority: 6,
+      group: overviewGroup,
+      isVisible: (d) => d.radioPending,
+      build: (_) => const RadioDashCard()),
+  DashCard(id: 'planvault', priority: 7, group: overviewGroup, isVisible: (_) => true, build: (_) => const PlanVaultRow()),
+  DashCard(id: 'household', priority: 8, group: overviewGroup, isVisible: (_) => true, build: (_) => const HouseholdCard()),
 ];
 
 /// Zichtbare kaarten in vaste volgorde, begrensd op [maxDashCards] (de noodbalk telt niet mee).
@@ -161,17 +174,17 @@ class ReadinessCard extends ConsumerWidget {
         );
 
     return SoftCard(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(Space.screen),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Semantics(header: true, child: Text(S.dashReadyTitle, style: t.textTheme.titleMedium)),
-        const SizedBox(height: 12),
+        const SizedBox(height: Space.group),
         Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Semantics(
             label: empty ? S.dashReadyEmpty : (fill ? S.dashReadyFill : S.dashReadyDays(days)),
             excludeSemantics: true,
             child: ProgressRing(
               value: empty || fill ? 0 : r.ringValue,
-              size: 96,
+              size: 80,
               child: empty || fill
                   ? Icon(Icons.inventory_2_outlined, color: c.onSurfaceVariant)
                   : Padding(
@@ -212,8 +225,8 @@ class ReadinessCard extends ConsumerWidget {
           ),
           Text(S.dashReadyEstimate, style: t.textTheme.bodySmall),
         ],
-        const Divider(height: 28),
-        Semantics(header: true, child: Text(S.dashStepsTitle, style: t.textTheme.titleSmall)),
+        const Divider(height: Space.section),
+        Semantics(header: true, child: Text(S.dashStepsTitle, style: t.textTheme.bodySmall)),
         const SizedBox(height: 4),
         stepRow(Icons.inventory_2_outlined, S.dashStepPacket(pct), '/checklist', go: true),
         stepRow(
@@ -379,9 +392,10 @@ class NextStepsCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final t = Theme.of(context);
     final all = ref.watch(suggestionsProvider);
-    final shown = all.take(3).toList();
+    // Eén duidelijke volgende stap; de rest staat achter "Toon alles".
+    final shown = all.take(1).toList();
     return SoftCard(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(Space.screen),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Semantics(header: true, child: Text(S.dashNextTitle, style: t.textTheme.titleMedium)),
         const SizedBox(height: 8),
@@ -432,7 +446,7 @@ class ExpiringCard extends ConsumerWidget {
     final list = ref.watch(expiringProvider);
     final shown = list.take(3).toList();
     return SoftCard(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(Space.screen),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         SectionHeader(S.dashExpiringTitle,
             padding: const EdgeInsets.only(bottom: 8),
@@ -574,30 +588,20 @@ class PlanVaultRow extends ConsumerWidget {
             ? S.vaultFreeCounter(vaultCount) // alleen een aantal, nooit namen of inhoud
             : S.dashVaultSome;
 
-    Widget card(IconData icon, String title, String sub, String route, CategoryTint tint) => SoftCard(
+    Widget row(IconData icon, String title, String sub, String route, CategoryTint tint) => StatusRow(
+          icon: icon,
+          tint: tint,
+          title: title,
+          subtitle: sub,
           onTap: () => context.push(route),
           semanticLabel: '$title. $sub',
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            IconBadge(icon, size: 40, tint: tint),
-            const SizedBox(height: 10),
-            Text(title, style: t.textTheme.titleSmall?.copyWith(fontSize: 16)),
-            const SizedBox(height: 2),
-            Text(sub, style: t.textTheme.bodyMedium?.copyWith(color: c.onSurfaceVariant)),
-          ]),
         );
 
-    final plan = card(Icons.assignment_outlined, S.dashPlanCard, planSub, '/plan', CategoryTint.green);
-    final vault = card(Icons.lock_outline, S.dashVaultCard, vaultSub, '/kluis', CategoryTint.indigo);
-    if (_bigText(context)) {
-      return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [plan, const SizedBox(height: 12), vault]);
-    }
-    return IntrinsicHeight(
-      child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        Expanded(child: plan),
-        const SizedBox(width: 12),
-        Expanded(child: vault),
-      ]),
-    );
+    return Column(children: [
+      row(Icons.assignment_outlined, S.dashPlanCard, planSub, '/plan', CategoryTint.green),
+      Divider(height: 1, indent: Space.screen, endIndent: Space.screen, color: c.outlineVariant),
+      row(Icons.lock_outline, S.dashVaultCard, vaultSub, '/kluis', CategoryTint.indigo),
+    ]);
   }
 }
 
@@ -627,7 +631,7 @@ class MaintenanceCard extends ConsumerWidget {
     final due = ref.watch(maintenanceDueProvider);
     final dates = ref.watch(routineDatesProvider);
     return SoftCard(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(Space.screen),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         SectionHeader(S.maintTitle,
             padding: const EdgeInsets.only(bottom: 8),
@@ -683,23 +687,14 @@ class HouseholdCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final t = Theme.of(context);
-    final c = t.colorScheme;
     final h = ref.watch(settingsProvider.select((s) => s.value?.household)) ?? const Household();
-    return SoftCard(
+    return StatusRow(
+      icon: Icons.groups_outlined,
+      tint: CategoryTint.slate,
+      title: S.dashHouseholdTitle,
+      subtitle: householdSummary(h),
       onTap: () => context.push('/instellingen'),
       semanticLabel: '${S.dashHouseholdTitle}: ${householdSummary(h)}. ${S.dashHouseholdEdit}',
-      child: Row(children: [
-        const IconBadge(Icons.groups_outlined, size: 40, tint: CategoryTint.slate),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(S.dashHouseholdTitle, style: t.textTheme.titleSmall?.copyWith(fontSize: 16)),
-            Text(householdSummary(h), style: t.textTheme.bodyMedium?.copyWith(color: c.onSurfaceVariant)),
-          ]),
-        ),
-        Icon(Icons.chevron_right_rounded, color: c.onSurfaceVariant),
-      ]),
     );
   }
 }

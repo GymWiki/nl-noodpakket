@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/calm.dart';
 import '../../core/dialer.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/theme.dart';
@@ -32,20 +33,35 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     if (d.simpleStart) return const SimpleStart();
     final cards = visibleCards(d);
     final t = Theme.of(context);
-    return Scaffold(
-      body: SafeArea(
-        child: ListView(
-          padding: Gap.page,
-          children: [
-            const PageTitle(S.homeTitle, subtitle: S.dashSub),
-            for (final c in cards) ...[
-              KeyedSubtree(key: ValueKey(c.id), child: c.build(context)),
-              const SizedBox(height: Gap.m),
-            ],
-            Text(S.disclaimer, style: t.textTheme.bodySmall),
-          ],
-        ),
-      ),
+
+    // Kaarten met dezelfde groep direct na elkaar komen samen in één lijstvlak.
+    final blocks = <Widget>[];
+    for (var i = 0; i < cards.length;) {
+      final c = cards[i];
+      if (c.group == null) {
+        blocks.add(KeyedSubtree(key: ValueKey(c.id), child: c.build(context)));
+        i++;
+      } else {
+        final run = <DashCard>[];
+        while (i < cards.length && cards[i].group == c.group) {
+          run.add(cards[i++]);
+        }
+        blocks.add(CalmSection(
+          title: S.dashOverviewTitle,
+          child: CalmListGroup(children: [
+            for (final r in run) KeyedSubtree(key: ValueKey(r.id), child: r.build(context)),
+          ]),
+        ));
+      }
+    }
+
+    return ScreenScaffold(
+      children: [
+        const PageTitle(S.homeTitle, subtitle: S.dashSub),
+        for (final b in blocks) ...[b, const SizedBox(height: Space.group)],
+        const SizedBox(height: Space.tight),
+        Text(S.disclaimer, style: t.textTheme.bodySmall),
+      ],
     );
   }
 }

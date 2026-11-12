@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/category_palette.dart';
+import '../../../core/calm.dart';
 import '../../../core/ui.dart';
 import '../data/rampenzender_models.dart';
 import '../rampenzender_providers.dart';
@@ -151,8 +152,6 @@ class RadioDashCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final t = Theme.of(context);
-    final c = t.colorScheme;
     final res = ref.watch(radioResultProvider);
     final String sub;
     if (res == null) {
@@ -160,21 +159,12 @@ class RadioDashCard extends ConsumerWidget {
     } else {
       sub = radioTuneText(res);
     }
-    return SoftCard(
+    return StatusRow(
+      icon: Icons.radio_rounded,
+      title: RZ.dashTitle,
+      subtitle: sub,
       onTap: () => context.push('/rampenzender'),
       semanticLabel: '${RZ.dashTitle}. $sub',
-      child: Row(children: [
-        const IconBadge(Icons.radio_rounded),
-        const SizedBox(width: 14),
-        Expanded(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(RZ.dashTitle, style: t.textTheme.titleMedium),
-            const SizedBox(height: 2),
-            Text(sub, style: t.textTheme.bodyMedium?.copyWith(color: c.onSurfaceVariant)),
-          ]),
-        ),
-        const Icon(Icons.chevron_right_rounded),
-      ]),
     );
   }
 }

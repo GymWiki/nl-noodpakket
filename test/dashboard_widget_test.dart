@@ -206,7 +206,9 @@ void main() {
       await t.pumpAndSettle();
       // 3 liter voor 1 persoon = 1 dag.
       expect(find.text(S.dashReadyDays('1')), findsOneWidget);
-      expect(find.text(S.dashSugWaterFewT('1')), findsOneWidget);
+      // Rustig: één volgende stap; de rest (ook water) staat achter "Toon alles".
+      expect(find.byType(SuggestionTile), findsOneWidget);
+      expect(find.text(S.dashShowAll), findsOneWidget);
       expect(find.text(S.dashExpiringTitle), findsNothing);
     });
 

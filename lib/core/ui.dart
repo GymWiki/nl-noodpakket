@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'theme.dart';
 import 'theme/category_palette.dart';
 
-/// Rustig vlak: witte (of donkere) kaart met subtiele rand, optioneel tikbaar.
+/// Rustig vlak: tonale kaart zonder rand of schaduw, optioneel tikbaar.
 class SoftCard extends StatelessWidget {
   const SoftCard({
     super.key,
@@ -29,7 +29,7 @@ class SoftCard extends StatelessWidget {
       color: color ?? c.surfaceContainerLowest,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(Radii.card),
-        side: BorderSide(color: borderColor ?? c.outlineVariant),
+        side: BorderSide(color: borderColor ?? Colors.transparent),
       ),
       clipBehavior: Clip.antiAlias,
       child: onTap == null

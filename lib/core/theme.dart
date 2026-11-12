@@ -40,7 +40,7 @@ class AppColors {
 class Gap {
   Gap._();
   static const xs = 4.0, s = 8.0, m = 16.0, l = 24.0, xl = 32.0, xxl = 48.0;
-  static const page = EdgeInsets.fromLTRB(20, 8, 20, 32);
+  static const page = EdgeInsets.fromLTRB(16, 8, 16, 32);
 }
 
 class Radii {

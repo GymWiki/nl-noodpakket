@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/calm.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/theme.dart';
 import 'pro_models.dart';
@@ -87,29 +88,19 @@ class _PaywallSheetState extends ConsumerState<PaywallSheet> {
 
     return SafeArea(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+        padding: const EdgeInsets.fromLTRB(Space.screen, 0, Space.screen, Space.section),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Semantics(header: true, child: Text(S.paywallTitle, style: t.textTheme.headlineSmall)),
-          const SizedBox(height: 16),
+          const SizedBox(height: Space.group),
           Text(S.paywallGetTitle, style: t.textTheme.titleMedium),
-          const SizedBox(height: 8),
+          const SizedBox(height: Space.tight),
           item(S.paywallGet1, c.primary),
           item(S.paywallGet2, c.primary),
           item(S.paywallGet3, c.primary),
-          const SizedBox(height: 8),
-          Text(S.paywallFreeTitle, style: t.textTheme.titleMedium),
-          const SizedBox(height: 8),
-          item(S.paywallFree1, c.secondary),
-          item(S.paywallFree2, c.secondary),
-          item(S.paywallFree3, c.secondary),
-          item(S.paywallFree4, c.secondary),
-          item(S.paywallFree5, c.secondary),
-          const SizedBox(height: 8),
-          Text(S.paywallHelp, style: t.textTheme.bodyMedium?.copyWith(color: c.onSurfaceVariant)),
-          const SizedBox(height: 16),
+          const SizedBox(height: Space.tight),
           if (msg != null) ...[
             Text(msg, style: t.textTheme.bodyMedium),
-            const SizedBox(height: 12),
+            const SizedBox(height: Space.group),
           ],
           if (pro)
             Text(S.proSettingsOn, style: t.textTheme.titleSmall)
@@ -125,6 +116,19 @@ class _PaywallSheetState extends ConsumerState<PaywallSheet> {
             if (st.price == null)
               Center(child: Text(S.paywallPriceLoading, style: t.textTheme.bodySmall, textAlign: TextAlign.center)),
           ],
+          const SizedBox(height: Space.group),
+          // Wat gratis blijft: kort, en uit te klappen.
+          ExpandableSection(
+            title: S.paywallFreeTitle,
+            children: [
+              item(S.paywallFree1, c.secondary),
+              item(S.paywallFree2, c.secondary),
+              item(S.paywallFree3, c.secondary),
+              item(S.paywallFree4, c.secondary),
+              item(S.paywallFree5, c.secondary),
+              Text(S.paywallHelp, style: t.textTheme.bodyMedium?.copyWith(color: c.onSurfaceVariant)),
+            ],
+          ),
           const SizedBox(height: 8),
           Wrap(alignment: WrapAlignment.center, spacing: 8, children: [
             TextButton(
@@ -154,29 +158,26 @@ class ProSettingsSection extends ConsumerWidget {
     final pro = ref.watch(proUnlockedProvider);
     final st = ref.watch(proControllerProvider);
     final msg = proMessageText(st.message);
+    // Eén rustige rij voor Pro; "Aankoop herstellen" blijft altijd zichtbaar.
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Padding(
-        padding: const EdgeInsets.only(top: 16, bottom: 4),
+        padding: const EdgeInsets.only(top: Space.section, bottom: Space.tight),
         child: Semantics(header: true, child: Text(S.proName, style: t.textTheme.titleMedium)),
       ),
-      Text(pro ? S.proSettingsOn : S.proSettingsOff, style: t.textTheme.titleSmall),
-      const SizedBox(height: 4),
-      Text(S.proSettingsSub, style: t.textTheme.bodyMedium),
-      const SizedBox(height: 8),
-      Wrap(spacing: 8, children: [
-        if (!pro)
-          FilledButton.tonal(
-            onPressed: () => showPaywall(context),
-            style: FilledButton.styleFrom(minimumSize: const Size(0, 48)),
-            child: const Text(S.proSettingsMore),
-          ),
-        OutlinedButton(
-          onPressed: st.busy ? null : () => ref.read(proControllerProvider.notifier).restore(),
-          style: OutlinedButton.styleFrom(minimumSize: const Size(0, 48)),
-          child: const Text(S.paywallRestore),
+      CalmListGroup(children: [
+        StatusRow(
+          title: pro ? S.proSettingsOn : S.proSettingsOff,
+          subtitle: S.proSettingsSub,
+          onTap: pro ? null : () => showPaywall(context),
+          trailing: pro ? null : Text(S.proSettingsMore, style: t.textTheme.labelLarge?.copyWith(color: t.colorScheme.primary)),
+        ),
+        ListTile(
+          title: const Text(S.paywallRestore),
+          enabled: !st.busy,
+          onTap: st.busy ? null : () => ref.read(proControllerProvider.notifier).restore(),
         ),
       ]),
-      if (msg != null) Padding(padding: const EdgeInsets.only(top: 8), child: Text(msg, style: t.textTheme.bodyMedium)),
+      if (msg != null) Padding(padding: const EdgeInsets.only(top: Space.tight), child: Text(msg, style: t.textTheme.bodyMedium)),
     ]);
   }
 }

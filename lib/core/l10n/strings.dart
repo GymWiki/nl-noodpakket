@@ -909,6 +909,7 @@ class S {
   // ---- Dashboard "Start" ----
   static const navPlan = 'Mijn plan';
   static const dashSub = 'Zo staat het ervoor.';
+  static const dashOverviewTitle = 'Meer overzicht';
   static const dashCall112 = 'Bel 112';
   static const dashCall112Hint = 'Opent je telefoon-app met 112 ingevuld. Er wordt niet automatisch gebeld.';
 
@@ -1117,6 +1118,8 @@ class S {
   // ---- Delen met een ander toestel (QR) ----
   static const deelTitle = 'Deel met een ander toestel';
   static const deelSub = 'Rechtstreeks via wifi, zonder server.';
+  static const deelSheetShare = 'Mijn plan delen';
+  static const deelSheetShareSub = 'Laat een ander toestel jouw plan scannen.';
   static const scanTitle = 'Scan een noodplan';
   static const scanSub = 'Neem een plan over van een ander toestel.';
   static const sharedWithMe = 'Gedeeld met mij';

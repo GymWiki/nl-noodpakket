@@ -290,6 +290,9 @@ void main() {
 
     testWidgets('tekst: wat je erbij krijgt en wat gratis blijft', (t) async {
       await open(t);
+      // "Dit blijft gratis" is inklapbaar (rustiger); klap uit om de lijst te lezen.
+      await t.tap(find.text(S.paywallFreeTitle));
+      await t.pumpAndSettle();
       for (final s in [
         S.paywallGetTitle,
         S.paywallGet1,
