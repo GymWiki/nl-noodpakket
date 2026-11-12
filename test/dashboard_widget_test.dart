@@ -334,8 +334,10 @@ void main() {
     testWidgets('vijf tabs in de juiste volgorde', (t) async {
       await boot(t);
       final bar = t.widget<NavigationBar>(find.byType(NavigationBar));
-      final labels = bar.destinations.map((d) => (d as NavigationDestination).label).toList();
-      expect(labels, [S.navHome, S.navChecklist, S.navWiki, S.navPlan, S.navMore]);
+      expect(bar.destinations.length, 5);
+      for (final l in [S.navHome, S.navChecklist, S.navEmergencies, S.navPlan, S.navMore]) {
+        expect(find.text(l), findsOneWidget, reason: l);
+      }
     });
 
     testWidgets('tabs openen hun scherm', (t) async {

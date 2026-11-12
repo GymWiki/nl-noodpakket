@@ -232,45 +232,65 @@ class _Shell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: shell,
-      // Labels in de navigatiebalk schalen niet mee: anders breekt "Noodgevallen" midden in het woord.
-      // De rest van de app schaalt wel volledig mee.
-      bottomNavigationBar: MediaQuery.withClampedTextScaling(
-        maxScaleFactor: 1.0,
-        child: NavigationBar(
-          selectedIndex: shell.currentIndex,
-          onDestinationSelected: (i) =>
-              shell.goBranch(i, initialLocation: i == shell.currentIndex),
-          destinations: const [
-            NavigationDestination(
-              icon: Icon(Icons.home_outlined),
-              selectedIcon: Icon(Icons.home_rounded),
-              label: S.navHome,
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.inventory_2_outlined),
-              selectedIcon: Icon(Icons.inventory_2),
-              label: S.navChecklist,
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.health_and_safety_outlined),
-              selectedIcon: Icon(Icons.health_and_safety),
-              label: S.navWiki,
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.assignment_outlined),
-              selectedIcon: Icon(Icons.assignment),
-              label: S.navPlan,
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.grid_view_outlined),
-              selectedIcon: Icon(Icons.grid_view_rounded),
-              label: S.navMore,
-            ),
-          ],
-        ),
+      // Labels in de balk: één regel, nooit afbreken, en een begrensde tekstschaal zodat alle vijf
+      // op de smalste breedte passen. De rest van de app schaalt volledig mee.
+      bottomNavigationBar: NoodNavBar(
+        selectedIndex: shell.currentIndex,
+        onSelected: (i) => shell.goBranch(i, initialLocation: i == shell.currentIndex),
       ),
     );
   }
+}
+
+/// De navigatiebalk: één regel per label, nooit afbreken, begrensde tekstschaal
+/// zodat alle vijf op de smalste breedte passen. De rest van de app schaalt volledig mee.
+class NoodNavBar extends StatelessWidget {
+  const NoodNavBar({super.key, required this.selectedIndex, required this.onSelected});
+  final int selectedIndex;
+  final ValueChanged<int> onSelected;
+
+  @override
+  Widget build(BuildContext context) => MediaQuery.withClampedTextScaling(
+        maxScaleFactor: navMaxTextScale,
+        child: NavigationBar(
+          selectedIndex: selectedIndex,
+          onDestinationSelected: onSelected,
+          destinations: const [
+            _Tab(Icons.home_outlined, Icons.home_rounded, S.navHome, S.navHome),
+            _Tab(Icons.inventory_2_outlined, Icons.inventory_2, S.navChecklist, S.navChecklist),
+            _Tab(Icons.health_and_safety_outlined, Icons.health_and_safety, S.navEmergencies, S.navWiki),
+            _Tab(Icons.assignment_outlined, Icons.assignment, S.navPlan, S.navPlan),
+            _Tab(Icons.grid_view_outlined, Icons.grid_view_rounded, S.navMore, S.navMore),
+          ],
+        ),
+      );
+}
+
+/// Hoogste tekstschaal voor de labels in de navigatiebalk.
+const double navMaxTextScale = 1.1;
+
+/// Tab met kort zichtbaar label; schermlezer en tooltip krijgen de volledige naam.
+class _Tab extends StatelessWidget {
+  const _Tab(this.icon, this.selectedIcon, this.label, this.fullName);
+  final IconData icon, selectedIcon;
+  final String label, fullName;
+
+  @override
+  Widget build(BuildContext context) => Semantics(
+        label: fullName,
+        // Staat onder het Material van de balk, anders overschrijft dat deze regels.
+        child: DefaultTextStyle.merge(
+          maxLines: 1,
+          softWrap: false,
+          overflow: TextOverflow.ellipsis,
+          child: NavigationDestination(
+            icon: Icon(icon),
+            selectedIcon: Icon(selectedIcon),
+            label: label,
+            tooltip: fullName,
+          ),
+        ),
+      );
 }
 
 class NoodpakketApp extends ConsumerStatefulWidget {

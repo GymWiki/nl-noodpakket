@@ -58,6 +58,8 @@ class S {
 
   // Noodgevallen-wiki
   static const navWiki = 'Noodgevallen';
+  /// Zichtbaar label van de tab (kort, past in de balk). Wissel hier gerust naar 'Nood'.
+  static const navEmergencies = 'Wat nu?';
   static const wikiTitle = 'Noodgevallen';
   static const wikiRule =
       'Bij levensgevaar bel je 112. Deze informatie vervangt geen professionele hulp.';
