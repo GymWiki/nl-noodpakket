@@ -83,6 +83,7 @@ flutter run
    ```
 
    Gebruik de upload-sleutel die bij de bestaande Play-listing hoort. Zonder dit bestand wordt met de debug-sleutel getekend (alleen voor lokaal testen, Play weigert dat).
+   **AAB via GitHub**: Actions > "Android AAB" > Run workflow (of push een tag `v1.0.13`). Het gesigneerde bestand staat daarna onder "Artifacts" (`nl-noodpakket-aab`, 30 dagen, alleen te downloaden met een GitHub-account met toegang tot de repo). Voeg eenmalig vier secrets toe (Settings > Secrets and variables > Actions): `ANDROID_KEYSTORE_BASE64` (de upload-keystore als base64, bijvoorbeeld `base64 -w0 upload-keystore.jks`), `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` en `ANDROID_KEY_PASSWORD`. Zonder secrets stopt de workflow met een duidelijke fout. Zet de keystore nooit in de repo.
 3. `flutter build appbundle --release` (Android), `flutter build ipa --release` (iOS, op een Mac met de juiste provisioning voor `com.mycompany.mijnnoodpakket`).
 4. **Store-listing**: de bestaande screenshots (map `NL_Noodpakket 1.0/Store`) tonen de oude app en moeten worden vervangen. Werk ook beschrijving, privacy-/datasafety-formulier (geen data verzameld, geen tracking) en de "niet van de overheid"-vermelding bij.
 
