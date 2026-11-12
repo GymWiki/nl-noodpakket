@@ -5,6 +5,7 @@ import '../../pro/pro_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/calm.dart';
 import '../../../core/l10n/strings.dart';
 import '../data/vault_controller.dart';
 import '../domain/vault_models.dart';
@@ -43,9 +44,9 @@ class _VaultHomeScreenState extends ConsumerState<VaultHomeScreen> {
     ];
 
     Widget header(String text, {String? sub}) => Padding(
-          padding: const EdgeInsets.only(top: 20, bottom: 8),
+          padding: const EdgeInsets.only(top: Space.section, bottom: Space.tight),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Semantics(header: true, child: Text(text, style: t.textTheme.titleLarge)),
+            Semantics(header: true, child: Text(text, style: t.textTheme.titleMedium)),
             if (sub != null)
               Text(sub, style: t.textTheme.bodySmall?.copyWith(color: t.colorScheme.onSurfaceVariant)),
           ]),
@@ -61,7 +62,7 @@ class _VaultHomeScreenState extends ConsumerState<VaultHomeScreen> {
             childAspectRatio: 0.95,
             children: [for (final d in list) _DocCard(doc: d, meta: meta)],
           )
-        : Column(children: [for (final d in list) _DocTile(doc: d, meta: meta)]);
+        : CalmListGroup(children: [for (final d in list) _DocTile(doc: d, meta: meta)]);
 
     return Scaffold(
       appBar: AppBar(
@@ -95,22 +96,17 @@ class _VaultHomeScreenState extends ConsumerState<VaultHomeScreen> {
         label: const Text(S.vaultAddDocument),
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
+        padding: const EdgeInsets.fromLTRB(Space.screen, 8, Space.screen, 96),
         children: [
-          Card(
-            color: t.colorScheme.tertiaryContainer,
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Icon(Icons.info_outline, color: t.colorScheme.onTertiaryContainer),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(S.vaultDisclaimer,
-                      style: TextStyle(color: t.colorScheme.onTertiaryContainer)),
-                ),
-              ]),
+          // De kluis-waarschuwing blijft zichtbaar, maar als rustige regel in plaats van een gekleurde kaart.
+          Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Icon(Icons.info_outline, size: 20, color: t.colorScheme.onSurfaceVariant),
+            const SizedBox(width: Space.tight),
+            Expanded(
+              child: Text(S.vaultDisclaimer,
+                  style: t.textTheme.bodyMedium?.copyWith(color: t.colorScheme.onSurfaceVariant)),
             ),
-          ),
+          ]),
           if (!ref.watch(proUnlockedProvider)) ...[
             const SizedBox(height: 12),
             Semantics(
@@ -137,7 +133,12 @@ class _VaultHomeScreenState extends ConsumerState<VaultHomeScreen> {
               decoration: const InputDecoration(hintText: S.vaultSearchHint, prefixIcon: Icon(Icons.search)),
               onChanged: (q) => setState(() => _query = q),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: Space.tight),
+            // Filters staan ingeklapt tot je ze nodig hebt (of als er een filter actief is).
+            ExpandableSection(
+              title: S.vaultFilters,
+              initiallyExpanded: _typeId != null || _owner != null,
+              children: [
             Row(children: [
               Expanded(
                 child: DropdownButtonFormField<String?>(
@@ -167,6 +168,8 @@ class _VaultHomeScreenState extends ConsumerState<VaultHomeScreen> {
                 ),
               ],
             ]),
+              ],
+            ),
             if (filtered.isEmpty)
               const Padding(padding: EdgeInsets.all(24), child: Center(child: Text(S.vaultNoResults)))
             else ...[
@@ -196,7 +199,7 @@ class _DocTile extends StatelessWidget {
       excludeSemantics: true,
       onTap: () => context.push('/kluis/doc/${doc.id}'),
       child: ListTile(
-        contentPadding: EdgeInsets.zero,
+        contentPadding: const EdgeInsets.symmetric(horizontal: Space.screen),
         minVerticalPadding: 8,
         leading: VaultThumb(doc: doc),
         title: Text(doc.title),

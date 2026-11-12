@@ -67,18 +67,14 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   Icons.backpack_outlined,
                   S.obTitle1,
                   S.obBody1,
-                  extra: SoftCard(
-                    color: c.tertiaryContainer,
-                    borderColor: Colors.transparent,
-                    child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Icon(Icons.info_outline_rounded, color: c.onTertiaryContainer),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(S.disclaimer,
-                            style: t.textTheme.bodyMedium?.copyWith(color: c.onTertiaryContainer)),
-                      ),
-                    ]),
-                  ),
+                  extra: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Icon(Icons.info_outline_rounded, size: 20, color: c.onSurfaceVariant),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(S.disclaimer,
+                          style: t.textTheme.bodyMedium?.copyWith(color: c.onSurfaceVariant)),
+                    ),
+                  ]),
                 ),
                 page(
                   Icons.home_outlined,

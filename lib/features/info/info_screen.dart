@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/dialer.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/legal.dart';
+import '../../core/calm.dart';
 import '../../core/theme.dart';
 import '../../core/ui.dart';
 
@@ -27,19 +28,12 @@ class InfoScreen extends StatelessWidget {
       body: ListView(
         padding: Gap.page,
         children: [
-          SoftCard(
-            color: c.tertiaryContainer,
-            borderColor: Colors.transparent,
-            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Icon(Icons.info_outline_rounded, color: c.onTertiaryContainer),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(S.disclaimer,
-                    style: t.textTheme.bodyMedium?.copyWith(
-                        color: c.onTertiaryContainer, fontWeight: FontWeight.w600)),
-              ),
-            ]),
-          ),
+          // Hier staat de overheidsdisclaimer volledig; op andere schermen alleen klein onderaan.
+          Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Icon(Icons.info_outline_rounded, color: c.onSurfaceVariant),
+            const SizedBox(width: Space.group),
+            Expanded(child: Text(S.disclaimer, style: t.textTheme.bodyLarge)),
+          ]),
           const SectionHeader(S.infoWhyTitle),
           const SoftCard(child: Text(S.infoWhyBody)),
           const SectionHeader(S.infoTipsTitle),

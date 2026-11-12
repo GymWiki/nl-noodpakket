@@ -914,6 +914,7 @@ class S {
   static const itemStatus = 'Status';
   static const itemReminder = 'Herinnering';
   static const itemMore = 'Meer';
+  static const vaultFilters = 'Filter';
   static const dashCall112 = 'Bel 112';
   static const dashCall112Hint = 'Opent je telefoon-app met 112 ingevuld. Er wordt niet automatisch gebeld.';
 
