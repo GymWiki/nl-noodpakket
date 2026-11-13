@@ -84,6 +84,20 @@ flutter run
 
    Gebruik de upload-sleutel die bij de bestaande Play-listing hoort. Zonder dit bestand wordt met de debug-sleutel getekend (alleen voor lokaal testen, Play weigert dat).
    **AAB via GitHub**: Actions > "Android AAB" > Run workflow (of push een tag `v1.0.13`). Het gesigneerde bestand staat daarna onder "Artifacts" (`nl-noodpakket-aab`, 30 dagen, alleen te downloaden met een GitHub-account met toegang tot de repo). Voeg eenmalig vier secrets toe (Settings > Secrets and variables > Actions): `ANDROID_KEYSTORE_BASE64` (de upload-keystore als base64, bijvoorbeeld `base64 -w0 upload-keystore.jks`), `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` en `ANDROID_KEY_PASSWORD`. Zonder secrets stopt de workflow met een duidelijke fout. Zet de keystore nooit in de repo.
+   **IPA via GitHub (iOS)**: Actions > "iOS IPA" > Run workflow (of push een tag `v1.0.13`). Het gesigneerde bestand staat daarna onder "Artifacts" (`nl-noodpakket-ipa`, 30 dagen). Optioneel veld "Buildnummer": moet hoger zijn dan wat in App Store Connect staat; leeg laat het nummer uit `pubspec.yaml`. De workflow draait op een Mac-image van GitHub, dus een eigen Mac is niet nodig om te bouwen.
+
+   Eenmalig voor de IPA, drie secrets (Settings > Secrets and variables > Actions):
+   - `IOS_CERTIFICATE_P12_BASE64`: je **Apple Distribution**-certificaat als .p12, base64 (`base64 -w0 certificaat.p12`).
+   - `IOS_CERTIFICATE_PASSWORD`: het wachtwoord van die .p12.
+   - `IOS_PROVISIONING_PROFILE_BASE64`: een **App Store**-provisioning profile voor `com.mycompany.mijnnoodpakket`, base64. De workflow controleert dat het profile bij deze app hoort en leest team en naam er zelf uit.
+
+   Zo kom je eraan (Apple Developer Program, betaald lidmaatschap, vereist):
+   1. Maak in [App Store Connect](https://appstoreconnect.apple.com) de app aan met bundle-id `com.mycompany.mijnnoodpakket` (staat je app er al, sla dit over).
+   2. Certificaat: maak lokaal een sleutel en aanvraag met `openssl genrsa -out dist.key 2048` en `openssl req -new -key dist.key -out dist.csr -subj "/CN=Naam/C=NL"`. Upload `dist.csr` bij developer.apple.com > Certificates > Apple Distribution en download het `.cer`. Zet het om: `openssl x509 -inform DER -in distribution.cer -out distribution.pem` en `openssl pkcs12 -export -inkey dist.key -in distribution.pem -out certificaat.p12`. Bewaar `dist.key` en de .p12 veilig, buiten de repo.
+   3. Profile: developer.apple.com > Profiles > nieuw "App Store Connect" voor dit bundle-id, kies je certificaat, download het `.mobileprovision`.
+   4. Uploaden: met Transporter (alleen Mac) of laat de workflow het doen: start hem met "Na het bouwen ook uploaden naar App Store Connect" aan. Daarvoor drie extra secrets uit App Store Connect > Gebruikers en toegang > Integraties > Sleutels: `APP_STORE_CONNECT_KEY_ID`, `APP_STORE_CONNECT_ISSUER_ID` en `APP_STORE_CONNECT_API_KEY_BASE64` (de .p8 als base64). De build verschijnt dan in TestFlight; indienen voor review doe je in App Store Connect.
+
+   Zonder de drie secrets stopt de workflow met een duidelijke fout. Sleutels staan nooit in de repo; de tijdelijke keychain en het profile worden na de build verwijderd. Niet getest op GitHub: de eerste run kan een aanpassing vragen (bijvoorbeeld het image of de Xcode-versie).
 3. `flutter build appbundle --release` (Android), `flutter build ipa --release` (iOS, op een Mac met de juiste provisioning voor `com.mycompany.mijnnoodpakket`).
 4. **Store-listing**: de bestaande screenshots (map `NL_Noodpakket 1.0/Store`) tonen de oude app en moeten worden vervangen. Werk ook beschrijving, privacy-/datasafety-formulier (geen data verzameld, geen tracking) en de "niet van de overheid"-vermelding bij.
 
