@@ -13,7 +13,9 @@ import 'package:mijnnoodpakket/features/deel/domain/shared_plan_logic.dart';
 import 'package:mijnnoodpakket/core/providers.dart';
 import 'package:mijnnoodpakket/core/theme.dart';
 import 'package:mijnnoodpakket/domain/models.dart';
+import 'package:mijnnoodpakket/features/dashboard/dashboard_providers.dart';
 import 'package:mijnnoodpakket/features/more/more_screen.dart';
+import 'package:mijnnoodpakket/features/more/my_plan_screen.dart';
 import 'package:mijnnoodpakket/features/noodhacks/hacks_models.dart';
 import 'package:mijnnoodpakket/features/noodhacks/hacks_providers.dart';
 import 'package:mijnnoodpakket/features/noodplan/domain/plan_models.dart';
@@ -53,6 +55,8 @@ final List<Override> _overrides = [
   hacksProvider.overrideWith((ref) async => hacks),
   proUnlockedProvider.overrideWithValue(true),
   purchaseServiceProvider.overrideWithValue(FakePurchaseService()),
+  planVaultStatusProvider.overrideWithValue(const PlanVaultStatus(
+      planStarted: true, planDone: 1, planTotal: 7, planStale: false, vaultHasDocs: false)),
 ];
 
 Future<void> show(
@@ -143,6 +147,25 @@ void main() {
       });
     });
   }
+
+  // Mijn plan en Meer op 360 dp: elke rij een eigen tint (licht/donker, schaal 1,0 en 2,0).
+  group('eigen tint per rij (360 dp)', () {
+    for (final b in Brightness.values) {
+      for (final scale in [1.0, 2.0]) {
+        final tag = scale == 1.0 ? '' : '_200';
+        testWidgets('Mijn plan ${b.name} schaal $scale', (t) async {
+          await show(t, const MyPlanScreen(), brightness: b, scale: scale, size: Size(360, scale == 1.0 ? 700 : 1500));
+          expect(t.takeException(), isNull);
+          await golden(t, 'mijnplan${tag}_${b.name}');
+        });
+        testWidgets('Meer ${b.name} schaal $scale', (t) async {
+          await show(t, const MoreScreen(), brightness: b, scale: scale, size: Size(360, scale == 1.0 ? 520 : 1000));
+          expect(t.takeException(), isNull);
+          await golden(t, 'meer360${tag}_${b.name}');
+        });
+      }
+    }
+  });
 
   group('tekstschaal 200%', () {
     for (final b in Brightness.values) {
