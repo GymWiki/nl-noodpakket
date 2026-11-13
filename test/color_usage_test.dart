@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -11,6 +13,15 @@ import 'package:mijnnoodpakket/features/more/my_plan_screen.dart';
 import 'package:mijnnoodpakket/features/noodplan/domain/plan_links.dart';
 import 'package:mijnnoodpakket/features/noodplan/ui/plan_wiki_block.dart';
 
+import 'package:mijnnoodpakket/core/l10n/strings.dart';
+import 'package:mijnnoodpakket/features/dashboard/dashboard_screen.dart';
+import 'package:mijnnoodpakket/features/noodhacks/hacks_models.dart';
+import 'package:mijnnoodpakket/features/noodhacks/hacks_overview_screen.dart';
+import 'package:mijnnoodpakket/features/noodhacks/hacks_providers.dart';
+import 'package:mijnnoodpakket/features/rampenzender/rampenzender_strings.dart';
+import 'package:mijnnoodpakket/features/wiki/wiki_overview_screen.dart';
+
+import 'calm_test.dart' show calmOverrides;
 import 'dashboard_widget_test.dart' show overrides, wrap, tall;
 
 /// Dezelfde functie heeft overal dezelfde tint: Mijn plan, Meer, dashboardkaarten en wiki-blokken.
@@ -70,5 +81,57 @@ void main() {
     await t.pumpWidget(wrap(const Scaffold(body: VaultLinkTile()), overrides(const [])));
     await t.pumpAndSettle();
     expect(tintsOf(t), {menuTint(MenuItemKind.vault)});
+  });
+
+  CategoryTint? rowTint(WidgetTester t, String title) =>
+      t.widgetList<StatusRow>(find.byType(StatusRow)).firstWhere((r) => r.title == title).tint;
+
+  testWidgets('Noodgevallen, Extra hulp: vier ingangen met vier verschillende tinten volgens het palet', (t) async {
+    await tall(t, w: 360, h: 3000);
+    await t.pumpWidget(wrap(const WikiOverviewScreen(), calmOverrides()));
+    for (var i = 0; i < 6; i++) {
+      await t.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 40)));
+      await t.pump(const Duration(milliseconds: 250));
+    }
+    final got = [
+      rowTint(t, S.hacksIntroOut),
+      rowTint(t, S.hacksTitle),
+      rowTint(t, RZ.entryTitle),
+      rowTint(t, S.wikiPdfCard),
+    ];
+    expect(got, [
+      menuTint(MenuItemKind.packetOut),
+      menuTint(MenuItemKind.hacks),
+      menuTint(MenuItemKind.radio),
+      menuTint(MenuItemKind.meterkast),
+    ]);
+    expect(got.toSet().length, 4, reason: 'twee ingangen met dezelfde tint');
+  });
+
+  testWidgets('Noodhacks: de twee actierijen hebben een eigen tint', (t) async {
+    await tall(t, w: 360, h: 3000);
+    final o = [
+      ...calmOverrides(),
+      hacksProvider.overrideWith((ref) async => HackData.parse(File('assets/wiki/noodhacks.json').readAsStringSync())),
+    ];
+    await t.pumpWidget(wrap(const HacksOverviewScreen(), o));
+    for (var i = 0; i < 6; i++) {
+      await t.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 40)));
+      await t.pump(const Duration(milliseconds: 250));
+    }
+    expect(rowTint(t, S.hacksIntroOut), menuTint(MenuItemKind.packetOut));
+    expect(rowTint(t, S.hacksHave), menuTint(MenuItemKind.hacksHave));
+    expect(rowTint(t, S.hacksIntroOut), isNot(rowTint(t, S.hacksHave)));
+    // Dezelfde functie, dezelfde tint als in Noodgevallen: "Mijn pakket is op".
+    expect(rowTint(t, S.hacksIntroOut), menuTint(MenuItemKind.packetOut));
+  });
+
+  testWidgets('Start, Meer overzicht: Noodplan, Kluis en Huishouden zijn verschillend en gelijk aan elders', (t) async {
+    await tall(t, w: 360, h: 3000);
+    await t.pumpWidget(wrap(const DashboardScreen(), calmOverrides()));
+    await t.pumpAndSettle();
+    final got = [rowTint(t, S.dashPlanCard), rowTint(t, S.dashVaultCard), rowTint(t, S.dashHouseholdTitle)];
+    expect(got, [menuTint(MenuItemKind.plan), menuTint(MenuItemKind.vault), menuTint(MenuItemKind.household)]);
+    expect(got.toSet().length, 3);
   });
 }

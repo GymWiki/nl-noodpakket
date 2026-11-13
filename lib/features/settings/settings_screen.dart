@@ -19,6 +19,7 @@ import '../../core/providers.dart';
 import '../../data/repositories/settings_repository.dart';
 import '../noodplan/ui/plan_overview_screen.dart' show togglePlanReminder;
 import '../../core/calm.dart';
+import '../../core/theme/category_palette.dart';
 import '../../core/theme.dart';
 import 'household_form.dart';
 
@@ -152,6 +153,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               final r = ref.watch(radioResultProvider);
               return StatusRow(
                 icon: Icons.radio_rounded,
+                tint: menuTint(MenuItemKind.radio),
                 title: r == null ? RZ.settingsNone : RZ.settingsValue(r.region.name),
                 subtitle: r?.broadcaster?.name ?? RZ.entrySub,
                 onTap: () => context.push('/rampenzender/kies'),

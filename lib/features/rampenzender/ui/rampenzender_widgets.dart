@@ -161,6 +161,7 @@ class RadioDashCard extends ConsumerWidget {
     }
     return StatusRow(
       icon: Icons.radio_rounded,
+      tint: menuTint(MenuItemKind.radio),
       title: RZ.dashTitle,
       subtitle: sub,
       onTap: () => context.push('/rampenzender'),
@@ -180,7 +181,7 @@ class RadioEntryCard extends ConsumerWidget {
     final sub = res == null ? RZ.entrySub : '${res.region.name}${done ? ': ${RZ.markedDone.toLowerCase()}' : ''}';
     return StatusRow(
       icon: Icons.radio_rounded,
-      tint: CategoryTint.blue,
+      tint: menuTint(MenuItemKind.radio),
       title: RZ.entryTitle,
       subtitle: sub,
       onTap: () => context.push('/rampenzender'),

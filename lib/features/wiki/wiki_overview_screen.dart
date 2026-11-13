@@ -119,7 +119,7 @@ class _WikiOverviewScreenState extends ConsumerState<WikiOverviewScreen> {
               const RadioEntryCard(),
               StatusRow(
                 icon: Icons.picture_as_pdf_outlined,
-                tint: CategoryTint.blue,
+                tint: menuTint(MenuItemKind.meterkast),
                 title: S.wikiPdfCard,
                 subtitle: S.wikiPdfCardSub,
                 onTap: () => shareMeterkastCard(context, d,

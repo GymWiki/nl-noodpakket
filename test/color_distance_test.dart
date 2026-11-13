@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mijnnoodpakket/core/theme.dart';
 import 'package:mijnnoodpakket/core/theme/category_palette.dart';
 import 'package:mijnnoodpakket/features/dashboard/dashboard_cards.dart';
+import 'package:mijnnoodpakket/domain/models.dart';
 import 'package:mijnnoodpakket/features/dashboard/domain/suggestions.dart';
 
 import 'color_math.dart';
@@ -37,9 +38,11 @@ void main() {
       });
     }
 
-    test('alleen Instellingen is neutraal (grijs); alle andere rijen hebben een gekleurde tint', () {
+    test('alleen Instellingen en wat daarbij hoort is neutraal; alle andere rijen hebben een gekleurde tint', () {
+      // Huishouden zit in Instellingen en gebruikt dezelfde grijze tint; "verloopt" is een rustig blauwgrijs.
+      const neutral = {MenuItemKind.settings, MenuItemKind.household, MenuItemKind.expiring};
       for (final k in MenuItemKind.values) {
-        expect(menuTint(k).neutral, k == MenuItemKind.settings, reason: k.name);
+        expect(menuTint(k).neutral, neutral.contains(k), reason: k.name);
       }
     });
 
@@ -145,6 +148,77 @@ void main() {
         expect(HSLColor.fromColor(blue.bubble).saturation, greaterThan(0.3));
       });
     }
+  });
+
+  // Overige lijsten met siblings: categorieen en suggesties. Bouwt de registry uit de publieke functies,
+  // zodat een nieuwe categorie vanzelf wordt meegenomen (via de id-lijsten).
+  final listRegistry = <String, List<CategoryTint>>{
+    'wiki-categorieen': [for (final id in wikiCategoryIds) wikiTint(id)],
+    'pakket-categorieen': [for (final id in Cat.standard) checklistTint(id)],
+    'hacks-categorieen': [for (final id in hackCategoryIds) ?hackTint(id)],
+  };
+
+  group('categorielijsten: geen dubbele tint, en ver genoeg uit elkaar', () {
+    for (final e in listRegistry.entries) {
+      test('${e.key}: geen twee categorieen met dezelfde tint', () {
+        final tints = e.value;
+        // Alleen het neutrale grijs mag vaker voorkomen (eigen categorieen blijven neutraal).
+        final colored = tints.where((t) => t != CategoryTint.grey).toList();
+        expect(colored.toSet().length, colored.length, reason: 'dubbele tint in ${e.key}: $tints');
+        expect(tints.where((t) => t == CategoryTint.grey).length, lessThanOrEqualTo(1));
+      });
+
+      for (final b in themes) {
+        for (final cvd in Cvd.values) {
+          test('${e.key} ${b.name} ${cvd == Cvd.none ? 'normaal zicht' : cvd.name}', () {
+            final tints = e.value;
+            final weak = weakTintPairs[e.key] ?? const <String>{};
+            final bub = cvd == Cvd.none ? minBubble : minBubbleCvd;
+            final ico = cvd == Cvd.none ? minIcon : minIconCvd;
+            for (var i = 0; i < tints.length; i++) {
+              for (var j = i + 1; j < tints.length; j++) {
+                final key = [tints[i].name, tints[j].name];
+                if (weak.contains('${key[0]}-${key[1]}') || weak.contains('${key[1]}-${key[0]}')) continue;
+                final a = tints[i].tone(b), c = tints[j].tone(b);
+                final db = deltaEOk(cvd.simulate(a.bubble), cvd.simulate(c.bubble));
+                final di = deltaEOk(cvd.simulate(a.icon), cvd.simulate(c.icon));
+                expect(db, greaterThanOrEqualTo(bub), reason: '${key.join('-')} bolletje ${db.toStringAsFixed(3)}');
+                expect(di, greaterThanOrEqualTo(ico), reason: '${key.join('-')} pictogram ${di.toStringAsFixed(3)}');
+              }
+            }
+          });
+        }
+      }
+    }
+
+    test('de uitzonderingen in weakTintPairs zijn echt nodig (anders weg ermee)', () {
+      for (final e in weakTintPairs.entries) {
+        for (final pair in e.value) {
+          final names = pair.split('-');
+          final a = CategoryTint.values.firstWhere((t) => t.name == names[0]);
+          final c = CategoryTint.values.firstWhere((t) => t.name == names[1]);
+          var worst = 9.0;
+          for (final b in themes) {
+            for (final cvd in Cvd.values) {
+              final d = deltaEOk(cvd.simulate(a.tone(b).icon), cvd.simulate(c.tone(b).icon));
+              if (d < worst) worst = d;
+            }
+          }
+          expect(worst, lessThan(minIconCvd), reason: '${e.key} $pair is onnodig als uitzondering');
+          expect(listRegistry[e.key]!.contains(a) && listRegistry[e.key]!.contains(c), isTrue, reason: 'paar staat niet in ${e.key}');
+        }
+      }
+    });
+  });
+
+  group('dashboard-suggesties: geen twee soorten met dezelfde tint', () {
+    test('elke soort een eigen tint (bij meer dan vijf soorten is onderlinge afstand niet haalbaar)', () {
+      final tints = [
+        for (final k in SuggestionKind.values)
+          suggestionTint(Suggestion(id: k.name, kind: k, route: '/')),
+      ];
+      expect(tints.toSet().length, tints.length, reason: 'dubbele tint: $tints');
+    });
   });
 
   group('dezelfde functie, dezelfde tint op elk scherm', () {

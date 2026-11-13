@@ -20,7 +20,7 @@ class HacksEntryCards extends StatelessWidget {
     return Column(children: [
       StatusRow(
         icon: Icons.inventory_2_outlined,
-        tint: CategoryTint.blue,
+        tint: menuTint(MenuItemKind.packetOut),
         title: S.hacksIntroOut,
         subtitle: S.hacksIntroOutSub,
         onTap: () => context.push('/hacks/pakket-op'),
@@ -28,7 +28,7 @@ class HacksEntryCards extends StatelessWidget {
       Divider(height: 1, indent: Space.screen, endIndent: Space.screen, color: c.outlineVariant),
       StatusRow(
         icon: Icons.tips_and_updates_outlined,
-        tint: CategoryTint.blue,
+        tint: menuTint(MenuItemKind.hacks),
         title: S.hacksTitle,
         subtitle: S.hacksEntrySub,
         onTap: () => context.push('/hacks'),

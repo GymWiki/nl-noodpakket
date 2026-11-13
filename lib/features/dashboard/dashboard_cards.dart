@@ -278,13 +278,13 @@ class SuggestionText {
 
 /// Kleur van het icoonbolletje per soort suggestie (alleen een extra aanwijzing).
 CategoryTint suggestionTint(Suggestion s) => switch (s.kind) {
-      SuggestionKind.household => CategoryTint.slate,
+      SuggestionKind.household => menuTint(MenuItemKind.household),
       SuggestionKind.nlAlert => CategoryTint.violet,
       SuggestionKind.water => CategoryTint.blue,
-      SuggestionKind.expiring => CategoryTint.slate,
+      SuggestionKind.expiring => menuTint(MenuItemKind.expiring),
       SuggestionKind.plan => menuTint(MenuItemKind.plan),
       SuggestionKind.vault => menuTint(MenuItemKind.vault),
-      SuggestionKind.item => CategoryTint.blue,
+      SuggestionKind.item => CategoryTint.lime, // blauw is van Water
       SuggestionKind.maintenance => menuTint(MenuItemKind.maintenance),
     };
 
@@ -450,7 +450,7 @@ class ExpiringCard extends ConsumerWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         SectionHeader(S.dashExpiringTitle,
             padding: const EdgeInsets.only(bottom: 8),
-            leading: const IconBadge(Icons.event_repeat_outlined, size: 32, tint: CategoryTint.slate)),
+            leading: IconBadge(Icons.event_repeat_outlined, size: 32, tint: menuTint(MenuItemKind.expiring))),
         for (final e in shown)
           InkWell(
             onTap: () => context.push('/item/${e.item.id}'),
@@ -690,7 +690,7 @@ class HouseholdCard extends ConsumerWidget {
     final h = ref.watch(settingsProvider.select((s) => s.value?.household)) ?? const Household();
     return StatusRow(
       icon: Icons.groups_outlined,
-      tint: CategoryTint.slate,
+      tint: menuTint(MenuItemKind.household),
       title: S.dashHouseholdTitle,
       subtitle: householdSummary(h),
       onTap: () => context.push('/instellingen'),

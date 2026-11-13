@@ -49,9 +49,9 @@ class _HacksOverviewScreenState extends ConsumerState<HacksOverviewScreen> {
     final filtering = _query.trim().isNotEmpty || _label != null;
     final results = searchHacks(d.hacks, query: _query, label: _label);
 
-    Widget action(IconData icon, String title, String sub, String route) => StatusRow(
+    Widget action(IconData icon, String title, String sub, String route, MenuItemKind kind) => StatusRow(
           icon: icon,
-          tint: CategoryTint.blue,
+          tint: menuTint(kind),
           title: title,
           subtitle: sub,
           onTap: () => context.push(route),
@@ -79,8 +79,8 @@ class _HacksOverviewScreenState extends ConsumerState<HacksOverviewScreen> {
         ]),
         const SizedBox(height: Space.group),
         CalmListGroup(children: [
-          action(Icons.inventory_2_outlined, S.hacksIntroOut, S.hacksIntroOutSub, '/hacks/pakket-op'),
-          action(Icons.checklist_rounded, S.hacksHave, S.hacksHaveSub, '/hacks/in-huis'),
+          action(Icons.inventory_2_outlined, S.hacksIntroOut, S.hacksIntroOutSub, '/hacks/pakket-op', MenuItemKind.packetOut),
+          action(Icons.checklist_rounded, S.hacksHave, S.hacksHaveSub, '/hacks/in-huis', MenuItemKind.hacksHave),
         ]),
         const SizedBox(height: Space.group),
         TextField(

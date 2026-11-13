@@ -75,7 +75,11 @@ double contrastRatio(Color a, Color b) {
 // --- Toewijzing per scherm -------------------------------------------------
 
 /// Meer en Mijn plan.
-enum MenuItemKind { plan, talk, share, scan, vault, info, settings, maintenance }
+enum MenuItemKind {
+  plan, talk, share, scan, vault, info, settings, maintenance,
+  // Ingangen op Start, Noodgevallen, Noodhacks en Instellingen:
+  household, radio, packetOut, hacks, hacksHave, meterkast, expiring,
+}
 
 /// Eén tint per functie, overal hetzelfde (ook op het dashboard en in de wiki-blokken):
 ///  - Mijn noodplan = groen, Bespreek met je huishouden = blauw, Documentenkluis = indigo,
@@ -93,6 +97,17 @@ CategoryTint menuTint(MenuItemKind k) => switch (k) {
       MenuItemKind.info => CategoryTint.blue,
       MenuItemKind.settings => CategoryTint.grey,
       MenuItemKind.maintenance => CategoryTint.teal,
+      // Start, "Meer overzicht": Rampenzender, Noodplan, Kluis en Huishouden (huishouden zit bij Instellingen).
+      MenuItemKind.household => CategoryTint.grey,
+      MenuItemKind.radio => CategoryTint.blue,
+      // Noodgevallen, "Extra hulp": vier verschillende ingangen.
+      MenuItemKind.packetOut => CategoryTint.teal,
+      MenuItemKind.hacks => CategoryTint.pink, // oker ligt te dicht bij het zand van waarschuwingen
+      MenuItemKind.meterkast => CategoryTint.violet,
+      // Noodhacks: de twee actierijen bovenaan.
+      MenuItemKind.hacksHave => CategoryTint.violet,
+      // Dashboardkaart "Binnenkort vervangen" en de suggestie "iets verloopt".
+      MenuItemKind.expiring => CategoryTint.slate,
     };
 
 /// Welke rijen staan samen op één scherm (siblings). Binnen een scherm moet elke rij een eigen tint hebben.
@@ -102,6 +117,18 @@ const menuScreens = <String, List<MenuItemKind>>{
   'mijn-plan': [MenuItemKind.plan, MenuItemKind.talk, MenuItemKind.vault, MenuItemKind.share],
   'mijn-plan/delen': [MenuItemKind.share, MenuItemKind.scan],
   'meer': [MenuItemKind.maintenance, MenuItemKind.info, MenuItemKind.settings],
+  'start/meer-overzicht': [MenuItemKind.radio, MenuItemKind.plan, MenuItemKind.vault, MenuItemKind.household],
+  'noodgevallen/extra-hulp': [MenuItemKind.packetOut, MenuItemKind.hacks, MenuItemKind.radio, MenuItemKind.meterkast],
+  'noodhacks/ingangen': [MenuItemKind.packetOut, MenuItemKind.hacksHave],
+  'start/kaarten': [MenuItemKind.expiring, MenuItemKind.maintenance],
+};
+
+/// Paren die onder kleurenblindheid minder ver uit elkaar liggen dan de drempel, omdat het palet maar vijf
+/// onderling goed te onderscheiden tinten heeft. Pictogram en tekst dragen daar de betekenis.
+/// Alleen schermen met meer dan vijf rijen of een neutrale "overig"-rij staan hier; zie color_distance_test.dart.
+const weakTintPairs = <String, Set<String>>{
+  'pakket-categorieen': {'pink-grey'}, // Gezondheid tegen eigen/overige categorieen (neutraal)
+  'hacks-categorieen': {'pink-grey'}, // Eten tegen Energie: zes categorieen, vijf goede tinten
 };
 
 /// Noodgevallen-wiki (id's uit noodgevallen.json).
@@ -119,7 +146,7 @@ CategoryTint wikiTint(String categoryId) => switch (categoryId) {
 /// Pakket-categorieën (`Cat.*`); eigen categorieën blijven neutraal.
 CategoryTint checklistTint(String categoryId) => switch (categoryId) {
       'water' => CategoryTint.blue,
-      'info' => CategoryTint.slate,
+      'info' => CategoryTint.teal, // slate viel samen met Water (blauw) en Gezondheid (roze)
       'light' => CategoryTint.ochre,
       'health' => CategoryTint.pink,
       'docs' => CategoryTint.indigo,
@@ -133,10 +160,10 @@ const hackCategoryIds = ['water', 'koken', 'eten', 'warmte', 'hygiene', 'energie
 CategoryTint? hackTint(String categoryId) => switch (categoryId) {
       'water' => CategoryTint.blue,
       'koken' => CategoryTint.ochre,
-      'eten' => CategoryTint.lime,
-      'warmte' => CategoryTint.ochre,
+      'eten' => CategoryTint.pink, // lime viel samen met oker (Koken)
+      'warmte' => CategoryTint.violet, // was oker, net als Koken
       'hygiene' => CategoryTint.teal,
-      'energie' => CategoryTint.slate,
+      'energie' => CategoryTint.grey, // slate viel samen met Water (blauw)
       'mythes' => null,
       _ => CategoryTint.grey,
     };

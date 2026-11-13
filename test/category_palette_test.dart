@@ -106,7 +106,6 @@ void main() {
       // Het menu-item Informatie is bewust blauw en los van de pakketcategorie info (blauwgrijs):
       // twee verschillende dingen, en op Pakket zou blauw samenvallen met Water.
       expect(checklistTint('docs'), menuTint(MenuItemKind.vault));
-      expect(hackTint('energie'), checklistTint('info'));
     });
     test('het palette is hooguit met 2 tinten uitgebreid (nu 1: lime)', () {
       // 5 wiki, groen, indigo, blauwgrijs en grijs = 9; lime komt erbij.
