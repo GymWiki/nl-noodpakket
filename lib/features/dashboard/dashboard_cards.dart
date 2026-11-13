@@ -282,10 +282,10 @@ CategoryTint suggestionTint(Suggestion s) => switch (s.kind) {
       SuggestionKind.nlAlert => CategoryTint.violet,
       SuggestionKind.water => CategoryTint.blue,
       SuggestionKind.expiring => CategoryTint.slate,
-      SuggestionKind.plan => CategoryTint.green,
-      SuggestionKind.vault => CategoryTint.indigo,
+      SuggestionKind.plan => menuTint(MenuItemKind.plan),
+      SuggestionKind.vault => menuTint(MenuItemKind.vault),
       SuggestionKind.item => CategoryTint.blue,
-      SuggestionKind.maintenance => CategoryTint.teal,
+      SuggestionKind.maintenance => menuTint(MenuItemKind.maintenance),
     };
 
 SuggestionText suggestionText(Suggestion s) => switch (s.kind) {
@@ -598,9 +598,9 @@ class PlanVaultRow extends ConsumerWidget {
         );
 
     return Column(children: [
-      row(Icons.assignment_outlined, S.dashPlanCard, planSub, '/plan', CategoryTint.green),
+      row(Icons.assignment_outlined, S.dashPlanCard, planSub, '/plan', menuTint(MenuItemKind.plan)),
       Divider(height: 1, indent: Space.screen, endIndent: Space.screen, color: c.outlineVariant),
-      row(Icons.lock_outline, S.dashVaultCard, vaultSub, '/kluis', CategoryTint.indigo),
+      row(Icons.lock_outline, S.dashVaultCard, vaultSub, '/kluis', menuTint(MenuItemKind.vault)),
     ]);
   }
 }
@@ -635,7 +635,7 @@ class MaintenanceCard extends ConsumerWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         SectionHeader(S.maintTitle,
             padding: const EdgeInsets.only(bottom: 8),
-            leading: const IconBadge(Icons.build_circle_outlined, size: 32, tint: CategoryTint.teal)),
+            leading: IconBadge(Icons.build_circle_outlined, size: 32, tint: menuTint(MenuItemKind.maintenance))),
         for (final r in due.take(3))
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),

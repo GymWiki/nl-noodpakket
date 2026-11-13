@@ -92,14 +92,19 @@ void main() {
         expect(menuTint(k), isNotNull);
       }
       expect(menuTint(MenuItemKind.plan), CategoryTint.green);
+      expect(menuTint(MenuItemKind.talk), CategoryTint.blue);
       expect(menuTint(MenuItemKind.vault), CategoryTint.indigo);
-      expect(menuTint(MenuItemKind.info), CategoryTint.slate);
+      expect(menuTint(MenuItemKind.share), CategoryTint.pink);
+      expect(menuTint(MenuItemKind.scan), CategoryTint.violet);
+      expect(menuTint(MenuItemKind.maintenance), CategoryTint.teal);
+      expect(menuTint(MenuItemKind.info), CategoryTint.blue);
       expect(menuTint(MenuItemKind.settings), CategoryTint.grey);
     });
     test('zelfde onderwerp, zelfde kleur', () {
       expect(checklistTint('water'), hackTint('water'));
       expect(checklistTint('health'), wikiTint('gezondheid'));
-      expect(checklistTint('info'), menuTint(MenuItemKind.info));
+      // Het menu-item Informatie is bewust blauw en los van de pakketcategorie info (blauwgrijs):
+      // twee verschillende dingen, en op Pakket zou blauw samenvallen met Water.
       expect(checklistTint('docs'), menuTint(MenuItemKind.vault));
       expect(hackTint('energie'), checklistTint('info'));
     });

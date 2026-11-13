@@ -77,16 +77,32 @@ double contrastRatio(Color a, Color b) {
 /// Meer en Mijn plan.
 enum MenuItemKind { plan, talk, share, scan, vault, info, settings, maintenance }
 
+/// Eén tint per functie, overal hetzelfde (ook op het dashboard en in de wiki-blokken):
+///  - Mijn noodplan = groen, Bespreek met je huishouden = blauw, Documentenkluis = indigo,
+///    Delen = roze, Scannen = violet (zit met Delen in één blad);
+///  - Onderhoud = teal, Informatie = helder blauw, Instellingen = grijs (bewust de enige neutrale rij).
+///
+/// Afwijking van het startvoorstel: "Bespreek" is blauw in plaats van zand/oker. Zand/oker lag onder
+/// rood-groen-kleurenblindheid te dicht bij het groen van "Mijn noodplan" (zie test/color_distance_test.dart).
 CategoryTint menuTint(MenuItemKind k) => switch (k) {
       MenuItemKind.plan => CategoryTint.green,
-      MenuItemKind.talk => CategoryTint.green,
-      MenuItemKind.share => CategoryTint.green,
-      MenuItemKind.scan => CategoryTint.green,
+      MenuItemKind.talk => CategoryTint.blue,
+      MenuItemKind.share => CategoryTint.pink,
+      MenuItemKind.scan => CategoryTint.violet,
       MenuItemKind.vault => CategoryTint.indigo,
-      MenuItemKind.info => CategoryTint.slate,
+      MenuItemKind.info => CategoryTint.blue,
       MenuItemKind.settings => CategoryTint.grey,
       MenuItemKind.maintenance => CategoryTint.teal,
     };
+
+/// Welke rijen staan samen op één scherm (siblings). Binnen een scherm moet elke rij een eigen tint hebben.
+/// Nieuwe schermen met een lijst rijen voegen hier hun rijen toe; `test/color_distance_test.dart` controleert
+/// dan vanzelf op dubbele of te dicht bij elkaar liggende tinten, ook onder kleurenblindheid.
+const menuScreens = <String, List<MenuItemKind>>{
+  'mijn-plan': [MenuItemKind.plan, MenuItemKind.talk, MenuItemKind.vault, MenuItemKind.share],
+  'mijn-plan/delen': [MenuItemKind.share, MenuItemKind.scan],
+  'meer': [MenuItemKind.maintenance, MenuItemKind.info, MenuItemKind.settings],
+};
 
 /// Noodgevallen-wiki (id's uit noodgevallen.json).
 const wikiCategoryIds = ['voorzieningen', 'natuur', 'gevaar', 'gezondheid', 'veiligheid'];

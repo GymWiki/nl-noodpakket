@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/l10n/strings.dart';
+import '../../../core/theme/category_palette.dart';
+import '../../../core/ui.dart';
 import '../domain/plan_links.dart';
 
 /// "Jouw afspraken": het deel van het noodplan dat bij dit noodgeval hoort.
@@ -22,30 +24,33 @@ class PlanWikiBlock extends ConsumerWidget {
 
     return Padding(
       padding: const EdgeInsets.only(top: 24),
-      child: Card(
-        color: t.colorScheme.secondaryContainer,
+      child: SoftCard(
+        // Alleen het bolletje is gekleurd (tint van het noodplan); het vlak blijft neutraal.
+        padding: EdgeInsets.zero,
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Semantics(
-              header: true,
-              child: Text(S.planWikiBlock,
-                  style: t.textTheme.titleLarge?.copyWith(color: t.colorScheme.onSecondaryContainer)),
-            ),
+            Row(children: [
+              IconBadge(Icons.assignment_outlined, size: 36, tint: menuTint(MenuItemKind.plan)),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Semantics(
+                  header: true,
+                  child: Text(S.planWikiBlock, style: t.textTheme.titleLarge),
+                ),
+              ),
+            ]),
             if (eff.isShared)
-              Text(S.sharedFrom(eff.fromName!),
-                  style: t.textTheme.labelLarge?.copyWith(color: t.colorScheme.onSecondaryContainer)),
+              Text(S.sharedFrom(eff.fromName!), style: t.textTheme.labelLarge),
             const SizedBox(height: 8),
             for (final r in refs)
               Padding(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(r.label,
-                      style: t.textTheme.labelLarge?.copyWith(color: t.colorScheme.onSecondaryContainer)),
+                  Text(r.label, style: t.textTheme.labelLarge),
                   Text(
                     r.valueIn(plan).isEmpty ? S.planWikiEmpty : r.valueIn(plan),
                     style: t.textTheme.bodyLarge?.copyWith(
-                      color: t.colorScheme.onSecondaryContainer,
                       fontStyle: r.valueIn(plan).isEmpty ? FontStyle.italic : null,
                     ),
                   ),
