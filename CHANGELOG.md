@@ -1,5 +1,16 @@
 # Wijzigingen
 
+## 1.0.14 (build 14)
+
+Nieuw
+- Rampenzender: de radiofrequenties (FM en DAB+) van de rampenzender in jouw regio en van NPO Radio 1, offline.
+- Delen via QR-code: je noodplan (en als je dat kiest documenten uit je kluis) rechtstreeks naar een ander toestel, zonder server.
+
+Verbeterd
+- Rustiger ontwerp: minder tegelijk op het scherm, lijsten in plaats van losse kaarten, en uitklapbare onderdelen waar dat veilig kan.
+- Het tabblad Noodgevallen heet in de balk "Wat nu?"; de labels breken niet meer af.
+- Elke rij op Mijn plan en Meer (en op Noodgevallen, Noodhacks en Pakket) heeft een eigen, herkenbare kleur, ook goed te onderscheiden bij kleurenblindheid.
+
 ## 1.0.13 (build 13)
 
 Nieuw

@@ -3,7 +3,7 @@
 Rustige, offline-first app waarmee Nederlandse huishoudens stap voor stap een persoonlijk noodpakket samenstellen en onderhouden. Gebaseerd op de campagne [denkvooruit.nl](https://www.denkvooruit.nl/). **De app is niet van de overheid** en dat staat zichtbaar in de app (Info, Onboarding, Instellingen).
 
 - Android `applicationId` / iOS bundle ID: `com.mycompany.mijnnoodpakket`
-- Versie: `1.0.13+13` (vorige release: 1.0.12, versionCode 12), zie `pubspec.yaml`
+- Versie: `1.0.14+14` (vorige release: 1.0.13, versionCode 13), zie `pubspec.yaml`
 - Geen backend, account, analytics of tracking. Alle data blijft op het toestel.
 
 ## Stack en keuzes
@@ -83,8 +83,8 @@ flutter run
    ```
 
    Gebruik de upload-sleutel die bij de bestaande Play-listing hoort. Zonder dit bestand wordt met de debug-sleutel getekend (alleen voor lokaal testen, Play weigert dat).
-   **AAB via GitHub**: Actions > "Android AAB" > Run workflow (of push een tag `v1.0.13`). Het gesigneerde bestand staat daarna onder "Artifacts" (`nl-noodpakket-aab`, 30 dagen, alleen te downloaden met een GitHub-account met toegang tot de repo). Voeg eenmalig vier secrets toe (Settings > Secrets and variables > Actions): `ANDROID_KEYSTORE_BASE64` (de upload-keystore als base64, bijvoorbeeld `base64 -w0 upload-keystore.jks`), `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` en `ANDROID_KEY_PASSWORD`. Zonder secrets stopt de workflow met een duidelijke fout. Zet de keystore nooit in de repo.
-   **IPA via GitHub (iOS)**: Actions > "iOS IPA" > Run workflow (of push een tag `v1.0.13`). Het gesigneerde bestand staat daarna onder "Artifacts" (`nl-noodpakket-ipa`, 30 dagen). Optioneel veld "Buildnummer": moet hoger zijn dan wat in App Store Connect staat; leeg laat het nummer uit `pubspec.yaml`. De workflow draait op een Mac-image van GitHub, dus een eigen Mac is niet nodig om te bouwen.
+   **AAB via GitHub**: Actions > "Android AAB" > Run workflow (of push een tag `v1.0.14`). Het gesigneerde bestand staat daarna onder "Artifacts" (`nl-noodpakket-aab`, 30 dagen, alleen te downloaden met een GitHub-account met toegang tot de repo). Voeg eenmalig vier secrets toe (Settings > Secrets and variables > Actions): `ANDROID_KEYSTORE_BASE64` (de upload-keystore als base64, bijvoorbeeld `base64 -w0 upload-keystore.jks`), `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` en `ANDROID_KEY_PASSWORD`. Zonder secrets stopt de workflow met een duidelijke fout. Zet de keystore nooit in de repo.
+   **IPA via GitHub (iOS)**: Actions > "iOS IPA" > Run workflow (of push een tag `v1.0.14`). Het gesigneerde bestand staat daarna onder "Artifacts" (`nl-noodpakket-ipa`, 30 dagen). Optioneel veld "Buildnummer": moet hoger zijn dan wat in App Store Connect staat; leeg laat het nummer uit `pubspec.yaml`. De workflow draait op een Mac-image van GitHub, dus een eigen Mac is niet nodig om te bouwen.
 
    Eenmalig voor de IPA, drie secrets (Settings > Secrets and variables > Actions):
    - `IOS_CERTIFICATE_P12_BASE64`: je **Apple Distribution**-certificaat als .p12, base64 (`base64 -w0 certificaat.p12`).
