@@ -8,7 +8,11 @@ import unittest
 
 sys.path.insert(0, os.path.dirname(__file__))
 import ios_profile_check as pc  # noqa: E402
+import ios_export_options as eo  # noqa: E402
+import ios_ipa_verify as iv  # noqa: E402
 import ios_signing_patch as sp  # noqa: E402
+import plistlib  # noqa: E402
+import tempfile  # noqa: E402
 
 BUNDLE = 'com.mycompany.mijnnoodpakket'
 CERT = b'dit-is-een-nep-certificaat'
@@ -86,6 +90,39 @@ class SigningPatch(unittest.TestCase):
         self.assertEqual(sp.patch(out, 'ABCDE12345', 'Mijn "Profiel"'), out)
         # De test-target en Debug/Profile blijven onaangeroerd.
         self.assertEqual(out.count('CODE_SIGN_STYLE = Automatic;'), text.count('CODE_SIGN_STYLE = Automatic;'))
+
+
+class ExportOptions(unittest.TestCase):
+    def test_plist_is_geldig_en_bevat_de_koppeling(self):
+        d = eo.options('ABCDE12345', BUNDLE, 'NL Noodpakket AppStore')
+        with tempfile.NamedTemporaryFile(suffix='.plist', delete=False) as f:
+            plistlib.dump(d, f)
+        back = plistlib.load(open(f.name, 'rb'))
+        os.unlink(f.name)
+        self.assertEqual(back['method'], 'app-store-connect')
+        self.assertEqual(back['signingStyle'], 'manual')
+        self.assertEqual(back['provisioningProfiles'], {BUNDLE: 'NL Noodpakket AppStore'})
+        self.assertTrue(back['uploadSymbols'])
+
+
+class IpaVerify(unittest.TestCase):
+    INFO = {'CFBundleIdentifier': BUNDLE, 'CFBundleShortVersionString': '1.0.14', 'CFBundleVersion': '14.7', 'MinimumOSVersion': '14.0'}
+    EMB = {'Name': 'NL Noodpakket AppStore', 'Entitlements': {'application-identifier': 'ABCDE12345.' + BUNDLE}}
+    CS = ('Identifier=%s' % BUNDLE) + chr(10) + 'Authority=Apple Distribution: Pieter (ABCDE12345)' + chr(10) + 'TeamIdentifier=ABCDE12345' + chr(10)
+
+    def test_goed(self):
+        _, errors = iv.verify(self.INFO, self.EMB, self.CS, BUNDLE, 'ABCDE12345', '1.0.14', '14.7')
+        self.assertEqual(errors, [])
+
+    def test_te_lage_ios_en_verkeerd_bouwnummer(self):
+        info = dict(self.INFO, MinimumOSVersion='13.0', CFBundleVersion='1')
+        _, errors = iv.verify(info, self.EMB, self.CS, BUNDLE, 'ABCDE12345', '1.0.14', '14.7')
+        self.assertEqual(len(errors), 2)
+
+    def test_development_handtekening(self):
+        cs = self.CS.replace('Apple Distribution', 'Apple Development')
+        _, errors = iv.verify(self.INFO, self.EMB, cs, BUNDLE, 'ABCDE12345', '1.0.14', '14.7')
+        self.assertTrue(any('Apple Distribution' in e for e in errors))
 
 
 if __name__ == '__main__':
