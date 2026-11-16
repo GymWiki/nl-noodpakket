@@ -50,7 +50,7 @@ _De aantallen zijn een indicatie op basis van de lijsten per sectie hieronder, n
 
 **B4. iOS-build niet gebouwd en niet getoetst** ➖ → behandeld als blocker
 - Omgeving is Windows; `flutter build ipa` kan hier niet. Er staat geen `ios/Podfile` in de repo (wordt op de Mac gegenereerd). Ontbreekt: `PrivacyInfo.xcprivacy` in de app (⚠️ zie M2) en `ITSAppUsesNonExemptEncryption` (⚠️ zie M3).
-- Bron: sinds 2026-04-28 moet met Xcode 26 en de iOS 26 SDK worden gebouwd; sinds 2026-09-09 moeten uploads iOS 13 of hoger als minimum hebben (developer.apple.com/news/upcoming-requirements, 2026-11-11). Het deployment target is 13.0 (`project.pbxproj`).
+- Bron: sinds 2026-04-28 moet met Xcode 26 en de iOS 26 SDK worden gebouwd; sinds 2026-09-09 moeten uploads iOS 13 of hoger als minimum hebben (developer.apple.com/news/upcoming-requirements, 2026-11-11). Het deployment target is sinds de iOS-CI-fix 14.0 (`ios/Podfile`, `project.pbxproj`, `AppFrameworkInfo.plist`), omdat `file_picker_darwin` iOS 14.0 vraagt.
 - Fix-richting: bouwen en archiveren op een Mac met Xcode 26, `pod install` laten slagen (pluginminima voor iOS ➖), en de runtime-flows op een iPhone doorlopen.
 
 ### Majors (sterk aanbevolen)
