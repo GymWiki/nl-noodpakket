@@ -193,7 +193,13 @@ jobs:
           fi
           mkdir -p "$HOME/.appstoreconnect/private_keys"
           printf '%s' "$ASC_KEY_BASE64" | base64 --decode > "$HOME/.appstoreconnect/private_keys/AuthKey_${ASC_KEY_ID}.p8"
-          xcrun altool --upload-app --type ios -f build/ios/ipa/*.ipa --apiKey "$ASC_KEY_ID" --apiIssuer "$ASC_ISSUER_ID"
+          IPA=$(ls build/ios/ipa/*.ipa | head -1)
+          # Eerst valideren (geeft duidelijkere fouten), dan uploaden. altool staat nog als uploadmethode in
+          # Apples documentatie (developer.apple.com/help/app-store-connect/manage-builds/upload-builds).
+          xcrun altool --validate-app --type ios -f "$IPA" --apiKey "$ASC_KEY_ID" --apiIssuer "$ASC_ISSUER_ID"
+          xcrun altool --upload-app --type ios -f "$IPA" --apiKey "$ASC_KEY_ID" --apiIssuer "$ASC_ISSUER_ID"
+          echo "### Geupload naar App Store Connect" >> "$GITHUB_STEP_SUMMARY"
+          echo "Versie $VERSION_NAME, bouwnummer $BUILD_NUMBER. De build verschijnt na verwerking (meestal 5 tot 30 minuten) onder TestFlight." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Opruimen (keychain, profile, gedecodeerde bestanden)
         if: always()
