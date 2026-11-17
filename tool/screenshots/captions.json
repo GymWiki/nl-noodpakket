@@ -1,0 +1,20 @@
+{
+  "_toelichting": "Bijschriften per screenshot (nl-NL). Laat een regel weg of maak hem leeg als het onderdeel niet in deze build zit; de compose-stap slaat dan die screenshot over.",
+  "01": "Zie in één blik hoe voorbereid je bent",
+  "02": "Je noodpakket, overzichtelijk bijgehouden",
+  "03": "Duidelijke stappen als het erop aankomt",
+  "04": "Maak in 10 minuten je noodplan",
+  "05": "Deel je plan rechtstreeks met je gezin",
+  "06": "Belangrijke documenten veilig op je toestel",
+  "07": "Weet welke radiozender je moet afstemmen",
+  "08": "Handige oplossingen als je pakket op is (Pro)",
+  "featureGraphic": {
+    "naam": "NL-Noodpakket",
+    "slogan": "Rustig voorbereid op noodsituaties"
+  },
+  "kleuren": {
+    "achtergrond": "D9EDF9",
+    "tekst": "0F1B26",
+    "accent": "0B5C8F"
+  }
+}

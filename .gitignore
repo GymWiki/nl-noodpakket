@@ -43,3 +43,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Store-screenshots: ruwe en bewerkte afbeeldingen worden lokaal of via een workflow-artifact gemaakt, niet gecommit
+/store/raw/
+/store/out/
