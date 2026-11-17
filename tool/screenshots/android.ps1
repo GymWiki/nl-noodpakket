@@ -69,6 +69,11 @@ if ($avds -notcontains $AvdName) {
   Write-Host "AVD '$AvdName' maken met $package (Pixel 2, 1080x1920)"
   'no' | & $avdmanager create avd -n $AvdName -k $package -d pixel_2 --force
   if ($LASTEXITCODE -ne 0) { throw 'avdmanager create avd is mislukt.' }
+  # Een nieuwe AVD heeft standaard geen GPU en 2 GB geheugen; Android 16 start dan extreem traag of blijft 'offline'.
+  $newCfg = Join-Path $env:USERPROFILE ('.android' + [IO.Path]::DirectorySeparatorChar + 'avd' + [IO.Path]::DirectorySeparatorChar + $AvdName + '.avd' + [IO.Path]::DirectorySeparatorChar + 'config.ini')
+  if (Test-Path $newCfg) {
+    (Get-Content $newCfg) -replace '^hw\.gpu\.enabled\s*=.*', 'hw.gpu.enabled = yes' -replace '^hw\.ramSize\s*=.*', 'hw.ramSize = 3072' | Set-Content $newCfg
+  }
 }
 $avdConfig = Join-Path $env:USERPROFILE ".android\avd\$AvdName.avd\config.ini"
 if (Test-Path $avdConfig) {

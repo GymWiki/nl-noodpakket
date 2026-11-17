@@ -55,7 +55,8 @@ void _text(Canvas c, String text, Offset topLeft, double maxWidth,
     textDirection: TextDirection.ltr,
     maxLines: maxLines,
   )..layout(maxWidth: maxWidth);
-  tp.paint(c, Offset(topLeft.dx + (maxWidth - tp.width) / 2, topLeft.dy));
+  final dx = align == TextAlign.left ? topLeft.dx : topLeft.dx + (maxWidth - tp.width) / 2;
+  tp.paint(c, Offset(dx, topLeft.dy));
 }
 
 double _textHeight(String text, double maxWidth, double size) {

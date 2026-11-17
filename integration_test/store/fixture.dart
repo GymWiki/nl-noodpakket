@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:drift/drift.dart' show driftRuntimeOptions;
 import 'package:drift/native.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart' show TestDefaultBinaryMessenger;
@@ -86,6 +87,8 @@ class _LoopbackFinder implements LocalAddressFinder {
 
 /// Alle seed- en override-logica voor de store-screenshots. Staat bewust buiten `lib/`.
 Future<List<Override>> storeOverrides({bool pro = false}) async {
+  // Elke test maakt zijn eigen in-memory database; de waarschuwing over meerdere databases is hier onzin.
+  driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
   final db = AppDatabase.forTesting(NativeDatabase.memory());
   await _seed(db);
   return [
@@ -109,8 +112,8 @@ Future<void> _seed(AppDatabase db) async {
     planBannerDismissed: true,
     leadDays: 30,
   ));
-  // Rampenzender: Zwolle, met "ingesteld" afgevinkt, zodat Start rustig blijft.
-  await settings.setRaw(RadioKeys.gm, 'GM0193');
+  // Rampenzender: een gemeente met één duidelijk gebied (Den Haag), met "ingesteld" afgevinkt, zodat Start rustig blijft.
+  await settings.setRaw(RadioKeys.gm, 'GM0518');
   await settings.setRaw(RadioKeys.set, 'true');
 
   // Noodpakket: het grootste deel in huis, een paar nog niet.

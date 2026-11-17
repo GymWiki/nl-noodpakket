@@ -45,7 +45,6 @@ class _FullBleed extends StatelessWidget {
 
 void main() {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-  var converted = false;
 
   setUpAll(() async {
     await initializeDateFormatting('nl_NL');
@@ -57,6 +56,11 @@ void main() {
     }
   }
 
+  Future<void> scrollDown(WidgetTester t, double dy) async {
+    await t.drag(find.byType(Scrollable).first, Offset(0, -dy));
+    await wait(t, 900);
+  }
+
   /// Start de app met de fixture, laat [navigate] naar het scherm gaan en maakt de screenshot.
   Future<void> screen(
     WidgetTester t,
@@ -65,10 +69,6 @@ void main() {
     bool pro = false,
   }) async {
     mockPlatformChannels(TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger);
-    if (!converted && defaultTargetPlatform == TargetPlatform.android) {
-      await binding.convertFlutterSurfaceToImage();
-      converted = true;
-    }
     await t.pumpWidget(ProviderScope(
       overrides: await storeOverrides(pro: pro),
       child: const _FullBleed(child: NoodpakketApp()),
@@ -77,6 +77,12 @@ void main() {
     final container = ProviderScope.containerOf(t.element(find.byType(NoodpakketApp)));
     await navigate(container.read(routerProvider), t);
     await wait(t);
+    final android = defaultTargetPlatform == TargetPlatform.android;
+    // Op Android moet het Flutter-oppervlak per screenshot naar een afbeelding worden omgezet en daarna terug.
+    if (android) {
+      await binding.convertFlutterSurfaceToImage();
+      await t.pump(const Duration(milliseconds: 400));
+    }
     await binding.takeScreenshot(name);
   }
 
@@ -101,9 +107,17 @@ void main() {
         await wait(t, 3000);
       }));
 
-  testWidgets('06 Documentenkluis', (t) => screen(t, '06_kluis', (r, t) async => r.go('/kluis')));
+  testWidgets('06 Documentenkluis', (t) => screen(t, '06_kluis', (r, t) async {
+        r.go('/kluis');
+        await wait(t, 600);
+        await scrollDown(t, 300); // zodat de knop geen kop overlapt en de documenten zichtbaar zijn
+      }));
 
   testWidgets('07 Rampenzender', (t) => screen(t, '07_rampenzender', (r, t) async => r.go('/rampenzender')));
 
-  testWidgets('08 Noodhacks (Pro-aanduiding)', (t) => screen(t, '08_noodhacks', (r, t) async => r.go('/hacks')));
+  testWidgets('08 Noodhacks (Pro-aanduiding)', (t) => screen(t, '08_noodhacks', (r, t) async {
+        r.go('/hacks');
+        await wait(t, 600);
+        await scrollDown(t, 430); // de hacks met hun labels (Veilig, Let op) en de Pro-aanduiding in beeld
+      }));
 }
