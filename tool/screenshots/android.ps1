@@ -90,9 +90,15 @@ if (-not $serial -and -not $NoStartEmulator) {
   Write-Host "Emulator '$AvdName' starten..."
   Start-Process -FilePath $emulator -ArgumentList @('-avd', $AvdName, '-no-snapshot-save', '-no-audio', '-gpu', 'auto') | Out-Null
   $started = $true
-  for ($i = 0; $i -lt 90 -and -not $serial; $i++) { Start-Sleep -Seconds 4; $serial = Get-Serial }
-  if (-not $serial) { throw 'De emulator kwam niet online (na 6 minuten).' }
-  for ($i = 0; $i -lt 60; $i++) {
+  # De eerste start van een nieuwe AVD kan lang duren (de status blijft dan een tijd 'offline'): maximaal 20 minuten.
+  $deadline = (Get-Date).AddMinutes(20)
+  while (-not $serial -and (Get-Date) -lt $deadline) {
+    Start-Sleep -Seconds 5
+    $serial = Get-Serial
+    if (-not $serial -and ((Adb devices) -match 'emulator-\d+\s+offline')) { Write-Host '  emulator start nog op (offline)...' }
+  }
+  if (-not $serial) { throw 'De emulator kwam niet online (na 20 minuten). Start hem handmatig in Android Studio (Device Manager) en draai dit script opnieuw met -NoStartEmulator.' }
+  while ((Get-Date) -lt $deadline) {
     if ((Adb -s $serial shell getprop sys.boot_completed 2>$null).Trim() -eq '1') { break }
     Start-Sleep -Seconds 3
   }

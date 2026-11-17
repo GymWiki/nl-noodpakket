@@ -103,6 +103,43 @@ flutter run
 3. `flutter build appbundle --release` (Android), `flutter build ipa --release` (iOS, op een Mac met de juiste provisioning voor `com.mycompany.mijnnoodpakket`).
 4. **Store-listing**: de bestaande screenshots (map `NL_Noodpakket 1.0/Store`) tonen de oude app en moeten worden vervangen. Werk ook beschrijving, privacy-/datasafety-formulier (geen data verzameld, geen tracking) en de "niet van de overheid"-vermelding bij.
 
+## Store-screenshots maken
+
+Reproduceerbare screenshots voor Google Play en de App Store, uit dezelfde integratietests met verzonnen demodata ("Familie De Vries", voorbeeldnummers, documenten met "(voorbeeld)" in de titel). Vaste staat: nl-NL, licht thema, tekstschaal 1.0, vaste tijd (17 november 2026, 12:00), Pro uit (screenshot 8 toont de Pro-aanduiding, zoals App Review 2.3.2 vraagt), geen meldingen, geen toetsenbord. Er zit geen testcode of demodata in `lib/`; `integration_test` en `flutter_driver` staan alleen onder `dev_dependencies`. `test/store_screenshots_guard_test.dart` bewaakt dat, en `tool/screenshots/check_release.dart` controleert een gebouwde APK of AAB.
+
+De acht schermen (bestandsnamen `01` t/m `08`): Start met Paraatheid, Pakket, Wat nu? met stappenplan Stroomstoring, Mijn noodplan, Delen via QR (niet-werkende voorbeeld-QR: de sessie bindt aan loopback, dus geen ander toestel kan verbinden), Documentenkluis (alleen titels), Rampenzender en Noodhacks (Pro).
+
+**Android (op je Windows-machine)**
+1. Vanuit de projectmap: `powershell -ExecutionPolicy Bypass -File tool/screenshots/android.ps1`. Het script maakt de AVD `NL_Store_1080x1920` (Pixel 2, 1080x1920) als die er niet is, start de emulator, zet de demo-modus aan (klok 12:00, batterij 100, wifi vol, geen meldingen) en animaties uit, draait `flutter drive`, en zet alles daarna altijd terug. De eerste start van een nieuwe AVD kan tientallen minuten duren.
+2. Staat `adb` niet in je PATH? Zet `$env:ANDROID_HOME = "$env:LOCALAPPDATA\Android\Sdk"` (het script zoekt ook zelf daar). Staat er al een emulator van 1080x1920 aan, dan gebruikt het die (`-NoStartEmulator`).
+3. De ruwe PNG's staan daarna in `store/raw/android/` (1080x1920, zonder systeembalken: de tests tekenen alleen de app).
+4. Marketinglaag (bijschriften, afgeronde hoeken, geen apparaatframe), uitvoer 24-bit PNG zonder alfa:
+   ```
+   $env:COMPOSE_RAW='store/raw/android'; $env:COMPOSE_OUT='store/out/play/phone'; $env:COMPOSE_SIZE='1080x1920'; $env:COMPOSE_STYLE='play'
+   flutter test tool/screenshots/compose/compose_test.dart
+   $env:COMPOSE_MODE='feature'; $env:COMPOSE_OUT='store/out/play/feature-graphic'; flutter test tool/screenshots/compose/compose_test.dart
+   $env:COMPOSE_MODE='icon'; $env:COMPOSE_OUT='store/out/play/icon'; flutter test tool/screenshots/compose/compose_test.dart
+   ```
+5. Valideren: `dart run tool/screenshots/validate.dart` (afmetingen, kleurmodus, alfa, aantal, alle acht aanwezig; faalt bij een afwijking).
+
+**iOS (GitHub Actions, geen Mac nodig)**
+1. Actions, "Store-screenshots iOS", Run workflow (laat "iPad" aan: de app ondersteunt iPad, dus App Store Connect vraagt de 13-inch-set).
+2. De workflow kiest een iPhone Pro Max-simulator (6.9 inch, 1320x2868), zet de statusbalk op 9:41 met volle batterij, draait dezelfde tests, controleert de afmetingen, maakt de bewerkte set en valideert die.
+3. Download de artifacts `store-ios-ruw` (ruwe PNG's in `store/raw/ios` en `store/raw/ipad`) en `store-ios-appstore` (`iphone-6.9` en `ipad-13`, 14 dagen bewaard).
+
+**Waar upload je ze**
+- Google Play Console: je app, Grow, Store presence, Main store listing, Graphics: telefoon-screenshots (`store/out/play/phone`, 2 tot 8), feature graphic (`store/out/play/feature-graphic/feature-graphic.png`, 1024x500) en app-icoon (`store/out/play/icon/icon-512.png`).
+- App Store Connect: je app, de versiepagina, bij "Schermafbeeldingen": iPhone 6.9" (`store/out/appstore/iphone-6.9`) en iPad 13" (`store/out/appstore/ipad-13`). App Store Connect schaalt de kleinere formaten zelf af.
+
+**Aanpassen**
+- Bijschriften en kleuren: `tool/screenshots/captions.json` (verwijder of maak een bijschrift leeg om die screenshot over te slaan, bijvoorbeeld voor een onderdeel dat niet in een build zit).
+- Demodata en de toestand van de app: `integration_test/store/demo_data.dart` en `integration_test/store/fixture.dart` (Pro aan met `storeOverrides(pro: true)`).
+- Schermen en navigatie: `integration_test/store_screenshots_test.dart`.
+
+**Regels waaraan getoetst is** (gelezen op 17 november 2026)
+- Google Play: telefoon-screenshots JPEG of 24-bit PNG zonder alfa, 2 tot 8, kortste zijde minstens 320 px en langste hooguit 3840 px (niet meer dan 2x de korte zijde); tekst-overlay maximaal 20% van het beeld; geen prijs- of actiewoorden zoals "Best", "#1", "Download now"; geen badge van een winkel; apparaatframes afgeraden. Feature graphic 1024x500 zonder alfa. App-icoon 512x512, 32-bit PNG met alfa, maximaal 1024 KB.
+- Apple: 1 tot 10 screenshots per formaat, JPEG of PNG zonder transparantie; 6.9-inch 1320x2868 of 1290x2796; iPad 13-inch 2064x2752 of 2048x2732. App Review 2.3.3 (de app in gebruik tonen), 2.3.2 (betaalde functies melden: bijschrift 8 en de zichtbare Pro-aanduiding), 2.3.10 (geen verwijzing naar andere platformen).
+
 ## Icoon en splash
 
 `assets/icon` en `assets/splash` bevatten placeholders. Vervang ze (zie `assets/README.md`) en draai `dart run flutter_launcher_icons` en `dart run flutter_native_splash:create`.
