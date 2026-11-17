@@ -1,6 +1,7 @@
 // Valideert de store-uitvoer in store/out/ tegen de eisen van Google Play en de App Store.
 //   dart run tool/screenshots/validate.dart            (controleert alle sets die bestaan; Play-telefoon is verplicht)
 //   dart run tool/screenshots/validate.dart --require-ios --require-ipad
+//   dart run tool/screenshots/validate.dart --only=ios,ipad --require-ios   (alleen de App Store-sets)
 //
 // Controleert per bestand: afmetingen, bestandstype (PNG of JPEG), kleurmodus (geen alfakanaal), bestandsgrootte
 // en per set het aantal en de aanwezigheid van 01 t/m 08. Faalt (exitcode 1) bij een afwijking.
@@ -126,11 +127,17 @@ void checkSingle(String label, String path, int w, int h, {required bool alpha, 
 
 void main(List<String> args) {
   final reqIos = args.contains('--require-ios'), reqIpad = args.contains('--require-ipad');
-  checkSet(_play, required: true);
-  checkSingle('Google Play feature graphic', 'store/out/play/feature-graphic/feature-graphic.png', 1024, 500, alpha: false);
-  checkSingle('Google Play app-icoon', 'store/out/play/icon/icon-512.png', 512, 512, alpha: true, maxBytes: 1024 * 1024);
-  checkSet(_iphone, required: reqIos);
-  checkSet(_ipad, required: reqIpad);
+  // --only=play,ios,ipad beperkt de controle (de iOS-workflow heeft geen Play-set). Zonder --only: alles.
+  final onlyArg = args.where((a) => a.startsWith('--only=')).map((a) => a.substring(7)).firstOrNull;
+  final only = onlyArg?.split(',').toSet();
+  bool on(String k) => only == null || only.contains(k);
+  if (on('play')) {
+    checkSet(_play, required: true);
+    checkSingle('Google Play feature graphic', 'store/out/play/feature-graphic/feature-graphic.png', 1024, 500, alpha: false);
+    checkSingle('Google Play app-icoon', 'store/out/play/icon/icon-512.png', 512, 512, alpha: true, maxBytes: 1024 * 1024);
+  }
+  if (on('ios')) checkSet(_iphone, required: reqIos);
+  if (on('ipad')) checkSet(_ipad, required: reqIpad);
   if (failures.isNotEmpty) {
     stderr.writeln('\nValidatie mislukt: ${failures.length} afwijking(en).');
     exit(1);

@@ -1,0 +1,201 @@
+name: Store-screenshots iOS
+
+# Maakt de iOS-screenshots voor de App Store: ruwe PNG's (store/raw/ios, store/raw/ipad) en de bewerkte set met
+# bijschriften (store/out/appstore/...), valideert ze en uploadt alles als artifact.
+# Starten: Actions > "Store-screenshots iOS" > Run workflow. Download daarna de artifacts "store-ios-ruw" en
+# "store-ios-appstore". Zie README, "Store-screenshots maken".
+on:
+  workflow_dispatch:
+    inputs:
+      include_ipad:
+        description: 'Ook de iPad-set (13 inch, 2064x2752) maken. De app ondersteunt iPad, dus App Store Connect vraagt die.'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  screenshots:
+    runs-on: macos-26
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Xcode kiezen (26 of nieuwer)
+        run: |
+          set -euo pipefail
+          XCODE=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | sort -V | tail -1 || true)
+          if [ -z "$XCODE" ]; then
+            echo "::error::Geen Xcode 26 op deze runner."
+            exit 1
+          fi
+          sudo xcode-select -s "$XCODE"
+          xcodebuild -version
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.38.5'
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      - name: Simulators tonen
+        run: xcrun simctl list devices available
+
+      - name: iPhone-simulator van de 6.9-inch-klasse kiezen
+        run: |
+          set -euo pipefail
+          xcrun simctl list devices available -j > "$RUNNER_TEMP/devices.json"
+          python3 - <<'PY'
+          import json, os, re
+          data = json.load(open(os.environ['RUNNER_TEMP'] + '/devices.json'))
+          best = None
+          for runtime, devs in data['devices'].items():
+              if 'iOS' not in runtime:
+                  continue
+              m = re.search(r'iOS-(\d+)-(\d+)', runtime)
+              ver = (int(m.group(1)), int(m.group(2))) if m else (0, 0)
+              for d in devs:
+                  name = d['name']
+                  # 6.9-inch: iPhone 16/17 Pro Max (1320x2868). Nieuwste generatie eerst.
+                  g = re.match(r'iPhone (\d+) Pro Max$', name)
+                  if g and d.get('isAvailable', True):
+                      key = (int(g.group(1)), ver)
+                      if best is None or key > best[0]:
+                          best = (key, d['udid'], name)
+          if best is None:
+              raise SystemExit('::error::Geen iPhone Pro Max-simulator (6.9 inch) beschikbaar op deze runner.')
+          print('Gekozen iPhone-simulator:', best[2], best[1])
+          open(os.environ['GITHUB_ENV'], 'a').write('IPHONE_UDID=%s\nIPHONE_NAME=%s\n' % (best[1], best[2]))
+          PY
+
+      - name: iPhone starten en in vaste staat zetten (9:41, batterij vol, licht, geen meldingen)
+        run: |
+          set -euo pipefail
+          xcrun simctl boot "$IPHONE_UDID" || true
+          xcrun simctl bootstatus "$IPHONE_UDID" -b
+          xcrun simctl ui "$IPHONE_UDID" appearance light
+          xcrun simctl status_bar "$IPHONE_UDID" override --time 9:41 --batteryState charged --batteryLevel 100 --cellularMode active --cellularBars 4 --wifiMode active --wifiBars 3
+          xcrun simctl spawn "$IPHONE_UDID" defaults write com.apple.preferences.softwareupdate SuppressAutoInstall -bool true || true
+
+      - name: Screenshots iPhone maken
+        env:
+          STORE_RAW_DIR: store/raw/ios
+        run: |
+          set -euo pipefail
+          flutter drive --driver=test_driver/integration_test.dart --target=integration_test/store_screenshots_test.dart -d "$IPHONE_UDID"
+          ls -la store/raw/ios
+
+      - name: Afmetingen van de ruwe iPhone-screenshots controleren
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import glob, struct, sys
+          ok = {(1320, 2868), (1290, 2796)}
+          files = sorted(glob.glob('store/raw/ios/*.png'))
+          if len(files) != 8:
+              sys.exit('FOUT: %d ruwe iPhone-screenshots, verwacht 8' % len(files))
+          bad = []
+          for f in files:
+              b = open(f, 'rb').read()
+              size = struct.unpack('>II', b[16:24])
+              print(f, size)
+              if size not in ok:
+                  bad.append((f, size))
+          if bad:
+              sys.exit('FOUT: afmetingen buiten %s: %s' % (sorted(ok), bad))
+          PY
+
+      - name: iPhone-simulator uitzetten
+        if: always()
+        run: |
+          xcrun simctl status_bar "$IPHONE_UDID" clear || true
+          xcrun simctl shutdown "$IPHONE_UDID" || true
+
+      - name: iPad-simulator (13 inch) kiezen
+        if: ${{ inputs.include_ipad }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os, re
+          data = json.load(open(os.environ['RUNNER_TEMP'] + '/devices.json'))
+          best = None
+          for runtime, devs in data['devices'].items():
+              if 'iOS' not in runtime:
+                  continue
+              m = re.search(r'iOS-(\d+)-(\d+)', runtime)
+              ver = (int(m.group(1)), int(m.group(2))) if m else (0, 0)
+              for d in devs:
+                  if re.match(r'iPad Pro 13-inch', d['name']) and d.get('isAvailable', True):
+                      key = (ver, d['name'])
+                      if best is None or key > best[0]:
+                          best = (key, d['udid'], d['name'])
+          if best is None:
+              raise SystemExit('::error::Geen iPad Pro 13-inch-simulator beschikbaar op deze runner.')
+          print('Gekozen iPad-simulator:', best[2], best[1])
+          open(os.environ['GITHUB_ENV'], 'a').write('IPAD_UDID=%s\nIPAD_NAME=%s\n' % (best[1], best[2]))
+          PY
+
+      - name: Screenshots iPad maken (zonder apparaatframe)
+        if: ${{ inputs.include_ipad }}
+        env:
+          STORE_RAW_DIR: store/raw/ipad
+        run: |
+          set -euo pipefail
+          xcrun simctl boot "$IPAD_UDID" || true
+          xcrun simctl bootstatus "$IPAD_UDID" -b
+          xcrun simctl ui "$IPAD_UDID" appearance light
+          xcrun simctl status_bar "$IPAD_UDID" override --time 9:41 --batteryState charged --batteryLevel 100 --wifiMode active --wifiBars 3
+          flutter drive --driver=test_driver/integration_test.dart --target=integration_test/store_screenshots_test.dart -d "$IPAD_UDID"
+          python3 - <<'PY'
+          import glob, struct, sys
+          ok = {(2064, 2752), (2048, 2732)}
+          files = sorted(glob.glob('store/raw/ipad/*.png'))
+          if len(files) != 8:
+              sys.exit('FOUT: %d ruwe iPad-screenshots, verwacht 8' % len(files))
+          for f in files:
+              size = struct.unpack('>II', open(f, 'rb').read()[16:24])
+              print(f, size)
+              if size not in ok:
+                  sys.exit('FOUT: %s is %s, verwacht %s' % (f, size, sorted(ok)))
+          PY
+          xcrun simctl status_bar "$IPAD_UDID" clear || true
+          xcrun simctl shutdown "$IPAD_UDID" || true
+
+      - name: Marketinglaag (bijschriften, 24-bit PNG zonder alfa)
+        run: |
+          set -euo pipefail
+          SIZE=$(python3 -c "import glob,struct; b=open(sorted(glob.glob('store/raw/ios/*.png'))[0],'rb').read(); w,h=struct.unpack('>II',b[16:24]); print('%dx%d' % (w,h))")
+          echo "iPhone-formaat: $SIZE"
+          COMPOSE_RAW=store/raw/ios COMPOSE_OUT=store/out/appstore/iphone-6.9 COMPOSE_SIZE="$SIZE" COMPOSE_STYLE=apple \
+            flutter test tool/screenshots/compose/compose_test.dart
+          if [ -d store/raw/ipad ]; then
+            ISIZE=$(python3 -c "import glob,struct; b=open(sorted(glob.glob('store/raw/ipad/*.png'))[0],'rb').read(); w,h=struct.unpack('>II',b[16:24]); print('%dx%d' % (w,h))")
+            COMPOSE_RAW=store/raw/ipad COMPOSE_OUT=store/out/appstore/ipad-13 COMPOSE_SIZE="$ISIZE" COMPOSE_STYLE=apple \
+              flutter test tool/screenshots/compose/compose_test.dart
+          fi
+
+      - name: Valideren (afmetingen, kleurmodus, aantallen)
+        run: |
+          set -euo pipefail
+          if [ -d store/raw/ipad ]; then
+            dart run tool/screenshots/validate.dart --only=ios,ipad --require-ios --require-ipad
+          else
+            dart run tool/screenshots/validate.dart --only=ios --require-ios
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: store-ios-ruw
+          path: |
+            store/raw/ios
+            store/raw/ipad
+          retention-days: 14
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: store-ios-appstore
+          path: store/out/appstore
+          retention-days: 14
+          if-no-files-found: error
