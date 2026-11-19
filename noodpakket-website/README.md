@@ -94,7 +94,7 @@ Niet automatisch gedaan: geen accounts, projecten of tokens aangemaakt.
 
 ## TODO-checklist (nog in te vullen of te controleren)
 
-- [x] **Domeinnaam**: `nl-noodpakketapp.nl` staat in `SITE_URL` en de www-redirect. Nog in Vercel koppelen (Settings, Domains, apex en www, DNS precies zoals Vercel toont).
+- [x] **Domeinnaam**: `nl-noodpakketapp.nl` staat in `SITE_URL` en is gekoppeld in Vercel. Zet in Vercel (Settings, Domains) `www.nl-noodpakketapp.nl` op "Redirect to nl-noodpakketapp.nl" en het apex-domein op Production (nu staat het omgekeerd).
 - [ ] **Bedrijfsgegevens bevestigen**: GymWiki, KVK 97351911, Zwolle.
 - [ ] Store-links staan in `STORES` (site.ts); controleer dat beide live werken (niet te testen vanuit de bouwomgeving).
 - [ ] **Noodmodus**: staat in de opdracht, maar niet in de app-code (v1.0.14) of de app-README. Zet `FEATURES.noodmodus` op `false` en pas `src/content/wijzigingen/1.0.14.md` aan als het onderdeel nog niet is gepubliceerd.
