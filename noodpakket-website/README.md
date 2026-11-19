@@ -78,7 +78,7 @@ Niet automatisch gedaan: geen accounts, projecten of tokens aangemaakt.
 1. Zet de repo op GitHub en koppel die aan je Vercel-team (**Pro-team**, zie onder).
 2. Vercel → Add New → Project → importeer de repo. Root Directory: `noodpakket-website`.
 3. Framework preset: **Astro**. Build command: `npm run build`. Output directory: `dist`. (Geen adapter; de site is statisch.) Node-versie volgt `engines`.
-4. Domein: Project → Settings → Domains → voeg het apex-domein en `www.` toe. Gebruik de DNS-waarden **precies zoals Vercel ze toont**. Stel `www` in als doorverwijzing naar het apex-domein (de redirect staat ook in `vercel.json`; pas daar de hostnaam aan).
+4. Domein: Project → Settings → Domains → voeg het apex-domein en `www.` toe. Gebruik de DNS-waarden **precies zoals Vercel ze toont**. Stel `www` in als doorverwijzing naar het apex-domein (de doorverwijzing www naar apex stel je alleen hier in, niet in `vercel.json`: twee tegengestelde redirects geven een lus).
 5. Vul de TODO's hieronder in en deploy opnieuw.
 6. Controlelijst na livegang: HTTPS actief; `/sitemap-index.xml` en `/robots.txt` bereikbaar; `/llms.txt` bereikbaar; Lighthouse en JSON-LD (Rich Results Test) op de live URL; `www` verwijst naar apex; headers (securityheaders.com); de CSP geeft geen console-fouten; Search Console: sitemap indienen.
 

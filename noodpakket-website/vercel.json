@@ -5,19 +5,6 @@
   "outputDirectory": "dist",
   "cleanUrls": true,
   "trailingSlash": false,
-  "redirects": [
-    {
-      "source": "/:path(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "www.nl-noodpakketapp.nl"
-        }
-      ],
-      "destination": "https://nl-noodpakketapp.nl/:path",
-      "permanent": true
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",
