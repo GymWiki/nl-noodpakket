@@ -58,19 +58,23 @@ for (const scheme of ["light", "dark"]) {
   }
 }
 
-// Mobiel menu
+// Mobiel menu (native popover, zonder JavaScript)
 {
   const ctx = await browser.newContext({ viewport: { width: 360, height: 800 } });
   const page = await ctx.newPage();
   await page.goto(BASE + "/", { waitUntil: "networkidle" });
+  const link = page.locator("#mobiel-menu").getByRole("link", { name: "Bronnen" });
+  if (await link.isVisible()) fail("menu: staat open zonder klik");
   await page.getByRole("button", { name: "Menu openen" }).click();
-  const dlg = page.getByRole("dialog");
-  await dlg.waitFor();
-  const link = dlg.getByRole("link", { name: "Bronnen" });
-  if (!(await link.isVisible())) fail("menu: link Bronnen niet zichtbaar");
+  if (!(await link.isVisible())) fail("menu: link Bronnen niet zichtbaar na openen");
   await page.keyboard.press("Escape");
-  await dlg.waitFor({ state: "hidden" });
-  console.log("menu OK");
+  if (await link.isVisible()) fail("menu: sluit niet met Escape");
+  await page.getByRole("button", { name: "Menu openen" }).click();
+  await page.getByRole("button", { name: "Menu sluiten" }).click();
+  if (await link.isVisible()) fail("menu: sluit niet met sluitknop");
+  const js = await page.evaluate(() => performance.getEntriesByType("resource").filter((r) => r.initiatorType === "script").length);
+  if (js) fail(`${js} scriptbestand(en) geladen; verwacht 0`);
+  console.log("menu OK, scripts geladen:", js);
   await ctx.close();
 }
 
