@@ -7,7 +7,7 @@ import { SITE } from "@/config/site";
 import { ExternalLink } from "@lucide/astro";
 ---
 <BaseLayout
-  title="Bronnen van NL-Noodpakket"
+  title="Bronnen: waar de informatie vandaan komt"
   description="Waar de informatie in NL-Noodpakket vandaan komt: openbare bronnen van onder andere Denk Vooruit, Rijksoverheid, brandweer, RIVM en KNMI."
   path="/bronnen"
 >
@@ -16,7 +16,7 @@ import { ExternalLink } from "@lucide/astro";
     <p class="mt-5 text-xl text-muted-foreground">De informatie in NL-Noodpakket is gebaseerd op openbare bronnen. Bij elk stappenplan in de app staan de bronnen en de datum van de laatste controle. Hieronder vind je de bronnen die we gebruiken, zodat je zelf de actuele versie kunt lezen.</p>
     <div class="mt-4"><LastUpdated date={SITE.lastUpdated} /></div>
     <div class="mt-8"><GovStatement /></div>
-    <p class="mt-8 rounded-2xl border border-border bg-card p-5 text-muted-foreground">Voor adviezen en actuele informatie in een noodsituatie ga je naar de officiële bronnen en volg je de aanwijzingen van hulpdiensten, je gemeente en je veiligheidsregio. Deze website geeft geen noodadvies.</p>
+    <p class="mt-8 rounded-2xl border border-border bg-card p-5 text-muted-foreground">Voor adviezen en actuele informatie in een noodsituatie ga je naar de officiële bronnen en volg je de aanwijzingen van hulpdiensten, je gemeente en je veiligheidsregio. Deze website geeft geen noodadvies. Meer antwoorden staan bij de <a class="link" href="/veelgestelde-vragen">veelgestelde vragen</a>; je gegevens blijven van jou, zie het <a class="link" href="/privacy">privacybeleid</a>.</p>
     <nav aria-label="Op deze pagina" class="mt-8"><ul class="flex flex-wrap gap-2">
       {SOURCE_GROUPS.map((g) => <li><a class="inline-flex min-h-12 items-center rounded-full border border-border bg-card px-4 no-underline hover:bg-muted" href={`#${g.id}`}>{g.title}</a></li>)}
     </ul></nav>
