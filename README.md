@@ -143,6 +143,36 @@ De acht schermen (bestandsnamen `01` t/m `08`): Start met Paraatheid, Pakket, Wa
 - Google Play: telefoon-screenshots JPEG of 24-bit PNG zonder alfa, 2 tot 8, kortste zijde minstens 320 px en langste hooguit 3840 px (niet meer dan 2x de korte zijde); tekst-overlay maximaal 20% van het beeld; geen prijs- of actiewoorden zoals "Best", "#1", "Download now"; geen badge van een winkel; apparaatframes afgeraden. Feature graphic 1024x500 zonder alfa. App-icoon 512x512, 32-bit PNG met alfa, maximaal 1024 KB.
 - Apple: 1 tot 10 screenshots per formaat, JPEG of PNG zonder transparantie; 6.9-inch 1260x2736, 1290x2796 of 1320x2868 (portret); iPad 13-inch 2064x2752 of 2048x2732. De 2:1-verhoudingsregel geldt alleen voor Google Play, niet voor de App Store (1320x2868 is ruim 2,17:1 en toegestaan). `tool/screenshots/validate.dart` past de regels per winkel toe; de bronnen staan bovenaan dat bestand. App Review 2.3.3 (de app in gebruik tonen), 2.3.2 (betaalde functies melden: bijschrift 8 en de zichtbare Pro-aanduiding), 2.3.10 (geen verwijzing naar andere platformen).
 
+## Reviewscreenshot voor de aankoop
+
+De screenshot onder de in-app aankoop `pro_unlock` in App Store Connect (bij **App Review Information**). Hij is **alleen voor de review**: hij verschijnt niet in de winkel en niet bij gebruikers.
+
+**Waar vind je de bestanden.** Start in GitHub Actions de workflow "Store-screenshots iOS" (`include_iap_review` staat standaard aan). Download daarna het artifact **`store-ios-iap-review`**:
+- `store/out/iap-review/pro_unlock_640x920.png`, `pro_unlock_1242x2208.png`, `pro_unlock_1290x2796.png` en `pro_unlock_1320x2868.png`;
+- `store/raw/iap-review/pro_unlock_review.png`: de ruwe opname waar ze uit gemaakt zijn.
+De map `store/` staat niet in git (zie `.gitignore`); de bestanden bestaan dus alleen als artifact of lokaal na een run.
+
+**Welke maat eerst.** Probeer de maten in deze volgorde en ga naar de volgende als App Store Connect de vorige weigert: **640x920, 1242x2208, 1290x2796, 1320x2868**. Zie hieronder wat Apple zelf zegt: de twee grootste maten zijn de enige die in Apples documentatie voorkomen.
+
+**Wat het is.** Een echte opname van de paywall (variant Noodhacks) op de iOS-simulator, niet uit een widget- of golden-test: `integration_test/iap_review_test.dart` loopt de route van een reviewer (tab "Wat nu?", "Extra hulp", "Noodhacks", een hack met de Pro-aanduiding) met demodata (de store-mock levert de prijs, geen persoonsgegevens). Er is niets aan de UI aangepast, en er staat geen tekst of apparaatframe op. Voordat de opname wordt gemaakt, controleert de test dat Material Icons en Roboto echt gerenderd worden (`test/font_check.dart`); anders mislukt hij, zodat er geen lege vierkantjes in een screenshot komen.
+
+**Hoe de vier bestanden ontstaan.** `dart run tool/screenshots/iap_review.dart` schaalt de opname zonder te rekken (verhouding blijft), zet hem gecentreerd op een canvas in de effen achtergrondkleur van de app (`#F4F7FA`, geen transparantie) en schrijft PNG's in 8-bit RGB zonder alfakanaal op 72 dpi. De hoofdtekst (16 pt, 48 px op de opname) blijft ook op 640x920 ruim boven de 14 px (ca. 15 px); zakt hij eronder, dan stopt het script en gebruik je alleen de sheet. `python3 tool/iap_review_validate.py` controleert de afmetingen, RGB zonder alfa, 72 dpi (pHYs) en een bestandsgrootte onder 5 MB, en faalt bij elke afwijking (tests: `python3 tool/test_iap_review.py`, `test/iap_review_compose_test.dart`).
+
+**Lokaal maken** (macOS, iPhone Pro Max-simulator, 1320x2868):
+
+```bash
+STORE_RAW_DIR=store/raw/iap-review flutter drive --driver=test_driver/integration_test.dart --target=integration_test/iap_review_test.dart -d <simulator-id>
+dart run tool/screenshots/iap_review.dart
+python3 tool/iap_review_validate.py store/out/iap-review
+```
+
+**Review Notes** voor Apple (Engels): `store/iap-review-notes.txt`, ook in `App Review Information` plakken. Het pad naar de paywall is gecontroleerd in de huidige app; controleer na een wijziging van de navigatie of de aantallen (15 van de 25 hacks zijn Pro) nog kloppen.
+
+**Wat Apple zegt** (App Store Connect Help, "In-app purchase information", developer.apple.com/help/app-store-connect/reference/in-app-purchase-information/, opgehaald op 2026-11-19; het deel over de reviewscreenshot kwam als samenvatting binnen, niet woordelijk):
+- De screenshot "clearly shows the item or service being offered", is "used for review only and isn't displayed on the App Store", en moet "meet any of the screenshot specifications your app supports". Eenmaal geüpload kun je hem vervangen maar niet verwijderen.
+- **Afwijking:** de pagina noemt voor deze screenshot **geen pixelafmetingen, geen bestandsformaat, geen kleurruimte, geen resolutie en geen maximale grootte**. Dat betekent: (a) 1290x2796 en 1320x2868 zijn de maten die volgens de documentatie het meest waarschijnlijk werken, want dat zijn de iPhone 6.9"-specificaties van de app (zie "Screenshot specifications"); (b) **640x920 en 1242x2208 komen niet in de documentatie voor die ik kon lezen**. Ze zijn toegevoegd omdat jij ze vroeg en omdat oudere schermformaten soms nog geaccepteerd worden; ze kunnen geweigerd worden; (c) "geen alfa", "RGB" en "72 dpi" zijn jouw eisen en de eis uit de app-screenshotspecificatie ("Images can't include alpha channels or transparencies"); de vermelding "72 dpi, RGB, flattened" die ik op Apples pagina vond hoort volgens de samenvatting bij de *promotional image* (1024x1024), niet bij de reviewscreenshot; (d) "onder 5 MB" is jouw grens; Apple noemt voor deze screenshot geen limiet.
+- Twee pagina's over het indienen van een aankoop (`.../manage-in-app-purchases/overview-for-configuring-in-app-purchases/` en `.../submit-an-in-app-purchase/`) gaven "Page Not Found"; daar staan misschien meer details. Lees de actuele eisen ook in App Store Connect zelf (het uploadveld toont de toegestane maten).
+
 ## Icoon en splash
 
 `assets/icon` en `assets/splash` bevatten placeholders. Vervang ze (zie `assets/README.md`) en draai `dart run flutter_launcher_icons` en `dart run flutter_native_splash:create`.

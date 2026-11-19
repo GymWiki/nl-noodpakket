@@ -13,7 +13,7 @@ The purchase sheet opens on top of the hacks list. It shows the price from the A
 
 Other places where the sheet can be opened:
 - Reminders: open any item that has an expiry date and switch on "Herinner mij vóór het verloopt".
-- Vault: tap the plus button to add a fourth document (the first three are free).
+- Vault: in the vault, tap "Document toevoegen" to add a fourth document (the first three are free).
 - Settings: "Meer" tab > "Instellingen" > "NL-Noodpakket Pro".
 
 Restore Purchases is available in the purchase sheet and in "Meer" > "Instellingen" > "NL-Noodpakket Pro" ("Aankoop herstellen").
