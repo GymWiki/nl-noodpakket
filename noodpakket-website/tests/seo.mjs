@@ -80,5 +80,27 @@ for (const f of pages) for (const img of read(`dist/${f}`).matchAll(/<img\b[^>]*
   if (!/ width="/.test(img[0]) || !/ height="/.test(img[0])) err(`${f}: img zonder width/height`);
 }
 ok("alt en afmetingen op alle afbeeldingen");
+// 10. URL-conventie: https, apex zonder www, geen slash aan het eind (behalve home), geen .html; elke interne link wijst naar een bestaande, schone URL
+const bareHost = new URL(SITE_URL).host;
+if (!SITE_URL.startsWith("https://") || bareHost.startsWith("www.") || SITE_URL.endsWith("/")) err(`SITE_URL ${SITE_URL} volgt de conventie niet (https, zonder www, zonder slash)`);
+for (const f of pages) {
+  const html = read(`dist/${f}`);
+  for (const m of html.matchAll(/<(?:a|link)\b[^>]*\bhref="([^"]+)"/g)) {
+    const u = m[1];
+    if (/^(mailto:|tel:|#)/.test(u)) continue;
+    const internal = u.startsWith("/") || u.startsWith(SITE_URL);
+    if (!internal) { if (u.startsWith("http://")) err(`${f}: http-link ${u}`); continue; }
+    const p = u.startsWith("/") ? u : u.slice(SITE_URL.length) || "/";
+    const clean = p.split("#")[0];
+    if (clean.startsWith("/_astro/") || /\.(png|svg|xml|txt|webp)$/.test(clean)) continue;
+    if (clean !== "/" && clean.endsWith("/")) err(`${f}: interne link met slash aan het eind: ${u}`);
+    if (/\.html$/.test(clean)) err(`${f}: interne link naar .html: ${u}`);
+    if (u.startsWith(SITE_URL) && /^https:\/\/www\./.test(u)) err(`${f}: www-link ${u}`);
+    const file = clean === "/" ? "dist/index.html" : `dist${clean}.html`;
+    if (!fs.existsSync(file)) err(`${f}: link naar niet-bestaande pagina ${u}`);
+  }
+}
+ok("URL-conventie (https, apex, geen slash, geen .html) en interne links");
+
 console.log(bad ? `${bad} bevindingen` : "SEO OK");
 process.exit(bad ? 1 : 0);
