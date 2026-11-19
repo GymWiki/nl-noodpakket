@@ -152,8 +152,6 @@ class ProController extends Notifier<ProState> {
 
 final proControllerProvider = NotifierProvider<ProController, ProState>(ProController.new);
 
-/// "Niet nu" bij de rustige Pro-regel op het dashboard.
+/// Oude sleutel van de dashboardregel ("Niet nu"); die regel bestaat niet meer. De waarde telt nog mee bij de zachte
+/// hints (zie pro_hint.dart): wie hem al wegklikte, krijgt de herinneringshint niet.
 const proHintDismissedKey = 'pro_hint_dismissed';
-
-final proHintDismissedProvider = Provider<bool>((ref) =>
-    ref.watch(settingsProvider.select((s) => s.value?.raw[proHintDismissedKey])) == 'true');

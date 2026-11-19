@@ -15,6 +15,7 @@ import 'package:mijnnoodpakket/data/repositories/settings_repository.dart';
 import 'package:mijnnoodpakket/domain/expiry.dart';
 import 'package:mijnnoodpakket/domain/models.dart';
 import 'package:mijnnoodpakket/features/dashboard/dashboard_cards.dart';
+import 'package:mijnnoodpakket/features/pro/pro_ui.dart';
 import 'package:mijnnoodpakket/features/dashboard/dashboard_providers.dart';
 import 'package:mijnnoodpakket/features/dashboard/dashboard_screen.dart';
 import 'package:mijnnoodpakket/features/dashboard/domain/readiness.dart';
@@ -182,7 +183,7 @@ void main() {
       expect(find.text(S.dashPlanCard), findsOneWidget);
       expect(find.text(S.dashVaultCard), findsOneWidget);
       expect(find.text(S.vaultFreeCounter(2)), findsOneWidget);
-      expect(find.text(S.dashRemindHint), findsOneWidget);
+      expect(find.byType(ProBadge), findsNothing); // geen Pro-promotie op het dashboard
       expect(find.text(S.dashHouseholdTitle), findsOneWidget);
       expect(find.text(S.dashExpiredOn(fmtDate(DateTime(2026, 11, 1)))), findsOneWidget);
       expect(t.takeException(), isNull);

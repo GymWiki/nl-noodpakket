@@ -1170,7 +1170,6 @@ class S {
   static const remindProOnly = 'Herinneringen zijn een Pro-functie';
   static const remindProOnlySub =
       'Je overzicht en datums blijven werken. Met Pro plannen we de meldingen voor je.';
-  static const dashRemindHint = 'Wil je een herinnering? Dat kan met Pro.';
 
   static String wikiSituations(int n) => n == 1 ? '1 situatie' : '$n situaties';
 

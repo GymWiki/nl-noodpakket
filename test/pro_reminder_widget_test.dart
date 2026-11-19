@@ -127,7 +127,7 @@ void main() {
     });
   });
 
-  group('dashboardregel "Wil je een herinnering?"', () {
+  group('dashboardkaart "Binnenkort vervangen"', () {
     Item due(String id) => Item(
           id: id,
           isCustom: false,
@@ -141,7 +141,7 @@ void main() {
           expiryDate: DateTime(2026, 11, 20),
         );
 
-    Future<void> pumpCard(WidgetTester t, {required bool pro, bool dismissed = false}) async {
+    Future<void> pumpCard(WidgetTester t, {required bool pro}) async {
       t.view.physicalSize = const Size(800, 3000);
       t.view.devicePixelRatio = 1;
       addTearDown(t.view.reset);
@@ -151,7 +151,6 @@ void main() {
         visibleItemsProvider.overrideWithValue(AsyncValue.data(items)),
         settingsProvider.overrideWith((ref) => Stream.value(AppSettings(
               onboarded: true,
-              raw: {if (dismissed) proHintDismissedKey: 'true'},
             ))),
         planProvider.overrideWith((ref) => Stream.value(const Plan())),
         sharedPlansProvider.overrideWith((ref) => Stream.value(const <SharedPlan>[])),
@@ -164,30 +163,19 @@ void main() {
       await t.pumpAndSettle();
     }
 
-    testWidgets('zonder Pro: het overzicht werkt en er is één rustige regel met "Niet nu"', (t) async {
+    testWidgets('zonder Pro: het overzicht werkt en het dashboard bevat geen Pro-promotie', (t) async {
       await pumpCard(t, pro: false);
       expect(find.text(S.dashExpiringTitle), findsOneWidget);
       expect(find.text('a'), findsOneWidget); // overzicht is gratis
-      expect(find.text(S.dashRemindHint), findsOneWidget);
-      expect(find.text(S.paywallNotNow), findsOneWidget);
+      expect(find.text(S.paywallNotNow), findsNothing); // geen Pro-regel met "Niet nu"
+      expect(find.byType(ProBadge), findsNothing);
       expect(find.byKey(const Key('paywall-not-now')), findsNothing); // niet modaal bij opstarten
     });
 
-    testWidgets('tik op de regel opent de paywall', (t) async {
-      await pumpCard(t, pro: false);
-      await t.tap(find.text(S.dashRemindHint));
-      await t.pumpAndSettle();
-      expect(find.byKey(const Key('paywall-not-now')), findsOneWidget);
-    });
-
-    testWidgets('met Pro is de regel weg', (t) async {
+    testWidgets('met Pro ziet het dashboard er hetzelfde uit', (t) async {
       await pumpCard(t, pro: true);
-      expect(find.text(S.dashRemindHint), findsNothing);
-    });
-
-    testWidgets('na "Niet nu" is de regel weg', (t) async {
-      await pumpCard(t, pro: false, dismissed: true);
-      expect(find.text(S.dashRemindHint), findsNothing);
+      expect(find.text(S.dashExpiringTitle), findsOneWidget);
+      expect(find.byType(ProBadge), findsNothing);
     });
   });
 

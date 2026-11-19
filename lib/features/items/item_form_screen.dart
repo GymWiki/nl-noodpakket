@@ -1,6 +1,8 @@
 // ignore_for_file: unnecessary_non_null_assertion
 import '../expiry/reminder_items.dart';
+import '../pro/pro_hint.dart';
 import '../pro/pro_providers.dart';
+import '../pro/pro_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -41,6 +43,9 @@ class _ItemFormScreenState extends ConsumerState<ItemFormScreen> {
 
   bool _loaded = false;
   bool _inHouse = false;
+
+  /// Zachte Pro-hint: pas nadat de gebruiker zelf een datum koos, en maar één keer per sessie.
+  bool _hintShown = false, _hintClosed = false;
   String _category = Cat.other;
   DateTime? _expiry, _lastChecked;
   int? _interval;
@@ -90,7 +95,13 @@ class _ItemFormScreenState extends ConsumerState<ItemFormScreen> {
       lastDate: DateTime(now.year + 30),
       locale: const Locale('nl', 'NL'),
     );
-    if (d != null) setState(() => _expiry = dateOnly(d));
+    if (d == null) return;
+    setState(() => _expiry = dateOnly(d));
+    // Moment van echte waarde: de gebruiker heeft net een houdbaarheidsdatum ingevuld. Alleen voor een nieuw
+    // item (een bestaand item heeft al de schakelaar "Herinner mij"), zonder Pro, en nooit herhaald.
+    if (_isNew && !_hintShown && !ref.read(proUnlockedProvider) && !ref.read(hiddenProHintsProvider).contains(ProHint.reminderAfterDate.id)) {
+      if (ref.read(proHintSessionProvider.notifier).claim(this)) setState(() => _hintShown = true);
+    }
   }
 
   Future<void> _save(bool custom, String id) async {
@@ -187,6 +198,8 @@ class _ItemFormScreenState extends ConsumerState<ItemFormScreen> {
 
     final custom = _isNew || item!.isCustom;
     final id = _isNew ? ref.read(itemRepositoryProvider).newCustomId() : item!.id;
+    // Volg de verborgen hints vanaf het begin, zodat een eerdere keuze al bekend is als de gebruiker een datum kiest.
+    final hintHidden = ref.watch(hiddenProHintsProvider).contains(ProHint.reminderAfterDate.id);
     final customCats = {
       for (final i in all.value ?? const <Item>[])
         if (!Cat.standard.contains(i.category)) i.category,
@@ -323,6 +336,16 @@ class _ItemFormScreenState extends ConsumerState<ItemFormScreen> {
                 onTap: _pickDate,
               ),
             ),
+            if (_isNew && _expiry != null && _hintShown && !_hintClosed && !hintHidden && !ref.watch(proUnlockedProvider))
+              ProHintRow(
+                text: S.proHintReminder,
+                onOpen: () => showPaywall(context, request: const PaywallRequest.reminders()),
+                onClose: () => setState(() => _hintClosed = true),
+                onHide: () {
+                  hideProHint(ref, ProHint.reminderAfterDate);
+                  setState(() => _hintClosed = true);
+                },
+              ),
             if (!_isNew && _expiry != null)
               Builder(builder: (context) {
                 final pro = ref.watch(proUnlockedProvider);
