@@ -1,0 +1,162 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "@fontsource-variable/plus-jakarta-sans";
+@import "@fontsource-variable/inter";
+
+/* Donker thema volgt prefers-color-scheme (geen schakelaar, geen JS). */
+@custom-variant dark (@media (prefers-color-scheme: dark));
+
+/* ------------------------------------------------------------------
+   Ontwerptokens NL-Noodpakket (eigen merkstijl)
+   Primair: diep blauw. Accent: warm oranje, spaarzaam.
+   Niet afgeleid van Rijksoverheid, NL-Alert of denkvooruit.nl.
+   ------------------------------------------------------------------ */
+:root {
+  --background: #f6f8fb;
+  --foreground: #0f1b26;
+  --card: #ffffff;
+  --card-foreground: #0f1b26;
+  --popover: #ffffff;
+  --popover-foreground: #0f1b26;
+  --primary: #0b4a7f;           /* 9.1:1 op wit */
+  --primary-foreground: #ffffff;
+  --primary-soft: #dcebf7;
+  --secondary: #e8eef5;
+  --secondary-foreground: #0f1b26;
+  --muted: #eef2f7;
+  --muted-foreground: #4a5968;  /* 6.9:1 op wit */
+  --accent: #fdebd6;
+  --accent-foreground: #6b3a06;
+  --warm: #b45309;              /* oranje accent, 5.0:1 op wit */
+  --destructive: #b3261e;
+  --border: #d8e0e9;
+  --input: #d8e0e9;
+  --ring: #0b4a7f;
+  --radius: 1rem;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0b121b;
+    --foreground: #eaf0f6;
+    --card: #141d29;
+    --card-foreground: #eaf0f6;
+    --popover: #141d29;
+    --popover-foreground: #eaf0f6;
+    --primary: #8fcbf2;
+    --primary-foreground: #06293f;
+    --primary-soft: #123f5b;
+    --secondary: #1b2636;
+    --secondary-foreground: #eaf0f6;
+    --muted: #1b2636;
+    --muted-foreground: #a6b3c0;
+    --accent: #45301a;
+    --accent-foreground: #f6d9b0;
+    --warm: #f0a35a;
+    --destructive: #ffb4ab;
+    --border: #263344;
+    --input: #263344;
+    --ring: #8fcbf2;
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Plus Jakarta Sans Variable", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-warm: var(--warm);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: calc(var(--radius) * 0.75);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.4);
+}
+
+@layer base {
+  * { @apply border-border; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+  }
+  h1, h2, h3 { @apply font-heading text-foreground; letter-spacing: -0.015em; line-height: 1.2; text-wrap: balance; }
+  h1 { font-size: clamp(2rem, 1.4rem + 2.6vw, 3.25rem); font-weight: 750; }
+  h2 { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.125rem); font-weight: 700; }
+  h3 { font-size: 1.2rem; font-weight: 650; }
+  p, li, dd, summary, a { text-wrap: pretty; }
+  h1, h2, h3, p, li, dd, summary, a, span { overflow-wrap: break-word; hyphens: auto; }
+  a { @apply underline-offset-4; }
+  :focus-visible { outline: 3px solid var(--ring); outline-offset: 3px; border-radius: 6px; }
+  ::selection { background: var(--primary-soft); }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
+}
+
+/* Categorietinten uit de app: alleen voor iconen, nooit als alarmkleur. */
+.tint {
+  --bubble: hsl(var(--h) 50% 90%);
+  --icon: hsl(var(--h) 55% 26%);
+}
+@media (prefers-color-scheme: dark) {
+  .tint {
+    --bubble: hsl(var(--h) 32% 22%);
+    --icon: hsl(var(--h) 60% 82%);
+  }
+}
+.tint-blue { --h: 205; }
+.tint-teal { --h: 172; }
+.tint-sand { --h: 44; }
+.tint-pink { --h: 335; }
+.tint-indigo { --h: 235; }
+.tint-green { --h: 140; }
+.tint-bubble { background: var(--bubble); color: var(--icon); }
+
+/* Lopende tekst op juridische en informatiepagina's */
+.prose-nl { max-width: 68ch; }
+.prose-nl h2 { margin-top: 2.5rem; margin-bottom: 0.75rem; }
+.prose-nl h3 { margin-top: 1.75rem; margin-bottom: 0.5rem; }
+.prose-nl p, .prose-nl ul, .prose-nl ol { margin-top: 0.85rem; }
+.prose-nl ul { list-style: disc; padding-left: 1.4rem; }
+.prose-nl ol { list-style: decimal; padding-left: 1.4rem; }
+.prose-nl li { margin-top: 0.4rem; }
+.prose-nl a, .link { color: var(--primary); text-decoration: underline; text-decoration-thickness: 1.5px; }
+.prose-nl a:hover, .link:hover { text-decoration-thickness: 3px; }
+.prose-nl strong { font-weight: 650; }
+
+/* Skip-link */
+.skip-link {
+  position: absolute; left: 1rem; top: -4rem; z-index: 100;
+  background: var(--primary); color: var(--primary-foreground);
+  padding: 0.85rem 1.25rem; border-radius: 0.75rem; font-weight: 600;
+  transition: top 0.15s;
+}
+.skip-link:focus { top: 1rem; }
+
+/* Subtiele hero-animatie (CSS only, uit bij reduced motion) */
+@keyframes float-soft { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.float-soft { animation: float-soft 7s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .float-soft { animation: none; } }

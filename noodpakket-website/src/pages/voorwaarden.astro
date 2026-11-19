@@ -1,0 +1,57 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import LastUpdated from "@/components/LastUpdated.astro";
+import GovStatement from "@/components/GovStatement.astro";
+import { COMPANY, SITE } from "@/config/site";
+---
+<BaseLayout
+  title="Gebruiksvoorwaarden"
+  description="Gebruiksvoorwaarden van NL-Noodpakket: informatieve app, geen vervanging van 112 of professioneel advies, Pro eenmalig via de winkel."
+  path="/voorwaarden"
+>
+  <!--
+    CONCEPT: deze gebruiksvoorwaarden zijn een concept. Laat een jurist ze controleren voordat de site live gaat.
+    Dit commentaar mag niet publiek zichtbaar zijn.
+  -->
+  <div class="mx-auto max-w-3xl px-4 pb-8 pt-4 sm:px-6">
+    <h1>Gebruiksvoorwaarden</h1>
+    <div class="mt-3"><LastUpdated date={SITE.legalUpdated} label="Laatst gewijzigd" /></div>
+    <div class="prose-nl">
+      <p class="!mt-6 text-xl"><strong>Bij levensgevaar bel je 112.</strong> Deze app vervangt geen hulpdiensten, geen arts en geen professioneel advies.</p>
+
+      <h2>1. Wat is NL-Noodpakket?</h2>
+      <p>NL-Noodpakket is een informatieve app waarmee je je voorbereidt op een noodsituatie: een checklist voor je noodpakket, stappenplannen, een noodplan, noodhacks en een documentenkluis. De app wordt aangeboden door {COMPANY.provider} (KVK {COMPANY.kvk}, {COMPANY.city}).</p>
+
+      <h2>2. Onafhankelijk, niet van de overheid</h2>
+      <p>De app is onafhankelijk en niet gemaakt door of in opdracht van de Nederlandse overheid, NL-Alert, Denk Vooruit, een veiligheidsregio of een andere instantie. Namen van instanties noemen we alleen om de herkomst van informatie aan te geven. Zie <a href="/bronnen">Bronnen</a>.</p>
+
+      <h2>3. Informatie, geen advies</h2>
+      <p>De informatie is algemeen en bedoeld als hulpmiddel. Situaties verschillen. Volg altijd de aanwijzingen van hulpdiensten, je gemeente en je veiligheidsregio. De app geeft geen medisch, juridisch of ander professioneel advies. We doen ons best de inhoud juist en actueel te houden, maar kunnen niet garanderen dat die volledig of up-to-date is. Controleer belangrijke informatie bij de officiële bron.</p>
+
+      <h2>4. Gebruik op eigen risico</h2>
+      <p>Je gebruikt de app op eigen risico. Voor zover de wet dat toestaat is {COMPANY.provider} niet aansprakelijk voor schade door het gebruik van de app of de informatie daarin, bijvoorbeeld door onjuiste of verouderde informatie, verlies van gegevens of een niet ontvangen herinnering. Deze beperking geldt niet bij opzet of bewuste roekeloosheid, en niet voor aansprakelijkheid die volgens de wet niet kan worden uitgesloten.</p>
+
+      <h2>5. Jouw gegevens</h2>
+      <p>Je bent zelf verantwoordelijk voor wat je in de app zet en voor het bewaren van je pincode, herstelcode en back-upwachtwoord. Die kunnen niet worden hersteld. De documentenkluis is een extra kopie en vervangt je originele documenten niet. Zie het <a href="/privacy">privacybeleid</a>.</p>
+
+      <h2>6. Pro (eenmalige aankoop)</h2>
+      <p>Pro is een eenmalige aankoop via de App Store of Google Play, zonder abonnement. De voorwaarden van de winkel gelden voor betaling, terugbetaling en het herstellen van je aankoop. Alles wat in de app als gratis is aangegeven, blijft gratis.</p>
+
+      <h2>7. Toegestaan gebruik</h2>
+      <p>Je mag de app gebruiken voor persoonlijk, niet-commercieel gebruik. Je mag de app niet gebruiken in strijd met de wet, niet reverse-engineeren om beveiliging te omzeilen en de inhoud niet voorstellen als officiële informatie van de overheid.</p>
+
+      <h2>8. Intellectueel eigendom</h2>
+      <p>De app, de website en de eigen teksten en vormgeving zijn beschermd door auteursrecht en eigendom van {COMPANY.provider}. De app gebruikt open-sourcepakketten onder hun eigen licenties; die staan in de app.</p>
+
+      <h2>9. Apple-EULA</h2>
+      <p>Als je de app via de Apple App Store downloadt, geldt daarnaast de <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" rel="noopener">standaard licentieovereenkomst voor Apple-apps (Standard EULA)</a>.</p>
+
+      <h2>10. Wijzigingen en toepasselijk recht</h2>
+      <p>We kunnen deze voorwaarden aanpassen, bijvoorbeeld bij nieuwe functies. De nieuwste versie staat op deze pagina. Op deze voorwaarden is Nederlands recht van toepassing. Geschillen worden voorgelegd aan de bevoegde rechter in Nederland, behalve voor zover dwingend consumentenrecht anders bepaalt.</p>
+
+      <h2>11. Contact</h2>
+      <p>Vragen over deze voorwaarden? Zie <a href="/contact">Contact</a>.</p>
+    </div>
+    <div class="mt-12"><GovStatement compact /></div>
+  </div>
+</BaseLayout>

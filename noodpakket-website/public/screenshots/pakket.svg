@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 1170" role="img">
+<!-- TODO: vervang door echte app-screenshot (pakket) -->
+<rect width="540" height="1170" fill="#eef2f7"/>
+<rect x="40" y="90" width="460" height="70" rx="22" fill="#dcebf7"/>
+<rect x="40" y="200" width="460" height="190" rx="28" fill="#fff"/>
+<rect x="40" y="420" width="460" height="130" rx="28" fill="#fff"/>
+<rect x="40" y="580" width="460" height="130" rx="28" fill="#fff"/>
+<rect x="40" y="740" width="460" height="130" rx="28" fill="#fff"/>
+<text x="270" y="1000" text-anchor="middle" font-family="sans-serif" font-size="30" font-weight="700" fill="#0b4a7f">Noodpakket en houdbaarheid</text>
+<text x="270" y="1045" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#4a5968">Placeholder: echte screenshot volgt</text>
+</svg>

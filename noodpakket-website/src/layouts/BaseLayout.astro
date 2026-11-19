@@ -1,0 +1,72 @@
+---
+import "@/styles/global.css";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import JsonLd from "@/components/JsonLd.astro";
+import interFont from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
+import jakartaFont from "@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2?url";
+import { SITE } from "@/config/site";
+import { absoluteUrl, breadcrumbLd, ogImagePath, organizationLd, pageTitle, type Crumb } from "@/lib/seo";
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  crumbs?: Crumb[];
+  jsonLd?: Record<string, unknown>[];
+  noindex?: boolean;
+  showCrumbs?: boolean;
+}
+const { title, description, path, crumbs, jsonLd = [], noindex = false, showCrumbs = true } = Astro.props;
+const fullTitle = pageTitle(title);
+const canonical = absoluteUrl(path);
+const og = absoluteUrl(ogImagePath(path));
+const trail: Crumb[] = crumbs ?? (path === "/" ? [{ name: "Home", path: "/" }] : [{ name: "Home", path: "/" }, { name: title, path }]);
+---
+<!doctype html>
+<html lang="nl-NL">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f6f8fb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b121b" media="(prefers-color-scheme: dark)" />
+    <link rel="preload" href={interFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={jakartaFont} as="font" type="font/woff2" crossorigin />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content="nl_NL" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={og} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${SITE.name}: ${SITE.tagline}`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={og} />
+    <JsonLd data={organizationLd()} />
+    {trail.length > 1 && <JsonLd data={breadcrumbLd(trail)} />}
+    {jsonLd.map((d) => <JsonLd data={d} />)}
+  </head>
+  <body>
+    <a class="skip-link" href="#inhoud">Direct naar de inhoud</a>
+    <Header current={path} />
+    <main id="inhoud" tabindex="-1" class="outline-none">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6">
+        {showCrumbs && <div class="pt-4"><Breadcrumbs crumbs={trail} /></div>}
+      </div>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
