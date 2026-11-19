@@ -14,7 +14,7 @@ import sys
 import tempfile
 
 
-def verify(info, embedded, codesign_text, bundle_id, team, version_name, build_number, min_ios=14.0):
+def verify(info, embedded, codesign_text, bundle_id, team, version_name, build_number, min_ios=15.0):
     """Geeft (feiten, fouten). `info` = Info.plist, `embedded` = decoded embedded.mobileprovision."""
     errors = []
     facts = {
