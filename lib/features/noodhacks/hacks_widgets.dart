@@ -105,9 +105,13 @@ class HackTile extends ConsumerWidget {
 bool hackLocked(Hack h, {required bool pro}) => !h.isFree && !pro;
 
 /// Opent de hack, of de (niet blokkerende) paywall als die Pro vereist.
-void openHack(BuildContext context, WidgetRef ref, Hack h) {
+/// Na een aankoop opent de directe actie ("Open deze noodhack") de aangetikte hack.
+Future<void> openHack(BuildContext context, WidgetRef ref, Hack h) async {
   if (hackLocked(h, pro: ref.read(proUnlockedProvider))) {
-    showPaywall(context);
+    final r = await showPaywall(context, request: PaywallRequest.hack(h.id));
+    if (r == PaywallResult.action && context.mounted && ref.read(proUnlockedProvider)) {
+      context.push('/hacks/${h.id}');
+    }
   } else {
     context.push('/hacks/${h.id}');
   }
@@ -135,7 +139,7 @@ class HackLockedView extends StatelessWidget {
           Text(S.hackProHint, style: t.textTheme.bodyLarge),
           const SizedBox(height: 16),
           FilledButton(
-            onPressed: () => showPaywall(context),
+            onPressed: () => showPaywall(context, request: PaywallRequest.hack(hack.id)),
             style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(52)),
             child: const Text(S.hackProOnly),
           ),

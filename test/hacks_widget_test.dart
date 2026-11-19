@@ -111,18 +111,19 @@ void main() {
       await pump(t, '/hacks', pro: false);
       await t.tap(find.text('Water ontsmetten met chloorbleek'));
       await t.pumpAndSettle();
-      expect(find.text(S.paywallTitle), findsOneWidget);
+      expect(find.byKey(const Key('paywall-not-now')), findsOneWidget);
+      expect(find.text(S.paywallHacksTitle), findsOneWidget);
       expect(find.text(S.hacksDisclaimer), findsOneWidget); // nog op het overzicht
       await t.tap(find.text(S.paywallNotNow));
       await t.pumpAndSettle();
-      expect(find.text(S.paywallTitle), findsNothing);
+      expect(find.byKey(const Key('paywall-not-now')), findsNothing);
     });
 
     testWidgets('proefhacks en mythes openen volledig, ook zonder Pro', (t) async {
       for (final id in ['water-koken', 'koelkast-stroomuitval', 'mythe-barbecue-binnen']) {
         await pump(t, '/hacks/$id', pro: false);
         final h = data.byId(id)!;
-        expect(find.text(S.paywallTitle), findsNothing, reason: id);
+        expect(find.byKey(const Key('paywall-not-now')), findsNothing, reason: id);
         expect(find.text(S.hackProHint), findsNothing, reason: id);
         expect(find.text(h.titel), findsWidgets, reason: id);
         if (h.categorie != 'mythes') expect(find.text(S.hacksStart), findsOneWidget, reason: id);
@@ -135,7 +136,8 @@ void main() {
       expect(find.text(S.hacksStart), findsNothing);
       await t.tap(find.text(S.hackProOnly));
       await t.pumpAndSettle();
-      expect(find.text(S.paywallTitle), findsOneWidget);
+      expect(find.byKey(const Key('paywall-not-now')), findsOneWidget);
+      expect(find.text(S.paywallHacksTitle), findsOneWidget);
     });
 
     testWidgets('directe link naar het stappenplan van een Pro-hack is vergrendeld', (t) async {
@@ -148,7 +150,8 @@ void main() {
       expect(find.text('Water koken'), findsWidgets);
       await t.tap(find.text('Eten zonder te koken'));
       await t.pumpAndSettle();
-      expect(find.text(S.paywallTitle), findsOneWidget);
+      expect(find.byKey(const Key('paywall-not-now')), findsOneWidget);
+      expect(find.text(S.paywallHacksTitle), findsOneWidget);
     });
 
     testWidgets('met Pro opent dezelfde hack gewoon', (t) async {
@@ -156,7 +159,7 @@ void main() {
       expect(find.text(S.proBadge), findsNothing);
       await t.tap(find.text('Water ontsmetten met chloorbleek'));
       await t.pumpAndSettle();
-      expect(find.text(S.paywallTitle), findsNothing);
+      expect(find.byKey(const Key('paywall-not-now')), findsNothing);
     });
   });
 
