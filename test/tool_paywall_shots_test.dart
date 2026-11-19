@@ -17,6 +17,7 @@ import 'package:mijnnoodpakket/features/pro/pro_providers.dart';
 import 'package:mijnnoodpakket/features/pro/pro_ui.dart';
 
 import 'fake_purchase.dart';
+import 'font_check.dart';
 import 'paywall_variants_test.dart' show hacksData, proHackWithSiblings;
 
 /// Hulpmiddel (geen controle): schrijft screenshots van de drie paywall-varianten, licht en donker, naar de map in
@@ -106,6 +107,10 @@ void main() {
         ));
         await t.tap(find.text('open'));
         await t.pumpAndSettle();
+        // Geen screenshot met lege vierkantjes: zonder echt geladen iconen en lettertypen mislukt de test.
+        final problems = await t.runAsync(fontProblems);
+        expect(problems, isEmpty, reason: problems?.join('\n'));
+        expect(iconTreeProblems(t.widgetList<Icon>(find.byType(Icon))), isEmpty);
         final name = '${v.key}_${b == Brightness.light ? 'licht' : 'donker'}.png';
         await t.runAsync(() async {
           final boundary = key.currentContext!.findRenderObject() as RenderRepaintBoundary;
