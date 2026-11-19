@@ -11,7 +11,8 @@ fs.rmSync("lighthouse-rapporten", { recursive: true, force: true });
 fs.mkdirSync("lighthouse-rapporten", { recursive: true });
 for (const p of PAGES) {
   const out = `lighthouse-rapporten/${p === "/" ? "home" : p.slice(1)}.json`;
-  for (let t = 0; t < 3 && !fs.existsSync(out); t++) try { await run("npx", ["lighthouse", BASE + p, "--quiet", "--output=json", `--output-path=${out}`, "--chrome-flags=--headless=new --no-sandbox", "--only-categories=performance,accessibility,best-practices,seo"], { env: { ...process.env, NO_PROXY: "localhost,127.0.0.1", no_proxy: "localhost,127.0.0.1" } }); } catch {}
+  const failed = () => !fs.existsSync(out) || JSON.parse(fs.readFileSync(out, "utf8")).categories.performance.score === 0; // een score van 0 = mislukte trace
+  for (let t = 0; t < 3 && failed(); t++) try { fs.rmSync(out, { force: true }); await run("npx", ["lighthouse", BASE + p, "--quiet", "--output=json", `--output-path=${out}`, "--chrome-flags=--headless=new --no-sandbox", "--only-categories=performance,accessibility,best-practices,seo"], { env: { ...process.env, NO_PROXY: "localhost,127.0.0.1", no_proxy: "localhost,127.0.0.1" } }); } catch {}
   if (!fs.existsSync(out)) { console.error(p, "geen rapport"); low++; continue; }
   const j = JSON.parse(fs.readFileSync(out, "utf8"));
   const s = Object.fromEntries(Object.entries(j.categories).map(([k, v]) => [k, Math.round(v.score * 100)]));

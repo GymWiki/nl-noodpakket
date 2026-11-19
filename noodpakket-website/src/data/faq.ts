@@ -1,4 +1,5 @@
-export type Faq = { q: string; a: string; home?: boolean };
+/** `links`: eerste voorkomen van `text` in het antwoord wordt een link. De zichtbare tekst blijft identiek aan de FAQPage JSON-LD. */
+export type Faq = { q: string; a: string; home?: boolean; links?: { text: string; href: string }[] };
 
 /** Gebruikt voor de FAQ-pagina, de korte FAQ op home en de FAQPage JSON-LD. Platte tekst, geen HTML. */
 export const FAQS: Faq[] = [
@@ -20,6 +21,7 @@ export const FAQS: Faq[] = [
     q: "Is de app van de overheid?",
     a: "Nee. NL-Noodpakket is een onafhankelijke app van GymWiki en niet gemaakt door of in opdracht van de Nederlandse overheid, NL-Alert of Denk Vooruit. De informatie is gebaseerd op openbare bronnen; die staan op de pagina Bronnen.",
     home: true,
+    links: [{ text: "Bronnen", href: "/bronnen" }],
   },
   {
     q: "Vervangt de app NL-Alert of 112?",
@@ -28,14 +30,17 @@ export const FAQS: Faq[] = [
   {
     q: "Wat kost de app?",
     a: "De app is gratis te downloaden. De checklist, het houdbaarheidsoverzicht, alle stappenplannen, het noodplan en de documentenkluis (tot 3 documenten) blijven gratis. Pro is een eenmalige aankoop, geen abonnement, en ontgrendelt de noodhacks, vervangherinneringen en onbeperkt documenten in de kluis. De actuele prijs zie je in de App Store of Google Play.",
+    links: [{ text: "Pro", href: "/#prijzen" }],
   },
   {
     q: "Verzamelt de app gegevens?",
     a: "Nee. Er is geen account, geen analyse of tracking en geen advertentie. Wat je invult blijft op je eigen toestel; de documentenkluis is daar versleuteld opgeslagen. Lees het volledige privacybeleid voor de details.",
+    links: [{ text: "privacybeleid", href: "/privacy" }],
   },
   {
     q: "Waar komt de informatie vandaan?",
     a: "Uit openbare bronnen van onder andere Denk Vooruit, de Rijksoverheid, de brandweer, het RIVM, het KNMI en het Voedingscentrum. Bij elk stappenplan in de app staan de bronnen en de datum van de laatste controle. De pagina Bronnen geeft het overzicht.",
+    links: [{ text: "Bronnen", href: "/bronnen" }],
   },
   {
     q: "Hoe deel ik mijn noodplan?",

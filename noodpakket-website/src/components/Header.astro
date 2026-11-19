@@ -1,11 +1,12 @@
 ---
 import Logo from "./Logo.astro";
-import MobileMenu from "./MobileMenu";
+import { Menu, X } from "@lucide/astro";
 import { NAV, SITE } from "@/config/site";
 interface Props { current: string }
 const { current } = Astro.props;
 const items = [...NAV];
 const isCurrent = (href: string) => (href === "/" ? current === "/" : current === href || current.startsWith(href + "/"));
+const link = "inline-flex min-h-12 items-center rounded-xl px-3 text-[0.95rem] font-medium text-foreground no-underline hover:bg-muted aria-[current=page]:bg-primary-soft aria-[current=page]:text-primary";
 ---
 <header class="border-b border-border bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/80">
   <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-1 px-4 py-3 sm:px-6">
@@ -13,10 +14,22 @@ const isCurrent = (href: string) => (href === "/" ? current === "/" : current ==
       <Logo class="h-11 w-auto shrink-0" priority /> <span class="min-w-0 break-words leading-tight">{SITE.name}</span>
     </a>
     <nav aria-label="Hoofdmenu" class="hidden flex-wrap items-center gap-1 lg:flex">
-      {items.map((i) => (
-        <a href={i.href} aria-current={isCurrent(i.href) ? "page" : undefined} class="inline-flex min-h-12 items-center rounded-xl px-3 text-[0.95rem] font-medium text-foreground no-underline hover:bg-muted aria-[current=page]:bg-primary-soft aria-[current=page]:text-primary">{i.label}</a>
-      ))}
+      {items.map((i) => <a href={i.href} aria-current={isCurrent(i.href) ? "page" : undefined} class={link}>{i.label}</a>)}
     </nav>
-    <MobileMenu client:load items={items} current={current} />
+    <!-- Mobiel menu: native popover, geen JavaScript. -->
+    <button type="button" popovertarget="mobiel-menu" aria-label="Menu openen" class="inline-flex h-[48px] w-[48px] shrink-0 items-center justify-center rounded-xl border border-border bg-card text-foreground lg:hidden">
+      <Menu class="size-6" aria-hidden="true" />
+    </button>
+    <nav id="mobiel-menu" popover aria-label="Menu" class="mobiel-menu">
+      <div class="flex items-center justify-between px-5 py-4">
+        <span class="font-heading text-lg font-bold">Menu</span>
+        <button type="button" popovertarget="mobiel-menu" popovertargetaction="hide" aria-label="Menu sluiten" class="inline-flex h-[48px] w-[48px] items-center justify-center rounded-xl hover:bg-muted"><X class="size-6" aria-hidden="true" /></button>
+      </div>
+      <ul class="flex flex-col px-3 pb-6">
+        {items.map((i) => (
+          <li><a href={i.href} aria-current={isCurrent(i.href) ? "page" : undefined} class="flex min-h-12 items-center rounded-xl px-4 text-lg font-medium text-foreground no-underline hover:bg-muted aria-[current=page]:bg-primary-soft aria-[current=page]:text-primary">{i.label}</a></li>
+        ))}
+      </ul>
+    </nav>
   </div>
 </header>

@@ -1,4 +1,4 @@
-import { SITE, SITE_URL } from "@/config/site";
+import { COMPANY, SITE, SITE_URL } from "@/config/site";
 
 export const absoluteUrl = (path: string) =>
   new URL(path.startsWith("/") ? path : `/${path}`, SITE_URL).toString().replace(/\/$/, path === "/" ? "/" : "");
@@ -32,4 +32,5 @@ export const organizationLd = (id = `${SITE_URL}/#organization`) => ({
   name: "GymWiki",
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
+  contactPoint: { "@type": "ContactPoint", contactType: "customer support", email: COMPANY.email, availableLanguage: "nl" },
 });

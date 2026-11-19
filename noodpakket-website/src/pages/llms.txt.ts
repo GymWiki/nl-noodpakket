@@ -1,6 +1,11 @@
 import type { APIRoute } from "astro";
-import { COMPANY, FEATURES, GOV_STATEMENT, SITE, SITE_URL, STORES } from "@/config/site";
+import { COMPANY, GOV_STATEMENT, SITE, SITE_URL, STORES } from "@/config/site";
+import { APP_FEATURES, FREE_LIST, PRICING, PRO_LIST } from "@/config/content";
 
+/**
+ * Korte platte-tekstbeschrijving. Google Search negeert dit bestand en AI-crawlers vragen het zelden op;
+ * het blijft staan als kleine, consistente samenvatting (zelfde bron als de site: site.ts en content.ts).
+ */
 export const GET: APIRoute = () => {
   const body = `# ${SITE.name}
 
@@ -9,8 +14,9 @@ export const GET: APIRoute = () => {
 ## Over de app
 - Taal: Nederlands. Platforms: iOS en Android.
 - Aanbieder: ${COMPANY.provider}, KVK ${COMPANY.kvk}, ${COMPANY.city}.
-- Functies: checklist met houdbaarheid, noodplan delen via pdf, tekst of QR, stappenplannen voor meer dan 20 noodsituaties, documentenkluis met biometrie, rampenzender per regio, ${FEATURES.noodmodus ? "noodmodus en " : ""}Eerste-uur kaart, meterkastkaart.
-- Gratis: checklist, houdbaarheidsoverzicht, alle stappenplannen, noodplan, documentenkluis tot 3 documenten. Pro (eenmalige aankoop, geen abonnement): noodhacks, vervangherinneringen, onbeperkt documenten.
+- Functies: ${APP_FEATURES.map((f) => f.label).join(", ")}.
+- Gratis: ${FREE_LIST.join(", ")}. Pro (eenmalige aankoop, geen abonnement): ${PRO_LIST.join(", ")}.
+- ${PRICING.short}
 - Privacy: volledig offline, geen account, geen tracking.
 
 ## Belangrijkste pagina's

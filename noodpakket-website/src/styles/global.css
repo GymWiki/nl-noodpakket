@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 @import "@fontsource-variable/plus-jakarta-sans";
 @import "@fontsource-variable/inter";
 
@@ -160,3 +159,12 @@
 @keyframes float-soft { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 .float-soft { animation: float-soft 7s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .float-soft { animation: none; } }
+
+/* Mobiel menu (popover) */
+.mobiel-menu {
+  position: fixed; inset: 0 0 0 auto; margin: 0; width: min(22rem, 90vw); height: 100dvh; max-height: none;
+  overflow-y: auto; border: 0; border-left: 1px solid var(--border); padding: 0;
+  background: var(--background); color: var(--foreground); box-shadow: -12px 0 32px -12px rgb(15 27 38 / 0.35);
+}
+.mobiel-menu::backdrop { background: rgb(11 18 27 / 0.45); }
+@media (min-width: 64rem) { .mobiel-menu { display: none !important; } }
