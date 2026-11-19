@@ -98,8 +98,7 @@ Niet automatisch gedaan: geen accounts, projecten of tokens aangemaakt.
 - [x] **Domeinnaam**: `nl-noodpakketapp.nl` staat in `SITE_URL` en de www-redirect. Nog in Vercel koppelen (Settings, Domains, apex en www, DNS precies zoals Vercel toont).
 - [ ] **Supportadres**: `COMPANY.email` in `site.ts`; daarna `emailIsPlaceholder` op `false`.
 - [ ] **Bedrijfsgegevens bevestigen**: GymWiki, KVK 97351911, Zwolle.
-- [ ] **Google Play-link**: `STORES.googlePlay`.
-- [ ] **Apple-link** controleren (niet bereikbaar vanuit de bouwomgeving): `STORES.appStore`.
+- [ ] Store-links staan in `STORES` (site.ts); controleer dat beide live werken (niet te testen vanuit de bouwomgeving).
 - [ ] **Officiële store-badges** in `DownloadButtons.astro`.
 - [ ] **Noodmodus**: staat in de opdracht, maar niet in de app-code (v1.0.14) of de app-README. Zet `FEATURES.noodmodus` op `false` en pas `src/content/wijzigingen/1.0.14.md` aan als het onderdeel nog niet is gepubliceerd.
 - [ ] **Wijzigingenlijst**: versienummer en releasedatum van het eerste item (`1.0.14.md`, nu 19 nov. 2026).
