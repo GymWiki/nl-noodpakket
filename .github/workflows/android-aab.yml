@@ -12,6 +12,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Voorcontrole versie (hoger dan de laatst vrijgegeven versie)
+        run: |
+          set -euo pipefail
+          python3 tool/test_version_check.py
+          python3 tool/check_version.py
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
