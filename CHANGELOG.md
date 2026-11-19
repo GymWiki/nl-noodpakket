@@ -1,5 +1,11 @@
 # Wijzigingen
 
+## 2.0.0 (build 20)
+
+Technisch
+- Nieuw versienummer 2.0.0: de App Store-reeks 1.0.14 was gesloten omdat 1.0.15 al was goedgekeurd.
+- Minimale iOS-versie is nu 15.0 (was 14.0), zoals Apple vanaf april 2027 eist. Vrijwel dezelfde toestellen blijven ondersteund.
+
 ## 1.0.14 (build 14)
 
 Nieuw
