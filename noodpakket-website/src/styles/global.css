@@ -105,7 +105,8 @@
   h1 { font-size: clamp(2rem, 1.4rem + 2.6vw, 3.25rem); font-weight: 750; }
   h2 { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.125rem); font-weight: 700; }
   h3 { font-size: 1.2rem; font-weight: 650; }
-  p, li { text-wrap: pretty; }
+  p, li, dd, summary, a { text-wrap: pretty; }
+  h1, h2, h3, p, li, dd, summary, a, span { overflow-wrap: break-word; hyphens: auto; }
   a { @apply underline-offset-4; }
   :focus-visible { outline: 3px solid var(--ring); outline-offset: 3px; border-radius: 6px; }
   ::selection { background: var(--primary-soft); }

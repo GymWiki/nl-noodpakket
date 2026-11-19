@@ -63,7 +63,7 @@ const noNots = [
   <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6" aria-labelledby="voor-wie">
     <h2 id="voor-wie">Voor wie is NL-Noodpakket?</h2>
     <p class="mt-3 max-w-2xl text-muted-foreground">Voor ieder huishouden dat zich rustig wil voorbereiden, hoe groot of klein ook.</p>
-    <ul class="mt-8 grid gap-5 md:grid-cols-3">
+    <ul class="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3 [&>li]:min-w-0">
       {audiences.map((a) => (
         <li class="rounded-2xl border border-border bg-card p-6">
           <span class:list={["tint tint-bubble flex size-12 items-center justify-center rounded-2xl", `tint-${a.tint}`]}><a.icon class={ic} aria-hidden="true" /></span>
@@ -76,7 +76,7 @@ const noNots = [
 
   <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6" aria-labelledby="functies">
     <h2 id="functies">Wat kan de app?</h2>
-    <ul class="mt-8 grid gap-4 md:grid-cols-2">
+    <ul class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 [&>li]:min-w-0">
       <Feature title="Checklist met houdbaarheid" tint="green"><ListChecks slot="icon" class={ic} aria-hidden="true" />Stel je noodpakket samen en zie in één overzicht wat bijna over datum is.</Feature>
       <Feature title="Noodplan delen als pdf, tekst of QR" tint="blue"><Share2 slot="icon" class={ic} aria-hidden="true" />Maak een noodplan voor je huishouden en deel het met mensen die je vertrouwt.</Feature>
       <Feature title="Stappenplannen voor meer dan 20 noodsituaties" tint="indigo"><Route slot="icon" class={ic} aria-hidden="true" />Overzichtelijke stappenplannen op basis van openbare bronnen, met bronvermelding.</Feature>
@@ -121,7 +121,7 @@ const noNots = [
 
   <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6" aria-labelledby="privacy">
     <h2 id="privacy">Je gegevens blijven van jou</h2>
-    <ul class="mt-8 grid gap-4 md:grid-cols-3">
+    <ul class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3 [&>li]:min-w-0">
       <li class="rounded-2xl border border-border bg-card p-6"><WifiOff class="size-7 text-primary" aria-hidden="true" /><h3 class="mt-3">Volledig offline</h3><p class="mt-2 text-muted-foreground">Alles wat je invult blijft op je eigen toestel.</p></li>
       <li class="rounded-2xl border border-border bg-card p-6"><UserX class="size-7 text-primary" aria-hidden="true" /><h3 class="mt-3">Geen account</h3><p class="mt-2 text-muted-foreground">Geen e-mailadres, geen inloggen, geen profiel.</p></li>
       <li class="rounded-2xl border border-border bg-card p-6"><EyeOff class="size-7 text-primary" aria-hidden="true" /><h3 class="mt-3">Geen tracking</h3><p class="mt-2 text-muted-foreground">Geen analyse, geen advertenties, geen cookies op deze site.</p></li>
@@ -131,11 +131,11 @@ const noNots = [
 
   <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6" aria-labelledby="niet">
     <h2 id="niet">Wat de app niet doet</h2>
-    <ul class="mt-8 grid gap-4 md:grid-cols-2">
+    <ul class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 [&>li]:min-w-0">
       {noNots.map((n) => (
         <li class="flex gap-4 rounded-2xl border border-border bg-card p-5">
           <span class="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-muted text-foreground"><n.icon class={ic} aria-hidden="true" /></span>
-          <div><h3>{n.title}</h3><p class="mt-1 text-muted-foreground">{n.text}</p></div>
+          <div class="min-w-0"><h3>{n.title}</h3><p class="mt-1 text-muted-foreground">{n.text}</p></div>
         </li>
       ))}
     </ul>

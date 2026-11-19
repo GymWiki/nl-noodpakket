@@ -11,5 +11,20 @@ export default defineConfig({
   trailingSlash: "never",
   build: { format: "file" },
   integrations: [react(), sitemap()],
-  vite: { plugins: [tailwindcss()] },
+  // Astro zet per pagina een CSP-<meta> met hashes voor de eigen scripts en stijlen.
+  markdown: { syntaxHighlight: false },
+  security: {
+    csp: {
+      directives: [
+        "default-src 'self'",
+        "img-src 'self' data:",
+        "font-src 'self'",
+        "connect-src 'self'",
+        "object-src 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+      ],
+    },
+  },
+  vite: { plugins: [tailwindcss()], build: { assetsInlineLimit: 0 } },
 });

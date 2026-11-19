@@ -10,7 +10,7 @@ export default function MobileMenu({ items, current }: { items: Item[]; current:
         <button
           type="button"
           aria-label="Menu openen"
-          className="inline-flex size-12 items-center justify-center rounded-xl border border-border bg-card text-foreground md:hidden"
+          className="inline-flex h-[48px] w-[48px] shrink-0 items-center justify-center rounded-xl border border-border bg-card text-foreground lg:hidden"
         >
           <Menu className="size-6" aria-hidden="true" />
         </button>
