@@ -50,6 +50,8 @@ Future<FakePurchaseService> pumpPaywall(
   FakePurchaseService? fake,
   String store = 'Google',
   List<Override> extra = const [],
+  Override? proOverride,
+  List<PaywallResult>? results,
 }) async {
   t.view.physicalSize = const Size(1080, 2200);
   t.view.devicePixelRatio = 2.75; // ca. 392 x 800 dp
@@ -58,7 +60,7 @@ Future<FakePurchaseService> pumpPaywall(
   await t.pumpWidget(ProviderScope(
     overrides: [
       purchaseServiceProvider.overrideWithValue(svc),
-      proUnlockedProvider.overrideWithValue(pro),
+      proOverride ?? proUnlockedProvider.overrideWithValue(pro),
       hacksProvider.overrideWith((ref) => hacksData),
       allItemsProvider.overrideWithValue(AsyncValue.data(items)),
       settingsProvider.overrideWith((ref) => Stream.value(AppSettings(leadDays: lead))),
@@ -76,7 +78,7 @@ Future<FakePurchaseService> pumpPaywall(
       ),
       home: Builder(
         builder: (c) => Scaffold(
-          body: Center(child: TextButton(onPressed: () => showPaywall(c, request: request), child: const Text('open'))),
+          body: Center(child: TextButton(onPressed: () => showPaywall(c, request: request).then((r) => results?.add(r)), child: const Text('open'))),
         ),
       ),
     ),
@@ -219,6 +221,15 @@ void main() {
       final close = t.getRect(find.byKey(const Key('paywall-close')));
       expect(close.right, greaterThan(392 - 32));
       expect(close.top, lessThan(200));
+    });
+
+    testWidgets('het kruisje blijft zichtbaar als je naar beneden scrolt, ook bij 200% tekst', (t) async {
+      await pumpPaywall(t, const PaywallRequest.general(), textScale: 2);
+      await t.scrollUntilVisible(find.text(S.paywallSupport), 300, scrollable: find.byType(Scrollable).last);
+      final r = t.getRect(find.byKey(const Key('paywall-close')));
+      expect(r.top, greaterThanOrEqualTo(0));
+      expect(r.top, lessThan(200));
+      expect(r.height, greaterThanOrEqualTo(48));
     });
 
     testWidgets('het kruisje sluit het blad', (t) async {

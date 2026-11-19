@@ -100,45 +100,51 @@ class _PaywallSheetState extends ConsumerState<PaywallSheet> {
     });
 
     final done = _done || pro;
+    final title = done
+        ? (st.message == ProMessage.restored ? S.proDoneRestoredTitle : S.proDoneTitle)
+        : content.title;
     return SafeArea(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(Space.screen, 0, Space.screen, Space.section),
-        child: done ? _Done(request: widget.request, state: st, onClose: _close) : _Offer(content: content, state: st, onClose: _close),
-      ),
+      child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Space.screen),
+          child: _TitleBar(title: title, onClose: _close),
+        ),
+        Flexible(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(Space.screen, Space.tight, Space.screen, Space.section),
+            child: done
+                ? _Done(request: widget.request, onClose: _close)
+                : _Offer(content: content, state: st, onClose: _close),
+          ),
+        ),
+      ]),
     );
   }
 }
 
-/// Kop met titel en een duidelijke sluitknop rechtsboven (minstens 48 dp).
-class _Header extends StatelessWidget {
-  const _Header({required this.title, this.subtitle, required this.onClose});
+/// Titelbalk met een duidelijke sluitknop rechtsboven (minstens 48 dp). Blijft staan terwijl de inhoud scrolt.
+class _TitleBar extends StatelessWidget {
+  const _TitleBar({required this.title, required this.onClose});
   final String title;
-  final String? subtitle;
   final VoidCallback onClose;
 
   @override
   Widget build(BuildContext context) {
     final t = Theme.of(context);
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Semantics(header: true, child: Text(title, style: t.textTheme.headlineSmall)),
-          ),
+    return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Expanded(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: Semantics(header: true, child: Text(title, style: t.textTheme.headlineSmall)),
         ),
-        IconButton(
-          key: const Key('paywall-close'),
-          tooltip: S.paywallClose,
-          icon: const Icon(Icons.close_rounded),
-          style: IconButton.styleFrom(minimumSize: const Size(48, 48), tapTargetSize: MaterialTapTargetSize.padded),
-          onPressed: onClose,
-        ),
-      ]),
-      if (subtitle != null) ...[
-        const SizedBox(height: Space.tight),
-        Text(subtitle!, style: t.textTheme.bodyLarge),
-      ],
+      ),
+      IconButton(
+        key: const Key('paywall-close'),
+        tooltip: S.paywallClose,
+        icon: const Icon(Icons.close_rounded),
+        style: IconButton.styleFrom(minimumSize: const Size(48, 48), tapTargetSize: MaterialTapTargetSize.padded),
+        onPressed: onClose,
+      ),
     ]);
   }
 }
@@ -229,7 +235,7 @@ class _Offer extends ConsumerWidget {
         (state.message == ProMessage.none && state.priceStatus == PriceStatus.unavailable);
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      _Header(title: content.title, subtitle: content.subtitle, onClose: () => onClose()),
+      Text(content.subtitle, style: t.textTheme.bodyLarge),
       const SizedBox(height: Space.section),
       for (final r in content.rows) _FeatureRow(r),
       if (noticeText != null) ...[
@@ -307,9 +313,8 @@ class _Offer extends ConsumerWidget {
 
 /// Rustige bevestiging na aankoop of herstel. Eén directe actie; nooit een vraag om een review.
 class _Done extends StatelessWidget {
-  const _Done({required this.request, required this.state, required this.onClose});
+  const _Done({required this.request, required this.onClose});
   final PaywallRequest request;
-  final ProState state;
   final void Function([PaywallResult]) onClose;
 
   String get _actionLabel => switch (request.context) {
@@ -321,11 +326,10 @@ class _Done extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final restored = state.message == ProMessage.restored;
     const can = [S.paywallGeneralHacks, S.paywallGeneralReminders, S.paywallGeneralVault];
     final t = Theme.of(context);
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      _Header(title: restored ? S.proDoneRestoredTitle : S.proDoneTitle, subtitle: S.proDoneSub, onClose: () => onClose()),
+      Text(S.proDoneSub, style: t.textTheme.bodyLarge),
       const SizedBox(height: Space.group),
       for (final s in can)
         Padding(
