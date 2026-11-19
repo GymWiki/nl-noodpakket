@@ -1,0 +1,11 @@
+---
+interface Props { title: string; tint: string; }
+const { title, tint } = Astro.props;
+---
+<li class="flex gap-4 rounded-2xl border border-border bg-card p-5">
+  <span class:list={["tint tint-bubble flex size-12 shrink-0 items-center justify-center rounded-2xl", `tint-${tint}`]}><slot name="icon" /></span>
+  <div>
+    <h3>{title}</h3>
+    <p class="mt-1 text-[0.98rem] text-muted-foreground"><slot /></p>
+  </div>
+</li>

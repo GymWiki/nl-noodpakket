@@ -1,0 +1,29 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import FaqList from "@/components/FaqList.astro";
+import GovStatement from "@/components/GovStatement.astro";
+import LastUpdated from "@/components/LastUpdated.astro";
+import { FAQS } from "@/data/faq";
+import { SITE } from "@/config/site";
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  inLanguage: "nl-NL",
+  mainEntity: FAQS.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+};
+---
+<BaseLayout
+  title="Veelgestelde vragen over NL-Noodpakket"
+  description="Antwoorden over NL-Noodpakket: hoe lang je jezelf moet redden, hoeveel water, offline gebruik, kosten, privacy en of de app van de overheid is."
+  path="/veelgestelde-vragen"
+  jsonLd={[faqLd]}
+>
+  <div class="mx-auto max-w-3xl px-4 pb-8 pt-4 sm:px-6">
+    <h1>Veelgestelde vragen</h1>
+    <p class="mt-5 text-xl text-muted-foreground">Korte antwoorden over de app NL-Noodpakket. Voor adviezen verwijzen we naar de <a class="link" href="/bronnen">officiële bronnen</a>.</p>
+    <div class="mt-4"><LastUpdated date={SITE.lastUpdated} /></div>
+    <div class="mt-8"><FaqList items={FAQS} /></div>
+    <p class="mt-8 text-muted-foreground">Staat je vraag er niet bij? Kijk op de pagina <a class="link" href="/contact">Contact</a>.</p>
+    <div class="mt-10"><GovStatement /></div>
+  </div>
+</BaseLayout>

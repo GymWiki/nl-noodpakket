@@ -1,0 +1,6 @@
+---
+import { formatDate } from "@/lib/format";
+interface Props { date: string; label?: string }
+const { date, label = "Laatst bijgewerkt" } = Astro.props;
+---
+<p class="text-sm text-muted-foreground">{label}: <time datetime={date}>{formatDate(date)}</time></p>

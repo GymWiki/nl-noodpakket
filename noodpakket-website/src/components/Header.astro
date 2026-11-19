@@ -1,0 +1,22 @@
+---
+import Logo from "./Logo.astro";
+import MobileMenu from "./MobileMenu";
+import { NAV, SITE } from "@/config/site";
+interface Props { current: string }
+const { current } = Astro.props;
+const items = [...NAV];
+const isCurrent = (href: string) => (href === "/" ? current === "/" : current === href || current.startsWith(href + "/"));
+---
+<header class="border-b border-border bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+    <a href="/" class="flex min-h-12 items-center gap-3 font-heading text-xl font-bold text-foreground no-underline" aria-label={`${SITE.name}, naar de homepage`}>
+      <Logo /> <span>{SITE.name}</span>
+    </a>
+    <nav aria-label="Hoofdmenu" class="hidden items-center gap-1 md:flex">
+      {items.map((i) => (
+        <a href={i.href} aria-current={isCurrent(i.href) ? "page" : undefined} class="inline-flex min-h-12 items-center rounded-xl px-3 text-[0.95rem] font-medium text-foreground no-underline hover:bg-muted aria-[current=page]:bg-primary-soft aria-[current=page]:text-primary">{i.label}</a>
+      ))}
+    </nav>
+    <MobileMenu client:load items={items} current={current} />
+  </div>
+</header>
