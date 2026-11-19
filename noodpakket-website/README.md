@@ -95,7 +95,7 @@ Niet automatisch gedaan: geen accounts, projecten of tokens aangemaakt.
 
 ## TODO-checklist (nog in te vullen of te controleren)
 
-- [ ] **Domeinnaam**: `SITE_URL` in `src/config/site.ts` (nu `https://noodpakket.example`) en het hostnaam in de www-redirect in `vercel.json`.
+- [x] **Domeinnaam**: `nl-noodpakketapp.nl` staat in `SITE_URL` en de www-redirect. Nog in Vercel koppelen (Settings, Domains, apex en www, DNS precies zoals Vercel toont).
 - [ ] **Supportadres**: `COMPANY.email` in `site.ts`; daarna `emailIsPlaceholder` op `false`.
 - [ ] **Bedrijfsgegevens bevestigen**: GymWiki, KVK 97351911, Zwolle.
 - [ ] **Google Play-link**: `STORES.googlePlay`.

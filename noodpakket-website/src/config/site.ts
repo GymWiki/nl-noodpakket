@@ -3,8 +3,8 @@
  * (zie ook de checklist in README.md).
  */
 
-// TODO: definitieve domeinnaam invullen (zonder slash aan het eind).
-export const SITE_URL = "https://noodpakket.example";
+// Domein: nl-noodpakketapp.nl (nog te koppelen in Vercel; tot die tijd draait de site op nl-noodpakket.vercel.app).
+export const SITE_URL = "https://nl-noodpakketapp.nl";
 
 export const SITE = {
   name: "NL-Noodpakket",
