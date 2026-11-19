@@ -1,6 +1,6 @@
 # SEO- en GEO-audit NL-Noodpakket
 
-Gemeten op de lokale productiebuild (`dist/`) van de branch `claude/upbeat-keller-5nyng8`, 19 november 2026. Site-URL uit `src/config/site.ts`: `https://nl-noodpakketapp.nl`. Zie onderaan "Na de optimalisatie" voor de vergelijking.
+Gemeten op de lokale productiebuild (`dist/`) van de branch `claude/upbeat-keller-5nyng8`, 19 november 2026. Site-URL uit `src/config/site.ts`: `https://nl-noodpakketapp.nl`. Zie "Na de optimalisatie" onderaan voor de vergelijking.
 
 ## Wat ik niet kon meten (en waarom)
 
@@ -102,3 +102,79 @@ De volledige listing staat niet in de repo. Vergelijking met het enige beschikba
 
 **Afwijking A1 (belangrijk):** de app-README zegt twee keer dat de **noodmodus nog niet in de app bestaat**; de code bevat hem ook niet. De site, `llms.txt` en het eerste changelog-item noemen hem wel. Dat is een bewering die niet is onderbouwd en die AI-assistenten kunnen overnemen. Zie `FEATURES.noodmodus` in `site.ts`.
 **Afwijking A2:** de privacy- en voorwaardenpagina's op GitHub Pages (`docs/`) hebben een ander contactkanaal dan de site. Als de winkels naar die pagina's verwijzen, zijn er twee versies van het beleid.
+
+
+---
+
+# Na de optimalisatie
+
+Zelfde metingen, zelfde omgeving (lokale productiebuild, Lighthouse mobiel, 19 november 2026). Lighthouse is een laboratoriummeting met ruis van enkele punten per run; echte veldmetingen (CrUX) komen pas na verkeer beschikbaar en INP is in het lab niet te meten.
+
+## Lighthouse mobiel, na
+
+| Pagina | Prestaties | Toegankelijkheid | Best practices | SEO | LCP | TBT | CLS | Overdracht (voor → na) |
+|---|---|---|---|---|---|---|---|---|
+| / | 100 | 100 | 100 | 100 | 1,2 s | 0 ms | 0 | 527 → 216 KiB |
+| /veelgestelde-vragen | 100 | 100 | 100 | 100 | 0,9 s | 0 ms | 0 | 449 → 135 KiB |
+| /bronnen | 99 | 100 | 100 | 100 | 2,0 s | 0 ms | 0 | 490 → 176 KiB |
+| /privacy | 100 | 100 | 100 | 100 | 0,9 s | 0 ms | 0 | 445 → 131 KiB |
+| /voorwaarden | 100 | 100 | 100 | 100 | 0,9 s | 0 ms | 0 | 442 → 128 KiB |
+| /wijzigingen | 100 | 100 | 100 | 100 | 0,9 s | 0 ms | 0 | 438 → 124 KiB |
+| /contact | 100 | 100 | 100 | 100 | 0,9 s | 0 ms | 0 | 438 → 124 KiB |
+| /404 | 100 | 100 | 100 | 66 | 0,9 s | 0 ms | 0 | 436 → 122 KiB |
+
+Elke pagina: alle vier de scores 99–100, behalve de 404 (SEO 66: HTTP 404 met `noindex`, bedoeld). Core Web Vitals in het lab: LCP 0,9–2,0 s (doel ≤ 2,5 s), CLS 0 (doel ≤ 0,1), TBT 0 ms. `/bronnen` meette in deze run 2,0 s LCP (lange tekstpagina, run-ruis); in de eerste meting was dat 1,2 s.
+
+## Per pagina, na
+
+| Pagina | Title | Description | H1 | Interne links in `main` | Binnenkomende links | Woorden | JSON-LD |
+|---|---|---|---|---|---|---|---|
+| `/404` | 36 | 70 | 1 | 4 | 0 | 24 | Organization, BreadcrumbList |
+| `/bronnen` | 56 | 137 | 1 | 4 | 7 | 744 | Organization, BreadcrumbList |
+| `/contact` | 34 | 126 | 1 | 3 | 7 | 104 | Organization, BreadcrumbList |
+| `/` | 46 | 130 | 1 | 6 | 7 | 821 | Organization, WebSite, MobileApplication |
+| `/privacy` | 29 | 139 | 1 | 4 | 7 | 1228 | Organization, BreadcrumbList |
+| `/veelgestelde-vragen` | 54 | 139 | 1 | 4 | 7 | 484 | Organization, BreadcrumbList, FAQPage |
+| `/voorwaarden` | 35 | 133 | 1 | 4 | 7 | 766 | Organization, BreadcrumbList |
+| `/wijzigingen` | 38 | 116 | 1 | 2 | 7 | 128 | Organization, BreadcrumbList |
+
+## Wat is opgelost
+
+| Bevinding | Oplossing | Resultaat |
+|---|---|---|
+| **P1** 295 KiB JavaScript op elke pagina (React voor het menu) | Mobiel menu als native HTML-`popover`; `@astrojs/react`, React, Radix en de shadcn-componenten verwijderd | **0 JS-bestanden** (`tests/seo.mjs`); overdracht per pagina ruim 300 KiB lager; CSP kan `script-src 'self'; style-src 'self'` zijn |
+| **P2** Weinig interne links | Home verwijst naar bronnen, wijzigingen, privacy, voorwaarden, contact en FAQ met beschrijvende ankers; FAQ, bronnen en contact linken onderling; FAQ-antwoorden linken naar bronnen, privacy en prijzen | Home: 3 → 6 interne links in de inhoud; FAQ en bronnen: 3 en 2 → 4 |
+| **P3** Kopstructuur | FAQ-vragen zijn koppen (`h2` op de FAQ-pagina, `h3` op home); de verborgen H3 "Zo ziet de app eruit" is een zichtbare H2 | Logische structuur; axe geeft geen bevindingen |
+| **P4** Sitemap zonder `lastmod` | `lastmod` voor home, FAQ, bronnen, privacy, voorwaarden (bijgehouden datums) en wijzigingen (laatste release); niet voor contact (geen betrouwbare datum) | 6 van 7 URL's met `lastmod` |
+| **P5** robots.txt | Expliciete regels per zoek-, ophaal- en trainingsbot, sitemap-verwijzing, schakelaar `SPERR_TRAINING`, afweging in de README, bronnen en "niet geverifieerd" per bot gedocumenteerd | Getest: Googlebot en alle genoemde bots toegestaan, geen `Disallow: /` |
+| **P6** Structured data | WebSite toegevoegd (zonder zoekactie); MobileApplication met `installUrl`, `sameAs` (store-pagina's), `featureList`, `isAccessibleForFree`; Organization met `contactPoint` | Geldig JSON-LD; FAQPage-tekst komt één op één overeen met de zichtbare tekst (getest) |
+| **P7** Eén bron voor tekst | `src/config/content.ts` (functies, gratis/Pro, stappen, wat de app niet doet, prijs); `llms.txt` en home lezen daaruit | `tests/seo.mjs` bewaakt de definitiezin op home, in JSON-LD en in `llms.txt` |
+| **P8** Inhoud | Sectie "Zo werkt het" (drie stappen) en de nuance dat de app voor voorbereiding op een rustig moment is; titels en descriptions afgestemd op de zoekintentie (`docs/seo-keywords.md`) | Home 646 → 821 woorden |
+| Orphan pages | geen (alleen de bewust ongelinkte 404) | |
+| HTML-validatie | de uitzondering `element-permitted-content` kon weer aan | alle regels aan, geen bevindingen |
+
+## Wat open blijft en waarom
+
+| Punt | Reden |
+|---|---|
+| Live statuscodes, redirects, robots.txt en `noindex` op productie en previews | De bouwomgeving bereikt de live site niet (`curl` geeft `000`, DNS in de fetch-tool). Staat in `docs/SEO_LAUNCH_CHECKLIST.md` met de exacte `curl`-opdrachten. Wel getest: de `vercel.json`-regel voor `*.vercel.app` matcht previews en matcht het eigen domein niet (`tests/seo.mjs`) |
+| `www`-redirect staat op 307 | Dashboardinstelling; moet 308 zijn (checklist) |
+| Vercel Firewall / bot-bescherming | Alleen jij kunt het dashboard bekijken; controlelijst staat hierboven |
+| Externe links | Geen netwerk: `node tests/links.mjs --external` na livegang |
+| Botnamen van OpenAI, Google, Perplexity en Apple | Documentatie onbereikbaar; in `robots.txt.ts` gemarkeerd als "niet geverifieerd". Alleen Anthropic is gelezen (19-11-2026) |
+| Dat Google sinds 7 mei 2026 geen FAQ-rich results meer toont | Niet verifieerbaar (documentatie onbereikbaar). De markup blijft omdat hij exact overeenkomt met de zichtbare tekst |
+| Core Web Vitals-veldgegevens (INP, LCP, CLS bij echte gebruikers) | Bestaan pas na verkeer; zie Search Console na 2 tot 4 weken |
+| **A1: noodmodus** staat op de site maar niet in de app (code en app-README) | Jouw beslissing: zet `FEATURES.noodmodus = false` in `site.ts` en pas het eerste changelog-item aan (`src/content/wijzigingen/1.0.14.md`), of publiceer eerst de functie |
+| **A2: twee versies van privacy en voorwaarden** (GitHub Pages in `docs/` en de site) | Kies één URL voor de winkels (checklist, stap 3) |
+| Volledige store-listings vergelijken | Niet in de repo; controleer definitiezin en gratis/Pro-omschrijving met `src/config/site.ts` en `content.ts` |
+
+## Bewust niet gedaan
+
+- Geen AI-specifieke pagina's, Markdown-kopieën, verborgen tekst voor bots, kunstmatig opgeknipte tekst of instructies aan AI in de pagina's (cloaking of nutteloos).
+- Geen Review- of aggregateRating-markup (er zijn geen echte, zichtbare reviews); `tests/seo.mjs` bewaakt dat.
+- Geen noodadvies-artikelen of stappenplannen op de site (ook niet voor "stroomstoring voorbereiden"): de site verwijst naar de officiële bronnen.
+- Geen analytics of tracking; meten via Search Console en handmatige tests (`docs/GEO_MONITORING.md`).
+- Geen extra werk aan `llms.txt`: het bestand blijft staan, kort en gelijk aan de site; er is geen effect te verwachten.
+- Geen zoekvolumes verzonnen (`docs/seo-keywords.md`).
+- Geen `sameAs`-links naar bedrijfsprofielen: er zijn er (voor zover bekend) geen.
+- Geen Vercel-instellingen of accountinstellingen gewijzigd.
