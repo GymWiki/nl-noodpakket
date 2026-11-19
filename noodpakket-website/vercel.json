@@ -11,10 +11,10 @@
       "has": [
         {
           "type": "host",
-          "value": "www.noodpakket.example"
+          "value": "www.nl-noodpakketapp.nl"
         }
       ],
-      "destination": "https://noodpakket.example/:path",
+      "destination": "https://nl-noodpakketapp.nl/:path",
       "permanent": true
     }
   ],

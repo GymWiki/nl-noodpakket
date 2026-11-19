@@ -25,7 +25,7 @@ for (const u of internal) {
 console.log(`${internal.size} interne links gecontroleerd, ${bad} kapot`);
 if (process.argv.includes("--external")) {
   const res = { ok: [], broken: [], unreachable: [] };
-  const list = [...external].filter((u) => !u.includes("noodpakket.example"));
+  const list = [...external].filter((u) => !u.includes("nl-noodpakketapp.nl"));
   await Promise.all(list.map(async (u) => {
     try {
       const r = await fetch(u, { method: "GET", redirect: "follow", signal: AbortSignal.timeout(15000), headers: { "User-Agent": "Mozilla/5.0 linkcheck" } });

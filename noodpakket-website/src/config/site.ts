@@ -3,8 +3,8 @@
  * (zie ook de checklist in README.md).
  */
 
-// TODO: definitieve domeinnaam invullen (zonder slash aan het eind).
-export const SITE_URL = "https://noodpakket.example";
+// Domein: nl-noodpakketapp.nl (nog te koppelen in Vercel; tot die tijd draait de site op nl-noodpakket.vercel.app).
+export const SITE_URL = "https://nl-noodpakketapp.nl";
 
 export const SITE = {
   name: "NL-Noodpakket",
@@ -22,10 +22,8 @@ export const SITE = {
 } as const;
 
 export const STORES = {
-  appStore: "https://apps.apple.com/nl/app/nl-noodpakket/id6757681584", // niet verifieerbaar vanuit de bouwomgeving: controleren
-  // TODO: Google Play-link invullen zodra de app live staat.
-  // Voorbeeld: https://play.google.com/store/apps/details?id=nl.example.app
-  googlePlay: "" as string,
+  appStore: "https://apps.apple.com/nl/app/nl-noodpakket/id6757681584",
+  googlePlay: "https://play.google.com/store/apps/details?id=com.mycompany.mijnnoodpakket&hl=nl",
 } as const;
 
 export const COMPANY = {

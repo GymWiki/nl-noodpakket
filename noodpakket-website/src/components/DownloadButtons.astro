@@ -1,22 +1,28 @@
 ---
 import { STORES } from "@/config/site";
+import appStoreBadge from "@/assets/badges/app-store.svg";
 interface Props { class?: string }
 const { class: cls = "" } = Astro.props;
-// TODO: vervang de tekstknoppen door de officiële badges (zie README, sectie 'Store-badges').
-const btn = "inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-6 py-3 font-semibold no-underline transition-colors";
+
+// Officiële Google Play-badge: download de Nederlandse badge ("Ontdek het op Google Play") van
+// https://play.google.com/intl/nl/badges/ en zet het bestand als src/assets/badges/google-play.png (of .svg/.webp).
+// Zolang het bestand ontbreekt, toont de site een neutrale tekstknop. Teken of wijzig de badge nooit zelf.
+const googleBadges = import.meta.glob("../assets/badges/google-play.{png,svg,webp}", { eager: true }) as Record<string, { default: ImageMetadata }>;
+const googleBadge = Object.values(googleBadges)[0]?.default;
+
+// Apple: officieel zwart "Download on the App Store"-badge, ongewijzigd (zie README, sectie Store-badges).
+// TODO: vervang door de Nederlandse variant ("Download in de App Store") van Apple Marketing Tools; zelfde bestandsnaam.
+const textBtn = "inline-flex min-h-12 items-center justify-center rounded-xl bg-foreground px-6 py-3 font-semibold text-background no-underline hover:opacity-90";
 ---
-<div class:list={["flex flex-wrap items-center gap-3", cls]}>
-  <a class:list={[btn, "bg-foreground text-background hover:opacity-90"]} href={STORES.appStore} rel="noopener" data-store="app-store">
-    <span aria-hidden="true"></span>
-    <span><span class="block text-xs font-normal leading-none opacity-80">Download in de</span>App Store</span>
+<div class:list={["flex flex-wrap items-center gap-x-[10px] gap-y-[10px]", cls]}>
+  <a href={STORES.appStore} rel="noopener" data-store="app-store" class="inline-flex min-h-12 items-center rounded-lg" aria-label="Download de app in de App Store">
+    <img src={appStoreBadge.src} alt="" width="120" height="40" class="h-[48px] w-auto" />
   </a>
-  {STORES.googlePlay ? (
-    <a class:list={[btn, "bg-foreground text-background hover:opacity-90"]} href={STORES.googlePlay} rel="noopener" data-store="google-play">
-      <span><span class="block text-xs font-normal leading-none opacity-80">Ontdek het op</span>Google Play</span>
+  {googleBadge ? (
+    <a href={STORES.googlePlay} rel="noopener" data-store="google-play" class="inline-flex min-h-12 items-center rounded-lg" aria-label="Ontdek de app op Google Play">
+      <img src={googleBadge.src} alt="" width={Math.round(googleBadge.width)} height={Math.round(googleBadge.height)} class="h-[48px] w-auto" />
     </a>
   ) : (
-    <span class:list={[btn, "cursor-not-allowed border border-dashed border-border bg-muted text-muted-foreground"]} role="note">
-      <span><span class="block text-xs font-normal leading-none">Google Play</span>Binnenkort beschikbaar</span>
-    </span>
+    <a href={STORES.googlePlay} rel="noopener" data-store="google-play" class={textBtn}>Ontdek het op Google Play</a>
   )}
 </div>

@@ -21,7 +21,7 @@ Node ≥ 22.23.4 (`.node-version`, `engines`).
 - `src/pages/`: home, `veelgestelde-vragen`, `bronnen`, `privacy`, `voorwaarden`, `wijzigingen`, `contact`, `404`, `llms.txt`, `robots.txt`, `og/[slug].png` (gegenereerd 1200×630).
 - `src/content/wijzigingen/*.md`: één bestand per release (`version`, `date`, optioneel `title`). Nieuwe release = nieuw bestand.
 - `src/data/faq.ts`: FAQ-inhoud voor pagina, home en FAQPage JSON-LD. `src/data/sources.ts`: bronnenlijst.
-- `public/screenshots/*.svg`: **placeholders**; vervang door echte screenshots (zelfde namen, pas extensie aan in `Screenshot.astro`).
+- `src/assets/screenshots/*.webp`: uitgesneden appschermen (zie `scripts/crop-screenshots.mjs`), getoond in `PhoneFrame.astro` (eigen CSS-telefoonkader) via Astro Image.
 
 ## Bewuste keuzes
 
@@ -64,9 +64,8 @@ CHROME_PATH=<chromium> node tests/lighthouse.mjs     # Lighthouse mobiel, alle p
 
 ## Store-badges
 
-Nu tekstknoppen (zie `DownloadButtons.astro`). TODO: vervang door de officiële badges.
-- Apple: "Download on the App Store" (zwart; wit alleen als zwart te zwaar oogt), SVG van developer.apple.com/app-store/marketing/guidelines, vrije ruimte ¼ van de badgehoogte, minimaal 40 px hoog op schermen, niet aanpassen of vertalen behalve de Nederlandse variant die Apple aanlevert.
-- Google: "Ontdek het op Google Play"-badge van play.google.com/intl/nl/badges, vrije ruimte en minimale grootte volgens de Google Play-brandrichtlijnen; niet hervormen of hergroeperen. (Niet te raadplegen vanuit de bouwomgeving: lees de actuele regels zelf.)
+- **Apple:** `src/assets/badges/app-store.svg` is de officiële zwarte "Download on the App Store"-badge van developer.apple.com, ongewijzigd (48 px hoog, minimaal 40 px; vrije ruimte ¼ van de hoogte via de tussenruimte). Apple levert ook een Nederlandse variant ("Download in de App Store"); download die via Apple Marketing Tools en vervang het bestand (zelfde naam). Alleen de woorden "Download in de" zijn vertaald, "App Store" blijft Engels.
+- **Google Play:** `src/assets/badges/google-play.svg` is de officiële Nederlandse badge ("Ontdek het op Google Play"), ongewijzigd aangeleverd. Niet aanpassen; volg Googles richtlijnen voor minimale grootte en vrije ruimte. Staat het bestand er niet, dan toont `DownloadButtons.astro` een neutrale tekstknop.
 
 ## Statistieken later toevoegen (niet gebouwd)
 
@@ -95,13 +94,11 @@ Niet automatisch gedaan: geen accounts, projecten of tokens aangemaakt.
 
 ## TODO-checklist (nog in te vullen of te controleren)
 
-- [ ] **Domeinnaam**: `SITE_URL` in `src/config/site.ts` (nu `https://noodpakket.example`) en het hostnaam in de www-redirect in `vercel.json`.
+- [x] **Domeinnaam**: `nl-noodpakketapp.nl` staat in `SITE_URL` en de www-redirect. Nog in Vercel koppelen (Settings, Domains, apex en www, DNS precies zoals Vercel toont).
 - [ ] **Supportadres**: `COMPANY.email` in `site.ts`; daarna `emailIsPlaceholder` op `false`.
 - [ ] **Bedrijfsgegevens bevestigen**: GymWiki, KVK 97351911, Zwolle.
-- [ ] **Google Play-link**: `STORES.googlePlay`.
-- [ ] **Apple-link** controleren (niet bereikbaar vanuit de bouwomgeving): `STORES.appStore`.
-- [ ] **Officiële store-badges** in `DownloadButtons.astro`.
-- [ ] **Echte screenshots** in `public/screenshots/` (en `alt`-teksten bijwerken).
+- [ ] Store-links staan in `STORES` (site.ts); controleer dat beide live werken (niet te testen vanuit de bouwomgeving).
+- [ ] Optioneel: de Nederlandse Apple-badge ("Download in de App Store") vervangen (zie Store-badges).
 - [ ] **Noodmodus**: staat in de opdracht, maar niet in de app-code (v1.0.14) of de app-README. Zet `FEATURES.noodmodus` op `false` en pas `src/content/wijzigingen/1.0.14.md` aan als het onderdeel nog niet is gepubliceerd.
 - [ ] **Wijzigingenlijst**: versienummer en releasedatum van het eerste item (`1.0.14.md`, nu 19 nov. 2026).
 - [ ] **Bronnenlijst** bevestigen (afgeleid uit de app-JSON plus crisis.nl) en **alle externe links controleren** (`node tests/links.mjs --external` met netwerktoegang).
