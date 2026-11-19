@@ -1,5 +1,13 @@
 # Wijzigingen
 
+## Nog niet uitgebracht
+
+Verbeterd
+- Het Pro-scherm is rustiger en laat zien wat je krijgt op het moment dat je het nodig hebt: bij een noodhack, bij een herinnering en bij je kluis. Je kunt het altijd sluiten met "Niet nu".
+- Na het invullen van een houdbaarheidsdatum bij een nieuw item kan één kleine tip verschijnen over herinneringen. Je kunt die sluiten of voorgoed verbergen.
+- Na een aankoop zie je wat je nu kunt, met één knop om verder te gaan.
+- De losse Pro-regel op het startscherm is weggehaald. Alle veiligheidsinformatie blijft gratis.
+
 ## 2.0.0 (build 20)
 
 Technisch
