@@ -1068,31 +1068,91 @@ class S {
   // ---- Pro ----
   static const proName = 'NL-Noodpakket Pro';
   static const proBadge = 'Pro';
+  // Paywall (rustige sheet). Alle teksten staan hier; PaywallConfig bepaalt welke rijen en blokken zichtbaar zijn.
   static const paywallTitle = 'NL-Noodpakket Pro';
-  static const paywallGetTitle = 'Wat je erbij krijgt';
-  static const paywallGet1 = 'Alle noodhacks: stappenplannen voor als je pakket op is, met "Wat heb ik in huis?"';
-  static const paywallGet2 = 'Automatische herinneringen voor items die aan vervanging toe zijn';
-  static const paywallGet3 = 'Onbeperkt documenten in de kluis';
-  static const paywallFreeTitle = 'Dit blijft altijd gratis';
-  static const paywallFree1 = 'Checklist en houdbaarheidsoverzicht';
-  static const paywallFree2 = 'Alle noodgevallen-stappenplannen';
-  static const paywallFree3 = 'Noodplan, ook delen en back-up';
-  static const paywallFree4 = 'De kluis tot 3 documenten';
-  static const paywallFree5 = 'De gevaarlijke mythes';
-  static String paywallUnlock(String price) => 'Ontgrendel Pro, $price eenmalig';
+  static const paywallClose = 'Sluiten';
+  static String paywallUnlock(String price) => 'Ontgrendel Pro voor $price';
   static const paywallUnlockNoPrice = 'Ontgrendel Pro';
-  static const paywallNoSub = 'Geen abonnement. Eén keer betalen, geen account.';
-  static const paywallHelp = 'Pro helpt de ontwikkeling van de app te betalen.';
+  static const paywallPriceLoading = 'Prijs ophalen...';
+  static const paywallOneOff = 'Eenmalig, geen abonnement';
+  static String paywallStoreNote(String store) =>
+      'Betaling via $store. Je kunt je aankoop op een nieuw toestel herstellen met hetzelfde account.';
+  static const paywallFamilySharing = 'Je kunt Pro delen met je gezin via Family Sharing.';
+  static const paywallSupport = 'Pro helpt de ontwikkeling van de app te betalen.';
   static const paywallRestore = 'Aankoop herstellen';
   static const paywallNotNow = 'Niet nu';
-  static const paywallPriceLoading = 'De prijs komt uit de winkel van je toestel.';
-  static const proMsgThanks = 'Bedankt! Pro is ontgrendeld.';
+  static const paywallRetry = 'Probeer opnieuw';
+  static const paywallWaiting = 'We wachten op de winkel. Je kunt dit blad gerust sluiten.';
+
+  // Algemeen (Instellingen)
+  static const paywallGeneralSub = 'Een eenmalige aankoop voor extra hulp in de app.';
+  static const paywallGeneralHacks = 'Alle noodhacks, stap voor stap, ook als je pakket op is';
+  static const paywallGeneralReminders = 'Herinneringen voor items die aan vervanging toe zijn';
+  static const paywallGeneralVault = 'Onbeperkt documenten in je kluis';
+
+  // Noodhacks
+  static const paywallHacksTitle = 'Alle noodhacks, ook als je pakket op is';
+  static const paywallHacksSub = 'Praktische oplossingen met spullen uit huis, tuin en keuken, stap voor stap.';
+  static String paywallHackCount(int n) => '$n noodhacks met een stappenplan';
+  static const paywallHackSearch = 'Wat heb ik in huis? Kies je spullen en zie wat je kunt doen';
+  static String paywallHackCategory(String category) => 'Meer over $category';
+  static const paywallHackSafetyFree = 'Waarschuwingen en gevaarlijke mythes blijven gratis';
+
+  // Vervangherinneringen
+  static const paywallRemindTitle = 'Laat de app je herinneren';
+  static const paywallRemindSub = 'Een melding op je toestel, voordat iets verloopt of vervangen moet worden.';
+  static String paywallRemindExpiry(String item, String date, String lead) =>
+      'Bijvoorbeeld $item, houdbaar tot $date. We herinneren je $lead.';
+  static String paywallRemindReplace(String item, String date, String lead) =>
+      'Bijvoorbeeld $item, te vervangen op $date. We herinneren je $lead.';
+  static String paywallRemindLead(int days) =>
+      days <= 0 ? 'op de dag zelf' : days == 1 ? '1 dag van tevoren' : '$days dagen van tevoren';
+  static const paywallRemindNeutral = 'Kies bij een item van je lijst dat je een herinnering wilt. De app meldt het op tijd.';
+  static const paywallRemindChoice = 'Jij kiest per item of je een herinnering wilt';
+  static const paywallRemindOnDevice = 'De herinnering komt van je eigen toestel. Er gaat niets naar een server.';
+
+  // Kluis
+  static const paywallVaultTitle = 'Meer ruimte in je kluis';
+  static const paywallVaultSub = 'Pro heft de grens van 3 documenten op.';
+  static String paywallVaultUsage(int n) => 'Je hebt $n van 3 gratis documenten gebruikt';
+  static const paywallVaultKeep = 'Je bestaande documenten blijven altijd van jou en bruikbaar.';
+  static const paywallVaultUnlimited = 'Met Pro bewaar je er onbeperkt.';
+
+  // Dit blijft altijd gratis
+  static const paywallFreeTitle = 'Dit blijft altijd gratis';
+  static const paywallFreeChecklist = 'Checklist en houdbaarheidsoverzicht';
+  static const paywallFreeGuides = 'Alle stappenplannen bij noodgevallen';
+  static const paywallFreeFirstHour = 'De Eerste-uur kaart';
+  static const paywallFreePlan = 'Je noodplan, ook delen en back-up';
+  static const paywallFreeVault = 'De kluis tot 3 documenten';
+  static String paywallFreeMyths(String? trialCount) => trialCount == null
+      ? 'De gevaarlijke mythes en proefhacks'
+      : 'De gevaarlijke mythes en $trialCount proefhacks';
+
+  // Na de aankoop
+  static const proDoneTitle = 'Pro is ontgrendeld';
+  static const proDoneRestoredTitle = 'Je aankoop is hersteld';
+  static const proDoneSub = 'Dit kan nu:';
+  static const proDoneActionHack = 'Open deze noodhack';
+  static const proDoneActionHacks = 'Bekijk de noodhacks';
+  static const proDoneActionReminders = 'Herinnering instellen';
+  static const proDoneActionBack = 'Terug naar je item';
+  static const proDoneActionVault = 'Document toevoegen';
+  static const proDoneClose = 'Sluiten';
+
+  // Meldingen in het blad
+  static const proMsgThanks = 'Bedankt. Pro is ontgrendeld.';
   static const proMsgRestored = 'Je aankoop is hersteld.';
-  static const proMsgNothing = 'Er is geen aankoop gevonden om te herstellen.';
-  static const proMsgCancelled = 'De aankoop is niet doorgegaan. Er is niets afgeschreven.';
-  static const proMsgPending = 'Je betaling wordt nog verwerkt. Pro wordt ontgrendeld zodra die klaar is.';
-  static const proMsgUnavailable = 'De winkel is nu niet bereikbaar. Probeer het later opnieuw.';
-  static const proMsgError = 'Er ging iets mis. Probeer het later opnieuw.';
+  static const proMsgNothing = 'We vonden geen eerdere aankoop bij dit account. Controleer of je met hetzelfde account bent ingelogd.';
+  static const proMsgPending = 'Je betaling wordt nog verwerkt. Pro wordt ontgrendeld zodra die klaar is. Je kunt de app gewoon blijven gebruiken.';
+  static const proMsgUnavailable = 'De winkel is nu niet bereikbaar. Je kunt de app gewoon blijven gebruiken en het later opnieuw proberen.';
+  static const proMsgError = 'De aankoop is niet gelukt.';
+
+  // Zachte hint
+  static const proHintReminder = 'Herinnering instellen? (Pro)';
+  static const proHintHide = 'Niet meer tonen';
+  static const proHintClose = 'Sluit deze tip';
+
   static const proSettingsOn = 'Pro is ontgrendeld. Bedankt!';
   static const proSettingsOff = 'Je gebruikt de gratis versie.';
   static const proSettingsSub =
