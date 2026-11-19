@@ -1,10 +1,8 @@
 ---
-interface Props { class?: string }
-const { class: cls = "size-9" } = Astro.props;
+import { Image } from "astro:assets";
+import logo from "@/assets/logo/logo-transparent.webp";
+interface Props { class?: string; priority?: boolean }
+const { class: cls = "h-11 w-auto", priority = false } = Astro.props;
 ---
-<svg class={cls} viewBox="0 0 48 48" role="img" aria-hidden="true" focusable="false">
-  <rect width="48" height="48" rx="13" fill="var(--primary)" />
-  <path d="M13 19.5 24 14l11 5.5v11L24 36l-11-5.5z" fill="none" stroke="var(--primary-foreground)" stroke-width="2.6" stroke-linejoin="round" />
-  <path d="m18.8 25 3.8 3.8 6.8-7" fill="none" stroke="var(--primary-foreground)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
-  <circle cx="36" cy="12" r="3.4" fill="#f0a35a" />
-</svg>
+<!-- Eigen logo, transparante versie: werkt op het lichte en het donkere thema. Naam staat ernaast als tekst. -->
+<Image src={logo} alt="" widths={[48, 96, 144]} sizes="48px" format="webp" quality={90} class={cls} loading={priority ? "eager" : "lazy"} decoding="async" aria-hidden="true" />

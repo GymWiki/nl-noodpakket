@@ -15,6 +15,7 @@ const PAGES: Record<string, { title: string; sub: string }> = {
   "404": { title: "Pagina niet gevonden", sub: "NL-Noodpakket" },
 };
 
+const logoUri = `data:image/png;base64,${fs.readFileSync("public/logo.png").toString("base64")}`;
 const font = (file: string) => fs.readFileSync(`node_modules/@fontsource/plus-jakarta-sans/files/${file}`);
 
 export const getStaticPaths: GetStaticPaths = () => Object.keys(PAGES).map((slug) => ({ params: { slug } }));
@@ -22,16 +23,16 @@ export const getStaticPaths: GetStaticPaths = () => Object.keys(PAGES).map((slug
 export const GET: APIRoute = async ({ params }) => {
   const page = PAGES[params.slug as string];
   const h = (type: string, style: Record<string, unknown>, children?: unknown) => ({ type, props: { style: { display: "flex", ...style }, children } });
-  const tree = h("div", { width: 1200, height: 630, background: "#0b4a7f", color: "#fff", flexDirection: "column", justifyContent: "space-between", padding: 80, fontFamily: "Jakarta" }, [
-    h("div", { alignItems: "center", gap: 20, fontSize: 40, fontWeight: 700 }, [
-      h("div", { width: 18, height: 18, borderRadius: 9, background: "#f0a35a" }),
-      SITE.name,
+  const tree = h("div", { width: 1200, height: 630, background: "#0b4a7f", color: "#fff", alignItems: "center", justifyContent: "space-between", padding: 64, gap: 40, boxSizing: "border-box", fontFamily: "Jakarta" }, [
+    h("div", { flexDirection: "column", justifyContent: "space-between", height: 502, width: 640 }, [
+      h("div", { fontSize: 36, fontWeight: 700 }, SITE.name),
+      h("div", { flexDirection: "column", gap: 20 }, [
+        h("div", { fontSize: 58, fontWeight: 800, lineHeight: 1.12, letterSpacing: -1.5 }, page.title),
+        h("div", { fontSize: 28, color: "#cfe5f5" }, page.sub),
+      ]),
+      h("div", { fontSize: 24, color: "#cfe5f5" }, "Onafhankelijke app, niet van de overheid"),
     ]),
-    h("div", { flexDirection: "column", gap: 24 }, [
-      h("div", { fontSize: 76, fontWeight: 800, lineHeight: 1.1, letterSpacing: -2 }, page.title),
-      h("div", { fontSize: 36, color: "#cfe5f5" }, page.sub),
-    ]),
-    h("div", { fontSize: 28, color: "#cfe5f5" }, "Onafhankelijke app, niet van de overheid"),
+    { type: "div", props: { style: { display: "flex", background: "#ffffff", borderRadius: 44, padding: 16, flexShrink: 0 }, children: { type: "img", props: { src: logoUri, width: 340, height: 340 } } } },
   ]);
   const svg = await satori(tree as never, {
     width: 1200,
