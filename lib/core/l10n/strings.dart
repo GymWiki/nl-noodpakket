@@ -1153,7 +1153,7 @@ class S {
   static const proHintHide = 'Niet meer tonen';
   static const proHintClose = 'Sluit deze tip';
 
-  static const proSettingsOn = 'Pro is ontgrendeld. Bedankt!';
+  static const proSettingsOn = 'Pro is ontgrendeld. Bedankt.';
   static const proSettingsOff = 'Je gebruikt de gratis versie.';
   static const proSettingsSub =
       'Eenmalige aankoop, geen abonnement. Pro ontgrendelt de noodhacks, herinneringen voor vervanging en onbeperkt documenten in de kluis.';

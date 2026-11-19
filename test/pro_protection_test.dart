@@ -5,6 +5,10 @@ import 'package:flutter_test/flutter_test.dart';
 /// Beschermingstest: Pro mag alleen op de afgesproken plekken een poort hebben.
 /// Alles wat gratis moet blijven (wiki, noodplan, checklist, houdbaarheidsoverzicht,
 /// kluis behalve het toevoegen van een 4e document) komt hier nooit mee in aanraking.
+/// Alles wat een paywall, hint of Pro-poort kan oproepen. Geen van deze mag in een veiligheidsscherm voorkomen.
+final _proRef = RegExp(
+    r'features/pro/|ProFeature|showPaywall|requirePro|ProHintRow|PaywallRequest|PaywallSheet|hideProHint|proHintSession|hiddenProHints|pro_hint|ProBadge');
+
 void main() {
   final gate = RegExp(r'requirePro\(|showPaywall\(|ProFeature\.|hackLocked\(|canAddVaultDocument\(|proUnlockedProvider|features/pro/');
 
@@ -61,8 +65,43 @@ void main() {
     for (final f in files) {
       if (!free.any(f.startsWith)) continue;
       final src = File(f).readAsStringSync();
-      expect(src.contains(RegExp(r'features/pro/|ProFeature|showPaywall|requirePro')), isFalse, reason: f);
+      expect(src.contains(_proRef), isFalse, reason: f);
     }
+  });
+
+  test('geen paywall of hint op veiligheidsschermen: wiki, Eerste-uur kaart, noodplan, mythes en het dashboard', () {
+    // Wiki en noodplan staan al in de lijst hierboven; hier de rest van de veiligheidsonderdelen.
+    final safety = <String>[
+      for (final d in ['lib/features/wiki', 'lib/features/noodplan', 'lib/features/dashboard'])
+        ...Directory(d).listSync(recursive: true).whereType<File>().where((f) => f.path.endsWith('.dart')).map((f) => f.path),
+      'lib/features/noodhacks/hacks_out_screen.dart', // bevat de Eerste-uur kaart en de regel "Stem je radio af op"
+      'lib/features/noodhacks/hacks_links.dart', // links vanuit de stappenplannen
+    ];
+    for (final f in safety) {
+      final src = File(f).readAsStringSync();
+      // Het dashboard mag alleen het aantal kluisdocumenten tonen (proUnlockedProvider), geen paywall of hint.
+      final noProvider = f.contains('dashboard') ? src.replaceAll('proUnlockedProvider', '').replaceAll('pro/pro_providers.dart', '') : src;
+      expect(noProvider.contains(_proRef), isFalse, reason: f);
+    }
+  });
+
+  test('mythes en gratis proefhacks: het detailscherm roept de paywall alleen aan via de vergrendelde weergave', () {
+    final detail = File('lib/features/noodhacks/hack_detail_screen.dart').readAsStringSync();
+    expect(detail.contains(RegExp(r'showPaywall|requirePro|ProHintRow|PaywallRequest')), isFalse);
+    // Beide plekken waar HackLockedView verschijnt, hangen aan hackLocked(...).
+    final locked = RegExp(r'if \(hackLocked\(h, pro: ref\.watch\(proUnlockedProvider\)\)\) return HackLockedView').allMatches(detail).length;
+    expect(locked, 2);
+    expect('HackLockedView('.allMatches(detail).length, 2);
+    final widgets = File('lib/features/noodhacks/hacks_widgets.dart').readAsStringSync();
+    expect(RegExp(r'if \(hackLocked\(h, pro: ref\.read\(proUnlockedProvider\)\)\) \{\s+final r = await showPaywall').hasMatch(widgets), isTrue);
+  });
+
+  test('de zachte hint staat alleen op het itemformulier en nergens op een veiligheidsscherm', () {
+    final users = [
+      for (final f in files)
+        if (File(f).readAsStringSync().contains('ProHintRow(') && !f.endsWith('pro_hint.dart')) f,
+    ];
+    expect(users, ['lib/features/items/item_form_screen.dart']);
   });
 
   test('wiki-stappenplannen tonen hacks alleen via HackTile (die zelf de regel volgt)', () {
