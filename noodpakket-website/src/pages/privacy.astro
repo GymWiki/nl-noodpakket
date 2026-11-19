@@ -17,20 +17,20 @@ import { COMPANY, SITE } from "@/config/site";
     <h1>Privacybeleid</h1>
     <div class="mt-3"><LastUpdated date={SITE.legalUpdated} label="Laatst gewijzigd" /></div>
     <div class="prose-nl">
-      <p class="!mt-6 text-xl"><strong>Kort gezegd:</strong> alles wat je invult blijft op je eigen toestel. Er is geen account, geen analyse, geen advertentie en geen tracking. Wij ontvangen geen gegevens van je.</p>
+      <p class="!mt-6 text-xl"><strong>Kort gezegd:</strong> alles wat je invult blijft op je eigen toestel. Er is geen account, er zijn geen advertenties en er is geen tracking. De aanbieder ontvangt geen enkel gegeven van jou.</p>
 
       <h2>1. Wie is verantwoordelijk?</h2>
-      <p>NL-Noodpakket wordt aangeboden door {COMPANY.provider} (KVK {COMPANY.kvk}, {COMPANY.city}). De app en deze website zijn niet van de Nederlandse overheid. Omdat wij geen persoonsgegevens uit de app ontvangen, verwerken wij daarin geen persoonsgegevens van jou. Voor vragen: zie <a href="/contact">Contact</a>.</p>
+      <p>NL-Noodpakket wordt aangeboden door {COMPANY.provider} (KVK {COMPANY.kvk}, {COMPANY.city}). De app en deze website zijn niet van de Nederlandse overheid en niet gemaakt door Denk Vooruit, NL-Alert of een andere officiële instantie. Omdat wij geen persoonsgegevens uit de app ontvangen, verwerken wij daarin geen persoonsgegevens van jou. Voor vragen: zie <a href="/contact">Contact</a>. Stuur daarbij geen persoonlijke gegevens mee.</p>
 
       <h2>2. Wat bewaart de app op je toestel?</h2>
       <p>De app bewaart de volgende gegevens alleen lokaal, in de opslag van de app:</p>
       <ul>
-        <li><strong>Je noodpakket:</strong> checklist, hoeveelheden, houdbaarheidsdata, eigen items en notities.</li>
-        <li><strong>Je huishouden:</strong> aantallen volwassenen, kinderen, baby’s, ouderen en huisdieren, en of je medicijnen gebruikt.</li>
-        <li><strong>Je noodplan:</strong> wat je zelf invult, zoals namen, contactpersonen, afspraken en verzamelplaatsen.</li>
-        <li><strong>Documentenkluis:</strong> kopieën van documenten die je zelf toevoegt. Die worden op je toestel versleuteld bewaard.</li>
-        <li><strong>Instellingen:</strong> herinneringen, thema, voorkeuren en of Pro is ontgrendeld.</li>
-        <li><strong>Rampenzender:</strong> de gemeente die jij kiest. De app gebruikt je locatie niet; de frequenties zitten in de app.</li>
+        <li><strong>Je noodpakket:</strong> je checklist, hoeveelheden, houdbaarheidsdata, eigen items en notities.</li>
+        <li><strong>Je huishouden:</strong> aantal volwassenen, kinderen, baby’s, ouderen en huisdieren, en of je medicijnen gebruikt.</li>
+        <li><strong>Mijn noodplan:</strong> wat je zelf invult, zoals namen, contactpersonen, afspraken, verzamelplaatsen en locaties in huis.</li>
+        <li><strong>Documentenkluis:</strong> kopieën van documenten die je zelf toevoegt. Die worden op je toestel versleuteld bewaard. Je pincode of herstelcode wordt nooit verstuurd.</li>
+        <li><strong>Instellingen:</strong> herinneringen, thema, voorkeuren op het startscherm en of Pro is ontgrendeld.</li>
+        <li><strong>Rampenzender:</strong> de gemeente die jij kiest om de radiofrequenties van jouw regio te tonen. De app gebruikt je locatie niet en alle frequenties zitten in de app.</li>
       </ul>
       <p>Deze gegevens verlaten je toestel niet, behalve als jij dat zelf kiest (zie 5 en 6).</p>
 
@@ -39,32 +39,53 @@ import { COMPANY, SITE } from "@/config/site";
         <li>Geen account, e-mailadres of telefoonnummer.</li>
         <li>Geen analyse- of statistiekdiensten, geen advertenties, geen tracking en geen profielen.</li>
         <li>Geen locatiegegevens.</li>
-        <li>Geen gegevens naar servers van ons: de app heeft geen eigen server.</li>
+        <li>Geen gegevens naar servers van ons. De app heeft geen eigen server.</li>
+        <li>De app werkt volledig zonder internet.</li>
       </ul>
 
       <h2>4. Toestemmingen die de app kan vragen</h2>
       <ul>
-        <li><strong>Meldingen:</strong> voor lokale herinneringen, pas als jij een herinnering aanzet. Ze worden op je toestel gepland.</li>
-        <li><strong>Camera:</strong> om een document te scannen, een foto te maken of een QR-code te scannen. Alleen als jij daarvoor kiest.</li>
-        <li><strong>Lokaal netwerk (iPhone):</strong> om rechtstreeks een plan te delen met een ander toestel.</li>
-        <li><strong>Foto’s of bestanden en contacten:</strong> alleen wat jij zelf kiest wordt gelezen.</li>
-        <li><strong>Vingerafdruk of gezicht:</strong> om de kluis te ontgrendelen. De biometrische gegevens blijven bij het besturingssysteem; de app ontvangt alleen of het gelukt is.</li>
+        <li><strong>Meldingen:</strong> herinneringen op je toestel, bijvoorbeeld een controle van je noodplan of een vervangherinnering met Pro. Ze worden lokaal gepland, pas als jij een herinnering aanzet.</li>
+        <li><strong>Camera:</strong> een document scannen, een foto maken voor je noodplan of de kluis, of een QR-code scannen om een plan over te nemen. Alleen als jij op scannen of fotograferen tikt.</li>
+        <li><strong>Lokaal netwerk (iPhone):</strong> rechtstreeks verbinden met een ander toestel om een plan te delen. Alleen als jij deelt of een plan scant.</li>
+        <li><strong>Foto’s of bestanden:</strong> een foto of document kiezen voor je noodplan of de kluis, of een back-up terugzetten. De app leest alleen wat je kiest.</li>
+        <li><strong>Contacten:</strong> een contactpersoon uit je adresboek kiezen voor je noodplan. Alleen het gekozen contact wordt overgenomen.</li>
+        <li><strong>Vingerafdruk of gezicht:</strong> de kluis ontgrendelen. De biometrische gegevens blijven bij het besturingssysteem; de app ontvangt alleen “gelukt” of “mislukt”. Alleen als jij biometrie voor de kluis aanzet.</li>
       </ul>
-      <p>Een telefoonnummer, zoals 112, opent alleen de telefoon-app. De app belt nooit zelf.</p>
+      <p>Een telefoonnummer, zoals 112, opent alleen de telefoon-app met het nummer ingevuld. De app belt nooit zelf.</p>
 
       <h2>5. Delen met een ander toestel (QR-code)</h2>
-      <p>Je kunt je noodplan, en als je dat zelf kiest ook documenten uit je kluis, delen met een ander toestel met NL-Noodpakket. Dat gebeurt rechtstreeks tussen de twee toestellen op hetzelfde lokale netwerk, versleuteld en zonder server. De QR-code bevat geen plan- of documentgegevens, alleen een kort verbindingsgeheim en het lokale adres van je toestel. De ontvanger ziet eerst wat wordt aangeboden en kiest zelf wat wordt overgenomen.</p>
+      <p>Je kunt je noodplan, en als je dat zelf kiest ook documenten uit je kluis, delen met een ander toestel met NL-Noodpakket. Dat gebeurt rechtstreeks tussen de twee toestellen op hetzelfde lokale netwerk (wifi of hotspot), versleuteld, zonder server en zonder internet.</p>
+      <ul>
+        <li>De QR-code bevat <strong>geen</strong> plan- of documentgegevens. Alleen een kort, eenmalig verbindingsgeheim en het lokale adres van jouw toestel. De code werkt maximaal 2 minuten en één keer.</li>
+        <li>Voordat de QR-code verschijnt, vraagt de app opnieuw om je vingerafdruk, gezicht of toestelcode.</li>
+        <li>Beide toestellen tonen een verificatiecode. Pas als jij op Toestaan tikt, wordt er iets verstuurd.</li>
+        <li>De ontvanger ziet eerst wat wordt aangeboden en kiest zelf wat wordt overgenomen. Documenten worden direct versleuteld opgeslagen met de kluissleutel van de ontvanger.</li>
+        <li>Documenten uit je kluis worden alleen gedeeld als jij ze apart aanvinkt. Een kopie van een identiteitsbewijs op meer toestellen vergroot het risico en is niet terug te halen.</li>
+        <li>De app bewaart alleen een regel met de datum, de toestelnaam en wat er is gedeeld (bijvoorbeeld “plan en 2 documenten”), nooit de inhoud. Wij zien niets hiervan.</li>
+      </ul>
 
-      <h2>6. Delen, exporteren en back-ups</h2>
-      <p>Als je een pdf, tekst of back-up deelt via het deelmenu van je toestel, gaat dat naar de app of persoon die jij kiest. Wat jij deelt valt daarna onder het beleid van de ontvanger. Het besturingssysteem kan een cloud-back-up van app-gegevens maken (zoals iCloud of Google-back-up); de documentenkluis is daarvan uitgesloten.</p>
+      <h2>6. Delen en back-ups</h2>
+      <p>Je kunt zelf kiezen om je noodplan, een pdf, een kluisdocument of een back-up te delen of te exporteren. Dat gaat via het deelmenu van je besturingssysteem naar de app of persoon die jij kiest. Wij zien dat niet. Wat jij deelt, valt vanaf dat moment onder het beleid van de ontvanger.</p>
+      <p>Een versleutelde kluisback-up (.noodkluis) is beschermd met een wachtwoord dat jij kiest. Dat wachtwoord, je pincode en je herstelcode kunnen niet door ons worden hersteld. Raak je ze kwijt, dan kunnen de versleutelde gegevens niet worden teruggehaald.</p>
+      <p>Het besturingssysteem kan een back-up van app-gegevens maken in de cloud (bijvoorbeeld Google-back-up of iCloud). De app sluit de documentenkluis daarvan uit. Andere gegevens van de app kunnen daar wel in meegenomen worden, afhankelijk van de instellingen van je toestel.</p>
 
       <h2>7. Internetgebruik van de app</h2>
-      <p>De app maakt alleen verbinding met internet als jij op een externe link tikt, bijvoorbeeld naar een bron. Die site opent in je eigen browser en valt onder het beleid van die site. De app stuurt daarbij geen gegevens mee.</p>
+      <p>De app maakt alleen verbinding met internet als jij op een externe link tikt, bijvoorbeeld naar denkvooruit.nl of nl-alert.nl, of naar het meldingsformulier op GitHub als je bij de rampenzender op “Klopt dit niet?” tikt. Dat formulier is vooraf ingevuld met alleen je gemeente en de getoonde frequentie en wordt pas verstuurd als jij dat zelf doet. Delen met een ander toestel gebruikt alleen je lokale netwerk, niet internet. Externe sites worden in je eigen browser geopend en vallen onder het beleid van die sites. De app stuurt daarbij geen gegevens mee.</p>
 
       <h2>8. Aankoop van Pro</h2>
-      <p>Pro is een eenmalige aankoop via de App Store of Google Play. Apple of Google verwerkt je betaalgegevens volgens hun eigen privacybeleid. Wij zien je betaalgegevens, naam of e-mailadres niet. De app bewaart alleen lokaal dat Pro is ontgrendeld, zodat het ook offline werkt.</p>
+      <p>Pro is een eenmalige aankoop via Google Play of de App Store. De betaling wordt volledig door die winkel afgehandeld volgens hun eigen privacybeleid. Wij zien je betaalgegevens, naam of e-mailadres niet. De app bewaart alleen lokaal dat Pro is ontgrendeld, zodat het ook zonder internet werkt. Voor het herstellen van een aankoop vraagt de app de winkel van je toestel of Pro bij jouw account hoort.</p>
 
-      <h2>9. Deze website</h2>
+      <h2>9. Bewaartermijn en verwijderen</h2>
+      <p>Gegevens blijven op je toestel tot jij ze verwijdert. Je kunt items en documenten verwijderen, “Alles resetten” gebruiken in de instellingen, of de app verwijderen. Daarmee verdwijnen alle lokale gegevens, behalve exports of back-ups die jij zelf hebt gemaakt en bewaard.</p>
+
+      <h2>10. Kinderen</h2>
+      <p>De app is voor algemeen gebruik en verzamelt geen gegevens, ook niet van kinderen.</p>
+
+      <h2>11. Je rechten</h2>
+      <p>Volgens de Algemene verordening gegevensbescherming (AVG) heb je recht op inzage, rectificatie, verwijdering, beperking en overdraagbaarheid van je persoonsgegevens. Omdat wij geen persoonsgegevens uit de app hebben, kun je je gegevens zelf inzien, wijzigen, exporteren en verwijderen in de app. Heb je een vraag over gegevens die wij zouden hebben, bijvoorbeeld uit een e-mail die je ons stuurde, neem dan contact op via <a href="/contact">Contact</a>. Je kunt ook een klacht indienen bij de <a href="https://autoriteitpersoonsgegevens.nl" rel="noopener">Autoriteit Persoonsgegevens</a>.</p>
+
+      <h2>12. Deze website</h2>
       <ul>
         <li>Geen cookies, geen analytics, geen tracking en geen scripts van derden.</li>
         <li>Lettertypen worden door ons zelf uitgeleverd; er worden geen verzoeken naar lettertypediensten gedaan.</li>
@@ -72,17 +93,8 @@ import { COMPANY, SITE } from "@/config/site";
         <li>Als je ons e-mailt, gebruiken we je e-mailadres en bericht alleen om te antwoorden.</li>
       </ul>
 
-      <h2>10. Bewaartermijn en verwijderen</h2>
-      <p>Gegevens in de app blijven op je toestel tot jij ze verwijdert. Je kunt items en documenten verwijderen, “Alles resetten” gebruiken in de instellingen, of de app verwijderen. Exports en back-ups die je zelf maakte, blijven bestaan zolang jij ze bewaart.</p>
-
-      <h2>11. Kinderen</h2>
-      <p>De app is voor algemeen gebruik en verzamelt geen gegevens, ook niet van kinderen.</p>
-
-      <h2>12. Je rechten</h2>
-      <p>Volgens de Algemene verordening gegevensbescherming (AVG) heb je het recht op inzage, rectificatie, verwijdering, beperking en overdraagbaarheid van je persoonsgegevens. Omdat je gegevens in de app alleen op je eigen toestel staan, kun je die zelf inzien, wijzigen, exporteren en verwijderen. Wil je iets weten over gegevens die wij zouden hebben, bijvoorbeeld uit een e-mail die je ons stuurde, neem dan contact op via de pagina <a href="/contact">Contact</a>. Je kunt ook een klacht indienen bij de <a href="https://autoriteitpersoonsgegevens.nl" rel="noopener">Autoriteit Persoonsgegevens</a>.</p>
-
       <h2>13. Wijzigingen</h2>
-      <p>Wijzigt dit beleid, dan plaatsen we hier een nieuwe versie met een nieuwe datum.</p>
+      <p>Wijzigt de app zo dat dit beleid anders wordt, dan verschijnt hier een nieuwe versie met een nieuwe datum. Belangrijke wijzigingen worden ook in de <a href="/wijzigingen">wijzigingen per versie</a> genoemd.</p>
     </div>
     <div class="mt-12"><GovStatement compact /></div>
   </div>

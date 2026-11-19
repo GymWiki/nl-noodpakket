@@ -31,10 +31,9 @@ export const COMPANY = {
   // TODO: bevestigen dat deze bedrijfsgegevens kloppen.
   kvk: "97351911",
   city: "Zwolle",
-  // TODO: definitief supportadres invullen (geen privéadres).
-  email: "support@noodpakket.example",
+  email: "gymwiki25@gmail.com",
   /** Zolang true toont de site 'nog in te vullen'-markeringen bij het e-mailadres. */
-  emailIsPlaceholder: true,
+  emailIsPlaceholder: false,
 } as const;
 
 /**

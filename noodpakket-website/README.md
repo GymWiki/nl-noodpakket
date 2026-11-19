@@ -64,7 +64,7 @@ CHROME_PATH=<chromium> node tests/lighthouse.mjs     # Lighthouse mobiel, alle p
 
 ## Store-badges
 
-- **Apple:** `src/assets/badges/app-store.svg` is de officiële zwarte "Download on the App Store"-badge van developer.apple.com, ongewijzigd (48 px hoog, minimaal 40 px; vrije ruimte ¼ van de hoogte via de tussenruimte). Apple levert ook een Nederlandse variant ("Download in de App Store"); download die via Apple Marketing Tools en vervang het bestand (zelfde naam). Alleen de woorden "Download in de" zijn vertaald, "App Store" blijft Engels.
+- **Apple:** `src/assets/badges/app-store.svg` is de officiële Nederlandse zwarte badge ("Download in de App Store") van Apple, ongewijzigd (48 px hoog, minimaal 40 px; vrije ruimte ¼ van de hoogte via de tussenruimte).
 - **Google Play:** `src/assets/badges/google-play.svg` is de officiële Nederlandse badge ("Ontdek het op Google Play"), ongewijzigd aangeleverd. Niet aanpassen; volg Googles richtlijnen voor minimale grootte en vrije ruimte. Staat het bestand er niet, dan toont `DownloadButtons.astro` een neutrale tekstknop.
 
 ## Statistieken later toevoegen (niet gebouwd)
@@ -78,7 +78,7 @@ Niet automatisch gedaan: geen accounts, projecten of tokens aangemaakt.
 1. Zet de repo op GitHub en koppel die aan je Vercel-team (**Pro-team**, zie onder).
 2. Vercel → Add New → Project → importeer de repo. Root Directory: `noodpakket-website`.
 3. Framework preset: **Astro**. Build command: `npm run build`. Output directory: `dist`. (Geen adapter; de site is statisch.) Node-versie volgt `engines`.
-4. Domein: Project → Settings → Domains → voeg het apex-domein en `www.` toe. Gebruik de DNS-waarden **precies zoals Vercel ze toont**. Stel `www` in als doorverwijzing naar het apex-domein (de redirect staat ook in `vercel.json`; pas daar de hostnaam aan).
+4. Domein: Project → Settings → Domains → voeg het apex-domein en `www.` toe. Gebruik de DNS-waarden **precies zoals Vercel ze toont**. Stel `www` in als doorverwijzing naar het apex-domein (de doorverwijzing www naar apex stel je alleen hier in, niet in `vercel.json`: twee tegengestelde redirects geven een lus).
 5. Vul de TODO's hieronder in en deploy opnieuw.
 6. Controlelijst na livegang: HTTPS actief; `/sitemap-index.xml` en `/robots.txt` bereikbaar; `/llms.txt` bereikbaar; Lighthouse en JSON-LD (Rich Results Test) op de live URL; `www` verwijst naar apex; headers (securityheaders.com); de CSP geeft geen console-fouten; Search Console: sitemap indienen.
 
@@ -94,11 +94,9 @@ Niet automatisch gedaan: geen accounts, projecten of tokens aangemaakt.
 
 ## TODO-checklist (nog in te vullen of te controleren)
 
-- [x] **Domeinnaam**: `nl-noodpakketapp.nl` staat in `SITE_URL` en de www-redirect. Nog in Vercel koppelen (Settings, Domains, apex en www, DNS precies zoals Vercel toont).
-- [ ] **Supportadres**: `COMPANY.email` in `site.ts`; daarna `emailIsPlaceholder` op `false`.
+- [x] **Domeinnaam**: `nl-noodpakketapp.nl` staat in `SITE_URL` en is gekoppeld in Vercel. Zet in Vercel (Settings, Domains) `www.nl-noodpakketapp.nl` op "Redirect to nl-noodpakketapp.nl" en het apex-domein op Production (nu staat het omgekeerd).
 - [ ] **Bedrijfsgegevens bevestigen**: GymWiki, KVK 97351911, Zwolle.
 - [ ] Store-links staan in `STORES` (site.ts); controleer dat beide live werken (niet te testen vanuit de bouwomgeving).
-- [ ] Optioneel: de Nederlandse Apple-badge ("Download in de App Store") vervangen (zie Store-badges).
 - [ ] **Noodmodus**: staat in de opdracht, maar niet in de app-code (v1.0.14) of de app-README. Zet `FEATURES.noodmodus` op `false` en pas `src/content/wijzigingen/1.0.14.md` aan als het onderdeel nog niet is gepubliceerd.
 - [ ] **Wijzigingenlijst**: versienummer en releasedatum van het eerste item (`1.0.14.md`, nu 19 nov. 2026).
 - [ ] **Bronnenlijst** bevestigen (afgeleid uit de app-JSON plus crisis.nl) en **alle externe links controleren** (`node tests/links.mjs --external` met netwerktoegang).
