@@ -31,4 +31,5 @@ export const organizationLd = (id = `${SITE_URL}/#organization`) => ({
   "@id": id,
   name: "GymWiki",
   url: SITE_URL,
+  logo: `${SITE_URL}/logo.png`,
 });

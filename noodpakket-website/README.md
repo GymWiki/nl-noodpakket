@@ -23,6 +23,13 @@ Node ≥ 22.23.4 (`.node-version`, `engines`).
 - `src/data/faq.ts`: FAQ-inhoud voor pagina, home en FAQPage JSON-LD. `src/data/sources.ts`: bronnenlijst.
 - `src/assets/screenshots/*.webp`: uitgesneden appschermen (zie `scripts/crop-screenshots.mjs`), getoond in `PhoneFrame.astro` (eigen CSS-telefoonkader) via Astro Image.
 
+## Logo
+
+Aangeleverd als twee SVG's (ingesloten bitmap). `scripts/prepare-logo.mjs <met-achtergrond.svg> <zonder-achtergrond.svg>` maakt de bestanden:
+- **Zonder achtergrond** (`src/assets/logo/logo-transparent.webp`, bijgesneden): header en footer via `Logo.astro`. Werkt op het lichte en het donkere thema.
+- **Met achtergrond** (wit vierkant): `public/logo.png` (JSON-LD `logo` en `image`, en het paneel in de OG-beelden), `public/favicon-32.png`, `favicon-192.png` en `apple-touch-icon.png` (die moeten een egale achtergrond hebben).
+- Het logo in de header is decoratief (`alt=""`); de naam staat er als tekst naast.
+
 ## Bewuste keuzes
 
 - De FAQ gebruikt native `<details>` in plaats van een React-accordion: de antwoorden staan dan altijd in de HTML (beter voor zoekmachines en AI-assistenten, werkt zonder JS). Radix rendert dichtgeklapte inhoud niet server-side.
