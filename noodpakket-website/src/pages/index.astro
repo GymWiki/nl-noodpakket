@@ -7,9 +7,8 @@ import FaqList from "@/components/FaqList.astro";
 import GovStatement from "@/components/GovStatement.astro";
 import LastUpdated from "@/components/LastUpdated.astro";
 import { FAQS } from "@/data/faq";
-import { COMPANY, FEATURES, SITE, SITE_URL, STORES } from "@/config/site";
+import { FEATURES, SITE, SITE_URL, STORES } from "@/config/site";
 import { CheckCheck, FileLock, Flame, ListChecks, Radio, Route, Share2, Accessibility, ShieldCheck, WifiOff, UserX, EyeOff, Users, User, HeartHandshake, Check, Phone, BellOff, Landmark, Stethoscope } from "@lucide/astro";
-import { organizationLd } from "@/lib/seo";
 
 const ic = "size-6";
 const mobileApp = {
@@ -27,7 +26,6 @@ const mobileApp = {
   offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
   publisher: { "@id": `${SITE_URL}/#organization` },
 };
-const org = { ...organizationLd(), name: COMPANY.provider };
 const audiences = [
   { icon: Users, title: "Gezinnen", text: "Reken met je hele huishouden: volwassenen, kinderen, baby’s en huisdieren. De checklist past zich aan.", tint: "blue" },
   { icon: User, title: "Alleenstaanden", text: "Een overzichtelijk pakket dat past bij één persoon, zonder dat je alles zelf hoeft uit te zoeken.", tint: "teal" },
@@ -44,7 +42,7 @@ const noNots = [
   title="NL-Noodpakket: noodpakket en noodplan, volledig offline"
   description="Stel stap voor stap je noodpakket en noodplan samen met de app NL-Noodpakket. Rustig, overzichtelijk, volledig offline en zonder account."
   path="/"
-  jsonLd={[mobileApp, org]}
+  jsonLd={[mobileApp]}
   showCrumbs={false}
 >
   <section class="mx-auto grid max-w-6xl items-center gap-12 px-4 pb-16 pt-10 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:pt-16">
@@ -88,7 +86,7 @@ const noNots = [
       <Feature title="Meterkastkaart" tint="sand"><CheckCheck slot="icon" class={ic} aria-hidden="true" />Een afdrukbare kaart voor in je meterkast, met de belangrijkste gegevens uit je plan.</Feature>
       <Feature title="Toegankelijk ontworpen" tint="green"><Accessibility slot="icon" class={ic} aria-hidden="true" />Grote tikdoelen, labels voor schermlezers en respect voor de tekstgrootte van je toestel.</Feature>
     </ul>
-    <div class="mt-10 grid gap-6 sm:grid-cols-3">
+    <div class="mx-auto mt-10 grid max-w-[17rem] gap-6 sm:max-w-none sm:grid-cols-3">
       <Screenshot name="pakket" alt="Checklist van het noodpakket met houdbaarheid (placeholder)" />
       <Screenshot name="noodplan" alt="Noodplan delen via pdf, tekst of QR-code (placeholder)" />
       <Screenshot name="stappenplan" alt="Stappenplan bij een noodsituatie (placeholder)" />

@@ -29,7 +29,7 @@ import { ExternalLink } from "@lucide/astro";
             <li>
               <a href={s.url} rel="noopener" class="flex min-h-12 items-center justify-between gap-4 px-5 py-3 no-underline hover:bg-muted">
                 <span><span class="font-medium text-primary underline underline-offset-4">{s.name}</span>{s.note && <span class="block text-sm text-muted-foreground">{s.note}</span>}</span>
-                <ExternalLink class="size-4 shrink-0 text-muted-foreground" aria-label="opent een externe website" />
+                <ExternalLink class="size-4 shrink-0 text-muted-foreground" aria-hidden="true" /><span class="sr-only">(opent een externe website)</span>
               </a>
             </li>
           ))}

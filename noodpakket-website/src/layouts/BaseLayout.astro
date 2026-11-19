@@ -4,6 +4,8 @@ import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import JsonLd from "@/components/JsonLd.astro";
+import interFont from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
+import jakartaFont from "@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2?url";
 import { SITE } from "@/config/site";
 import { absoluteUrl, breadcrumbLd, ogImagePath, organizationLd, pageTitle, type Crumb } from "@/lib/seo";
 
@@ -34,6 +36,8 @@ const trail: Crumb[] = crumbs ?? (path === "/" ? [{ name: "Home", path: "/" }] :
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#f6f8fb" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0b121b" media="(prefers-color-scheme: dark)" />
+    <link rel="preload" href={interFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={jakartaFont} as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta property="og:type" content="website" />
