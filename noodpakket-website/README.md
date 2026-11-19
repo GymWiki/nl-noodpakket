@@ -37,7 +37,7 @@ Aangeleverd als twee SVG's (ingesloten bitmap). `scripts/prepare-logo.mjs <met-a
 - De FAQ gebruikt native `<details>`: de antwoorden staan altijd in de HTML (beter voor zoekmachines en AI-assistenten, werkt zonder JS). De vragen zijn koppen (`h2` op de FAQ-pagina, `h3` op home) binnen de `summary`.
 - Hero-animatie: een subtiele CSS-animatie (uit bij `prefers-reduced-motion`), geen Magic UI nodig.
 - CSP in `vercel.json`: `script-src 'self'; style-src 'self'` (geen inline scripts of stijlen meer nodig).
-- `html-validate`: regel `element-permitted-content` staat uit; verwijderen kan nu waarschijnlijk, omdat de `astro-island`-stijl niet meer wordt geplaatst (nog niet opnieuw beoordeeld).
+- `html-validate`: alle regels staan aan (de eerdere uitzondering voor de `astro-island`-stijl is vervallen sinds er geen islands meer zijn).
 - Het HTML-commentaar "jurist controleert dit" staat in de `.astro`-bronbestanden van privacy en voorwaarden en komt niet in de gebouwde HTML.
 
 ## SEO en GEO
