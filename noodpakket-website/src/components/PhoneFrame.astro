@@ -1,0 +1,57 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+interface Props { src: ImageMetadata; alt: string; class?: string; priority?: boolean; sizes?: string }
+const { src, alt, class: cls = "", priority = false, sizes = "(min-width: 1024px) 18rem, 70vw" } = Astro.props;
+---
+<!-- Eigen, merkloze telefoonkader in CSS (geen bestaand toestelmodel). -->
+<div class:list={["phone relative mx-auto w-full", cls]}>
+  <span class="phone-btn left-[-3px] top-[16%] h-[5%]" aria-hidden="true"></span>
+  <span class="phone-btn left-[-3px] top-[24%] h-[9%]" aria-hidden="true"></span>
+  <span class="phone-btn right-[-3px] top-[22%] h-[12%]" aria-hidden="true"></span>
+  <div class="phone-body">
+    <span class="phone-speaker" aria-hidden="true"></span>
+    <Image
+      src={src}
+      alt={alt}
+      widths={[360, 540, 727]}
+      sizes={sizes}
+      format="webp"
+      quality={85}
+      loading={priority ? "eager" : "lazy"}
+      decoding="async"
+      fetchpriority={priority ? "high" : "auto"}
+      class="phone-screen block h-auto w-full"
+    />
+  </div>
+</div>
+<style>
+  .phone-body {
+    position: relative;
+    padding: 6.5% 2.6% 4.2%;
+    background: linear-gradient(160deg, #26323f, #0f1b26 55%, #1b2836);
+    border-radius: 13% / 6%;
+    box-shadow: 0 0 0 1.5px #3a4856, 0 24px 48px -16px rgb(11 74 127 / 0.35), 0 8px 18px -8px rgb(15 27 38 / 0.4);
+  }
+  .phone-speaker {
+    position: absolute;
+    top: 2.4%;
+    left: 50%;
+    width: 22%;
+    height: 0.9%;
+    min-height: 4px;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: #050b11;
+  }
+  .phone-screen {
+    border-radius: 7% / 3.2%;
+    background: #f4f7fa;
+  }
+  .phone-btn {
+    position: absolute;
+    width: 3px;
+    border-radius: 2px;
+    background: #26323f;
+  }
+</style>

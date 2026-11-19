@@ -21,7 +21,7 @@ Node ≥ 22.23.4 (`.node-version`, `engines`).
 - `src/pages/`: home, `veelgestelde-vragen`, `bronnen`, `privacy`, `voorwaarden`, `wijzigingen`, `contact`, `404`, `llms.txt`, `robots.txt`, `og/[slug].png` (gegenereerd 1200×630).
 - `src/content/wijzigingen/*.md`: één bestand per release (`version`, `date`, optioneel `title`). Nieuwe release = nieuw bestand.
 - `src/data/faq.ts`: FAQ-inhoud voor pagina, home en FAQPage JSON-LD. `src/data/sources.ts`: bronnenlijst.
-- `public/screenshots/*.svg`: **placeholders**; vervang door echte screenshots (zelfde namen, pas extensie aan in `Screenshot.astro`).
+- `src/assets/screenshots/*.webp`: uitgesneden appschermen (zie `scripts/crop-screenshots.mjs`), getoond in `PhoneFrame.astro` (eigen CSS-telefoonkader) via Astro Image.
 
 ## Bewuste keuzes
 
@@ -101,7 +101,6 @@ Niet automatisch gedaan: geen accounts, projecten of tokens aangemaakt.
 - [ ] **Google Play-link**: `STORES.googlePlay`.
 - [ ] **Apple-link** controleren (niet bereikbaar vanuit de bouwomgeving): `STORES.appStore`.
 - [ ] **Officiële store-badges** in `DownloadButtons.astro`.
-- [ ] **Echte screenshots** in `public/screenshots/` (en `alt`-teksten bijwerken).
 - [ ] **Noodmodus**: staat in de opdracht, maar niet in de app-code (v1.0.14) of de app-README. Zet `FEATURES.noodmodus` op `false` en pas `src/content/wijzigingen/1.0.14.md` aan als het onderdeel nog niet is gepubliceerd.
 - [ ] **Wijzigingenlijst**: versienummer en releasedatum van het eerste item (`1.0.14.md`, nu 19 nov. 2026).
 - [ ] **Bronnenlijst** bevestigen (afgeleid uit de app-JSON plus crisis.nl) en **alle externe links controleren** (`node tests/links.mjs --external` met netwerktoegang).

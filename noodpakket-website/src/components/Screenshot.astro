@@ -1,8 +1,0 @@
----
-interface Props { name: string; alt: string; class?: string; width?: number; height?: number; priority?: boolean }
-const { name, alt, class: cls = "", width = 540, height = 1170, priority = false } = Astro.props;
-// TODO: vervang placeholders in /public/screenshots door echte app-screenshots (zelfde bestandsnamen, .webp of .png).
----
-<figure class:list={["overflow-hidden rounded-[1.75rem] border border-border bg-card shadow-lg shadow-primary/10", cls]}>
-  <img src={`/screenshots/${name}.svg`} alt={alt} width={width} height={height} loading={priority ? "eager" : "lazy"} decoding="async" fetchpriority={priority ? "high" : "auto"} class="block h-auto w-full" />
-</figure>

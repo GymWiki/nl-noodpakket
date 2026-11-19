@@ -1,7 +1,12 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import DownloadButtons from "@/components/DownloadButtons.astro";
-import Screenshot from "@/components/Screenshot.astro";
+import PhoneFrame from "@/components/PhoneFrame.astro";
+import startscherm from "@/assets/screenshots/startscherm.webp";
+import pakket from "@/assets/screenshots/pakket.webp";
+import stappenplan from "@/assets/screenshots/stappenplan.webp";
+import noodplan from "@/assets/screenshots/noodplan.webp";
+import delen from "@/assets/screenshots/delen.webp";
 import Feature from "@/components/Feature.astro";
 import FaqList from "@/components/FaqList.astro";
 import GovStatement from "@/components/GovStatement.astro";
@@ -53,8 +58,8 @@ const noNots = [
       <DownloadButtons class="mt-8" />
       <div class="mt-5"><LastUpdated date={SITE.lastUpdated} /></div>
     </div>
-    <div class="mx-auto w-full max-w-[17rem] lg:max-w-xs">
-      <Screenshot name="startscherm" alt="Startscherm van de app NL-Noodpakket met jouw paraatheid in een oogopslag (placeholder)" class="float-soft" priority />
+    <div class="mx-auto w-full max-w-[16rem] lg:max-w-[19rem]">
+      <PhoneFrame src={startscherm} alt="Startscherm van NL-Noodpakket: ‘ongeveer 3 van de 3 dagen zelfredzaam’, met knoppen voor Bel 112 en Eerste uur, de voortgang van noodpakket en noodplan, en de volgende stap." class="float-soft" priority sizes="(min-width: 1024px) 20rem, 70vw" />
     </div>
   </section>
 
@@ -86,10 +91,23 @@ const noNots = [
       <Feature title="Meterkastkaart" tint="sand"><CheckCheck slot="icon" class={ic} aria-hidden="true" />Een afdrukbare kaart voor in je meterkast, met de belangrijkste gegevens uit je plan.</Feature>
       <Feature title="Toegankelijk ontworpen" tint="green"><Accessibility slot="icon" class={ic} aria-hidden="true" />Grote tikdoelen, labels voor schermlezers en respect voor de tekstgrootte van je toestel.</Feature>
     </ul>
-    <div class="mx-auto mt-10 grid max-w-[17rem] gap-6 sm:max-w-none sm:grid-cols-3">
-      <Screenshot name="pakket" alt="Checklist van het noodpakket met houdbaarheid (placeholder)" />
-      <Screenshot name="noodplan" alt="Noodplan delen via pdf, tekst of QR-code (placeholder)" />
-      <Screenshot name="stappenplan" alt="Stappenplan bij een noodsituatie (placeholder)" />
+    <h3 class="sr-only">Zo ziet de app eruit</h3>
+    <div role="region" aria-label="Schermen van de app" tabindex="0" class="-mx-4 mt-12 overflow-x-auto px-4 pb-4 sm:mx-0 sm:overflow-visible sm:px-0 sm:pb-0">
+      <ul class="flex snap-x snap-mandatory gap-6 sm:grid sm:grid-cols-2 sm:gap-8 lg:grid-cols-4">
+        {[
+          { src: pakket, title: "Je noodpakket, overzichtelijk bijgehouden", alt: "Scherm Mijn noodpakket: 32 van 46 spullen in huis, met de categorie Water en voeding en items zoals drinkwater (36 van 38 liter) en houdbaar eten voor 3 dagen." },
+          { src: stappenplan, title: "Duidelijke stappen als het erop aankomt", alt: "Stappenplan Stroomstoring, stap 2 van 6: luister naar de regionale omroep, met knoppen Vorige en Volgende." },
+          { src: noodplan, title: "Maak in 10 minuten je noodplan", alt: "Scherm Mijn noodplan: 5 van 7 onderdelen ingevuld, met onderdelen als Huishouden, Contacten, Verzamelplekken en Afspraken." },
+          { src: delen, title: "Deel je plan rechtstreeks met je gezin", alt: "Scherm voor het delen van je noodplan met een QR-code om te scannen met het andere toestel, met een afteller van 1:55." },
+        ].map((x) => (
+          <li class="w-[15.5rem] shrink-0 snap-center sm:w-auto">
+            <figure>
+              <PhoneFrame src={x.src} alt={x.alt} class="max-w-[15.5rem] sm:max-w-[17rem]" sizes="(min-width: 1024px) 17rem, 15.5rem" />
+              <figcaption class="mt-5 text-center font-heading font-semibold leading-snug">{x.title}</figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
