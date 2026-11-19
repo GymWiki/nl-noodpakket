@@ -22,6 +22,9 @@ jobs:
   ipa:
     # Apple eist sinds 28 april 2026 Xcode 26 of nieuwer voor uploads (developer.apple.com/news/upcoming-requirements,
     # gecontroleerd op 2026-11-16). Het image macos-26 heeft Xcode 26.x (standaard 26.6).
+    # TODO (uiterlijk april 2027): Apple eist dan Xcode 27 of nieuwer (iOS 27 SDK) voor uploads; altool geeft hier al een
+    # waarschuwing over (SDK 26.5). Controleer de runner-images (github.com/actions/runner-images), kies een image met
+    # Xcode 27 en pas runs-on en de stap "Xcode kiezen" (Xcode_26*) hieronder aan. Nu bewust niet aangepast.
     runs-on: macos-26
     timeout-minutes: 60
     env:

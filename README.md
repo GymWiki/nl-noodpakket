@@ -103,6 +103,8 @@ flutter run
 3. `flutter build appbundle --release` (Android), `flutter build ipa --release` (iOS, op een Mac met de juiste provisioning voor `com.mycompany.mijnnoodpakket`).
 4. **Store-listing**: de bestaande screenshots (map `NL_Noodpakket 1.0/Store`) tonen de oude app en moeten worden vervangen. Werk ook beschrijving, privacy-/datasafety-formulier (geen data verzameld, geen tracking) en de "niet van de overheid"-vermelding bij.
 
+**TODO vóór april 2027: bouwen met Xcode 27 of nieuwer.** Apple eist dat uploads vanaf dan met Xcode 27 (iOS 27 SDK) of nieuwer zijn gebouwd; `altool validate` waarschuwt hier nu al voor (SDK 26.5). Controleer vooraf of GitHub een `macos`-image met Xcode 27 heeft (github.com/actions/runner-images), pas dan `runs-on` en de stap "Xcode kiezen" aan in `.github/workflows/ios-ipa.yml` en `store-screenshots-ios.yml` (daar staat `Xcode_26*`), en test een build. Nu staat het bewust nog op Xcode 26.
+
 ## Store-screenshots maken
 
 Reproduceerbare screenshots voor Google Play en de App Store, uit dezelfde integratietests met verzonnen demodata ("Familie De Vries", voorbeeldnummers, documenten met "(voorbeeld)" in de titel). Vaste staat: nl-NL, licht thema, tekstschaal 1.0, vaste tijd (17 november 2026, 12:00), Pro uit (screenshot 8 toont de Pro-aanduiding, zoals App Review 2.3.2 vraagt), geen meldingen, geen toetsenbord. Er zit geen testcode of demodata in `lib/`; `integration_test` en `flutter_driver` staan alleen onder `dev_dependencies`. `test/store_screenshots_guard_test.dart` bewaakt dat, en `tool/screenshots/check_release.dart` controleert een gebouwde APK of AAB.
