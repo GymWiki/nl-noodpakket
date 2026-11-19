@@ -1114,11 +1114,16 @@ class S {
 
   static String wikiSituations(int n) => n == 1 ? '1 situatie' : '$n situaties';
 
-  static const legalTitle = 'Juridisch';
+  static const legalTitle = 'Over en juridisch';
   static const legalPrivacy = 'Privacybeleid';
   static const legalTerms = 'Gebruiksvoorwaarden';
+  static const legalSupport = 'Support en contact';
+  static const legalSources = 'Bronnen';
+  static const legalWebsite = 'Website';
   static const legalLicenses = 'Open-sourcelicenties';
-  static const legalOpensInBrowser = 'Opent in je browser. Dit is de enige keer dat de app internet gebruikt, en alleen als jij tikt.';
+  static const legalOpensInBrowser = 'Deze pagina\'s openen in je browser en hebben internet nodig.';
+  static const legalNeedsInternet = 'Deze pagina heeft internet nodig';
+  static const legalOpensHint = 'Opent in je browser';
 
   // ---- Delen met een ander toestel (QR) ----
   static const deelTitle = 'Deel met een ander toestel';

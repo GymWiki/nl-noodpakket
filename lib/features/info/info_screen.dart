@@ -18,6 +18,23 @@ class InfoScreen extends StatelessWidget {
     if (!ok) messenger.showSnackBar(const SnackBar(content: Text(S.infoLinkError)));
   }
 
+  /// Rij naar een pagina van de website: altijd zichtbaar, tikdoel van minstens 56 dp.
+  Widget _siteTile(BuildContext context, IconData icon, String title, String url) {
+    void open() => openSitePage(context, url);
+    return Semantics(
+      button: true,
+      label: '$title. ${S.legalOpensHint}',
+      onTap: open,
+      excludeSemantics: true,
+      child: ListTile(
+        leading: Icon(icon),
+        title: Text(title),
+        trailing: const Icon(Icons.open_in_new_rounded),
+        onTap: open,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final t = Theme.of(context);
@@ -76,19 +93,15 @@ class InfoScreen extends StatelessWidget {
           SoftCard(
             padding: EdgeInsets.zero,
             child: Column(children: [
-              ListTile(
-                leading: const Icon(Icons.privacy_tip_outlined),
-                title: const Text(S.legalPrivacy),
-                trailing: const Icon(Icons.open_in_new_rounded),
-                onTap: () => openExternal(context, privacyUrl),
-              ),
+              _siteTile(context, Icons.privacy_tip_outlined, S.legalPrivacy, privacyUrl),
               const Divider(indent: 16, endIndent: 16),
-              ListTile(
-                leading: const Icon(Icons.description_outlined),
-                title: const Text(S.legalTerms),
-                trailing: const Icon(Icons.open_in_new_rounded),
-                onTap: () => openExternal(context, termsUrl),
-              ),
+              _siteTile(context, Icons.description_outlined, S.legalTerms, termsUrl),
+              const Divider(indent: 16, endIndent: 16),
+              _siteTile(context, Icons.support_agent_rounded, S.legalSupport, supportUrl),
+              const Divider(indent: 16, endIndent: 16),
+              _siteTile(context, Icons.menu_book_outlined, S.legalSources, sourcesUrl),
+              const Divider(indent: 16, endIndent: 16),
+              _siteTile(context, Icons.language_rounded, S.legalWebsite, websiteUrl),
               const Divider(indent: 16, endIndent: 16),
               ListTile(
                 leading: const Icon(Icons.article_outlined),
