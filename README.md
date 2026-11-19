@@ -318,16 +318,13 @@ Tinten: voorzieningen en water blauw, natuur en hygiëne teal, brand en gevaarli
 
 Bewaakt door `test/category_palette_test.dart` (icoon op bolletje minstens 4,5:1 terwijl 3:1 de eis is, accentlijn minstens 3:1, tekst minstens 4,5:1, gelijke helderheid en verzadiging, geen rood of oranje, elke categorie heeft een tint) en `test/category_golden_test.dart` (screenshots in `test/goldens/`, licht, donker, 200% en protanopie/deuteranopie; regenereer met `flutter test --update-goldens`). Noodplan en Kluis staan alleen in de tab *Mijn plan*; de kaarten in Noodgevallen zijn weggehaald.
 
-## Privacybeleid en voorwaarden (GitHub Pages)
+## Website, privacybeleid en voorwaarden
 
-De pagina's staan in `docs/` (`index.html`, `privacy.html`, `terms.html`, `style.css`) en worden met GitHub Pages gepubliceerd. De app linkt ernaar onder Meer, Informatie, Juridisch (`lib/core/legal.dart`).
+De leidende versie van privacybeleid, voorwaarden, support, bronnen en veelgestelde vragen staat op de **website** (`noodpakket-website/`, Astro, gehost op Vercel). De app linkt ernaar onder Meer, Informatie, **Over en juridisch** (Privacybeleid, Gebruiksvoorwaarden, Support en contact, Bronnen, Website). De basis-URL en de paden staan op één plek: `lib/core/config/site_urls.dart` (`lib/core/legal.dart` leidt de volledige URL's daarvan af). Dezelfde waarden staan in `noodpakket-website/src/config/site.ts` en in `STORE_URLS.md`; `python3 tool/check_site_urls.py` controleert dat ze gelijk zijn (draait in CI via `.github/workflows/site-urls.yml`).
 
-Eenmalig instellen (dit kon ik niet zelf: er is geen `gh`-CLI of remote in deze omgeving):
-1. Maak een **publieke** repository `nl-noodpakket` onder het account `GymWiki` en push dit project (`git remote add origin https://github.com/GymWiki/nl-noodpakket.git`, `git push -u origin master:main`; de standaardbranch van de repo is `main`).
-2. Repository, Settings, Pages: Source "Deploy from a branch", branch `main`, map `/docs`.
-3. Na een minuut zijn de pagina's bereikbaar op `https://gymwiki.github.io/nl-noodpakket/privacy.html` en `.../terms.html`. Controleer beide URL's in een browser.
-4. Heet de repository of het account anders, pas dan alleen `legalBaseUrl` in `lib/core/legal.dart` aan (en de GitHub-Issues-links in `docs/`). `test/legal_test.dart` bewaakt dat de links, bestanden en toestemmingen kloppen.
-5. Vul dezelfde privacy-URL in Play Console (App-inhoud, Privacybeleid) en App Store Connect (App-informatie).
+- **Winkelformulieren:** de exacte URL's, het supportadres en de plek in App Store Connect en Play Console staan in `STORE_URLS.md`.
+- **Opent een link niet** (bijvoorbeeld geen browser), dan toont de app de melding "Deze pagina heeft internet nodig" en gebeurt er verder niets. De app doet zelf geen extra netwerkaanroepen; de pagina's openen in de externe browser. Is er geen internet, dan toont de browser zelf zijn foutpagina.
+- **`docs/` (GitHub Pages)** bevat nog de oudere tekstversies (`privacy.html`, `terms.html`). `test/legal_test.dart` controleert daar de toestemmingen en het QR-delen tegen de code. Houd één versie aan: laat deze pagina's op termijn doorverwijzen naar de website, en vul in de winkels alleen de website-URL's in. Oudere appversies verwijzen nog naar `https://gymwiki.github.io/nl-noodpakket/privacy.html`; laat die pagina dus bestaan zolang die versies in omloop zijn.
 
 Let op: de teksten zijn zorgvuldig opgesteld naar wat de app doet, maar niet juridisch getoetst. Laat ze zo nodig controleren. De pagina's noemen geen e-mailadres; contact loopt via GitHub Issues.
 

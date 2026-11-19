@@ -102,5 +102,27 @@ for (const f of pages) {
 }
 ok("URL-conventie (https, apex, geen slash, geen .html) en interne links");
 
+// 11. Elke pagina uit de sitemap is gelinkt vanuit de footer (op elke pagina)
+for (const f of pages) {
+  const footer = read(`dist/${f}`).match(/<footer[\s\S]*?<\/footer>/)?.[0] ?? "";
+  for (const u of sm) {
+    const p = u.slice(SITE_URL.length) || "/";
+    if (!footer.includes(`href="${p}"`)) err(`${f}: footer mist een link naar ${p}`);
+  }
+}
+ok("footer linkt naar elke pagina uit de sitemap");
+
+// 12. Eisen per pagina: één unieke title, unieke description, geen placeholders/lorem
+const titles = new Map(), descs = new Map();
+for (const f of pages) {
+  const html = read(`dist/${f}`);
+  const t = html.match(/<title>(.*?)<\/title>/)?.[1], d = html.match(/<meta name="description" content="(.*?)"/)?.[1];
+  if (titles.has(t)) err(`title niet uniek: ${f} en ${titles.get(t)}`); titles.set(t, f);
+  if (descs.has(d)) err(`description niet uniek: ${f} en ${descs.get(d)}`); descs.set(d, f);
+  const vis = text(html);
+  if (/lorem ipsum|\bTODO\b|noodpakket\.example|placeholder/i.test(vis)) err(`${f}: zichtbare placeholder of TODO in de tekst`);
+}
+ok("unieke title en description, geen zichtbare placeholders");
+
 console.log(bad ? `${bad} bevindingen` : "SEO OK");
 process.exit(bad ? 1 : 0);

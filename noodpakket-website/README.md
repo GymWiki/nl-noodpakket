@@ -110,14 +110,27 @@ Niet automatisch gedaan: geen accounts, projecten of tokens aangemaakt.
 
 `/privacy` en `/voorwaarden` zijn **concepten**. Een jurist moet ze controleren voordat de site live gaat (zie ook HTML-commentaar in `src/pages/privacy.astro` en `voorwaarden.astro`).
 
+## URL-conventie en winkelgegevens
+
+Eén vorm voor alle URL's: **https, hoofddomein zonder www, paden zonder slash aan het eind** (alleen `/` voor home). Canonicals, sitemap, interne links en `STORE_URLS.md` (in de repo-root) gebruiken dit; de paden staan in `PATHS` in `src/config/site.ts` en moeten gelijk zijn aan `lib/core/config/site_urls.dart` in de app. Elke URL antwoordt direct met 200 (`cleanUrls`, `trailingSlash: false`); er zit bewust **geen** redirect in `vercel.json`: de doorverwijzing `www` naar het hoofddomein stel je alleen in het Vercel-dashboard in (twee tegengestelde redirects geven een lus).
+
+- `python3 tool/check_site_urls.py` (repo-root): vergelijkt site-config, app-config en `STORE_URLS.md` en faalt bij een verschil. Draait in CI via `.github/workflows/site-urls.yml`.
+- `node tests/seo.mjs`: bewaakt o.a. canonical = sitemap-URL, geen slash/`.html`/www in interne links, footer linkt naar elke sitemap-pagina, unieke title en description, geen zichtbare placeholders.
+
+## Contactpagina, privacy en voorwaarden
+
+- `/contact`: supportadres als mailto-link (geen formulier, geen belofte over reactietijd), aanbieder, KVK en plaats, en "Hulp bij de app" (Pro-aankoop herstellen, noodplan delen, offline werken, waar de gegevens staan). De hulpteksten zijn gecontroleerd tegen de app-code (v1.0.14); de paden in de app staan in de broncommentaar van `src/pages/contact.astro`.
+- `/privacy` en `/voorwaarden` zijn **concepten** die een jurist moet controleren. Wat tegen de app-code is gecontroleerd en wat niet te verifiëren was, staat als HTML-commentaar in de `.astro`-bronbestanden (niet in de gebouwde pagina's).
+- `/bronnen` toont alleen bronnen die de app echt gebruikt (afgeleid uit `assets/wiki/*.json` en `assets/radio/rampenzenders.json` van de app). Eerder staande bronnen die de app niet gebruikt (`crisis.nl`, de Rijksoverheid-hoofdpagina) zijn verwijderd; voeg ze alleen toe als de app ze ook gaat gebruiken.
+
 ## TODO-checklist (nog in te vullen of te controleren)
 
-- [x] **Domeinnaam**: `nl-noodpakketapp.nl` staat in `SITE_URL` en is gekoppeld in Vercel. Zet in Vercel (Settings, Domains) `www.nl-noodpakketapp.nl` op "Redirect to nl-noodpakketapp.nl" en het apex-domein op Production (nu staat het omgekeerd).
-- [ ] **Bedrijfsgegevens bevestigen**: GymWiki, KVK 97351911, Zwolle.
-- [ ] Store-links staan in `STORES` (site.ts); controleer dat beide live werken (niet te testen vanuit de bouwomgeving).
-- [ ] **Noodmodus**: staat in de opdracht, maar niet in de app-code (v1.0.14) of de app-README. Zet `FEATURES.noodmodus` op `false` en pas `src/content/wijzigingen/1.0.14.md` aan als het onderdeel nog niet is gepubliceerd.
+- [x] **Domeinnaam** `nl-noodpakketapp.nl`, **supportadres** `gymwiki25@gmail.com` en **bedrijfsgegevens** (GymWiki, KVK 97351911, Zwolle) zijn door de eigenaar bevestigd (19-11-2026).
+- [ ] Zet in Vercel (Settings, Domains) `www.nl-noodpakketapp.nl` op een **308**-doorverwijzing naar het hoofddomein; het hoofddomein serveert de site.
+- [ ] Controleer dat de store-links in `STORES` (site.ts) live werken en dat alle URL's uit `STORE_URLS.md` laden (niet te testen vanuit de bouwomgeving).
+- [ ] **Alle externe links controleren** (`node tests/links.mjs --external` met netwerktoegang), ook die van `/bronnen`.
+- [ ] **Noodmodus**: staat op de site maar niet in de app-code (v1.0.14) of de app-README. Zet `FEATURES.noodmodus` op `false` en pas `src/content/wijzigingen/1.0.14.md` aan als het onderdeel nog niet is gepubliceerd.
 - [ ] **Wijzigingenlijst**: versienummer en releasedatum van het eerste item (`1.0.14.md`, nu 19 nov. 2026).
-- [ ] **Bronnenlijst** bevestigen (afgeleid uit de app-JSON plus crisis.nl) en **alle externe links controleren** (`node tests/links.mjs --external` met netwerktoegang).
-- [ ] **Juridische controle** privacy en voorwaarden. In-app privacytekst noemt nog een GitHub-issue als contact; de site gebruikt e-mail. Houd beide gelijk.
+- [ ] **Juridische controle** van privacy en voorwaarden. Zorg dat de winkels naar de site verwijzen (niet naar de GitHub Pages-versie in `docs/` van de app-repo).
 - [ ] Datums `lastUpdated` / `legalUpdated` in `site.ts` bijwerken bij inhoudelijke wijzigingen.
 - [ ] Lighthouse en JSON-LD opnieuw op de live URL.
