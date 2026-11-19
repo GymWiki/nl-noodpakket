@@ -10,8 +10,7 @@ const { class: cls = "" } = Astro.props;
 const googleBadges = import.meta.glob("../assets/badges/google-play.{png,svg,webp}", { eager: true }) as Record<string, { default: ImageMetadata }>;
 const googleBadge = Object.values(googleBadges)[0]?.default;
 
-// Apple: officieel zwart "Download on the App Store"-badge, ongewijzigd (zie README, sectie Store-badges).
-// TODO: vervang door de Nederlandse variant ("Download in de App Store") van Apple Marketing Tools; zelfde bestandsnaam.
+// Apple: officiële Nederlandse zwarte badge ("Download in de App Store"), ongewijzigd (zie README, sectie Store-badges).
 const textBtn = "inline-flex min-h-12 items-center justify-center rounded-xl bg-foreground px-6 py-3 font-semibold text-background no-underline hover:opacity-90";
 ---
 <div class:list={["flex flex-wrap items-center gap-x-[10px] gap-y-[10px]", cls]}>
