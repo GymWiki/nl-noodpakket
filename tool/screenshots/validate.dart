@@ -5,22 +5,78 @@
 //
 // Controleert per bestand: afmetingen, bestandstype (PNG of JPEG), kleurmodus (geen alfakanaal), bestandsgrootte
 // en per set het aantal en de aanwezigheid van 01 t/m 08. Faalt (exitcode 1) bij een afwijking.
-// Bronnen (gecontroleerd op 2026-11-17): Play Console Help "Add preview assets" (support.google.com/googleplay/
-// android-developer/answer/9866151) en App Store Connect Help "Screenshot specifications".
+//
+// Regels per winkel en uitvoermap (ze verschillen bewust):
+//   Google Play (store/out/play/phone): 320 tot 3840 px per zijde, lange zijde hooguit 2x de korte (2:1), geen alfa,
+//     JPEG of 24-bit PNG; bij voorkeur 1080x1920. Feature graphic exact 1024x500 zonder alfa.
+//   App Store iPhone 6.9" (store/out/appstore/iphone-6.9): exact 1260x2736, 1290x2796 of 1320x2868 (portret), zonder alfa.
+//     Geen verhoudingsregel: 1320x2868 (ca. 2,17:1) is door Apple geaccepteerd en mag dus niet op 2:1 falen.
+//   App Store iPad 13" (store/out/appstore/ipad-13): exact 2064x2752 of 2048x2732, zonder alfa. Ook geen 2:1-regel.
+//
+// Bronnen:
+//   App Store Connect Help, "Screenshot specifications" (developer.apple.com/help/app-store-connect/reference/
+//     screenshot-specifications/), opgehaald op 2026-11-19. LET OP: de iPhone- en iPad-secties vielen buiten het
+//     verbatim opgehaalde deel; de waarden 1320x2868 (iPhone), 2064x2752 en 2048x2732 (iPad), png/jpg/jpeg, "geen
+//     alfakanalen of transparantie", 1 tot 10 screenshots en het ontbreken van een verhoudingsregel komen uit een
+//     samenvatting. 1260x2736 en 1290x2796 komen uit de opdracht en zijn niet uit de bron bevestigd.
+//   Play Console Help, "Add preview assets" (support.google.com/googleplay/android-developer/answer/9866151):
+//     op 2026-11-19 NIET opgehaald (host geblokkeerd in de sandbox). De Play-regels hierboven komen uit de opdracht
+//     van de eigenaar en zijn nog niet door ons tegen de pagina gecontroleerd. Controleer dit handmatig.
 import 'dart:io';
 import 'dart:typed_data';
 
 class Spec {
-  const Spec(this.name, this.dir, {required this.sizes, required this.min, required this.max, this.requireAll = true});
+  const Spec(
+    this.name,
+    this.dir, {
+    this.sizes,
+    this.minSide,
+    this.maxSide,
+    this.maxRatio,
+    this.preferred,
+    required this.min,
+    required this.max,
+    this.requireAll = true,
+  });
   final String name, dir;
-  final List<List<int>> sizes; // toegestane [breedte, hoogte]
+  final List<List<int>>? sizes; // exact toegestane [breedte, hoogte]; null = bereik via minSide/maxSide
+  final int? minSide, maxSide; // per zijde, in px
+  final double? maxRatio; // lange zijde / korte zijde; alleen Google Play
+  final List<int>? preferred; // gewenst formaat; afwijking is alleen een opmerking
   final int min, max;
   final bool requireAll;
 }
 
-const _play = Spec('Google Play telefoon', 'store/out/play/phone', sizes: [[1080, 1920]], min: 2, max: 8);
-const _iphone = Spec('App Store iPhone 6.9"', 'store/out/appstore/iphone-6.9', sizes: [[1320, 2868], [1290, 2796]], min: 1, max: 10);
-const _ipad = Spec('App Store iPad 13"', 'store/out/appstore/ipad-13', sizes: [[2064, 2752], [2048, 2732]], min: 1, max: 10);
+const playPhone = Spec('Google Play telefoon', 'store/out/play/phone',
+    minSide: 320, maxSide: 3840, maxRatio: 2, preferred: [1080, 1920], min: 2, max: 8);
+const appStoreIphone = Spec('App Store iPhone 6.9"', 'store/out/appstore/iphone-6.9',
+    sizes: [[1260, 2736], [1290, 2796], [1320, 2868]], min: 1, max: 10);
+const appStoreIpad = Spec('App Store iPad 13"', 'store/out/appstore/ipad-13',
+    sizes: [[2064, 2752], [2048, 2732]], min: 1, max: 10);
+
+/// Afwijkingen van één afbeelding ten opzichte van de regels van [s]. Leeg = goed. Zuiver (geen I/O), dus testbaar.
+List<String> imageProblems(Spec s, Info i, String name) {
+  final out = <String>[];
+  final sizes = s.sizes;
+  if (sizes != null) {
+    if (!sizes.any((z) => z[0] == i.width && z[1] == i.height)) {
+      out.add('$name is ${i.width}x${i.height}, verwacht ${sizes.map((z) => '${z[0]}x${z[1]}').join(' of ')}');
+    }
+  } else {
+    final lo = s.minSide ?? 0, hi = s.maxSide ?? 1 << 30;
+    if (i.width < lo || i.height < lo || i.width > hi || i.height > hi) {
+      out.add('$name is ${i.width}x${i.height}, elke zijde moet tussen $lo en $hi px liggen');
+    }
+  }
+  final ratio = s.maxRatio;
+  if (ratio != null) {
+    final long = i.width > i.height ? i.width : i.height, short = i.width > i.height ? i.height : i.width;
+    if (long > ratio * short) out.add('$name: lange zijde meer dan ${ratio.toStringAsFixed(0)}x de korte zijde (${i.width}x${i.height})');
+  }
+  if (i.hasAlpha) out.add('$name heeft een alfakanaal (transparantie niet toegestaan)');
+  if (i.bytes > 8 * 1024 * 1024) out.add('$name is groter dan 8 MB');
+  return out;
+}
 
 class Info {
   Info(this.format, this.width, this.height, this.hasAlpha, this.bytes);
@@ -29,8 +85,9 @@ class Info {
   final bool hasAlpha;
 }
 
-Info? readInfo(File f) {
-  final b = f.readAsBytesSync();
+Info? readInfo(File f) => parseInfo(f.readAsBytesSync());
+
+Info? parseInfo(List<int> b) {
   if (b.length > 33 && b[0] == 0x89 && b[1] == 0x50 && b[2] == 0x4e && b[3] == 0x47) {
     final d = ByteData.sublistView(Uint8List.fromList(b));
     final w = d.getUint32(16), h = d.getUint32(20), colorType = b[25];
@@ -95,13 +152,14 @@ void checkSet(Spec s, {required bool required}) {
       fail('$name is geen PNG of JPEG');
       continue;
     }
-    final okSize = s.sizes.any((z) => z[0] == i.width && z[1] == i.height);
     stdout.writeln('  $name  ${i.format} ${i.width}x${i.height}  ${(i.bytes / 1024).toStringAsFixed(0)} KB  ${i.hasAlpha ? 'MET alfa' : 'zonder alfa'}');
-    if (!okSize) fail('$name is ${i.width}x${i.height}, verwacht ${s.sizes.map((z) => '${z[0]}x${z[1]}').join(' of ')}');
-    if (i.hasAlpha) fail('$name heeft een alfakanaal (transparantie niet toegestaan)');
-    if (i.bytes > 8 * 1024 * 1024) fail('$name is groter dan 8 MB');
-    final long = i.width > i.height ? i.width : i.height, short = i.width > i.height ? i.height : i.width;
-    if (long > 2 * short) fail('$name: lange zijde meer dan 2x de korte zijde');
+    for (final p in imageProblems(s, i, name)) {
+      fail(p);
+    }
+    final pref = s.preferred;
+    if (pref != null && (i.width != pref[0] || i.height != pref[1]) && imageProblems(s, i, name).isEmpty) {
+      stdout.writeln('  opmerking: $name is ${i.width}x${i.height}; gewenst is ${pref[0]}x${pref[1]}');
+    }
   }
 }
 
@@ -132,12 +190,12 @@ void main(List<String> args) {
   final only = onlyArg?.split(',').toSet();
   bool on(String k) => only == null || only.contains(k);
   if (on('play')) {
-    checkSet(_play, required: true);
+    checkSet(playPhone, required: true);
     checkSingle('Google Play feature graphic', 'store/out/play/feature-graphic/feature-graphic.png', 1024, 500, alpha: false);
     checkSingle('Google Play app-icoon', 'store/out/play/icon/icon-512.png', 512, 512, alpha: true, maxBytes: 1024 * 1024);
   }
-  if (on('ios')) checkSet(_iphone, required: reqIos);
-  if (on('ipad')) checkSet(_ipad, required: reqIpad);
+  if (on('ios')) checkSet(appStoreIphone, required: reqIos);
+  if (on('ipad')) checkSet(appStoreIpad, required: reqIpad);
   if (failures.isNotEmpty) {
     stderr.writeln('\nValidatie mislukt: ${failures.length} afwijking(en).');
     exit(1);

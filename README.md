@@ -138,7 +138,7 @@ De acht schermen (bestandsnamen `01` t/m `08`): Start met Paraatheid, Pakket, Wa
 
 **Regels waaraan getoetst is** (gelezen op 17 november 2026)
 - Google Play: telefoon-screenshots JPEG of 24-bit PNG zonder alfa, 2 tot 8, kortste zijde minstens 320 px en langste hooguit 3840 px (niet meer dan 2x de korte zijde); tekst-overlay maximaal 20% van het beeld; geen prijs- of actiewoorden zoals "Best", "#1", "Download now"; geen badge van een winkel; apparaatframes afgeraden. Feature graphic 1024x500 zonder alfa. App-icoon 512x512, 32-bit PNG met alfa, maximaal 1024 KB.
-- Apple: 1 tot 10 screenshots per formaat, JPEG of PNG zonder transparantie; 6.9-inch 1320x2868 of 1290x2796; iPad 13-inch 2064x2752 of 2048x2732. App Review 2.3.3 (de app in gebruik tonen), 2.3.2 (betaalde functies melden: bijschrift 8 en de zichtbare Pro-aanduiding), 2.3.10 (geen verwijzing naar andere platformen).
+- Apple: 1 tot 10 screenshots per formaat, JPEG of PNG zonder transparantie; 6.9-inch 1260x2736, 1290x2796 of 1320x2868 (portret); iPad 13-inch 2064x2752 of 2048x2732. De 2:1-verhoudingsregel geldt alleen voor Google Play, niet voor de App Store (1320x2868 is ruim 2,17:1 en toegestaan). `tool/screenshots/validate.dart` past de regels per winkel toe; de bronnen staan bovenaan dat bestand. App Review 2.3.3 (de app in gebruik tonen), 2.3.2 (betaalde functies melden: bijschrift 8 en de zichtbare Pro-aanduiding), 2.3.10 (geen verwijzing naar andere platformen).
 
 ## Icoon en splash
 
