@@ -28,11 +28,11 @@ export const STORES = {
 
 export const COMPANY = {
   provider: "GymWiki",
-  // TODO: bevestigen dat deze bedrijfsgegevens kloppen.
+  // Bevestigd door de eigenaar op 19-11-2026.
   kvk: "97351911",
   city: "Zwolle",
   email: "gymwiki25@gmail.com",
-  /** Zolang true toont de site 'nog in te vullen'-markeringen bij het e-mailadres. */
+  /** Zolang true toont de contactpagina een 'nog in te vullen'-markering bij het e-mailadres. */
   emailIsPlaceholder: false,
 } as const;
 
@@ -47,17 +47,32 @@ export const FEATURES = {
 
 export const REPO_URL = "https://github.com/GymWiki/nl-noodpakket";
 
+/**
+ * URL-conventie: https, hoofddomein zonder www, paden zonder slash aan het eind (alleen "/" voor home).
+ * Deze paden moeten gelijk zijn aan lib/core/config/site_urls.dart (app) en STORE_URLS.md;
+ * `node tool/check_site_urls.mjs` in de repo-root bewaakt dat.
+ */
+export const PATHS = {
+  home: "/",
+  privacy: "/privacy",
+  contact: "/contact",
+  terms: "/voorwaarden",
+  sources: "/bronnen",
+  faq: "/veelgestelde-vragen",
+  changes: "/wijzigingen",
+} as const;
+
 export const NAV = [
-  { href: "/", label: "Home" },
-  { href: "/veelgestelde-vragen", label: "Veelgestelde vragen" },
-  { href: "/bronnen", label: "Bronnen" },
-  { href: "/wijzigingen", label: "Wijzigingen" },
-  { href: "/contact", label: "Contact" },
+  { href: PATHS.home, label: "Home" },
+  { href: PATHS.faq, label: "Veelgestelde vragen" },
+  { href: PATHS.sources, label: "Bronnen" },
+  { href: PATHS.changes, label: "Wijzigingen" },
+  { href: PATHS.contact, label: "Contact" },
 ] as const;
 
 export const LEGAL_NAV = [
-  { href: "/privacy", label: "Privacybeleid" },
-  { href: "/voorwaarden", label: "Voorwaarden" },
+  { href: PATHS.privacy, label: "Privacybeleid" },
+  { href: PATHS.terms, label: "Voorwaarden" },
 ] as const;
 
 export const GOV_STATEMENT =

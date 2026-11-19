@@ -1,24 +1,68 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import GovStatement from "@/components/GovStatement.astro";
-import { COMPANY } from "@/config/site";
+import LastUpdated from "@/components/LastUpdated.astro";
+import { COMPANY, PATHS, SITE } from "@/config/site";
 import { Mail } from "@lucide/astro";
+
+// Hulpteksten zijn gecontroleerd tegen de app-code (v1.0.14): Instellingen > Pro > "Aankoop herstellen";
+// Mijn plan > "Deel met een ander toestel" (QR, 2 minuten) en "Deel mijn noodplan" (pdf, tekst, afdrukken, app-bestand);
+// kluis lokaal en versleuteld, back-up (.noodkluis) met eigen wachtwoord, kluis uitgesloten van cloud-back-ups.
+const help = [
+  {
+    id: "pro-herstellen",
+    title: "Mijn Pro-aankoop terugzetten",
+    body: "Open in de app Meer, Instellingen en kijk onder Pro. Tik op “Aankoop herstellen”: de app vraagt dan aan de winkel van je toestel (App Store of Google Play) of Pro bij jouw account hoort. Staat er geen aankoop, dan zegt de app dat. Betaling en terugbetaling loopt via de winkel; daarvoor gelden de voorwaarden van die winkel.",
+  },
+  {
+    id: "noodplan-delen",
+    title: "Mijn noodplan delen",
+    body: "Ga naar Mijn plan en tik op “Deel mijn noodplan” om het als pdf of tekst te delen, af te drukken of als app-bestand te bewaren. Wil je het plan overzetten naar een ander toestel met NL-Noodpakket, kies dan bij Mijn plan “Deel met een ander toestel”: toon de QR-code en scan hem met het andere toestel. Beide toestellen moeten op hetzelfde wifi-netwerk of dezelfde hotspot zitten. Dat gaat rechtstreeks, zonder server, en de code werkt maximaal 2 minuten.",
+  },
+  {
+    id: "offline",
+    title: "Werkt de app zonder internet?",
+    body: "Ja. De app werkt volledig offline. Alleen als je zelf op een externe link tikt, opent je browser en is internet nodig. Pro kopen of herstellen gaat via de winkel van je toestel.",
+  },
+  {
+    id: "gegevens",
+    title: "Waar staan mijn gegevens?",
+    body: "Alleen op je eigen toestel. Er is geen account en geen server van ons; wij kunnen je gegevens dus niet inzien of terugzetten. Documenten in de kluis zijn versleuteld opgeslagen en worden niet meegenomen in cloud-back-ups van je toestel. Vergeet je je pincode én je herstelcode, dan zijn de kluisdocumenten niet meer terug te halen: maak daarom een back-up (.noodkluis) met een wachtwoord dat je zelf bewaart.",
+  },
+];
 ---
 <BaseLayout
   title="Contact en support"
-  description="Contact en support voor NL-Noodpakket: stuur een e-mail naar GymWiki, de aanbieder van de app. Bedrijfsgegevens en KVK-nummer."
-  path="/contact"
+  description="Contact en support voor NL-Noodpakket: e-mail GymWiki, hulp bij Pro herstellen en noodplan delen, en de bedrijfsgegevens van de aanbieder."
+  path={PATHS.contact}
 >
   <div class="mx-auto max-w-3xl px-4 pb-8 pt-4 sm:px-6">
     <h1>Contact en support</h1>
-    <p class="mt-5 text-xl text-muted-foreground">Een vraag over de app, een fout in de inhoud of een privacyvraag? Stuur ons een e-mail. Misschien staat je antwoord al bij de <a class="link" href="/veelgestelde-vragen">veelgestelde vragen</a>.</p>
+    <p class="mt-5 text-xl text-muted-foreground">Een vraag over de app, een fout in de inhoud of een privacyvraag? Stuur ons een e-mail. <strong>Bij levensgevaar bel je 112.</strong></p>
+    <div class="mt-4"><LastUpdated date={SITE.lastUpdated} /></div>
+
     <div class="mt-8 rounded-2xl border border-border bg-card p-6">
       <h2 class="!text-xl">E-mail</h2>
       <p class="mt-3"><a class="link inline-flex min-h-12 items-center gap-2 break-all text-lg font-semibold" href={`mailto:${COMPANY.email}`}><Mail class="size-5" aria-hidden="true" />{COMPANY.email}</a></p>
       {COMPANY.emailIsPlaceholder && <p class="mt-2 text-sm text-warm" data-todo>TODO: dit e-mailadres is een placeholder en moet nog worden ingevuld.</p>}
-      <p class="mt-3 text-muted-foreground">Stuur geen gevoelige gegevens mee, zoals kopieën van documenten. Bij levensgevaar bel je 112.</p>
+      <p class="mt-3 text-muted-foreground">Vermeld je toestel en de versie van de app als je een probleem meldt. Stuur geen gevoelige gegevens mee, zoals kopieën van documenten of je herstelcode. Dit is geen formulier: je e-mailprogramma opent met een nieuw bericht.</p>
     </div>
-    <div class="mt-6 rounded-2xl border border-border bg-card p-6">
+
+    <section class="mt-10" aria-labelledby="hulp">
+      <h2 id="hulp">Hulp bij de app</h2>
+      <p class="mt-3 text-muted-foreground">Dit zijn de vragen die we het meest verwachten. Meer antwoorden staan bij de <a class="link" href={PATHS.faq}>veelgestelde vragen</a>.</p>
+      <div class="mt-6 space-y-4">
+        {help.map((h) => (
+          <div class="rounded-2xl border border-border bg-card p-6">
+            <h3 id={h.id}>{h.title}</h3>
+            <p class="mt-2 text-muted-foreground">{h.body}</p>
+          </div>
+        ))}
+      </div>
+      <p class="mt-6 text-muted-foreground">Meer over wat de app met je gegevens doet staat in het <a class="link" href={PATHS.privacy}>privacybeleid</a>; de afspraken over gebruik staan in de <a class="link" href={PATHS.terms}>gebruiksvoorwaarden</a>. Waar de informatie in de app vandaan komt, zie je bij de <a class="link" href={PATHS.sources}>bronnen</a>.</p>
+    </section>
+
+    <div class="mt-10 rounded-2xl border border-border bg-card p-6">
       <h2 class="!text-xl">Bedrijfsgegevens</h2>
       <dl class="mt-3 grid gap-x-4 gap-y-1 sm:grid-cols-[auto_1fr]">
         <dt class="text-muted-foreground">Aanbieder</dt><dd>{COMPANY.provider}</dd>

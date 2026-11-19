@@ -3,8 +3,8 @@ export type SourceGroup = { id: string; title: string; intro: string; items: Sou
 
 /**
  * Bronnen die de app gebruikt, afgeleid uit assets/wiki/*.json en assets/radio/rampenzenders.json
- * van de app-repo (stand 2026-11-19). De algemene bronnen bovenaan komen uit de opdracht.
- * TODO: definitieve lijst laten bevestigen; externe links konden vanuit de bouwomgeving niet worden gecontroleerd.
+ * van de app-repo (stand 2026-11-19). Alleen bronnen die de app echt gebruikt; `tool/check_site_urls.mjs`
+ * vergelijkt dit met de app. Externe links konden vanuit de bouwomgeving niet worden gecontroleerd (zie README).
  */
 export const SOURCE_GROUPS: SourceGroup[] = [
   {
@@ -14,8 +14,7 @@ export const SOURCE_GROUPS: SourceGroup[] = [
     items: [
       { name: "Denk Vooruit", url: "https://www.denkvooruit.nl/", note: "Campagne van de Rijksoverheid over zelfredzaamheid" },
       { name: "Denk Vooruit: stel je noodpakket samen", url: "https://www.denkvooruit.nl/bereid-je-voor/stel-je-noodpakket-samen" },
-      { name: "Crisis.nl", url: "https://crisis.nl/", note: "Informatie over crises en crisisbeheersing" },
-      { name: "Rijksoverheid", url: "https://www.rijksoverheid.nl/" },
+      { name: "Politie", url: "https://www.politie.nl/" },
       { name: "Rijksoverheid: wat zit er in een noodpakket?", url: "https://www.rijksoverheid.nl/documenten/vraag-en-antwoord/veiligheidsregios-en-crisisbeheersing/wat-zit-er-in-een-noodpakket" },
       { name: "NL-Alert: zo werkt NL-Alert", url: "https://www.nl-alert.nl/zo-werkt-nl-alert" },
       { name: "Denk Vooruit: waarschuwing via de radio", url: "https://www.denkvooruit.nl/bereid-je-voor/zo-krijg-je-een-waarschuwing/radio" },
@@ -97,6 +96,16 @@ export const SOURCE_GROUPS: SourceGroup[] = [
     items: [
       { name: "CDC: emergency water", url: "https://www.cdc.gov/water-emergency/about/index.html" },
       { name: "US EPA: emergency disinfection of drinking water", url: "https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water" },
+    ],
+  },
+  {
+    id: "gegevens",
+    title: "Gegevens achter de rampenzender",
+    intro: "Gegevensbronnen voor de indeling in gemeenten en veiligheidsregio’s en voor de radiofrequenties per regio.",
+    items: [
+      { name: "CBS: gebieden in Nederland 2026 (gemeente, provincie en veiligheidsregio)", url: "https://opendata.cbs.nl/ODataApi/odata/86247NED/TypedDataSet" },
+      { name: "DARES: meterkastkaart Noord-Nederland, versie 4 (pdf)", url: "https://nn.dares.nl/wp-content/uploads/sites/5/2026/01/MKK-DARES-Noord-Nederland-V4.pdf" },
+      { name: "DARES: meterkastkaart Midden- en West-Brabant, versie 1.0 (pdf)", url: "https://r20.dares.nl/wp-content/uploads/sites/11/2025/02/DARES-Meterkast-kaart-MiddenWestBrabant.pdf" },
     ],
   },
   {

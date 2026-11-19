@@ -12,6 +12,19 @@ import { COMPANY, SITE } from "@/config/site";
   <!--
     CONCEPT: dit privacybeleid is een concept, opgesteld op basis van het gedrag van de app (code v1.0.14).
     Laat een jurist het controleren voordat de site live gaat. Dit commentaar mag niet publiek zichtbaar zijn.
+
+    Gecontroleerd tegen de app-code (19-11-2026):
+    - Geen analytics/tracking-pakketten in pubspec.yaml; geen HTTP-client in lib/; iOS PrivacyInfo.xcprivacy: geen tracking, geen verzamelde data.
+    - Machtigingen Android: POST_NOTIFICATIONS, USE_BIOMETRIC, CAMERA, READ_CONTACTS, INTERNET, ACCESS_NETWORK_STATE, ACCESS_WIFI_STATE, RECEIVE_BOOT_COMPLETED. Geen locatie (Android en iOS). iOS: Face ID, camera, contacten, lokaal netwerk, foto's.
+    - Kluis uitgesloten van cloud-back-up en apparaatoverdracht (Android data_extraction_rules.xml); iOS-uitsluiting via een kanaal in AppDelegate.swift.
+    - QR-delen: verbindingsvenster 2 minuten (lib/features/deel/protocol/session_payload.dart).
+    - Pro: eenmalig via in_app_purchase; herstellen via Meer > Instellingen > Pro.
+
+    NIET geverifieerd (jurist/eigenaar controleren):
+    - Of de iOS-uitsluiting van de back-up daadwerkelijk op de kluismap wordt toegepast (alleen het kanaal is gelezen).
+    - "Eenmalig" en "alleen 1 keer te gebruiken" van de QR-code (staat in het beleid in docs/; niet in de code nagelopen).
+    - Wat Apple, Google en Vercel zelf verwerken (verwijzing naar hun beleid, niet beoordeeld).
+    - Wettelijke formuleringen (AVG-rechten, klachtrecht, bewaartermijnen) en of een verwerkersovereenkomst met Vercel nodig is.
   -->
   <div class="mx-auto max-w-3xl px-4 pb-8 pt-4 sm:px-6">
     <h1>Privacybeleid</h1>
