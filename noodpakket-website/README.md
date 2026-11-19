@@ -65,7 +65,7 @@ CHROME_PATH=<chromium> node tests/lighthouse.mjs     # Lighthouse mobiel, alle p
 ## Store-badges
 
 - **Apple:** `src/assets/badges/app-store.svg` is de officiële zwarte "Download on the App Store"-badge van developer.apple.com, ongewijzigd (48 px hoog, minimaal 40 px; vrije ruimte ¼ van de hoogte via de tussenruimte). Apple levert ook een Nederlandse variant ("Download in de App Store"); download die via Apple Marketing Tools en vervang het bestand (zelfde naam). Alleen de woorden "Download in de" zijn vertaald, "App Store" blijft Engels.
-- **Google Play:** de officiële badge kon vanuit de bouwomgeving niet worden opgehaald en mag niet worden nagemaakt. Download de Nederlandse badge ("Ontdek het op Google Play") van https://play.google.com/intl/nl/badges/ en zet hem als `src/assets/badges/google-play.png` (of `.svg`/`.webp`). `DownloadButtons.astro` pakt hem automatisch op; tot die tijd staat er een neutrale tekstknop. Volg Googles richtlijnen: niet aanpassen, minimale grootte en vrije ruimte aanhouden.
+- **Google Play:** `src/assets/badges/google-play.svg` is de officiële Nederlandse badge ("Ontdek het op Google Play"), ongewijzigd aangeleverd. Niet aanpassen; volg Googles richtlijnen voor minimale grootte en vrije ruimte. Staat het bestand er niet, dan toont `DownloadButtons.astro` een neutrale tekstknop.
 
 ## Statistieken later toevoegen (niet gebouwd)
 
@@ -98,7 +98,7 @@ Niet automatisch gedaan: geen accounts, projecten of tokens aangemaakt.
 - [ ] **Supportadres**: `COMPANY.email` in `site.ts`; daarna `emailIsPlaceholder` op `false`.
 - [ ] **Bedrijfsgegevens bevestigen**: GymWiki, KVK 97351911, Zwolle.
 - [ ] Store-links staan in `STORES` (site.ts); controleer dat beide live werken (niet te testen vanuit de bouwomgeving).
-- [ ] **Google Play-badge** als `src/assets/badges/google-play.png` plaatsen en de Nederlandse Apple-badge laten vervangen (zie Store-badges).
+- [ ] Optioneel: de Nederlandse Apple-badge ("Download in de App Store") vervangen (zie Store-badges).
 - [ ] **Noodmodus**: staat in de opdracht, maar niet in de app-code (v1.0.14) of de app-README. Zet `FEATURES.noodmodus` op `false` en pas `src/content/wijzigingen/1.0.14.md` aan als het onderdeel nog niet is gepubliceerd.
 - [ ] **Wijzigingenlijst**: versienummer en releasedatum van het eerste item (`1.0.14.md`, nu 19 nov. 2026).
 - [ ] **Bronnenlijst** bevestigen (afgeleid uit de app-JSON plus crisis.nl) en **alle externe links controleren** (`node tests/links.mjs --external` met netwerktoegang).

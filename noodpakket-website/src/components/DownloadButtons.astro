@@ -20,7 +20,7 @@ const textBtn = "inline-flex min-h-12 items-center justify-center rounded-xl bg-
   </a>
   {googleBadge ? (
     <a href={STORES.googlePlay} rel="noopener" data-store="google-play" class="inline-flex min-h-12 items-center rounded-lg" aria-label="Ontdek de app op Google Play">
-      <img src={googleBadge.src} alt="" width={googleBadge.width} height={googleBadge.height} class="h-[48px] w-auto" />
+      <img src={googleBadge.src} alt="" width={Math.round(googleBadge.width)} height={Math.round(googleBadge.height)} class="h-[48px] w-auto" />
     </a>
   ) : (
     <a href={STORES.googlePlay} rel="noopener" data-store="google-play" class={textBtn}>Ontdek het op Google Play</a>
