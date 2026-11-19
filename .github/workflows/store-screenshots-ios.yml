@@ -4,11 +4,18 @@ name: Store-screenshots iOS
 # bijschriften (store/out/appstore/...), valideert ze en uploadt alles als artifact.
 # Starten: Actions > "Store-screenshots iOS" > Run workflow. Download daarna de artifacts "store-ios-ruw" en
 # "store-ios-appstore". Zie README, "Store-screenshots maken".
+# Maakt ook de reviewscreenshot voor de in-app aankoop pro_unlock (artifact "store-ios-iap-review", vier maten):
+# een echte opname van de paywall op de simulator. Zie README, "Reviewscreenshot voor de aankoop".
 on:
   workflow_dispatch:
     inputs:
       include_ipad:
         description: 'Ook de iPad-set (13 inch, 2064x2752) maken. De app ondersteunt iPad, dus App Store Connect vraagt die.'
+        required: false
+        type: boolean
+        default: true
+      include_iap_review:
+        description: 'Ook de reviewscreenshot voor de in-app aankoop pro_unlock maken (paywall, vier maten, gevalideerd).'
         required: false
         type: boolean
         default: true
@@ -106,6 +113,26 @@ jobs:
               sys.exit('FOUT: afmetingen buiten %s: %s' % (sorted(ok), bad))
           PY
 
+      - name: Reviewscreenshot aankoop pro_unlock opnemen (echte paywall op de simulator)
+        if: ${{ inputs.include_iap_review }}
+        env:
+          STORE_RAW_DIR: store/raw/iap-review
+        run: |
+          set -euo pipefail
+          # Eigen map en eigen testdoel: de opname is alleen voor de review en hoort niet bij de acht winkelscreenshots.
+          # De test loopt de route van een reviewer en mislukt als iconen of lettertypen niet echt gerenderd zijn.
+          flutter drive --driver=test_driver/integration_test.dart --target=integration_test/iap_review_test.dart -d "$IPHONE_UDID"
+          ls -la store/raw/iap-review
+          test -f store/raw/iap-review/pro_unlock_review.png
+
+      - name: Reviewscreenshot in vier maten maken en valideren (RGB, geen alfa, 72 dpi, onder 5 MB)
+        if: ${{ inputs.include_iap_review }}
+        run: |
+          set -euo pipefail
+          python3 tool/test_iap_review.py
+          dart run tool/screenshots/iap_review.dart
+          python3 tool/iap_review_validate.py store/out/iap-review
+
       - name: iPhone-simulator uitzetten
         if: always()
         run: |
@@ -197,5 +224,15 @@ jobs:
         with:
           name: store-ios-appstore
           path: store/out/appstore
+          retention-days: 14
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ inputs.include_iap_review }}
+        with:
+          name: store-ios-iap-review
+          path: |
+            store/out/iap-review
+            store/raw/iap-review
           retention-days: 14
           if-no-files-found: error
