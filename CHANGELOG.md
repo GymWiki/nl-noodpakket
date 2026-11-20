@@ -1,5 +1,22 @@
 # Wijzigingen
 
+## Nog niet uitgebracht
+
+Nieuw
+- Onder Meer > Informatie staat "Beoordeel NL-Noodpakket": een link naar de winkelpagina. De app vraagt daarnaast hooguit zelden, op een rustig moment, via het venster van Apple of Google om een beoordeling. Dat gebeurt nooit tijdens een noodgeval, een stappenplan of in de kluis.
+
+Verbeterd
+- Het Pro-scherm is rustiger en laat zien wat je krijgt op het moment dat je het nodig hebt: bij een noodhack, bij een herinnering en bij je kluis. Je kunt het altijd sluiten met "Niet nu".
+- Na het invullen van een houdbaarheidsdatum bij een nieuw item kan één kleine tip verschijnen over herinneringen. Je kunt die sluiten of voorgoed verbergen.
+- Na een aankoop zie je wat je nu kunt, met één knop om verder te gaan.
+- De losse Pro-regel op het startscherm is weggehaald. Alle veiligheidsinformatie blijft gratis.
+
+## 2.0.0 (build 20)
+
+Technisch
+- Nieuw versienummer 2.0.0: de App Store-reeks 1.0.14 was gesloten omdat 1.0.15 al was goedgekeurd.
+- Minimale iOS-versie is nu 15.0 (was 14.0), zoals Apple vanaf april 2027 eist. Vrijwel dezelfde toestellen blijven ondersteund.
+
 ## 1.0.14 (build 14)
 
 Nieuw

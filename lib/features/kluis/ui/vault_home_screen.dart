@@ -89,7 +89,8 @@ class _VaultHomeScreenState extends ConsumerState<VaultHomeScreen> {
         onPressed: () async {
           // Alleen een nieuw document boven de gratis limiet vraagt Pro; al het andere blijft vrij.
           final ok = canAddVaultDocument(count: meta.documents.length, pro: ref.read(proUnlockedProvider)) ||
-              await requirePro(context, ref, ProFeature.vaultUnlimited);
+              await requirePro(context, ref, ProFeature.vaultUnlimited,
+                  request: PaywallRequest.vault(vaultCount: meta.documents.length));
           if (ok && context.mounted) context.push('/kluis/toevoegen');
         },
         icon: const Icon(Icons.add),

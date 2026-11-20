@@ -48,7 +48,7 @@ Future<void> toggleItemReminder(BuildContext context, WidgetRef ref, String id, 
     await repo.setRaw(remindItemsKey, jsonEncode(current.toList()..sort()));
     return;
   }
-  if (!await requirePro(context, ref, ProFeature.replacementReminders)) return;
+  if (!await requirePro(context, ref, ProFeature.replacementReminders, request: PaywallRequest.reminders(itemId: id))) return;
   current.add(id);
   await repo.setRaw(remindItemsKey, jsonEncode(current.toList()..sort()));
   final granted = await ref.read(notificationServiceProvider).requestPermission();

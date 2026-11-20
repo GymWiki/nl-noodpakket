@@ -356,7 +356,7 @@ void main() {
       await t.tap(find.text(S.vaultAddDocument));
       await t.pumpAndSettle();
       expect(find.text('toevoegen'), findsOneWidget);
-      expect(find.text(S.paywallTitle), findsNothing);
+      expect(find.byKey(const Key('paywall-not-now')), findsNothing);
     });
 
     testWidgets('het 4e document opent de paywall; "Niet nu" laat alles zoals het was', (t) async {
@@ -364,11 +364,12 @@ void main() {
       expect(find.text(S.vaultFreeCounter(3)), findsOneWidget);
       await t.tap(find.text(S.vaultAddDocument));
       await t.pumpAndSettle();
-      expect(find.text(S.paywallTitle), findsOneWidget);
+      expect(find.byKey(const Key('paywall-not-now')), findsOneWidget);
+      expect(find.text(S.paywallVaultTitle), findsOneWidget);
       expect(find.text('toevoegen'), findsNothing);
       await t.tap(find.text(S.paywallNotNow));
       await t.pumpAndSettle();
-      expect(find.text(S.paywallTitle), findsNothing);
+      expect(find.byKey(const Key('paywall-not-now')), findsNothing);
       expect(find.text('Document 0'), findsOneWidget);
     });
 

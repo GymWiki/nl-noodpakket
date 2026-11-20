@@ -85,6 +85,12 @@ class ItemEdit {
   final String? name, category, unit, why; // alleen eigen items
 }
 
+/// Sleutels in de instellingentabel die bij dit toestel horen: ze komen nooit in een back-up of export terecht, en een
+/// import laat ze staan. Nu alleen de lokale beoordelingsgeschiedenis (zie features/review/review_config.dart; een test
+/// bewaakt dat de sleutel hier staat). Zo reist die niet mee in een bestand dat de gebruiker deelt, en wist een herstelde
+/// back-up de afstand tussen twee verzoeken niet.
+const deviceLocalSettingKeys = {'review_history'};
+
 class ItemRepository {
   ItemRepository(this._db);
   final AppDatabase _db;
@@ -152,7 +158,7 @@ class ItemRepository {
       'version': _backupVersion,
       'noodplan': ?plan,
       'items': [for (final r in items) r.toJson(serializer: _ser)],
-      'settings': {for (final s in settings) s.key: s.value},
+      'settings': {for (final s in settings) if (!deviceLocalSettingKeys.contains(s.key)) s.key: s.value},
     });
   }
 
@@ -174,11 +180,14 @@ class ItemRepository {
       for (final j in data['items'] as List)
         ItemRow.fromJson(Map<String, dynamic>.from(j as Map), serializer: _ser),
     ];
-    final settings = Map<String, dynamic>.from(data['settings'] as Map? ?? {});
+    final settings = Map<String, dynamic>.from(data['settings'] as Map? ?? {})
+      ..removeWhere((k, _) => deviceLocalSettingKeys.contains(k));
     final planData = data['noodplan'] is Map
         ? Map<String, dynamic>.from(data['noodplan'] as Map)
         : null;
     await _db.transaction(() async {
+      // Wat bij dit toestel hoort, blijft staan (de import vervangt alleen de gegevens van de gebruiker).
+      final keep = await (_db.select(_db.settingRows)..where((r) => r.key.isIn(deviceLocalSettingKeys))).get();
       await _db.delete(_db.itemRows).go();
       await _db.delete(_db.settingRows).go();
       await _db.batch((b) {
@@ -186,6 +195,7 @@ class ItemRepository {
         b.insertAll(_db.settingRows, [
           for (final e in settings.entries)
             SettingRow(key: e.key, value: '${e.value}'),
+          ...keep,
         ]);
       });
       await PlanRepository(_db).restoreBackup(planData);

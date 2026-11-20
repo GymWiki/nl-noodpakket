@@ -46,6 +46,8 @@ import 'features/noodplan/ui/plan_talk_screen.dart';
 import 'features/noodplan/ui/plan_wizard_screen.dart';
 import 'features/wiki/wiki_detail_screen.dart';
 import 'features/wiki/wiki_overview_screen.dart';
+import 'features/review/review_host.dart';
+import 'features/review/review_providers.dart';
 import 'features/wiki/wiki_steps_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -56,6 +58,8 @@ final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/',
     refreshListenable: refresh,
+    // Houdt bij of er een dialoog of blad openstaat (geen beoordelingsverzoek zolang dat zo is).
+    observers: [ref.read(reviewOverlayObserverProvider)],
     redirect: (context, state) {
       final s = ref.read(settingsProvider).value;
       final loc = state.matchedLocation;
@@ -370,13 +374,20 @@ class _NoodpakketAppState extends ConsumerState<NoodpakketApp> {
         ref.watch(settingsProvider.select((s) => s.value?.themeMode)) ??
         ThemeMode.system;
 
+    final router = ref.watch(routerProvider);
     return MaterialApp.router(
       title: S.appName,
       debugShowCheckedModeBanner: false,
       theme: buildTheme(Brightness.light),
       darkTheme: buildTheme(Brightness.dark),
       themeMode: mode,
-      routerConfig: ref.watch(routerProvider),
+      routerConfig: router,
+      // Beslist wanneer (en nooit midden in een taak) de systeemprompt voor een beoordeling mag komen.
+      builder: (context, child) => ReviewHost(
+        routeChanges: router.routerDelegate,
+        location: () => router.routerDelegate.currentConfiguration.uri.toString(),
+        child: child ?? const SizedBox.shrink(),
+      ),
       locale: const Locale('nl', 'NL'),
       supportedLocales: const [Locale('nl', 'NL')],
       localizationsDelegates: GlobalMaterialLocalizations.delegates,

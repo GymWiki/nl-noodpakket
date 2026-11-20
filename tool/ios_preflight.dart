@@ -4,7 +4,7 @@
 //
 // Controleert:
 //  - deployment target: Podfile, project.pbxproj en AppFrameworkInfo.plist zijn gelijk en niet lager dan het
-//    hoogste minimum van de plugins (uit hun .podspec/Package.swift) en niet lager dan 14.0;
+//    hoogste minimum van de plugins (uit hun .podspec/Package.swift) en niet lager dan 15.0;
 //  - bundle-id en versie-instellingen;
 //  - Info.plist: gebruiksteksten voor camera, Face ID, contacten, foto's en lokaal netwerk;
 //  - PrivacyInfo.xcprivacy aanwezig, zonder tracking, en opgenomen in het Xcode-project;
@@ -14,7 +14,7 @@ import 'dart:convert';
 import 'dart:io';
 
 const expectedBundleId = 'com.mycompany.mijnnoodpakket';
-const absoluteMinimum = 14.0;
+const absoluteMinimum = 15.0; // Apple: vanaf april 2027 minimaal iOS 15.0 voor uploads
 
 final problems = <String>[];
 void fail(String msg) => problems.add(msg);

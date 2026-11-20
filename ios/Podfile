@@ -1,7 +1,7 @@
-# Minimum iOS-versie van de app. Bepaald door de hoogste eis van de plugins:
-# file_picker_darwin vraagt iOS 14.0 (zie tool/ios_preflight.dart, dat dit bij elke build controleert).
+# Minimum iOS-versie van de app: 15.0. Apple eist dit voor uploads vanaf april 2027 (waarschuwing bij altool validate).
+# Het hoogste plugin-minimum is nu iOS 14.0 (file_picker_darwin); tool/ios_preflight.dart controleert dit bij elke build.
 # Houd dit gelijk aan IPHONEOS_DEPLOYMENT_TARGET in Runner.xcodeproj en MinimumOSVersion in Flutter/AppFrameworkInfo.plist.
-platform :ios, '14.0'
+platform :ios, '15.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'

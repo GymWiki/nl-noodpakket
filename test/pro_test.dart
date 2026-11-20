@@ -290,24 +290,24 @@ void main() {
 
     testWidgets('tekst: wat je erbij krijgt en wat gratis blijft', (t) async {
       await open(t);
-      // "Dit blijft gratis" is inklapbaar (rustiger); klap uit om de lijst te lezen.
-      await t.tap(find.text(S.paywallFreeTitle));
-      await t.pumpAndSettle();
       for (final s in [
-        S.paywallGetTitle,
-        S.paywallGet1,
-        S.paywallGet2,
-        S.paywallGet3,
-        S.paywallFreeTitle,
-        S.paywallFree1,
-        S.paywallFree2,
-        S.paywallFree3,
-        S.paywallFree4,
-        S.paywallFree5,
-        S.paywallNoSub,
-        S.paywallHelp,
-        S.paywallRestore,
+        S.paywallTitle,
+        S.paywallGeneralSub,
+        S.paywallGeneralHacks,
+        S.paywallGeneralReminders,
+        S.paywallGeneralVault,
+        S.paywallOneOff,
         S.paywallNotNow,
+        S.paywallRestore,
+        S.paywallFreeTitle,
+        S.paywallFreeChecklist,
+        S.paywallFreeGuides,
+        S.paywallFreeFirstHour,
+        S.paywallFreePlan,
+        S.paywallFreeVault,
+        S.paywallFreeMyths('twee'),
+        S.paywallStoreNote('Google'),
+        S.paywallSupport,
       ]) {
         expect(find.text(s), findsOneWidget, reason: s);
       }
@@ -322,7 +322,7 @@ void main() {
     testWidgets('zonder prijs uit de store: knop zonder bedrag en uitleg', (t) async {
       await open(t, fake: FakePurchaseService(price: null));
       expect(find.text(S.paywallUnlockNoPrice), findsOneWidget);
-      expect(find.text(S.paywallPriceLoading), findsOneWidget);
+      expect(find.text(S.proMsgUnavailable), findsOneWidget);
     });
 
     testWidgets('geen druk: geen aftellers, schaarste of vooraf gekozen opties', (t) async {

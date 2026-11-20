@@ -106,13 +106,18 @@ class ExportOptions(unittest.TestCase):
 
 
 class IpaVerify(unittest.TestCase):
-    INFO = {'CFBundleIdentifier': BUNDLE, 'CFBundleShortVersionString': '1.0.14', 'CFBundleVersion': '14.7', 'MinimumOSVersion': '14.0'}
+    INFO = {'CFBundleIdentifier': BUNDLE, 'CFBundleShortVersionString': '1.0.14', 'CFBundleVersion': '14.7', 'MinimumOSVersion': '15.0'}
     EMB = {'Name': 'NL Noodpakket AppStore', 'Entitlements': {'application-identifier': 'ABCDE12345.' + BUNDLE}}
     CS = ('Identifier=%s' % BUNDLE) + chr(10) + 'Authority=Apple Distribution: Pieter (ABCDE12345)' + chr(10) + 'TeamIdentifier=ABCDE12345' + chr(10)
 
     def test_goed(self):
         _, errors = iv.verify(self.INFO, self.EMB, self.CS, BUNDLE, 'ABCDE12345', '1.0.14', '14.7')
         self.assertEqual(errors, [])
+
+    def test_ios_14_is_te_laag(self):
+        info = dict(self.INFO, MinimumOSVersion='14.0')
+        _, errors = iv.verify(info, self.EMB, self.CS, BUNDLE, 'ABCDE12345', '1.0.14', '14.7')
+        self.assertTrue(any('lager dan 15.0' in e for e in errors))
 
     def test_te_lage_ios_en_verkeerd_bouwnummer(self):
         info = dict(self.INFO, MinimumOSVersion='13.0', CFBundleVersion='1')

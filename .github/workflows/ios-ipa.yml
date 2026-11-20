@@ -1,13 +1,13 @@
 name: iOS IPA
 
 # Bouwt de gesigneerde .ipa voor de App Store. Starten: Actions > iOS IPA > Run workflow,
-# of een tag zoals v1.0.14 pushen. Het bestand staat daarna onder "Artifacts" (nl-noodpakket-ipa).
+# of een tag zoals v2.0.0 pushen. Het bestand staat daarna onder "Artifacts" (nl-noodpakket-ipa).
 # Zie README, "IPA via GitHub", voor de drie secrets die je eenmalig toevoegt.
 on:
   workflow_dispatch:
     inputs:
       build_number:
-        description: 'Buildnummer (leeg = <pubspec-bouwnummer>.<run-nummer>, bijvoorbeeld 14.7). Moet hoger zijn dan wat in App Store Connect staat voor deze versie.'
+        description: 'Buildnummer (leeg = <pubspec-bouwnummer>.<run-nummer>, bijvoorbeeld 20.7). Moet hoger zijn dan wat in App Store Connect staat voor deze versie.'
         required: false
         type: string
       upload_to_testflight:
@@ -22,12 +22,21 @@ jobs:
   ipa:
     # Apple eist sinds 28 april 2026 Xcode 26 of nieuwer voor uploads (developer.apple.com/news/upcoming-requirements,
     # gecontroleerd op 2026-11-16). Het image macos-26 heeft Xcode 26.x (standaard 26.6).
+    # TODO (uiterlijk april 2027): Apple eist dan Xcode 27 of nieuwer (iOS 27 SDK) voor uploads; altool geeft hier al een
+    # waarschuwing over (SDK 26.5). Controleer de runner-images (github.com/actions/runner-images), kies een image met
+    # Xcode 27 en pas runs-on en de stap "Xcode kiezen" (Xcode_26*) hieronder aan. Nu bewust niet aangepast.
     runs-on: macos-26
     timeout-minutes: 60
     env:
       BUNDLE_ID: com.mycompany.mijnnoodpakket
     steps:
       - uses: actions/checkout@v4
+
+      - name: Voorcontrole versie (hoger dan de laatst vrijgegeven versie)
+        run: |
+          set -euo pipefail
+          python3 tool/test_version_check.py
+          python3 tool/check_version.py
 
       - name: Xcode kiezen (26 of nieuwer)
         run: |

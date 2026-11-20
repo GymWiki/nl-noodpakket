@@ -79,6 +79,8 @@ enum MenuItemKind {
   plan, talk, share, scan, vault, info, settings, maintenance,
   // Ingangen op Start, Noodgevallen, Noodhacks en Instellingen:
   household, radio, packetOut, hacks, hacksHave, meterkast, expiring,
+  // Informatie: de rij "Beoordeel NL-Noodpakket".
+  review,
 }
 
 /// Eén tint per functie, overal hetzelfde (ook op het dashboard en in de wiki-blokken):
@@ -108,6 +110,8 @@ CategoryTint menuTint(MenuItemKind k) => switch (k) {
       MenuItemKind.hacksHave => CategoryTint.violet,
       // Dashboardkaart "Binnenkort vervangen" en de suggestie "iets verloopt".
       MenuItemKind.expiring => CategoryTint.slate,
+      // Beoordelen: warm roze. Oker kon niet: dat ligt te dicht bij het zand van waarschuwingen (zie color_distance_test).
+      MenuItemKind.review => CategoryTint.pink,
     };
 
 /// Welke rijen staan samen op één scherm (siblings). Binnen een scherm moet elke rij een eigen tint hebben.
@@ -121,6 +125,7 @@ const menuScreens = <String, List<MenuItemKind>>{
   'noodgevallen/extra-hulp': [MenuItemKind.packetOut, MenuItemKind.hacks, MenuItemKind.radio, MenuItemKind.meterkast],
   'noodhacks/ingangen': [MenuItemKind.packetOut, MenuItemKind.hacksHave],
   'start/kaarten': [MenuItemKind.expiring, MenuItemKind.maintenance],
+  'meer/informatie': [MenuItemKind.review],
 };
 
 /// Paren die onder kleurenblindheid minder ver uit elkaar liggen dan de drempel, omdat het palet maar vijf

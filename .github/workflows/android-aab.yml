@@ -1,6 +1,6 @@
 name: Android AAB
 
-# Handmatig starten (Actions > Android AAB > Run workflow) of automatisch bij een tag zoals v1.0.13.
+# Handmatig starten (Actions > Android AAB > Run workflow) of automatisch bij een tag zoals v2.0.0.
 on:
   workflow_dispatch:
   push:
@@ -11,6 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Voorcontrole versie (hoger dan de laatst vrijgegeven versie)
+        run: |
+          set -euo pipefail
+          python3 tool/test_version_check.py
+          python3 tool/check_version.py
 
       - uses: actions/setup-java@v4
         with:

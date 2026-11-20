@@ -1,0 +1,25 @@
+NL-Noodpakket Pro is a one-time, non-consumable in-app purchase (product ID: pro_unlock). It is not a subscription.
+
+What it unlocks:
+(1) All emergency hacks: practical, step-by-step solutions using household items (15 of the 25 hacks; the other 10 stay free).
+(2) Reminders: local notifications on the device for items that are due for replacement. Nothing is sent to a server.
+(3) Unlimited documents in the on-device vault (free up to 3 documents).
+
+How to reach the purchase screen (this is what the review screenshot shows):
+1. Open the "Wat nu?" tab (bottom bar, third from the left).
+2. Scroll down to the section "Extra hulp" and tap "Noodhacks".
+3. Tap any hack that has the "Pro" badge, for example "Water vinden als de kraan droog is".
+The purchase sheet opens on top of the hacks list. It shows the price from the App Store, "Eenmalig, geen abonnement" (one-time, no subscription), "Aankoop herstellen" (Restore Purchases), and "Niet nu" (Not now). The close button at the top right closes the sheet without any consequence.
+
+Other places where the sheet can be opened:
+- Reminders: open any item that has an expiry date and switch on "Herinner mij vóór het verloopt".
+- Vault: in the vault, tap "Document toevoegen" to add a fourth document (the first three are free).
+- Settings: "Meer" tab > "Instellingen" > "NL-Noodpakket Pro".
+
+Restore Purchases is available in the purchase sheet and in "Meer" > "Instellingen" > "NL-Noodpakket Pro" ("Aankoop herstellen").
+
+Free forever, without any purchase: all safety information and emergency step-by-step plans, the "first hour" card, the checklist and expiry overview, the emergency plan (including sharing and back-up), the vault up to 3 documents, all myth-busting hacks, and two sample hacks. The paywall never appears on these screens.
+
+The app works fully offline. It needs no account or login. It has no ads and no tracking, and it does not collect personal data; all data stays on the device. The app is in Dutch only (it is made for households in the Netherlands).
+
+This app is not affiliated with the Dutch government.
