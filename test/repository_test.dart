@@ -49,6 +49,20 @@ void main() {
     expect(s.onboarded, isTrue);
   });
 
+  test('de lokale beoordelingsgeschiedenis zit niet in een back-up en een import wist haar niet', () async {
+    await settings.setRaw('review_history', '{"sessions":5}');
+    await settings.setRaw('remind_items', '["a"]');
+    final json = await repo.exportJson();
+    expect(json.contains('review_history'), isFalse, reason: 'apparaatgebonden gegevens reizen niet mee');
+    expect(json.contains('remind_items'), isTrue, reason: 'gewone instellingen wel');
+
+    // Een back-up van een ander toestel (met een eigen geschiedenis erin) overschrijft deze niet.
+    final foreign = json.replaceFirst('"settings": {', '"settings": {\n    "review_history": "{\\"sessions\\":99}",');
+    await repo.importJson(foreign);
+    expect(await settings.getRaw('review_history'), '{"sessions":5}');
+    expect(await settings.getRaw('remind_items'), '["a"]');
+  });
+
   test('ongeldige import laat bestaande data intact', () async {
     await repo.setInHouse('water', true);
     expect(() => repo.importJson('geen json'), throwsFormatException);

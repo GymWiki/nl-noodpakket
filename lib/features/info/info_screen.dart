@@ -7,6 +7,7 @@ import '../../core/legal.dart';
 import '../../core/calm.dart';
 import '../../core/theme.dart';
 import '../../core/ui.dart';
+import '../review/review_link_row.dart';
 
 class InfoScreen extends StatelessWidget {
   const InfoScreen({super.key});
@@ -89,6 +90,8 @@ class InfoScreen extends StatelessWidget {
               const Expanded(child: Text(S.infoPrivacyBody)),
             ]),
           ),
+          const SizedBox(height: Space.section),
+          const ReviewLinkRow(),
           const SectionHeader(S.legalTitle),
           SoftCard(
             padding: EdgeInsets.zero,

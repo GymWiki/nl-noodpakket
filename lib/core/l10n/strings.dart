@@ -835,6 +835,12 @@ class S {
       'Voor actuele adviezen en uitleg kijk je op denkvooruit.nl.';
   static const infoLinkButton = 'Open denkvooruit.nl';
   static const infoLinkError = 'Kon de website niet openen.';
+
+  // Beoordelen (handmatige route; de systeemprompt komt nooit via een knop)
+  static const reviewRowTitle = 'Beoordeel NL-Noodpakket';
+  static const reviewRowSub = 'Je beoordeling helpt andere mensen de app te vinden.';
+  static const reviewOffline = 'Geen internet. Probeer het later opnieuw.';
+  static const reviewOpenError = 'De winkelpagina kon niet worden geopend. Probeer het later opnieuw.';
   static const infoPrivacyTitle = 'Jouw privacy';
   static const infoPrivacyBody =
       'Alle gegevens blijven op je toestel. De app heeft geen account, geen '
