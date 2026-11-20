@@ -1,6 +1,6 @@
 name: Android AAB
 
-# Handmatig starten (Actions > Android AAB > Run workflow) of automatisch bij een tag zoals v2.0.0.
+# Handmatig starten (Actions > Android AAB > Run workflow) of automatisch bij een tag zoals v2.0.1.
 on:
   workflow_dispatch:
   push:

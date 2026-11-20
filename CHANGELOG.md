@@ -1,6 +1,6 @@
 # Wijzigingen
 
-## Nog niet uitgebracht
+## 2.0.1 (build 21)
 
 Nieuw
 - Onder Meer > Informatie staat "Beoordeel NL-Noodpakket": een link naar de winkelpagina. De app vraagt daarnaast hooguit zelden, op een rustig moment, via het venster van Apple of Google om een beoordeling. Dat gebeurt nooit tijdens een noodgeval, een stappenplan of in de kluis.

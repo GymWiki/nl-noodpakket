@@ -1,13 +1,13 @@
 name: iOS IPA
 
 # Bouwt de gesigneerde .ipa voor de App Store. Starten: Actions > iOS IPA > Run workflow,
-# of een tag zoals v2.0.0 pushen. Het bestand staat daarna onder "Artifacts" (nl-noodpakket-ipa).
+# of een tag zoals v2.0.1 pushen. Het bestand staat daarna onder "Artifacts" (nl-noodpakket-ipa).
 # Zie README, "IPA via GitHub", voor de drie secrets die je eenmalig toevoegt.
 on:
   workflow_dispatch:
     inputs:
       build_number:
-        description: 'Buildnummer (leeg = <pubspec-bouwnummer>.<run-nummer>, bijvoorbeeld 20.7). Moet hoger zijn dan wat in App Store Connect staat voor deze versie.'
+        description: 'Buildnummer (leeg = <pubspec-bouwnummer>.<run-nummer>, bijvoorbeeld 21.7). Moet hoger zijn dan wat in App Store Connect staat voor deze versie.'
         required: false
         type: string
       upload_to_testflight:
