@@ -6,13 +6,27 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <!-- Documentenkluis: biometrische ontgrendeling (BiometricPrompt). -->
     <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
-    <!-- Delen met een ander toestel: ruwe sockets binnen het lokale netwerk (geen server, geen internet nodig). -->
+    <!-- Hardware-features zijn NOOIT verplicht. Google Play filtert toestellen weg op verplichte features, ook op features die het
+         zelf afleidt uit machtigingen en activity-instellingen. Daarom staat elke feature hieronder expliciet op
+         required="false"; tools:replace laat onze waarde winnen als een plugin dezelfde feature verplicht declareert.
+         De CI-controle (tool/android_features_check.py, stap in .github/workflows/android-aab.yml) laat de build falen als er
+         toch een verplichte feature bijkomt.
+           - screen.portrait: afgeleid van de vaste portretstand van de fallback-activity van cunning_document_scanner.
+           - wifi: afgeleid van ACCESS_WIFI_STATE (die de app niet gebruikt en hieronder is verwijderd).
+           - camera en camera.autofocus: afgeleid van de machtiging CAMERA (scannen van QR-codes en documenten).
+         De app werkt zonder camera of wifi (zie DeviceFeatures in lib/core/device_features.dart). -->
+    <uses-feature android:name="android.hardware.screen.portrait" android:required="false" tools:replace="android:required"/>
+    <uses-feature android:name="android.hardware.wifi" android:required="false" tools:replace="android:required"/>
+    <uses-feature android:name="android.hardware.camera" android:required="false" tools:replace="android:required"/>
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" tools:replace="android:required"/>
+    <!-- Delen met een ander toestel: ruwe sockets binnen het lokale netwerk (geen server, geen internet nodig).
+         Het lokale adres komt uit dart:io (NetworkInterface); de app gebruikt WifiManager of ConnectivityManager nergens,
+         dus ACCESS_WIFI_STATE en ACCESS_NETWORK_STATE zijn niet nodig. tools:node="remove" haalt ACCESS_WIFI_STATE ook weg
+         als een bibliotheek hem zou toevoegen (die zou anders weer de feature wifi verplicht maken). -->
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" tools:node="remove"/>
     <!-- Documentscanner: alleen nodig voor de ingebouwde scanner op toestellen zonder Google Play-services. -->
     <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-feature android:name="android.hardware.camera" android:required="false"/>
     <!-- Alleen lezen, en pas gevraagd als iemand "Kies uit contacten" tikt (Mijn noodplan). -->
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <!-- Bewust GEEN SCHEDULE_EXACT_ALARM / USE_EXACT_ALARM: herinneringen zijn inexact gepland. -->
