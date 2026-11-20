@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../core/device_features.dart';
 import '../../../core/dialer.dart';
 import '../../../core/l10n/strings.dart';
 import '../../../core/providers.dart';
@@ -487,7 +488,12 @@ class HomeStep extends ConsumerWidget {
 
   Future<void> _pickPhoto(BuildContext context, WidgetRef ref, String key) async {
     final messenger = ScaffoldMessenger.of(context);
-    final source = await showModalBottomSheet<ImageSource>(
+    // Zonder camera is alleen de galerij te kiezen; dan slaan we de keuze over.
+    final hasCamera = await ref.read(deviceFeaturesProvider).hasCamera();
+    if (!context.mounted) return;
+    final source = !hasCamera
+        ? ImageSource.gallery
+        : await showModalBottomSheet<ImageSource>(
       context: context,
       builder: (c) => SafeArea(
         child: Column(mainAxisSize: MainAxisSize.min, children: [

@@ -525,6 +525,7 @@ class S {
   static const vaultSave = 'Opslaan';
   static const vaultCameraDenied = 'Geen toegang tot de camera. Je kunt ook een foto of bestand kiezen.';
   static const vaultScanError = 'Scannen is niet gelukt.';
+  static const vaultScanNoCamera = 'Documenten scannen kan op dit toestel niet: er is geen camera. Je kunt wel een bestand of foto kiezen.';
   static const vaultUnsupportedFile = 'Dit bestandstype wordt niet ondersteund.';
   static const vaultFileTooBig = 'Dit bestand is te groot (maximaal 50 MB).';
   static const vaultImageFallback =
@@ -1273,6 +1274,9 @@ class S {
 
   static const scanHelpTitle = 'Scan de QR-code';
   static const scanHelp = 'Richt de camera op de QR-code op het andere toestel.';
+  static const scanNoCamera = 'Dit toestel heeft geen camera, dus scannen kan hier niet. De rest van de app werkt gewoon.';
+  static const scanCameraError = 'De camera kon niet worden gestart. Sluit het scherm en probeer het opnieuw.';
+  static const deelNoWifiHardware = 'Dit toestel heeft geen wifi en geen ander lokaal netwerk, dus delen via QR kan hier niet. Je kunt je noodplan wel als pdf, tekst of bestand delen.';
   static const scanInvalid = 'Dit is geen geldige code voor NL-Noodpakket.';
   static const scanCameraDenied = 'Zonder cameratoestemming kun je geen code scannen. Je kunt dit aanzetten in de instellingen van je toestel.';
   static const scanConnecting = 'Verbinden';

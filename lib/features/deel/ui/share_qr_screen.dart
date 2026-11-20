@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
+import '../../../core/device_features.dart';
 import '../../../core/l10n/strings.dart';
 import '../../../core/providers.dart';
 import '../../../core/theme.dart';
@@ -58,6 +59,7 @@ class _ShareQrScreenState extends ConsumerState<ShareQrScreen> with WidgetsBindi
   Timer? _tick;
   Duration _left = ShareLimits.connectWindow;
   String _qr = '', _code = '', _device = '', _error = '', _summary = '';
+  bool _noWifiHardware = false;
   int _done = 0, _total = 0;
 
   @override
@@ -83,7 +85,13 @@ class _ShareQrScreenState extends ConsumerState<ShareQrScreen> with WidgetsBindi
     final addr = await ref.read(addressFinderProvider).find();
     if (!mounted) return;
     if (addr == null) {
-      setState(() => _phase = _Phase.noNetwork);
+      // Geen lokaal netwerk: bij een toestel zonder wifi-hardware (en zonder ander netwerk) zeggen we dat eerlijk.
+      final wifi = await ref.read(deviceFeaturesProvider).hasWifi();
+      if (!mounted) return;
+      setState(() {
+        _noWifiHardware = !wifi;
+        _phase = _Phase.noNetwork;
+      });
       return;
     }
     try {
@@ -200,7 +208,7 @@ class _ShareQrScreenState extends ConsumerState<ShareQrScreen> with WidgetsBindi
     final c = t.colorScheme;
     final body = switch (_phase) {
       _Phase.preparing => const Center(child: CircularProgressIndicator()),
-      _Phase.noNetwork => _msg(S.deelNoNetwork, icon: Icons.wifi_off_rounded),
+      _Phase.noNetwork => _msg(_noWifiHardware ? S.deelNoWifiHardware : S.deelNoNetwork, icon: Icons.wifi_off_rounded),
       _Phase.background => _msg(S.deelBackgrounded, icon: Icons.pause_circle_outline_rounded),
       _Phase.expired => _msg(S.deelExpired, icon: Icons.timer_off_outlined),
       _Phase.failed => _msg(_error, icon: Icons.error_outline_rounded),

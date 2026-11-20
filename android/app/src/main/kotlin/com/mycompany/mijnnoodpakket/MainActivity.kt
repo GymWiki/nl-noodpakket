@@ -28,5 +28,17 @@ class MainActivity : FlutterFragmentActivity() {
                     else -> result.notImplemented()
                 }
             }
+        // Welke hardware heeft dit toestel? De app staat in Google Play ook voor toestellen zonder camera of wifi (die features zijn
+        // niet verplicht); Dart vraagt hier of ze er zijn, zodat het scannen en delen rustig melden dat het niet kan.
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "nl.mijnnoodpakket/device")
+            .setMethodCallHandler { call, result ->
+                when (call.method) {
+                    "hasSystemFeature" -> {
+                        val name = call.arguments as? String
+                        result.success(name != null && packageManager.hasSystemFeature(name))
+                    }
+                    else -> result.notImplemented()
+                }
+            }
     }
 }

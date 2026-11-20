@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
+import '../../core/l10n/strings.dart';
 import '../../data/repositories/plan_repository.dart';
 import '../../data/repositories/settings_repository.dart';
 import '../kluis/data/vault_controller.dart';
@@ -127,9 +128,21 @@ class _CameraScannerState extends State<_CameraScanner> {
             }
           }
         },
-        errorBuilder: (context, error) => Center(child: Text(error.errorCode.name)),
+        errorBuilder: (context, error) => Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Text(scannerErrorText(error.errorCode), textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyLarge),
+          ),
+        ),
       );
 }
+
+/// Rustige tekst bij een fout van de camerascanner (nooit een ruwe foutcode).
+String scannerErrorText(MobileScannerErrorCode code) => switch (code) {
+      MobileScannerErrorCode.permissionDenied => S.scanCameraDenied,
+      MobileScannerErrorCode.unsupported => S.scanNoCamera,
+      _ => S.scanCameraError,
+    };
 
 final qrScannerBuilderProvider = Provider<ScannerBuilder>((ref) => defaultScannerBuilder);
 
