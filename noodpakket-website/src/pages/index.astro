@@ -1,0 +1,190 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import DownloadButtons from "@/components/DownloadButtons.astro";
+import PhoneFrame from "@/components/PhoneFrame.astro";
+import startscherm from "@/assets/screenshots/startscherm.webp";
+import pakket from "@/assets/screenshots/pakket.webp";
+import stappenplan from "@/assets/screenshots/stappenplan.webp";
+import noodplan from "@/assets/screenshots/noodplan.webp";
+import delen from "@/assets/screenshots/delen.webp";
+import Feature from "@/components/Feature.astro";
+import FaqList from "@/components/FaqList.astro";
+import GovStatement from "@/components/GovStatement.astro";
+import LastUpdated from "@/components/LastUpdated.astro";
+import { FAQS } from "@/data/faq";
+import { SITE, SITE_URL, STORES } from "@/config/site";
+import { APP_FEATURES, AUDIENCES, FREE_LIST, NOT_DOING, PRICING, PRIVACY_POINTS, PRO_LIST, STEPS } from "@/config/content";
+import { CheckCheck, FileLock, Flame, ListChecks, Radio, Route, Share2, Accessibility, ShieldCheck, WifiOff, UserX, EyeOff, Users, User, HeartHandshake, Check, Phone, BellOff, Landmark, Stethoscope } from "@lucide/astro";
+
+const icons: Record<string, any> = { users: Users, user: User, heart: HeartHandshake, list: ListChecks, share: Share2, route: Route, lock: FileLock, radio: Radio, flame: Flame, check: CheckCheck, access: Accessibility, phone: Phone, bellOff: BellOff, landmark: Landmark, steth: Stethoscope, wifiOff: WifiOff, userX: UserX, eyeOff: EyeOff };
+const ic = "size-6";
+const mobileApp = {
+  "@context": "https://schema.org",
+  "@type": "MobileApplication",
+  "@id": `${SITE_URL}/#app`,
+  name: SITE.name,
+  description: SITE.definition,
+  applicationCategory: "LifestyleApplication",
+  operatingSystem: "iOS, Android",
+  inLanguage: "nl-NL",
+  url: SITE_URL,
+  image: `${SITE_URL}/logo.png`,
+  downloadUrl: STORES.appStore,
+  installUrl: [STORES.appStore, STORES.googlePlay].filter(Boolean),
+  sameAs: [STORES.appStore, STORES.googlePlay].filter(Boolean),
+  softwareVersion: SITE.appVersion,
+  isAccessibleForFree: true,
+  featureList: APP_FEATURES.map((f) => f.label),
+  offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
+  publisher: { "@id": `${SITE_URL}/#organization` },
+};
+const website = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
+  url: SITE_URL,
+  name: SITE.name,
+  inLanguage: "nl-NL",
+  publisher: { "@id": `${SITE_URL}/#organization` },
+};
+---
+<BaseLayout
+  title="NL-Noodpakket: app voor noodpakket en noodplan"
+  description="Stel stap voor stap je noodpakket en noodplan samen met NL-Noodpakket. Rustig, overzichtelijk, volledig offline en zonder account."
+  path="/"
+  jsonLd={[website, mobileApp]}
+  showCrumbs={false}
+>
+  <section class="mx-auto grid max-w-6xl items-center gap-12 px-4 pb-16 pt-10 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:pt-16">
+    <div>
+      <p class="mb-4 inline-flex items-center gap-2 rounded-full bg-accent px-4 py-1.5 text-sm font-semibold text-accent-foreground"><WifiOff class="size-4" aria-hidden="true" /> Volledig offline · geen account</p>
+      <h1>NL-Noodpakket: rustig voorbereiden op een noodsituatie</h1>
+      <p class="mt-6 max-w-2xl text-xl leading-relaxed text-muted-foreground">{SITE.definition}</p>
+      <DownloadButtons class="mt-8" />
+      <div class="mt-5"><LastUpdated date={SITE.lastUpdated} /></div>
+    </div>
+    <div class="mx-auto w-full max-w-[16rem] lg:max-w-[19rem]">
+      <PhoneFrame src={startscherm} alt="Startscherm van NL-Noodpakket: ‘ongeveer 3 van de 3 dagen zelfredzaam’, met knoppen voor Bel 112 en Eerste uur, de voortgang van noodpakket en noodplan, en de volgende stap." class="float-soft" priority sizes="(min-width: 1024px) 20rem, 70vw" />
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6" aria-labelledby="voor-wie">
+    <h2 id="voor-wie">Voor wie is NL-Noodpakket?</h2>
+    <p class="mt-3 max-w-2xl text-muted-foreground">Voor ieder huishouden dat zich rustig wil voorbereiden, hoe groot of klein ook.</p>
+    <ul class="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3 [&>li]:min-w-0">
+      {AUDIENCES.map((a) => {
+        const Icon = icons[a.icon];
+        return (
+          <li class="rounded-2xl border border-border bg-card p-6">
+            <span class:list={["tint tint-bubble flex size-12 items-center justify-center rounded-2xl", `tint-${a.tint}`]}><Icon class={ic} aria-hidden="true" /></span>
+            <h3 class="mt-4">{a.title}</h3>
+            <p class="mt-2 text-muted-foreground">{a.text}</p>
+          </li>
+        );
+      })}
+    </ul>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6" aria-labelledby="hoe-werkt-het">
+    <h2 id="hoe-werkt-het">Zo werkt het</h2>
+    <p class="mt-3 max-w-2xl text-muted-foreground">Drie stappen, in je eigen tempo. De app is bedoeld om je op een rustig moment voor te bereiden.</p>
+    <ol class="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3 [&>li]:min-w-0">
+      {STEPS.map((st, i) => (
+        <li class="rounded-2xl border border-border bg-card p-6">
+          <span class="flex size-10 items-center justify-center rounded-full bg-primary-soft font-heading font-bold text-primary" aria-hidden="true">{i + 1}</span>
+          <h3 class="mt-4">{st.title}</h3>
+          <p class="mt-2 text-muted-foreground">{st.text}</p>
+        </li>
+      ))}
+    </ol>
+    <p class="mt-6 max-w-2xl text-muted-foreground">De informatie in de app is gebaseerd op openbare bronnen. Voor actuele adviezen ga je naar de officiële websites; zie <a class="link" href="/bronnen">waar de informatie vandaan komt</a>.</p>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6" aria-labelledby="functies">
+    <h2 id="functies">Wat kan de app?</h2>
+    <ul class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 [&>li]:min-w-0">
+      {APP_FEATURES.map((f) => {
+        const Icon = icons[f.icon];
+        return <Feature title={f.title} tint={f.tint}><Icon slot="icon" class={ic} aria-hidden="true" />{f.text}</Feature>;
+      })}
+    </ul>
+    <h2 class="mt-16" id="schermen">Zo ziet de app eruit</h2>
+    <div role="region" aria-label="Schermen van de app" tabindex="0" class="-mx-4 mt-8 overflow-x-auto px-4 pb-4 sm:mx-0 sm:overflow-visible sm:px-0 sm:pb-0">
+      <ul class="flex snap-x snap-mandatory gap-6 sm:grid sm:grid-cols-2 sm:gap-8 lg:grid-cols-4">
+        {[
+          { src: pakket, title: "Je noodpakket, overzichtelijk bijgehouden", alt: "Scherm Mijn noodpakket: 32 van 46 spullen in huis, met de categorie Water en voeding en items zoals drinkwater (36 van 38 liter) en houdbaar eten voor 3 dagen." },
+          { src: stappenplan, title: "Duidelijke stappen als het erop aankomt", alt: "Stappenplan Stroomstoring, stap 2 van 6: luister naar de regionale omroep, met knoppen Vorige en Volgende." },
+          { src: noodplan, title: "Maak in 10 minuten je noodplan", alt: "Scherm Mijn noodplan: 5 van 7 onderdelen ingevuld, met onderdelen als Huishouden, Contacten, Verzamelplekken en Afspraken." },
+          { src: delen, title: "Deel je plan rechtstreeks met je gezin", alt: "Scherm voor het delen van je noodplan met een QR-code om te scannen met het andere toestel, met een afteller van 1:55." },
+        ].map((x) => (
+          <li class="w-[15.5rem] shrink-0 snap-center sm:w-auto">
+            <figure>
+              <PhoneFrame src={x.src} alt={x.alt} class="max-w-[15.5rem] sm:max-w-[17rem]" sizes="(min-width: 1024px) 17rem, 15.5rem" />
+              <figcaption class="mt-5 text-center font-heading font-semibold leading-snug">{x.title}</figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6" aria-labelledby="prijzen">
+    <h2 id="prijzen">Gratis en Pro</h2>
+    <p class="mt-3 max-w-2xl text-muted-foreground">{PRICING.short}</p>
+    <div class="mt-8 grid gap-5 md:grid-cols-2">
+      <div class="rounded-2xl border border-border bg-card p-6">
+        <h3>Gratis</h3>
+        <ul class="mt-4 space-y-3">
+          {FREE_LIST.map((t) => (
+            <li class="flex gap-3"><Check class="mt-1 size-5 shrink-0 text-primary" aria-hidden="true" /><span>{t}</span></li>
+          ))}
+        </ul>
+      </div>
+      <div class="rounded-2xl border-2 border-primary bg-card p-6">
+        <h3>Pro <span class="ml-2 rounded-full bg-accent px-3 py-1 align-middle text-sm font-semibold text-accent-foreground">Eenmalig</span></h3>
+        <ul class="mt-4 space-y-3">
+          {PRO_LIST.map((t) => (
+            <li class="flex gap-3"><Check class="mt-1 size-5 shrink-0 text-primary" aria-hidden="true" /><span>{t}</span></li>
+          ))}
+        </ul>
+        <p class="mt-4 text-sm text-muted-foreground">{PRICING.store}</p>
+      </div>
+    </div>
+    <p class="mt-6 text-muted-foreground">Wat er per versie is toegevoegd, zie je bij de <a class="link" href="/wijzigingen">wijzigingen per versie</a>.</p>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6" aria-labelledby="privacy">
+    <h2 id="privacy">Je gegevens blijven van jou</h2>
+    <ul class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3 [&>li]:min-w-0">
+      {PRIVACY_POINTS.map((p) => {
+        const Icon = icons[p.icon];
+        return <li class="rounded-2xl border border-border bg-card p-6"><Icon class="size-7 text-primary" aria-hidden="true" /><h3 class="mt-3">{p.title}</h3><p class="mt-2 text-muted-foreground">{p.text}</p></li>;
+      })}
+    </ul>
+    <p class="mt-6"><a class="link inline-flex min-h-12 items-center" href="/privacy"><ShieldCheck class="mr-2 size-5" aria-hidden="true" />Lees het privacybeleid</a></p>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6" aria-labelledby="niet">
+    <h2 id="niet">Wat de app niet doet</h2>
+    <ul class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 [&>li]:min-w-0">
+      {NOT_DOING.map((n) => {
+        const Icon = icons[n.icon];
+        return (
+          <li class="flex gap-4 rounded-2xl border border-border bg-card p-5">
+            <span class="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-muted text-foreground"><Icon class={ic} aria-hidden="true" /></span>
+            <div class="min-w-0"><h3>{n.title}</h3><p class="mt-1 text-muted-foreground">{n.text}</p></div>
+          </li>
+        );
+      })}
+    </ul>
+    <p class="mt-6 text-muted-foreground">Lees ook de <a class="link" href="/voorwaarden">gebruiksvoorwaarden</a>, of <a class="link" href="/contact">neem contact op</a> als je een vraag hebt of een fout vindt.</p>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-4 py-12 sm:px-6" aria-labelledby="faq">
+    <h2 id="faq">Veelgestelde vragen</h2>
+    <div class="mt-8"><FaqList items={FAQS.filter((f) => f.home)} level={3} /></div>
+    <p class="mt-6"><a class="link inline-flex min-h-12 items-center font-semibold" href="/veelgestelde-vragen">Alle veelgestelde vragen over het noodpakket en de app</a></p>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6"><GovStatement /></section>
+</BaseLayout>

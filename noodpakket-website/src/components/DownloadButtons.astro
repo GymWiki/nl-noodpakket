@@ -1,0 +1,27 @@
+---
+import { STORES } from "@/config/site";
+import appStoreBadge from "@/assets/badges/app-store.svg";
+interface Props { class?: string }
+const { class: cls = "" } = Astro.props;
+
+// Officiële Google Play-badge: download de Nederlandse badge ("Ontdek het op Google Play") van
+// https://play.google.com/intl/nl/badges/ en zet het bestand als src/assets/badges/google-play.png (of .svg/.webp).
+// Zolang het bestand ontbreekt, toont de site een neutrale tekstknop. Teken of wijzig de badge nooit zelf.
+const googleBadges = import.meta.glob("../assets/badges/google-play.{png,svg,webp}", { eager: true }) as Record<string, { default: ImageMetadata }>;
+const googleBadge = Object.values(googleBadges)[0]?.default;
+
+// Apple: officiële Nederlandse zwarte badge ("Download in de App Store"), ongewijzigd (zie README, sectie Store-badges).
+const textBtn = "inline-flex min-h-12 items-center justify-center rounded-xl bg-foreground px-6 py-3 font-semibold text-background no-underline hover:opacity-90";
+---
+<div class:list={["flex flex-wrap items-center gap-x-[10px] gap-y-[10px]", cls]}>
+  <a href={STORES.appStore} rel="noopener" data-store="app-store" class="inline-flex min-h-12 items-center rounded-lg" aria-label="Download de app in de App Store">
+    <img src={appStoreBadge.src} alt="" width="120" height="40" class="h-[48px] w-auto" />
+  </a>
+  {googleBadge ? (
+    <a href={STORES.googlePlay} rel="noopener" data-store="google-play" class="inline-flex min-h-12 items-center rounded-lg" aria-label="Ontdek de app op Google Play">
+      <img src={googleBadge.src} alt="" width={Math.round(googleBadge.width)} height={Math.round(googleBadge.height)} class="h-[48px] w-auto" />
+    </a>
+  ) : (
+    <a href={STORES.googlePlay} rel="noopener" data-store="google-play" class={textBtn}>Ontdek het op Google Play</a>
+  )}
+</div>

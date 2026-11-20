@@ -1,6 +1,11 @@
-/// Publieke juridische pagina's (GitHub Pages, map docs/ van de repository).
-/// Pas alleen deze twee waarden aan als de repository of gebruikersnaam wijzigt.
-const legalBaseUrl = 'https://gymwiki.github.io/nl-noodpakket';
-const privacyUrl = '$legalBaseUrl/privacy.html';
-const termsUrl = '$legalBaseUrl/terms.html';
+import 'config/site_urls.dart';
+
+/// Pagina's op de website van NL-Noodpakket (zie config/site_urls.dart).
+const privacyUrl = '$siteBaseUrl${SitePaths.privacy}';
+const termsUrl = '$siteBaseUrl${SitePaths.terms}';
+const supportUrl = '$siteBaseUrl${SitePaths.contact}';
+const sourcesUrl = '$siteBaseUrl${SitePaths.sources}';
+const websiteUrl = '$siteBaseUrl${SitePaths.home}';
+
+/// Meldingsformulier op GitHub (alleen voor "Klopt dit niet?" bij de rampenzender).
 const issuesUrl = 'https://github.com/GymWiki/nl-noodpakket/issues';

@@ -1,0 +1,70 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import LastUpdated from "@/components/LastUpdated.astro";
+import GovStatement from "@/components/GovStatement.astro";
+import { COMPANY, SITE } from "@/config/site";
+---
+<BaseLayout
+  title="Gebruiksvoorwaarden"
+  description="Gebruiksvoorwaarden van NL-Noodpakket: informatieve app, geen vervanging van 112 of professioneel advies, Pro eenmalig via de winkel."
+  path="/voorwaarden"
+>
+  <!--
+    CONCEPT: deze gebruiksvoorwaarden zijn een concept. Laat een jurist ze controleren voordat de site live gaat.
+    Dit commentaar mag niet publiek zichtbaar zijn.
+
+    Gecontroleerd tegen de app (19-11-2026): Pro eenmalig, geen abonnement; gratis onderdelen blijven gratis (test/pro_protection_test.dart);
+    verlies van Pro laat gegevens staan; herinneringen zijn lokaal; "Aankoop herstellen" bestaat.
+    NIET geverifieerd: aansprakelijkheidsbeperking, toepasselijk recht en consumentenrecht (jurist), en of de Apple-EULA-verwijzing volstaat.
+  -->
+  <div class="mx-auto max-w-3xl px-4 pb-8 pt-4 sm:px-6">
+    <h1>Gebruiksvoorwaarden</h1>
+    <div class="mt-3"><LastUpdated date={SITE.legalUpdated} label="Laatst gewijzigd" /></div>
+    <div class="prose-nl">
+      <p class="!mt-6 text-xl"><strong>Bij levensgevaar bel je 112.</strong> Deze app vervangt geen hulpdiensten, geen arts en geen professioneel advies.</p>
+
+      <h2>1. Wat is NL-Noodpakket?</h2>
+      <p>NL-Noodpakket helpt je om je voor te bereiden op een noodsituatie: een checklist voor je noodpakket, stappenplannen voor noodgevallen, een noodplan voor je huishouden, noodhacks en een documentenkluis. De app werkt offline. De app wordt aangeboden door {COMPANY.provider} (KVK {COMPANY.kvk}, {COMPANY.city}).</p>
+
+      <h2>2. Onafhankelijk, niet van de overheid</h2>
+      <p>De app is onafhankelijk. Hij vertegenwoordigt de Nederlandse overheid niet en is niet gemaakt door of in opdracht van de overheid, Denk Vooruit, NL-Alert, de veiligheidsregio’s, de brandweer, het Rode Kruis of een andere instantie. De inhoud is gebaseerd op openbare informatie van onder andere denkvooruit.nl, brandweer.nl, rijksoverheid.nl, het RIVM, het KNMI en het Voedingscentrum. Bij elk stappenplan staan de bronnen en de datum van de laatste controle. Namen van instanties worden alleen genoemd om de bron aan te geven. Zie <a href="/bronnen">Bronnen</a>.</p>
+
+      <h2>3. Informatie, geen advies</h2>
+      <p>De informatie is algemeen en bedoeld als hulpmiddel. Situaties verschillen. Volg altijd de aanwijzingen van hulpdiensten, de gemeente en de veiligheidsregio.</p>
+      <p>De app geeft geen medisch, juridisch, financieel of ander professioneel advies. Twijfel je over je gezondheid, bel dan een arts, of 112 bij levensgevaar.</p>
+      <p>Noodhacks en tips zijn bedoeld voor situaties waarin normale voorzieningen ontbreken. Lees de waarschuwingen en gebruik niets wat je niet zeker weet.</p>
+      <p>We doen ons best de inhoud juist en actueel te houden, maar kunnen niet garanderen dat die volledig, juist of up-to-date is. Controleer belangrijke informatie bij de officiële bron.</p>
+
+      <h2>4. Jouw gegevens en je verantwoordelijkheid</h2>
+      <p>Je bent zelf verantwoordelijk voor wat je in de app zet en voor het bewaren van je pincode, herstelcode en back-upwachtwoord. Die kunnen niet worden hersteld. Maak regelmatig een back-up als je gegevens belangrijk zijn. De documentenkluis is een extra kopie en vervangt je originele documenten niet. Zie ook het <a href="/privacy">privacybeleid</a>.</p>
+
+      <h2>5. Pro (eenmalige aankoop)</h2>
+      <p>Pro is een eenmalige aankoop via Google Play of de App Store. Er is geen abonnement en geen account.</p>
+      <p>Pro ontgrendelt de noodhacks, vervangherinneringen en een onbeperkt aantal documenten in de kluis. Alles wat in de app als gratis staat aangegeven blijft gratis, waaronder de checklist, alle noodgevallen-stappenplannen, het noodplan en de kluis tot 3 documenten.</p>
+      <p>De prijs wordt door de winkel getoond. Betaling, terugbetaling en herstel van je aankoop volgen de voorwaarden van Google Play of de App Store. Gebruik “Aankoop herstellen” in de app als je een nieuw toestel hebt.</p>
+      <p>Verlies je Pro, bijvoorbeeld na een terugbetaling, dan blijven je gegevens en documenten behouden. Alleen nieuwe Pro-functies zijn dan niet meer beschikbaar.</p>
+
+      <h2>6. Toegestaan gebruik</h2>
+      <p>Je mag de app gebruiken voor persoonlijk, niet-commercieel gebruik. Je mag de app niet gebruiken op een manier die in strijd is met de wet, de app niet reverse-engineeren om beveiliging te omzeilen en de inhoud niet voorstellen als officiële informatie van de overheid.</p>
+
+      <h2>7. Gebruik op eigen risico en aansprakelijkheid</h2>
+      <p>Je gebruikt de app op eigen risico. Voor zover de wet dat toestaat is {COMPANY.provider} niet aansprakelijk voor schade die voortvloeit uit het gebruik van de app of de informatie daarin, bijvoorbeeld door onjuiste of verouderde informatie, verlies van gegevens, een niet ontvangen herinnering of een niet werkend toestel. Deze beperking geldt niet voor schade die het gevolg is van opzet of bewuste roekeloosheid, en niet voor aansprakelijkheid die volgens de wet niet kan worden uitgesloten of beperkt.</p>
+
+      <h2>8. Herinneringen</h2>
+      <p>Herinneringen worden lokaal op je toestel gepland. Het besturingssysteem (bijvoorbeeld energiebesparing) kan meldingen vertragen of blokkeren. Vertrouw voor belangrijke zaken niet alleen op een melding.</p>
+
+      <h2>9. Intellectueel eigendom en open source</h2>
+      <p>De app, deze website en de eigen teksten en vormgeving zijn beschermd door auteursrecht en eigendom van {COMPANY.provider}. De app gebruikt open-sourcepakketten onder hun eigen licenties; die staan in de app onder Meer, Informatie, Open-sourcelicenties.</p>
+
+      <h2>10. Apple-EULA</h2>
+      <p>Als je de app via de Apple App Store downloadt, geldt daarnaast de <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" rel="noopener">standaard licentieovereenkomst voor Apple-apps (Standard EULA)</a>.</p>
+
+      <h2>11. Wijzigingen en toepasselijk recht</h2>
+      <p>De voorwaarden kunnen worden aangepast, bijvoorbeeld bij nieuwe functies. De nieuwste versie staat op deze pagina. Op deze voorwaarden is Nederlands recht van toepassing. Geschillen worden voorgelegd aan de bevoegde rechter in Nederland, behalve voor zover dwingend consumentenrecht anders bepaalt.</p>
+
+      <h2>12. Contact</h2>
+      <p>Vragen of fouten in de inhoud melden? Zie <a href="/contact">Contact</a>. Stuur daarbij geen persoonlijke gegevens mee.</p>
+    </div>
+    <div class="mt-12"><GovStatement compact /></div>
+  </div>
+</BaseLayout>

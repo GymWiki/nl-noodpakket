@@ -4,20 +4,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mijnnoodpakket/core/l10n/strings.dart';
+import 'package:mijnnoodpakket/core/config/site_urls.dart';
 import 'package:mijnnoodpakket/core/legal.dart';
 import 'package:mijnnoodpakket/features/info/info_screen.dart';
 
 void main() {
-  group('juridische pagina\'s (GitHub Pages)', () {
-    test('de links wijzen naar https en naar bestaande pagina\'s in docs/', () {
-      expect(privacyUrl, startsWith('https://'));
-      expect(termsUrl, startsWith('https://'));
-      for (final u in [privacyUrl, termsUrl]) {
-        expect(u.startsWith(legalBaseUrl), isTrue);
-        final file = File('docs/${u.split('/').last}');
-        expect(file.existsSync(), isTrue, reason: file.path);
+  group('juridische pagina\'s', () {
+    test('de links wijzen naar de website (één configbestand, https, geen www)', () {
+      expect(privacyUrl, 'https://nl-noodpakketapp.nl/privacy');
+      expect(termsUrl, 'https://nl-noodpakketapp.nl/voorwaarden');
+      expect(supportUrl, 'https://nl-noodpakketapp.nl/contact');
+      expect(sourcesUrl, 'https://nl-noodpakketapp.nl/bronnen');
+      expect(websiteUrl, 'https://nl-noodpakketapp.nl/');
+      for (final u in [privacyUrl, termsUrl, supportUrl, sourcesUrl, websiteUrl]) {
+        expect(u, startsWith('https://'));
+        expect(u.startsWith('$siteBaseUrl/'), isTrue);
+        expect(Uri.parse(u).host.startsWith('www.'), isFalse);
       }
-      expect(File('docs/index.html').existsSync(), isTrue);
+    });
+
+    test('de tekstversies in docs/ (GitHub Pages) bestaan nog; de website is de leidende versie', () {
+      for (final f in ['index', 'privacy', 'terms']) {
+        expect(File('docs/$f.html').existsSync(), isTrue, reason: f);
+      }
       expect(File('docs/.nojekyll').existsSync(), isTrue);
     });
 
@@ -60,7 +69,7 @@ void main() {
     });
   });
 
-  testWidgets('Informatie: privacybeleid, voorwaarden en licenties zijn te bereiken', (t) async {
+  testWidgets('Informatie: privacybeleid, voorwaarden, support, bronnen, website en licenties zijn te bereiken', (t) async {
     t.view.physicalSize = const Size(800, 3600);
     t.view.devicePixelRatio = 1;
     addTearDown(t.view.reset);
@@ -74,6 +83,9 @@ void main() {
     expect(find.text(S.legalTitle), findsOneWidget);
     expect(find.text(S.legalPrivacy), findsOneWidget);
     expect(find.text(S.legalTerms), findsOneWidget);
+    expect(find.text(S.legalSupport), findsOneWidget);
+    expect(find.text(S.legalSources), findsOneWidget);
+    expect(find.text(S.legalWebsite), findsOneWidget);
     expect(find.text(S.legalLicenses), findsOneWidget);
     await t.tap(find.text(S.legalLicenses));
     await t.pumpAndSettle();

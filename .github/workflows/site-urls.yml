@@ -1,0 +1,54 @@
+name: Website en URL-controle
+
+# Bewaakt dat de website-URL's in de site, de app en STORE_URLS.md gelijk zijn en dat de site bouwt.
+# Raakt de bestaande build-workflows (Android, iOS, screenshots) niet aan.
+on:
+  pull_request:
+    paths:
+      - 'noodpakket-website/**'
+      - 'lib/core/config/site_urls.dart'
+      - 'lib/core/legal.dart'
+      - 'STORE_URLS.md'
+      - 'tool/check_site_urls.py'
+      - '.github/workflows/site-urls.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'noodpakket-website/**'
+      - 'lib/core/config/site_urls.dart'
+      - 'lib/core/legal.dart'
+      - 'STORE_URLS.md'
+      - 'tool/check_site_urls.py'
+  workflow_dispatch:
+
+jobs:
+  urls:
+    name: URL's gelijk in site, app en STORE_URLS.md
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 tool/check_site_urls.py
+
+  website:
+    name: Website bouwen en SEO-controles
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: noodpakket-website
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: noodpakket-website/.node-version
+          cache: npm
+          cache-dependency-path: noodpakket-website/package-lock.json
+      - run: npm ci
+      - run: npx astro check
+      - run: npm run build
+      - run: node tests/html.mjs
+      - run: node tests/jsonld.mjs
+      - run: node tests/links.mjs
+      - run: node tests/seo.mjs

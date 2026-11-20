@@ -1,0 +1,8 @@
+---
+import { Image } from "astro:assets";
+import logo from "@/assets/logo/logo-transparent.webp";
+interface Props { class?: string; priority?: boolean }
+const { class: cls = "h-11 w-auto", priority = false } = Astro.props;
+---
+<!-- Eigen logo, transparante versie: werkt op het lichte en het donkere thema. Naam staat ernaast als tekst. -->
+<Image src={logo} alt="" widths={[48, 96, 144]} sizes="48px" format="webp" quality={90} class={cls} loading={priority ? "eager" : "lazy"} decoding="async" aria-hidden="true" />

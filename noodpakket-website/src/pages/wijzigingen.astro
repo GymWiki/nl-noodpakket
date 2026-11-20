@@ -1,0 +1,29 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import GovStatement from "@/components/GovStatement.astro";
+import { formatDate } from "@/lib/format";
+
+const entries = (await getCollection("wijzigingen")).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const rendered = await Promise.all(entries.map(async (e) => ({ e, Content: (await render(e)).Content })));
+---
+<BaseLayout
+  title="Wijzigingen per versie"
+  description="Alle wijzigingen van NL-Noodpakket per versie, met datum en een korte beschrijving van wat er nieuw of verbeterd is."
+  path="/wijzigingen"
+>
+  <div class="mx-auto max-w-3xl px-4 pb-8 pt-4 sm:px-6">
+    <h1>Wijzigingen</h1>
+    <p class="mt-5 text-xl text-muted-foreground">Wat er per versie van de app is veranderd, de nieuwste bovenaan.</p>
+    <ol class="mt-10 space-y-8">
+      {rendered.map(({ e, Content }) => (
+        <li class="rounded-2xl border border-border bg-card p-6">
+          <h2 class="!text-xl">Versie {e.data.version}{e.data.title && <span class="font-normal text-muted-foreground"> · {e.data.title}</span>}</h2>
+          <p class="text-sm text-muted-foreground"><time datetime={e.data.date.toISOString().slice(0, 10)}>{formatDate(e.data.date.toISOString().slice(0, 10))}</time></p>
+          <div class="prose-nl"><Content /></div>
+        </li>
+      ))}
+    </ol>
+    <div class="mt-12"><GovStatement compact /></div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,9 @@
+---
+import { GOV_STATEMENT } from "@/config/site";
+interface Props { compact?: boolean; footer?: boolean }
+const { compact = false, footer = false } = Astro.props;
+---
+<aside aria-label={footer ? "Overheidsverklaring in de voettekst" : "Overheidsverklaring"} class:list={["rounded-2xl border border-border bg-accent text-accent-foreground", compact ? "px-5 py-4 text-[0.95rem]" : "p-6 md:p-8"]}>
+  {!compact && <h2 class="mb-2 !text-xl !text-accent-foreground">Niet van de overheid</h2>}
+  <p class="!m-0">{GOV_STATEMENT} <a class="font-semibold underline" href="/bronnen">Bekijk onze bronnen</a>.</p>
+</aside>

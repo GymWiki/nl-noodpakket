@@ -1,0 +1,16 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+<BaseLayout title="Pagina niet gevonden" description="Deze pagina bestaat niet. Ga terug naar de homepage van NL-Noodpakket." path="/404" noindex showCrumbs={false}>
+  <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <h1>Pagina niet gevonden</h1>
+    <p class="mt-5 text-xl text-muted-foreground">Deze pagina bestaat niet (meer). Misschien helpt een van deze pagina’s.</p>
+    <ul class="mt-6 space-y-1">
+      <li><a class="link inline-flex min-h-12 items-center" href="/">Home</a></li>
+      <li><a class="link inline-flex min-h-12 items-center" href="/veelgestelde-vragen">Veelgestelde vragen</a></li>
+      <li><a class="link inline-flex min-h-12 items-center" href="/bronnen">Bronnen</a></li>
+      <li><a class="link inline-flex min-h-12 items-center" href="/contact">Contact</a></li>
+    </ul>
+    <p class="mt-6 text-muted-foreground">Bij levensgevaar bel je 112.</p>
+  </div>
+</BaseLayout>
