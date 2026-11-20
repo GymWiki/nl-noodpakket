@@ -54,15 +54,16 @@ jobs:
       # Google Play eist een uniek, stijgend versionCode per upload. De pubspec-versie (+21) wordt hiermee bewust overschreven; iOS blijft ongemoeid.
       - name: versionCode bepalen
         run: |
+          echo "VERSION_NAME=2.0.2" >> "$GITHUB_ENV"  # alleen Android; pubspec en iOS blijven 2.0.1
           echo "VERSION_CODE=$((100 + GITHUB_RUN_NUMBER))" >> "$GITHUB_ENV"
           echo "versionCode wordt $((100 + GITHUB_RUN_NUMBER))"
-      - run: flutter build appbundle --release --build-number="$VERSION_CODE"
+      - run: flutter build appbundle --release --build-name="$VERSION_NAME" --build-number="$VERSION_CODE"
 
       # Google Play filtert toestellen op verplichte hardware-features, ook die het zelf afleidt uit machtigingen en
       # activity-instellingen (CAMERA -> camera en autofocus, ACCESS_WIFI_STATE -> wifi, screenOrientation=portrait ->
       # screen.portrait). Daarom bouwen we een universele APK en lezen we met aapt2 welke features verplicht zijn.
       - name: Universele APK bouwen (alleen voor de functiecontrole; wordt niet bewaard)
-        run: flutter build apk --release --build-number="$VERSION_CODE"
+        run: flutter build apk --release --build-name="$VERSION_NAME" --build-number="$VERSION_CODE"
 
       - name: Verplichte hardware-features controleren (alleen touchscreen is toegestaan)
         run: |
