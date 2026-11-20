@@ -7,6 +7,8 @@
 //     flutter test tool/screenshots/compose/compose_test.dart
 //   COMPOSE_MODE=feature COMPOSE_OUT=store/out/play/feature-graphic flutter test tool/screenshots/compose/compose_test.dart
 //   COMPOSE_MODE=icon COMPOSE_OUT=store/out/play/icon flutter test tool/screenshots/compose/compose_test.dart
+//   COMPOSE_MODE=header COMPOSE_SIZE=5244x2950 COMPOSE_OUT=store/out/appstore/header flutter test tool/screenshots/compose/compose_test.dart
+//     (header-art voor de App Store-productpagina; icoon en tekst blijven in het midden, want de randen worden bijgesneden)
 //
 // COMPOSE_STYLE=play|apple regelt het aandeel van het bijschrift. Google Play staat tekst-overlays toe tot
 // maximaal 20% van het beeld; de bijschriftband blijft daar ruim onder.
@@ -97,6 +99,49 @@ void main() {
           ..parent.createSync(recursive: true)
           ..writeAsBytesSync(img.encodePng(rgba));
         stdout.writeln('geschreven: $out/icon-512.png (512x512, RGBA)');
+        return;
+      }
+
+      if (mode == 'header') {
+        // Header-art voor de App Store-productpagina. Alles staat gecentreerd en binnen de middelste ~60% van de breedte,
+        // omdat Apple de afbeelding op verschillende schermen anders uitsnijdt. RGB zonder alfa.
+        final size = (env['COMPOSE_SIZE'] ?? '5244x2950').split('x').map(int.parse).toList();
+        final w = size[0], h = size[1];
+        final rec = ui.PictureRecorder();
+        final c = Canvas(rec, Rect.fromLTWH(0, 0, w.toDouble(), h.toDouble()));
+        c.drawRect(Rect.fromLTWH(0, 0, w.toDouble(), h.toDouble()), Paint()..color = bg);
+        final f = cfg['featureGraphic'] as Map<String, dynamic>;
+        final icon = await _load('ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png');
+        final s = h * 0.40, gap = w * 0.035, tw = w * 0.36;
+        TextPainter name(double fs) => TextPainter(
+              text: TextSpan(text: f['naam'] as String, style: TextStyle(fontFamily: 'Roboto', fontSize: fs, fontWeight: FontWeight.w700, color: accent)),
+              textDirection: TextDirection.ltr,
+              maxLines: 1,
+            )..layout();
+        var nfs = h * 0.115;
+        while (name(nfs).width > tw && nfs > 20) {
+          nfs -= 2;
+        }
+        final sfs = nfs * 0.62;
+        final slogan = TextPainter(
+          text: TextSpan(text: f['slogan'] as String, style: TextStyle(fontFamily: 'Roboto', fontSize: sfs, fontWeight: FontWeight.w400, color: fg, height: 1.25)),
+          textDirection: TextDirection.ltr,
+          maxLines: 3,
+        )..layout(maxWidth: tw);
+        final np = name(nfs);
+        final textH = np.height + nfs * 0.25 + slogan.height;
+        final groupW = s + gap + math.max(np.width, slogan.width);
+        final x0 = (w - groupW) / 2, y0 = (h - s) / 2;
+        final dst = RRect.fromRectAndRadius(Rect.fromLTWH(x0, y0, s, s), Radius.circular(s * 0.225));
+        c.save();
+        c.clipRRect(dst);
+        c.drawImageRect(icon, Rect.fromLTWH(0, 0, icon.width.toDouble(), icon.height.toDouble()), dst.outerRect, Paint()..filterQuality = FilterQuality.high);
+        c.restore();
+        final tx = x0 + s + gap, ty = (h - textH) / 2;
+        np.paint(c, Offset(tx, ty));
+        slogan.paint(c, Offset(tx, ty + np.height + nfs * 0.25));
+        await _savePng(await rec.endRecording().toImage(w, h), '$out/header-${w}x$h.png');
+        stdout.writeln('geschreven: $out/header-${w}x$h.png');
         return;
       }
 
