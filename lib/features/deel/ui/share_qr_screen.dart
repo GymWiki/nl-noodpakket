@@ -13,6 +13,8 @@ import '../../../core/theme.dart';
 import '../../kluis/data/vault_controller.dart';
 import '../../kluis/ui/secure_screen.dart';
 import '../../noodplan/plan_providers.dart';
+import '../../review/review_models.dart';
+import '../../review/review_providers.dart';
 import '../data/shared_plan_store.dart';
 import '../deel_services.dart';
 import '../protocol/channel.dart';
@@ -143,6 +145,8 @@ class _ShareQrScreenState extends ConsumerState<ShareQrScreen> with WidgetsBindi
               ? (e.documents > 0 ? S.whatPlanDocs(e.documents) : S.whatPlan)
               : S.whatDocs(e.documents);
           _summary = what;
+          // Het plan is overgedragen: een succesmoment (alleen een melding; het verzoek komt later op een rustig scherm).
+          if (e.planSent) unawaited(ref.read(reviewControllerProvider).successOccurred(SuccessMoment.planShared));
           unawaited(ref.read(settingsRepositoryProvider).setRaw(
                 ShareLog.key,
                 ShareLog(at: DateTime.now(), device: _device, what: what).encode(),

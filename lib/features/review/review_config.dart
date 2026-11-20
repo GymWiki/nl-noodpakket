@@ -9,6 +9,7 @@ class ReviewConfig {
     this.windowDays = 365,
     this.calmDelay = const Duration(seconds: 4),
     this.successFreshWindow = const Duration(minutes: 30),
+    this.spendMomentWhenBlocked = false,
   });
 
   /// De app is minstens zoveel dagen geleden voor het eerst gestart.
@@ -30,6 +31,13 @@ class ReviewConfig {
   /// Hoe lang een succesmoment "net voorgekomen" telt. Het wordt alleen in het geheugen bijgehouden: sluit de app
   /// eerder, dan vervalt het.
   final Duration successFreshWindow;
+
+  /// Wanneer telt een succesmoment als "gebruikt" (dan kan het nooit meer een aanleiding zijn)?
+  ///  - false (standaard): alleen als het echt een verzoek heeft veroorzaakt. Een moment dat op dag 2 voorkomt, terwijl
+  ///    het beleid pas na 5 dagen en 4 sessies toestaat, blijft dan beschikbaar voor een volgende keer. Zo krijgt
+  ///    iemand die snel succes had niet nooit een verzoek.
+  ///  - true: zodra het moment voorkomt (ook als het beleid het dan nog blokkeert). Strenger: minder verzoeken.
+  final bool spendMomentWhenBlocked;
 }
 
 /// De waarden die de app gebruikt.

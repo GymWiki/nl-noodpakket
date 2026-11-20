@@ -1,5 +1,6 @@
 import '../../rampenzender/data/radio_lines.dart';
 import '../../rampenzender/rampenzender_providers.dart';
+import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -12,6 +13,8 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../../core/format.dart';
 import '../../../core/l10n/strings.dart';
+import '../../review/review_models.dart';
+import '../../review/review_providers.dart';
 import '../../wiki/wiki_providers.dart';
 import '../domain/plan_models.dart';
 import '../domain/plan_share.dart';
@@ -35,14 +38,19 @@ class _PlanShareScreenState extends ConsumerState<PlanShareScreen> {
     ..clearSnackBars()
     ..showSnackBar(SnackBar(content: Text(m)));
 
-  Future<void> _run(Future<bool> Function(Plan plan, int version) action) async {
+  /// [isShare]: delen telt als succesmoment voor een beoordelingsverzoek, afdrukken niet. Dit meldt alleen; het
+  /// verzoek zelf komt nooit hier maar later op een rustig scherm (zie review_host.dart).
+  Future<void> _run(Future<bool> Function(Plan plan, int version) action, {bool isShare = true}) async {
     if (_busy) return;
     setState(() => _busy = true);
     try {
       final plan = await ref.read(planRepositoryProvider).load();
       final version = plan.sharedVersion + 1;
       final shared = await action(plan, version);
-      if (shared) await ref.read(planRepositoryProvider).markShared(version);
+      if (shared) {
+        await ref.read(planRepositoryProvider).markShared(version);
+        if (isShare) unawaited(ref.read(reviewControllerProvider).successOccurred(SuccessMoment.planShared));
+      }
     } catch (_) {
       if (mounted) _snack(S.planShareError);
     } finally {
@@ -67,7 +75,7 @@ class _PlanShareScreenState extends ConsumerState<PlanShareScreen> {
         final bytes = await _pdf(plan, v);
         return Printing.layoutPdf(
             name: 'noodplan.pdf', onLayout: (_) async => bytes);
-      });
+      }, isShare: false);
 
   Future<void> _shareText() => _run((plan, v) async {
         final text = planSummaryText(plan, _o, DateTime.now());
