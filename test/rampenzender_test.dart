@@ -504,6 +504,14 @@ void main() {
       expect(find.text(RZ.tuneLineNoRegion), findsOneWidget);
     });
 
+    testWidgets('de titel "Rampenzender in jouw regio" staat maar één keer op het scherm (app-balk), met en zonder gekozen regio', (t) async {
+      await pumpScreen(t, const RampenzenderScreen(), overrides());
+      expect(find.text(RZ.title), findsOneWidget);
+      await pumpScreen(t, const RampenzenderScreen(), overrides(prefs: const RadioPrefs()));
+      expect(find.text(RZ.title), findsOneWidget);
+      expect(find.text(RZ.intro), findsOneWidget);
+    });
+
     testWidgets('kaart op het dashboard en ingang op Noodgevallen openen de rampenzender', (t) async {
       await pumpScreen(t, const Scaffold(body: Column(children: [RadioDashCard(), RadioEntryCard()])), overrides(prefs: const RadioPrefs()));
       await t.tap(find.text(RZ.dashTitle));

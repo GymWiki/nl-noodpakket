@@ -59,7 +59,11 @@ class _Body extends ConsumerWidget {
     final data = ref.watch(radioDataProvider).value!;
     if (res == null) {
       return ListView(padding: Gap.page, children: [
-        const PageTitle(RZ.title, subtitle: RZ.intro),
+        // De titel staat al in de app-balk; hier alleen de uitleg (anders staat de titel twee keer op het scherm).
+        Padding(
+          padding: const EdgeInsets.only(top: Gap.s, bottom: Gap.m),
+          child: Text(RZ.intro, style: t.textTheme.bodyLarge?.copyWith(color: t.colorScheme.onSurfaceVariant)),
+        ),
         FilledButton.icon(
           style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(56)),
           onPressed: () => context.push('/rampenzender/kies'),
@@ -80,7 +84,8 @@ class _Body extends ConsumerWidget {
     final others = [for (final a in res.areas) if (a != chosen) a];
 
     return ListView(padding: Gap.page, children: [
-      const PageTitle(RZ.title),
+      // Geen PageTitle: de titel staat al in de app-balk.
+      const SizedBox(height: Gap.s),
       SoftCard(
         child: Row(children: [
           const IconBadge(Icons.place_outlined),
