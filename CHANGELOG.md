@@ -2,6 +2,9 @@
 
 ## Nog niet uitgebracht
 
+Nieuw
+- Onder Meer > Informatie staat "Beoordeel NL-Noodpakket": een link naar de winkelpagina. De app vraagt daarnaast hooguit zelden, op een rustig moment, via het venster van Apple of Google om een beoordeling. Dat gebeurt nooit tijdens een noodgeval, een stappenplan of in de kluis.
+
 Verbeterd
 - Het Pro-scherm is rustiger en laat zien wat je krijgt op het moment dat je het nodig hebt: bij een noodhack, bij een herinnering en bij je kluis. Je kunt het altijd sluiten met "Niet nu".
 - Na het invullen van een houdbaarheidsdatum bij een nieuw item kan één kleine tip verschijnen over herinneringen. Je kunt die sluiten of voorgoed verbergen.
