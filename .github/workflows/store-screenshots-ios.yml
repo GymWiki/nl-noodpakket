@@ -189,20 +189,20 @@ jobs:
           xcrun simctl status_bar "$IPAD_UDID" clear || true
           xcrun simctl shutdown "$IPAD_UDID" || true
 
-      - name: Marketinglaag (bijschriften, 24-bit PNG zonder alfa)
+      - name: Marketinglaag (alle sets uit tool/screenshots/store_sizes.json, rechtstreeks uit de ruwe opnames)
         run: |
           set -euo pipefail
-          SIZE=$(python3 -c "import glob,struct; b=open(sorted(glob.glob('store/raw/ios/*.png'))[0],'rb').read(); w,h=struct.unpack('>II',b[16:24]); print('%dx%d' % (w,h))")
-          echo "iPhone-formaat: $SIZE"
-          COMPOSE_RAW=store/raw/ios COMPOSE_OUT=store/out/appstore/iphone-6.9 COMPOSE_SIZE="$SIZE" COMPOSE_STYLE=apple \
-            flutter test tool/screenshots/compose/compose_test.dart
-          if [ -d store/raw/ipad ]; then
-            ISIZE=$(python3 -c "import glob,struct; b=open(sorted(glob.glob('store/raw/ipad/*.png'))[0],'rb').read(); w,h=struct.unpack('>II',b[16:24]); print('%dx%d' % (w,h))")
-            COMPOSE_RAW=store/raw/ipad COMPOSE_OUT=store/out/appstore/ipad-13 COMPOSE_SIZE="$ISIZE" COMPOSE_STYLE=apple \
-              flutter test tool/screenshots/compose/compose_test.dart
-          fi
+          # Elke set (iphone-6.3, iphone-6.1, ipad-13, ...) wordt uit de ruwe simulator-opname samengesteld op het canvas van
+          # de exacte doelmaat; nooit uit een al samengestelde afbeelding. Maten wijzigen: alleen store_sizes.json aanpassen.
+          rm -rf store/out/appstore
+          COMPOSE_SET=alle flutter test tool/screenshots/compose/compose_test.dart --reporter expanded
 
-      - name: Valideren (afmetingen, kleurmodus, aantallen)
+      - name: Tests van de screenshotpijplijn en de screenshot-inhoud
+        run: |
+          set -euo pipefail
+          flutter test test/store_validate_test.dart test/store_screenshots_guard_test.dart test/rampenzender_test.dart
+
+      - name: Valideren (exacte maten per set, PNG RGB, sRGB, 72 dpi, 8 bestanden in volgorde)
         run: |
           set -euo pipefail
           if [ -d store/raw/ipad ]; then

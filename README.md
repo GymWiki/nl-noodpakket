@@ -127,21 +127,27 @@ De acht schermen (bestandsnamen `01` t/m `08`): Start met Paraatheid, Pakket, Wa
 
 **iOS (GitHub Actions, geen Mac nodig)**
 1. Actions, "Store-screenshots iOS", Run workflow (laat "iPad" aan: de app ondersteunt iPad, dus App Store Connect vraagt de 13-inch-set).
-2. De workflow kiest een iPhone Pro Max-simulator (6.9 inch, 1320x2868), zet de statusbalk op 9:41 met volle batterij, draait dezelfde tests, controleert de afmetingen, maakt de bewerkte set en valideert die.
-3. Download de artifacts `store-ios-ruw` (ruwe PNG's in `store/raw/ios` en `store/raw/ipad`) en `store-ios-appstore` (`iphone-6.9` en `ipad-13`, 14 dagen bewaard).
+2. De workflow kiest een iPhone Pro Max-simulator (opname 1320x2868) en een iPad Pro 13-inch-simulator (echte iPad-opnames, geen iPhone-beelden in een iPad-frame), zet de statusbalk op 9:41 met volle batterij, draait dezelfde tests, controleert de afmetingen van de ruwe opnames, maakt per set uit de **ruwe opname** (nooit uit een al samengestelde afbeelding) een bewerkt beeld op het canvas van de exacte doelmaat (de opname wordt zonder vervorming geschaald, het bijschrift wordt op de doelmaat getekend), draait de tests en valideert.
+3. Download de artifacts `store-ios-ruw` (ruwe PNG's in `store/raw/ios` en `store/raw/ipad`) en `store-ios-appstore` (`iphone-6.3`, `iphone-6.1` en `ipad-13`, 14 dagen bewaard).
 
 **Waar upload je ze**
 - Google Play Console: je app, Grow, Store presence, Main store listing, Graphics: telefoon-screenshots (`store/out/play/phone`, 2 tot 8), feature graphic (`store/out/play/feature-graphic/feature-graphic.png`, 1024x500) en app-icoon (`store/out/play/icon/icon-512.png`).
-- App Store Connect: je app, de versiepagina, bij "Schermafbeeldingen": iPhone 6.9" (`store/out/appstore/iphone-6.9`) en iPad 13" (`store/out/appstore/ipad-13`). App Store Connect schaalt de kleinere formaten zelf af.
+- App Store Connect: je app, de versiepagina, bij "Schermafbeeldingen": voor het slot "iPhone with Dynamic Island (medium display)" upload je `store/out/appstore/iphone-6.3` (1206x2622); wordt dat geweigerd, gebruik dan `iphone-6.1` (1179x2556). Voor iPad 13" upload je `store/out/appstore/ipad-13` (2064x2752).
 
 **Aanpassen**
+- Screenshotmaten per winkel: `tool/screenshots/store_sizes.json` (één bestand voor compose en validatie). Vraagt App Store Connect later een ander slot, bijvoorbeeld 1320x2868? Zet bij `iphone-6.9` `"enabled": true` (of kopieer een blok en pas `out`, `size` en `accept` aan) en draai de workflow opnieuw. Lokaal opnieuw samenstellen uit ruwe opnames: `COMPOSE_SET=alle flutter test tool/screenshots/compose/compose_test.dart` of `COMPOSE_SET=iphone-6.3`.
 - Bijschriften en kleuren: `tool/screenshots/captions.json` (verwijder of maak een bijschrift leeg om die screenshot over te slaan, bijvoorbeeld voor een onderdeel dat niet in een build zit).
 - Demodata en de toestand van de app: `integration_test/store/demo_data.dart` en `integration_test/store/fixture.dart` (Pro aan met `storeOverrides(pro: true)`).
 - Schermen en navigatie: `integration_test/store_screenshots_test.dart`.
 
 **Regels waaraan getoetst is** (gelezen op 17 november 2026)
 - Google Play: telefoon-screenshots JPEG of 24-bit PNG zonder alfa, 2 tot 8, kortste zijde minstens 320 px en langste hooguit 3840 px (niet meer dan 2x de korte zijde); tekst-overlay maximaal 20% van het beeld; geen prijs- of actiewoorden zoals "Best", "#1", "Download now"; geen badge van een winkel; apparaatframes afgeraden. Feature graphic 1024x500 zonder alfa. App-icoon 512x512, 32-bit PNG met alfa, maximaal 1024 KB.
-- Apple: 1 tot 10 screenshots per formaat, JPEG of PNG zonder transparantie; 6.9-inch 1260x2736, 1290x2796 of 1320x2868 (portret); iPad 13-inch 2064x2752 of 2048x2732. De 2:1-verhoudingsregel geldt alleen voor Google Play, niet voor de App Store (1320x2868 is ruim 2,17:1 en toegestaan). `tool/screenshots/validate.dart` past de regels per winkel toe; de bronnen staan bovenaan dat bestand. App Review 2.3.3 (de app in gebruik tonen), 2.3.2 (betaalde functies melden: bijschrift 8 en de zichtbare Pro-aanduiding), 2.3.10 (geen verwijzing naar andere platformen).
+- Apple (pagina "Screenshot specifications", opgehaald op 20 november 2026): 1 tot 10 screenshots per formaat, JPEG of PNG zonder alfakanaal of transparantie; "iPhone with Dynamic Island (medium display)" 1179x2556 of 1206x2622 (portret; liggend 2556x1179 of 2622x1206); "(large display)" 1260x2736, 1290x2796 of 1320x2868; iPad 13-inch 2064x2752 of 2048x2732. De pagina noemt geen kleurruimte, dpi of bestandsgrootte; wij leveren 8-bit RGB, sRGB en 72 dpi en precies 8 bestanden (eigen, strengere eis). De 2:1-verhoudingsregel geldt alleen voor Google Play, niet voor de App Store (1320x2868 is ruim 2,17:1 en toegestaan). `tool/screenshots/validate.dart` past de regels per winkel toe; de bronnen staan bovenaan dat bestand. App Review 2.3.3 (de app in gebruik tonen), 2.3.2 (betaalde functies melden: bijschrift 8 en de zichtbare Pro-aanduiding), 2.3.10 (geen verwijzing naar andere platformen).
+
+**Inhoud controleren** (20 november 2026)
+- Rampenzender: de titel stond twee keer op het scherm (app-balk en kop); dat was een fout en is in de app opgelost (`test/rampenzender_test.dart`).
+- De getoonde Rampenzender-waarden (Den Haag: 89.3 MHz, DAB+ kanaal 5B) komen uit `assets/radio/rampenzenders.json`; de dataset markeert ze als "meerdere bronnen" (gecontroleerd op 12 november 2026) en `test/store_screenshots_guard_test.dart` legt de waarden vast. Een controle tegen de live pagina van Omroep West is op 20 november niet gelukt (host niet bereikbaar vanuit de ontwikkelomgeving): **controleer 89.3 MHz en kanaal 5B zelf op omroepwest.nl/ontvangst voordat je uploadt, of laat het bijschrift van screenshot 07 en de waarde vervallen.**
+- iOS-set: de opnames komen van een iOS-simulator en tonen alleen de app (geen Android-systeembalk of -navigatiebalk). Documenten hebben "(voorbeeld)" in de titel; `test/store_screenshots_guard_test.dart` bewaakt dat.
 
 ## Reviewscreenshot voor de aankoop
 
