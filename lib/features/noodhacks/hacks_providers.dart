@@ -11,8 +11,11 @@ import 'hacks_models.dart';
 const hacksAsset = 'assets/wiki/noodhacks.json';
 
 /// Gebundelde noodhacks; geen netwerk nodig. Conceptplannen (status draft) zijn er alleen in een debug-build.
-final hacksProvider = FutureProvider<HackData>(
-    (ref) async => HackData.parse(await rootBundle.loadString(hacksAsset)).visible(release: ref.watch(hacksReleaseModeProvider)));
+final hacksProvider = FutureProvider<HackData>((ref) async {
+  // De vlag wordt vóór de eerste await gelezen: een provider mag na een await niet meer watchen.
+  final release = ref.watch(hacksReleaseModeProvider);
+  return HackData.parse(await rootBundle.loadString(hacksAsset)).visible(release: release);
+});
 
 /// Test-haak: in een release-build zijn conceptplannen onzichtbaar.
 final hacksReleaseModeProvider = Provider<bool>((ref) => kReleaseMode);

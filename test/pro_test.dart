@@ -13,6 +13,7 @@ import 'package:mijnnoodpakket/data/db/database.dart';
 import 'package:mijnnoodpakket/domain/models.dart';
 import 'package:mijnnoodpakket/features/expiry/reminder_items.dart';
 import 'package:mijnnoodpakket/features/noodhacks/hacks_models.dart';
+import 'package:mijnnoodpakket/features/noodhacks/hacks_providers.dart' show hacksProvider;
 import 'package:mijnnoodpakket/features/noodhacks/hacks_widgets.dart';
 import 'package:mijnnoodpakket/features/pro/pro_models.dart';
 import 'package:mijnnoodpakket/features/pro/pro_providers.dart';
@@ -119,7 +120,7 @@ void main() {
 
     test('alle mythes en proefhacks zijn gratis; de rest is Pro', () {
       for (final h in data.hacks) {
-        final free = h.categorie == 'mythes' || h.freePreview;
+        final free = h.categorie == 'mythes' || h.freePreview || h.safetyCritical;
         expect(h.isFree, free, reason: h.id);
         expect(hackLocked(h, pro: false), !free, reason: h.id);
         expect(hackLocked(h, pro: true), isFalse, reason: h.id);
@@ -268,9 +269,12 @@ void main() {
       t.view.devicePixelRatio = 1;
       addTearDown(t.view.reset);
       final svc = fake ?? FakePurchaseService();
+      // De echte asset wordt in een test niet altijd binnen pumpAndSettle geladen (de data is groter geworden); lees hem vooraf.
+      final hacks = HackData.parse(File('assets/wiki/noodhacks.json').readAsStringSync()).visible(release: true);
       final List<Override> o = [
         purchaseServiceProvider.overrideWithValue(svc),
         proUnlockedProvider.overrideWithValue(pro),
+        hacksProvider.overrideWith((ref) async => hacks),
       ];
       await t.pumpWidget(ProviderScope(
         overrides: o,
