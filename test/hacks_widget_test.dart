@@ -323,4 +323,127 @@ void main() {
     expect(find.text(S.hacksRelatedBlock), findsOneWidget);
     expect(find.text('Water vinden als de kraan droog is'), findsOneWidget);
   });
+
+  group('survivalpakket (uitgebreide plannen)', () {
+    testWidgets('lijst: nieuwe categorieën staan erbij; zoeken en filter vinden nieuwe plannen', (t) async {
+      await pump(t, '/hacks', pro: false);
+      await t.scrollUntilVisible(find.text('Eerste hulp'), 600, scrollable: find.byType(Scrollable).first);
+      expect(find.text('Eerste hulp'), findsOneWidget);
+      await t.scrollUntilVisible(find.text('Hulp roepen en samen'), -600, scrollable: find.byType(Scrollable).first);
+      await t.enterText(find.byType(TextField), 'alarmnummer');
+      await t.pumpAndSettle();
+      expect(find.text('112 bellen als je mobiel niet goed werkt'), findsOneWidget);
+      expect(find.text('Water koken'), findsNothing);
+      await t.enterText(find.byType(TextField), 'onderkoeling');
+      await t.pumpAndSettle();
+      expect(find.text('Onderkoeling herkennen en helpen'), findsOneWidget);
+      await t.enterText(find.byType(TextField), '');
+      await t.pumpAndSettle();
+      await t.tap(find.widgetWithText(ChoiceChip, S.hacksLabelCaution));
+      await t.pumpAndSettle();
+      expect(find.text('Onderkoeling herkennen en helpen'), findsOneWidget);
+      expect(find.text('112 bellen als je mobiel niet goed werkt'), findsNothing); // label "veilig"
+    });
+
+    testWidgets('concept (draft) is niet te vinden in een release-build', (t) async {
+      await pump(t, '/hacks', pro: true);
+      await t.enterText(find.byType(TextField), 'noodtoilet');
+      await t.pumpAndSettle();
+      expect(find.text(S.hacksNoResults), findsOneWidget);
+    });
+
+    testWidgets('detail: titel, label, samenvatting, nodig, duur, stappen, waarschuwing, stop en bel 112 en bronnen met datum', (t) async {
+      await pump(t, '/hacks/bloeding', pro: false);
+      final h = data.byId('bloeding')!;
+      expect(find.text(h.titel), findsWidgets);
+      expect(find.text(S.hacksLabelSafe), findsOneWidget);
+      expect(find.text(h.intro), findsOneWidget);
+      expect(find.text('${S.hacksDuration}: ${h.duur}'), findsOneWidget);
+      expect(find.text(S.hacksNeed), findsOneWidget);
+      expect(find.text(S.hacksStart), findsOneWidget);
+      await t.scrollUntilVisible(find.text(S.hacksStopCall112), 400, scrollable: find.byType(Scrollable).first);
+      expect(find.text(S.hacksStopCall112), findsOneWidget);
+      expect(find.textContaining('duizelig, suf, klam of bleek'), findsOneWidget);
+      await t.scrollUntilVisible(find.text(S.hacksSources), 400, scrollable: find.byType(Scrollable).first);
+      await t.tap(find.text(S.hacksSources));
+      await t.pumpAndSettle();
+      expect(find.textContaining('Geraadpleegd op'), findsWidgets);
+    });
+
+    testWidgets('safetyCritical-plan is gratis te openen, zonder paywall (ook zonder Pro)', (t) async {
+      for (final id in ['112-bereiken', 'bloeding', 'melders', 'vluchttas', 'mythe-tourniquet-zelf']) {
+        await pump(t, '/hacks/$id', pro: false);
+        expect(find.byKey(const Key('paywall-not-now')), findsNothing, reason: id);
+        expect(find.text(S.hackProHint), findsNothing, reason: id);
+      }
+    });
+
+    testWidgets('praktisch plan zonder Pro: tik opent de paywall; in een directe link alleen titel en uitnodiging', (t) async {
+      await pump(t, '/hacks', pro: false);
+      await t.enterText(find.byType(TextField), 'buren');
+      await t.pumpAndSettle();
+      expect(find.text(S.proBadge), findsWidgets);
+      await t.tap(find.text('Samen met je buren voorbereiden'));
+      await t.pumpAndSettle();
+      expect(find.byKey(const Key('paywall-not-now')), findsOneWidget);
+      await t.tap(find.text(S.paywallNotNow));
+      await t.pumpAndSettle();
+      await pump(t, '/hacks/buren-organiseren', pro: false);
+      expect(find.text(S.hackProHint), findsOneWidget);
+      expect(find.text(S.hackProOnly), findsOneWidget);
+      expect(find.text(S.hacksStart), findsNothing);
+    });
+
+    testWidgets('stap-voor-stap: waarschuwing eerst, Gedaan, Vorige en Volgende, timer en opnieuw beginnen', (t) async {
+      await pump(t, '/hacks/bloedneus/stappen', pro: false);
+      final h = data.byId('bloedneus')!;
+      expect(find.text(S.hacksReadFirst), findsOneWidget);
+      await t.tap(find.text(S.wikiNext));
+      await t.pumpAndSettle();
+      expect(find.text(S.planStepOf(1, h.stappen.length)), findsOneWidget);
+      expect(find.text(h.stappen[0]), findsOneWidget);
+      // Gedaan aanvinken en teruggaan: het vinkje blijft.
+      await t.tap(find.byKey(const Key('hack-step-done')));
+      await t.pumpAndSettle();
+      expect(tester(t).value, isTrue);
+      await t.tap(find.text(S.wikiNext));
+      await t.pumpAndSettle();
+      expect(find.text(h.stappen[1]), findsOneWidget);
+      await t.tap(find.text(S.wikiPrev));
+      await t.pumpAndSettle();
+      expect(find.text(h.stappen[0]), findsOneWidget);
+      expect(tester(t).value, isTrue);
+      // Stap 3 heeft een timer van 10 minuten.
+      await t.tap(find.text(S.wikiNext));
+      await t.pumpAndSettle();
+      await t.tap(find.text(S.wikiNext));
+      await t.pumpAndSettle();
+      expect(find.text(h.stappen[2]), findsOneWidget);
+      expect(find.byKey(const Key('hack-timer-text')), findsOneWidget);
+      expect(find.text('10:00'), findsOneWidget);
+      await t.tap(find.byKey(const Key('hack-timer-toggle')));
+      await t.pump(const Duration(seconds: 3));
+      expect(find.text('09:57'), findsOneWidget);
+      await t.tap(find.byKey(const Key('hack-timer-toggle'))); // pauzeren
+      await t.pump(const Duration(seconds: 5));
+      expect(find.text('09:57'), findsOneWidget);
+      await t.tap(find.byKey(const Key('hack-timer-reset')));
+      await t.pump();
+      expect(find.text('10:00'), findsOneWidget);
+      // Opnieuw beginnen zet alles terug naar het begin.
+      await t.tap(find.text(S.hacksRestart));
+      await t.pumpAndSettle();
+      expect(find.text(S.hacksReadFirst), findsOneWidget);
+    });
+
+    testWidgets('stap-voor-stap van een gratis plan zonder waarschuwing en een Pro-plan met Pro', (t) async {
+      await pump(t, '/hacks/112-wanneer/stappen', pro: false);
+      final h = data.byId('112-wanneer')!;
+      expect(find.text(h.stappen[0]), findsOneWidget);
+      await pump(t, '/hacks/buren-organiseren/stappen', pro: true);
+      expect(find.text(data.byId('buren-organiseren')!.stappen[0]), findsOneWidget);
+    });
+  });
 }
+
+CheckboxListTile tester(WidgetTester t) => t.widget<CheckboxListTile>(find.byKey(const Key('hack-step-done')));
