@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show HapticFeedback;
 import '../../core/theme/category_palette.dart';
 import '../../core/ui.dart';
 import 'hacks_providers.dart';
@@ -144,6 +147,98 @@ class HackLockedView extends StatelessWidget {
             child: const Text(S.hackProOnly),
           ),
         ],
+      ),
+    );
+  }
+}
+
+
+String fmtTimer(int seconds) {
+  final m = seconds ~/ 60, s = seconds % 60;
+  return '${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}';
+}
+
+/// Aftellende timer voor één stap (bijvoorbeeld 10 minuten een brandwond koelen). Start pas na een tik; geen geluid
+/// of melding op de achtergrond: het scherm blijft aan in de stap-voor-stap modus.
+class StepTimer extends StatefulWidget {
+  const StepTimer({super.key, required this.seconds});
+  final int seconds;
+
+  @override
+  State<StepTimer> createState() => _StepTimerState();
+}
+
+class _StepTimerState extends State<StepTimer> {
+  late int _left = widget.seconds;
+  Timer? _t;
+
+  bool get _running => _t != null;
+
+  @override
+  void didUpdateWidget(StepTimer old) {
+    super.didUpdateWidget(old);
+    if (old.seconds != widget.seconds) _reset();
+  }
+
+  @override
+  void dispose() {
+    _t?.cancel();
+    super.dispose();
+  }
+
+  void _start() {
+    if (_left <= 0) _left = widget.seconds;
+    _t?.cancel();
+    _t = Timer.periodic(const Duration(seconds: 1), (t) {
+      if (!mounted) return;
+      setState(() => _left--);
+      if (_left <= 0) {
+        t.cancel();
+        _t = null;
+        HapticFeedback.mediumImpact();
+        setState(() {});
+      }
+    });
+    setState(() {});
+  }
+
+  void _pause() {
+    _t?.cancel();
+    setState(() => _t = null);
+  }
+
+  void _reset() {
+    _t?.cancel();
+    setState(() {
+      _t = null;
+      _left = widget.seconds;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final t = Theme.of(context);
+    final done = _left <= 0;
+    return Semantics(
+      container: true,
+      liveRegion: done,
+      label: done ? S.hacksTimerDone : S.hacksTimerLabel(fmtTimer(_left)),
+      child: SoftCard(
+        child: Row(children: [
+          const Icon(Icons.timer_outlined),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(done ? S.hacksTimerDone : fmtTimer(_left),
+                style: t.textTheme.headlineSmall, key: const Key('hack-timer-text')),
+          ),
+          if (!done)
+            FilledButton.tonal(
+              key: const Key('hack-timer-toggle'),
+              onPressed: _running ? _pause : _start,
+              child: Text(_running ? S.hacksTimerPause : S.hacksTimerStart),
+            ),
+          TextButton(key: const Key('hack-timer-reset'), onPressed: _reset, child: const Text(S.hacksTimerReset)),
+        ]),
       ),
     );
   }

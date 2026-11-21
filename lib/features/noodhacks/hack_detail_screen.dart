@@ -11,6 +11,7 @@ import '../../core/calm.dart';
 import '../../core/l10n/strings.dart';
 import '../../core/theme.dart';
 import '../../core/ui.dart';
+import '../wiki/wiki_providers.dart';
 import 'hacks_models.dart';
 import 'hacks_providers.dart';
 import 'hacks_widgets.dart';
@@ -72,6 +73,14 @@ class _Detail extends ConsumerWidget {
           Text(h.titel, style: t.textTheme.headlineMedium),
           const SizedBox(height: 8),
           Text(h.intro, style: t.textTheme.bodyLarge),
+          if (h.duur != null && !never) ...[
+            const SizedBox(height: 8),
+            Row(children: [
+              const Icon(Icons.schedule_rounded, size: 18),
+              const SizedBox(width: 6),
+              Text('${S.hacksDuration}: ${h.duur}', style: t.textTheme.bodyMedium),
+            ]),
+          ],
           if (never) ...[
             const SizedBox(height: Gap.m),
             SoftCard(
@@ -159,6 +168,22 @@ class _Detail extends ConsumerWidget {
             section(S.hacksWarnings),
             for (final w in h.waarschuwingen) Padding(padding: const EdgeInsets.only(bottom: 8), child: Text(w)),
           ],
+          if (h.stopEnBel112 != null && !never) ...[
+            const SizedBox(height: Gap.m),
+            SoftCard(
+              color: c.errorContainer,
+              borderColor: Colors.transparent,
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Row(children: [
+                  Icon(Icons.call_rounded, color: c.onErrorContainer),
+                  const SizedBox(width: 10),
+                  Text(S.hacksStopCall112, style: t.textTheme.titleMedium?.copyWith(color: c.onErrorContainer)),
+                ]),
+                const SizedBox(height: 8),
+                Text(h.stopEnBel112!, style: t.textTheme.bodyLarge?.copyWith(color: c.onErrorContainer)),
+              ]),
+            ),
+          ],
           if (h.alternatiefIds.isNotEmpty) ...[
             section(never ? S.hacksInstead : S.hacksHandy),
             CalmListGroup(children: [
@@ -177,8 +202,13 @@ class _Detail extends ConsumerWidget {
                 dense: true,
                 leading: const Icon(Icons.open_in_new_rounded, size: 20),
                 title: Text(b.naam),
+                subtitle: b.geraadpleegd == null ? null : Text(S.hacksConsulted(fmtDate(b.geraadpleegd!))),
                 onTap: () => openExternal(context, b.url),
               ),
+            if (h.bronOpmerking != null) ...[
+              const SizedBox(height: 4),
+              Text('${S.hacksSourceNote}: ${h.bronOpmerking}', style: t.textTheme.bodySmall),
+            ],
             Text(S.hacksReviewed(fmtDate(h.lastReviewed)), style: t.textTheme.bodySmall),
           ]),
           const SizedBox(height: 8),
@@ -202,10 +232,33 @@ class _HackStepsScreenState extends ConsumerState<HackStepsScreen> {
   int _i = 0;
   bool _list = false;
 
+  /// "Gedaan" per stap, bewaard met dezelfde voortgangsopslag als de stappenplannen van de wiki (eigen sleutel).
+  Set<int> _done = {};
+
+  String get _key => 'hack:${widget.id}';
+
   @override
   void initState() {
     super.initState();
     _wake(true);
+    ref.read(wikiPrefsProvider).loadProgress(_key).then((p) {
+      if (mounted) setState(() => _done = p.done);
+    }).catchError((_) {});
+  }
+
+  void _setDone(Set<int> done) {
+    setState(() => _done = done);
+    ref.read(wikiPrefsProvider).saveProgress(_key, WikiProgress(current: _i, done: done)).catchError((_) {});
+  }
+
+  Future<void> _restart() async {
+    setState(() {
+      _i = 0;
+      _done = {};
+    });
+    try {
+      await ref.read(wikiPrefsProvider).resetProgress(_key);
+    } catch (_) {}
   }
 
   @override
@@ -272,11 +325,17 @@ class _HackStepsScreenState extends ConsumerState<HackStepsScreen> {
             ? ListView(padding: Gap.page, children: [
                 if (hasWarn) warnings(),
                 const SizedBox(height: 16),
-                for (var k = 0; k < h.stappen.length; k++)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 14),
-                    child: Text('${k + 1}. ${h.stappen[k]}', style: t.textTheme.titleLarge?.copyWith(height: 1.35)),
+                for (var k = 0; k < h.stappen.length; k++) ...[
+                  CheckboxListTile(
+                    contentPadding: EdgeInsets.zero,
+                    controlAffinity: ListTileControlAffinity.leading,
+                    value: _done.contains(k),
+                    title: Text('${k + 1}. ${h.stappen[k]}', style: t.textTheme.titleLarge?.copyWith(height: 1.35)),
+                    onChanged: (v) => _setDone(v == true ? {..._done, k} : ({..._done}..remove(k))),
                   ),
+                  if (h.stapTimers[k + 1] case final sec?) Padding(padding: const EdgeInsets.only(bottom: 14), child: StepTimer(seconds: sec)),
+                ],
+                TextButton(onPressed: _restart, child: const Text(S.hacksRestart)),
               ])
             : Column(children: [
                 Padding(
@@ -296,9 +355,25 @@ class _HackStepsScreenState extends ConsumerState<HackStepsScreen> {
                               liveRegion: true,
                               child: Text(pages[i]!, style: t.textTheme.headlineMedium?.copyWith(height: 1.3)),
                             ),
+                            if (h.stapTimers[i + 1 - (hasWarn ? 1 : 0)] case final sec?) ...[
+                              const SizedBox(height: 20),
+                              StepTimer(key: ValueKey('timer-$i'), seconds: sec),
+                            ],
                           ]),
                   ),
                 ),
+                if (pages[i] != null)
+                  CheckboxListTile(
+                    key: const Key('hack-step-done'),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+                    controlAffinity: ListTileControlAffinity.leading,
+                    title: const Text(S.hacksStepDone, style: TextStyle(fontSize: 18)),
+                    value: _done.contains(i - (hasWarn ? 1 : 0)),
+                    onChanged: (v) {
+                      final k = i - (hasWarn ? 1 : 0);
+                      _setDone(v == true ? {..._done, k} : ({..._done}..remove(k)));
+                    },
+                  ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
                   child: Row(children: [
@@ -317,6 +392,7 @@ class _HackStepsScreenState extends ConsumerState<HackStepsScreen> {
                     ),
                   ]),
                 ),
+                TextButton(onPressed: _restart, child: const Text(S.hacksRestart)),
               ]),
       ),
     );
