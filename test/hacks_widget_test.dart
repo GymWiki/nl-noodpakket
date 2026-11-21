@@ -21,7 +21,10 @@ import 'package:mijnnoodpakket/features/noodhacks/hacks_providers.dart';
 
 import 'dart:async';
 
-final data = HackData.parse(File('assets/wiki/noodhacks.json').readAsStringSync());
+final allData = HackData.parse(File('assets/wiki/noodhacks.json').readAsStringSync());
+
+/// Wat een gebruiker in een release-build ziet: zonder conceptplannen (status draft).
+final data = allData.visible(release: true);
 
 class FakePrefs implements HacksPrefs {
   Set<String> materials = {};
@@ -170,6 +173,7 @@ void main() {
       expect(find.text(S.hacksIntroOut), findsOneWidget);
       expect(find.text(S.hacksHave), findsOneWidget);
       for (final c in data.categories) {
+        await t.scrollUntilVisible(find.text(c.titel), 600, scrollable: find.byType(Scrollable).first);
         expect(find.text(c.titel), findsOneWidget, reason: c.id);
       }
       // een label bestaat altijd uit icoon + tekst

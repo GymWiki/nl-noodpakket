@@ -20,7 +20,8 @@ void main() {
   test('elke hack heeft bron, bronType en controledatum; nooit-hacks hebben een reden en een alternatief', () {
     final d = load();
     for (final h in d.hacks) {
-      expect(h.bronnen, isNotEmpty, reason: h.id);
+      // Conceptplannen (draft) hebben nog geen bron en zijn in een release-build onzichtbaar.
+      if (!h.isDraft) expect(h.bronnen, isNotEmpty, reason: h.id);
       expect(h.lastReviewed.year, greaterThanOrEqualTo(2026), reason: h.id);
       if (h.label == HackLabel.nooit) {
         expect(h.reden.trim(), isNotEmpty, reason: h.id);
@@ -70,7 +71,9 @@ void main() {
     });
 
     test('alleen onderbouwde onderwerpen: geen hooikist, generator, kaarsenkachel of noodtoilet', () {
-      final all = d.hacks.map((h) => '${h.titel} ${h.stappen.join(' ')} ${h.intro}').join(' ').toLowerCase();
+      // Deze onderwerpen mogen alleen als concept (draft, onzichtbaar in een release-build) in de data staan, tot er een
+      // officiële bron is gelezen. Dan haal je ze hier bewust uit de lijst.
+      final all = d.hacks.where((h) => !h.isDraft).map((h) => '${h.titel} ${h.stappen.join(' ')} ${h.intro}').join(' ').toLowerCase();
       for (final banned in ['hooikist', 'generator', 'terracotta', 'noodtoilet', 'kattenbak', 'zaagsel', 'ors']) {
         expect(RegExp('\\b$banned\\b').hasMatch(all), isFalse, reason: banned);
       }

@@ -162,8 +162,17 @@ class HackData {
 
   /// Wat de gebruiker te zien krijgt. Conceptplannen (draft, nog niet door een officiële bron onderbouwd) zijn er alleen
   /// in een debug-build; in een release-build verdwijnen ze, ook als alternatief of directe link.
-  HackData visible({required bool release}) =>
-      release ? HackData(categories: categories, materials: materials, hacks: [for (final h in hacks) if (!h.isDraft) h]) : this;
+  HackData visible({required bool release}) {
+    if (!release) return this;
+    final shown = [for (final h in hacks) if (!h.isDraft) h];
+    final cats = {for (final h in shown) h.categorie};
+    final mats = {for (final h in shown) ...h.materialen};
+    return HackData(
+      categories: [for (final c in categories) if (cats.contains(c.id)) c],
+      materials: [for (final m in materials) if (mats.contains(m.id)) m],
+      hacks: shown,
+    );
+  }
 
   Hack? byId(String id) {
     for (final h in hacks) {
