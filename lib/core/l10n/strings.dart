@@ -525,6 +525,7 @@ class S {
   static const vaultSave = 'Opslaan';
   static const vaultCameraDenied = 'Geen toegang tot de camera. Je kunt ook een foto of bestand kiezen.';
   static const vaultScanError = 'Scannen is niet gelukt.';
+  static const vaultScanNoCamera = 'Documenten scannen kan op dit toestel niet: er is geen camera. Je kunt wel een bestand of foto kiezen.';
   static const vaultUnsupportedFile = 'Dit bestandstype wordt niet ondersteund.';
   static const vaultFileTooBig = 'Dit bestand is te groot (maximaal 50 MB).';
   static const vaultImageFallback =
@@ -662,6 +663,18 @@ class S {
   static const hacksSourceOfficial = 'Bron: officiële Nederlandse bron.';
   static const hacksSourceGeneral = 'Bron: gezaghebbende algemene bron (internationaal). Nederlandse adviezen gaan voor.';
   static String hacksReviewed(String d) => 'Laatst gecontroleerd: $d';
+  static String hacksConsulted(String d) => 'Geraadpleegd op $d';
+  static const hacksDuration = 'Duur';
+  static const hacksStopCall112 = 'Stop en bel 112 als…';
+  static const hacksStepDone = 'Gedaan';
+  static const hacksRestart = 'Opnieuw beginnen';
+  static const hacksTimerStart = 'Timer starten';
+  static const hacksTimerPause = 'Timer pauzeren';
+  static const hacksTimerReset = 'Timer opnieuw';
+  static const hacksTimerDone = 'De tijd is om.';
+  static String hacksTimerLabel(String t) => 'Timer: $t';
+  static const hacksSourceNote = 'Opmerking bij de bronnen';
+  static const hacksSafetyFree = 'Veiligheidsinformatie is altijd gratis.';
   static const hacksYouHave = 'Heb je in huis';
   static const hacksNoMaterial = 'Geen speciale spullen nodig';
   static const hacksStepsList = 'Toon als lijst';
@@ -1273,6 +1286,9 @@ class S {
 
   static const scanHelpTitle = 'Scan de QR-code';
   static const scanHelp = 'Richt de camera op de QR-code op het andere toestel.';
+  static const scanNoCamera = 'Dit toestel heeft geen camera, dus scannen kan hier niet. De rest van de app werkt gewoon.';
+  static const scanCameraError = 'De camera kon niet worden gestart. Sluit het scherm en probeer het opnieuw.';
+  static const deelNoWifiHardware = 'Dit toestel heeft geen wifi en geen ander lokaal netwerk, dus delen via QR kan hier niet. Je kunt je noodplan wel als pdf, tekst of bestand delen.';
   static const scanInvalid = 'Dit is geen geldige code voor NL-Noodpakket.';
   static const scanCameraDenied = 'Zonder cameratoestemming kun je geen code scannen. Je kunt dit aanzetten in de instellingen van je toestel.';
   static const scanConnecting = 'Verbinden';

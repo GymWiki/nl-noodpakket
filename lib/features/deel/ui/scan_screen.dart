@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/device_features.dart';
 import '../../../core/l10n/strings.dart';
 import '../../../core/theme.dart';
 import '../../../core/ui.dart';
@@ -178,7 +179,10 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
     final Widget body;
     switch (_phase) {
       case _Phase.scanning:
-        body = Column(children: [
+        // Geen camera: rustig zeggen dat scannen hier niet kan (de rest van de app blijft werken).
+        body = ref.watch(hasCameraProvider).value == false
+            ? _center(const Icon(Icons.no_photography_outlined, size: 48), S.scanNoCamera)
+            : Column(children: [
           Padding(
             padding: Gap.page,
             child: Text(S.scanHelp, style: t.textTheme.bodyLarge),

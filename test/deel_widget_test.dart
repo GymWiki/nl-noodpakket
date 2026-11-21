@@ -11,6 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:mijnnoodpakket/core/device_features.dart';
 import 'package:mijnnoodpakket/core/l10n/strings.dart';
 import 'package:mijnnoodpakket/core/providers.dart';
 import 'package:mijnnoodpakket/data/db/database.dart' hide PlanContact, PlanLocation, PlanMember, PlanPlace;
@@ -38,6 +39,16 @@ import 'package:mijnnoodpakket/features/noodplan/ui/plan_wiki_block.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 // ---------------------------------------------------------------- nepobjecten
+
+/// Hardware van het toestel voor tests: standaard camera en wifi aanwezig.
+class FakeDeviceFeatures implements DeviceFeatures {
+  const FakeDeviceFeatures({this.camera = true, this.wifi = true});
+  final bool camera, wifi;
+  @override
+  Future<bool> hasCamera() async => camera;
+  @override
+  Future<bool> hasWifi() async => wifi;
+}
 
 class FakeAuth implements ShareAuth {
   FakeAuth(this.result);
@@ -278,7 +289,7 @@ void main() {
   group('afzender: QR-scherm', () {
     late MapSettings settings;
 
-    Future<void> open(WidgetTester t, {InternetAddress? address, ShareLaunch? launch, Plan plan = withContent}) async {
+    Future<void> open(WidgetTester t, {InternetAddress? address, ShareLaunch? launch, Plan plan = withContent, List<Override> extra = const []}) async {
       await big(t);
       settings = MapSettings();
       final router = GoRouter(routes: [
@@ -293,6 +304,7 @@ void main() {
         settingsRepositoryProvider.overrideWithValue(settings),
         planRepositoryProvider.overrideWithValue(FakePlanRepo(plan)),
         vaultProvider.overrideWith(() => FakeVault(unlocked)),
+        ...extra,
       ]));
       await t.pumpAndSettle();
       await t.tap(find.text('open'));
@@ -313,6 +325,23 @@ void main() {
       await open(t, address: null, launch: launch);
       expect(find.text(S.deelNoNetwork), findsOneWidget);
       expect(find.byType(QrImageView), findsNothing);
+    });
+
+    testWidgets('toestel zonder wifi-hardware en zonder ander netwerk: eerlijke melding en een alternatief, geen QR, geen fout', (t) async {
+      await open(t, address: null, launch: launch, extra: [deviceFeaturesProvider.overrideWithValue(const FakeDeviceFeatures(wifi: false))]);
+      expect(find.text(S.deelNoWifiHardware), findsOneWidget);
+      expect(find.text(S.deelNoNetwork), findsNothing);
+      expect(find.byType(QrImageView), findsNothing);
+      expect(t.takeException(), isNull);
+    });
+
+    testWidgets('toestel zonder wifi maar mét ander lokaal netwerk (bijvoorbeeld ethernet): delen werkt gewoon', (t) async {
+      await open(t,
+          address: InternetAddress.loopbackIPv4,
+          launch: launch,
+          extra: [deviceFeaturesProvider.overrideWithValue(const FakeDeviceFeatures(wifi: false))]);
+      expect(find.text(S.deelNoWifiHardware), findsNothing);
+      expect(find.byType(QrImageView), findsOneWidget);
     });
 
     testWidgets('QR met uitleg en aftelling; scherm is beveiligd; QR bevat geen plangegevens; annuleren sluit de server', (t) async {
@@ -464,6 +493,7 @@ void main() {
       Plan ownPlan = const Plan(),
       VaultState? vaultState,
       List<SharedPlan> existing = const [],
+      List<Override> extra = const [],
     }) async {
       await big(t);
       settings = MapSettings();
@@ -488,6 +518,7 @@ void main() {
               TextButton(onPressed: () => onCode(qr), child: const Text('SCAN-OK')),
               TextButton(onPressed: () => onCode('https://example.com'), child: const Text('SCAN-FOUT')),
             ])),
+        ...extra,
       ]));
       await t.pumpAndSettle();
       await t.tap(find.text('open'));
@@ -502,6 +533,19 @@ void main() {
           json: planToJsonString(withContent, const ShareOptions(), now: DateTime(2026, 11, 1), planId: 'plan-anna', version: version),
           hashes: hashes,
         );
+
+    testWidgets('toestel zonder camera: rustige melding in plaats van de scanner (en geen fout)', (t) async {
+      await openReceiver(t, 'x', extra: [deviceFeaturesProvider.overrideWithValue(const FakeDeviceFeatures(camera: false))]);
+      expect(find.text(S.scanNoCamera), findsOneWidget);
+      expect(find.text('SCAN-OK'), findsNothing, reason: 'de scanner wordt niet eens gebouwd');
+      expect(t.takeException(), isNull);
+    });
+
+    testWidgets('toestel mét camera: de scanner staat er (controle op het vorige geval)', (t) async {
+      await openReceiver(t, 'x', extra: [deviceFeaturesProvider.overrideWithValue(const FakeDeviceFeatures())]);
+      expect(find.text(S.scanNoCamera), findsNothing);
+      expect(find.text('SCAN-OK'), findsOneWidget);
+    });
 
     testWidgets('ongeldige QR: rustige melding, blijft scannen', (t) async {
       final qr = await startSender(t, await offer());

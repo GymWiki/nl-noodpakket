@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:printing/printing.dart';
 
+import '../../../core/device_features.dart';
 import '../../../core/format.dart';
 import '../../../core/l10n/strings.dart';
 import '../../../core/providers.dart';
@@ -121,6 +122,11 @@ class _VaultAddScreenState extends ConsumerState<VaultAddScreen> {
 
   Future<void> _scan() async {
     final ctl = ref.read(vaultProvider.notifier);
+    // Geen camera: rustig melden; een foto of bestand kiezen blijft kunnen.
+    if (!await ref.read(deviceFeaturesProvider).hasCamera()) {
+      _say(S.vaultScanNoCamera);
+      return;
+    }
     try {
       final result = await ctl.external(
         () => CunningDocumentScanner.scanDocuments(noOfPages: 12, scannerSource: ScannerSource.camera),

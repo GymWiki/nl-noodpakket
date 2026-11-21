@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,9 +10,15 @@ import 'hacks_models.dart';
 
 const hacksAsset = 'assets/wiki/noodhacks.json';
 
-/// Gebundelde noodhacks; geen netwerk nodig.
-final hacksProvider = FutureProvider<HackData>(
-    (ref) async => HackData.parse(await rootBundle.loadString(hacksAsset)));
+/// Gebundelde noodhacks; geen netwerk nodig. Conceptplannen (status draft) zijn er alleen in een debug-build.
+final hacksProvider = FutureProvider<HackData>((ref) async {
+  // De vlag wordt vóór de eerste await gelezen: een provider mag na een await niet meer watchen.
+  final release = ref.watch(hacksReleaseModeProvider);
+  return HackData.parse(await rootBundle.loadString(hacksAsset)).visible(release: release);
+});
+
+/// Test-haak: in een release-build zijn conceptplannen onzichtbaar.
+final hacksReleaseModeProvider = Provider<bool>((ref) => kReleaseMode);
 
 const _materialsKey = 'hacks_materials';
 const _favsKey = 'hacks_favorites';
@@ -57,6 +64,9 @@ IconData hackCategoryIcon(String name) => switch (name) {
       'hygiene' => Icons.clean_hands_outlined,
       'energy' => Icons.bolt_outlined,
       'myth' => Icons.block_rounded,
+      'hulp' => Icons.phone_in_talk_outlined,
+      'eerste-hulp' => Icons.medical_services_outlined,
+      'veiligheid' => Icons.health_and_safety_outlined,
       _ => Icons.tips_and_updates_outlined,
     };
 

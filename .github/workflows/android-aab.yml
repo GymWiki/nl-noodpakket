@@ -50,7 +50,45 @@ jobs:
 
       - run: flutter pub get
       - run: flutter analyze
-      - run: flutter build appbundle --release
+      # versionCode = 100 + run-nummer van de workflow: altijd hoger dan 21 (de afgewezen release) en bij elke run hoger dan de vorige.
+      # Google Play eist een uniek, stijgend versionCode per upload. De pubspec-versie (+21) wordt hiermee bewust overschreven; iOS blijft ongemoeid.
+      - name: versionCode bepalen
+        run: |
+          echo "VERSION_NAME=2.0.2" >> "$GITHUB_ENV"  # alleen Android; pubspec en iOS blijven 2.0.1
+          echo "VERSION_CODE=$((100 + GITHUB_RUN_NUMBER))" >> "$GITHUB_ENV"
+          echo "versionCode wordt $((100 + GITHUB_RUN_NUMBER))"
+      - run: flutter build appbundle --release --build-name="$VERSION_NAME" --build-number="$VERSION_CODE"
+
+      # Google Play filtert toestellen op verplichte hardware-features, ook die het zelf afleidt uit machtigingen en
+      # activity-instellingen (CAMERA -> camera en autofocus, ACCESS_WIFI_STATE -> wifi, screenOrientation=portrait ->
+      # screen.portrait). Daarom bouwen we een universele APK en lezen we met aapt2 welke features verplicht zijn.
+      - name: Universele APK bouwen (alleen voor de functiecontrole; wordt niet bewaard)
+        run: flutter build apk --release --build-name="$VERSION_NAME" --build-number="$VERSION_CODE"
+
+      - name: Verplichte hardware-features controleren (alleen touchscreen is toegestaan)
+        run: |
+          set -euo pipefail
+          python3 tool/test_android_features.py
+          SDK="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-}}"
+          AAPT2=$(ls -d "$SDK"/build-tools/*/aapt2 | sort -V | tail -1)
+          echo "aapt2: $AAPT2"
+          mkdir -p build/android-features
+          "$AAPT2" dump badging build/app/outputs/flutter-apk/app-release.apk > build/android-features/badging.txt
+          grep -E "^(package|uses-feature|uses-implied-feature|uses-permission|uses-implied-permission)" build/android-features/badging.txt || true
+          MERGED=$(find build/app -path '*merged_manifests*' -path '*elease*' -name AndroidManifest.xml | head -1 || true)
+          [ -n "$MERGED" ] && cp "$MERGED" build/android-features/merged-AndroidManifest.xml || true
+          REPORT=$(find build/app -name 'manifest-merger-release-report.txt' | head -1 || true)
+          [ -n "$REPORT" ] && cp "$REPORT" build/android-features/ || true
+          python3 tool/android_features_check.py build/android-features/badging.txt
+
+      - name: Rapport van de features bewaren
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-features-rapport
+          path: build/android-features
+          retention-days: 14
+          if-no-files-found: ignore
 
       - uses: actions/upload-artifact@v4
         with:

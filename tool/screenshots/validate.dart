@@ -1,29 +1,34 @@
 // Valideert de store-uitvoer in store/out/ tegen de eisen van Google Play en de App Store.
 //   dart run tool/screenshots/validate.dart            (controleert alle sets die bestaan; Play-telefoon is verplicht)
-//   dart run tool/screenshots/validate.dart --require-ios --require-ipad
-//   dart run tool/screenshots/validate.dart --only=ios,ipad --require-ios   (alleen de App Store-sets)
+//   dart run tool/screenshots/validate.dart --only=ios,ipad --require-ios --require-ipad   (alleen de App Store-sets)
+//   dart run tool/screenshots/validate.dart --only=ios --require-ios     (alle iPhone-sets uit store_sizes.json)
 //
-// Controleert per bestand: afmetingen, bestandstype (PNG of JPEG), kleurmodus (geen alfakanaal), bestandsgrootte
-// en per set het aantal en de aanwezigheid van 01 t/m 08. Faalt (exitcode 1) bij een afwijking.
+// De maten, mappen en regels per set staan in tool/screenshots/store_sizes.json (één bestand, ook voor compose).
+// Controleert per bestand: afmetingen (exact een van de toegestane maten), PNG, 8-bit RGB (kleurtype 2), geen alfakanaal,
+// sRGB (sRGB-chunk), 72 dpi (pHYs), bestandsgrootte, en per App Store-set precies 8 bestanden met de nummers 01 t/m 08.
+// Faalt (exitcode 1) bij een afwijking.
 //
-// Regels per winkel en uitvoermap (ze verschillen bewust):
+// Regels per winkel (ze verschillen bewust):
 //   Google Play (store/out/play/phone): 320 tot 3840 px per zijde, lange zijde hooguit 2x de korte (2:1), geen alfa,
-//     JPEG of 24-bit PNG; bij voorkeur 1080x1920. Feature graphic exact 1024x500 zonder alfa.
-//   App Store iPhone 6.9" (store/out/appstore/iphone-6.9): exact 1260x2736, 1290x2796 of 1320x2868 (portret), zonder alfa.
-//     Geen verhoudingsregel: 1320x2868 (ca. 2,17:1) is door Apple geaccepteerd en mag dus niet op 2:1 falen.
-//   App Store iPad 13" (store/out/appstore/ipad-13): exact 2064x2752 of 2048x2732, zonder alfa. Ook geen 2:1-regel.
+//     JPEG of 24-bit PNG; bij voorkeur 1080x1920. Feature graphic exact 1024x500 zonder alfa. De 2:1-regel geldt ALLEEN hier.
+//   App Store: exacte maten per set (zie store_sizes.json), geen verhoudingsregel, geen alfa.
+//     iphone-6.3 exact 1206x2622; iphone-6.1 exact 1179x2556; ipad-13 2064x2752 of 2048x2732.
 //
 // Bronnen:
-//   App Store Connect Help, "Screenshot specifications" (developer.apple.com/help/app-store-connect/reference/
-//     screenshot-specifications/), opgehaald op 2026-11-19. LET OP: de iPhone- en iPad-secties vielen buiten het
-//     verbatim opgehaalde deel; de waarden 1320x2868 (iPhone), 2064x2752 en 2048x2732 (iPad), png/jpg/jpeg, "geen
-//     alfakanalen of transparantie", 1 tot 10 screenshots en het ontbreken van een verhoudingsregel komen uit een
-//     samenvatting. 1260x2736 en 1290x2796 komen uit de opdracht en zijn niet uit de bron bevestigd.
+//   App Store Connect Help, "Screenshot specifications"
+//     (developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/), opgehaald op
+//     2026-11-20. De pagina noemt: "iPhone with Dynamic Island (medium display)" 1179x2556 en 1206x2622 (staand), 2556x1179 en
+//     2622x1206 (liggend); "(large display)" 1260x2736, 1290x2796, 1320x2868; iPad 13": 2064x2752 en 2048x2732; png, jpg of
+//     jpeg; "Images can't include alpha channels or transparencies"; 1 tot 10 screenshots per maat. De pagina noemt GEEN
+//     kleurruimte, dpi of bestandsgrootte en toont geen wijzigingsdatum. De sRGB- en 72 dpi-eis en het aantal van precies 8
+//     zijn onze eigen, strengere keuze (opdracht van de eigenaar). De samenvatting van de pagina kwam niet verbatim binnen.
 //   Play Console Help, "Add preview assets" (support.google.com/googleplay/android-developer/answer/9866151):
-//     op 2026-11-19 NIET opgehaald (host geblokkeerd in de sandbox). De Play-regels hierboven komen uit de opdracht
-//     van de eigenaar en zijn nog niet door ons tegen de pagina gecontroleerd. Controleer dit handmatig.
+//     NIET opgehaald (host geblokkeerd in de sandbox). De Play-regels komen uit de opdracht van de eigenaar en zijn niet door
+//     ons tegen de pagina gecontroleerd. Controleer dit handmatig.
+import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
+
+import 'png_meta.dart';
 
 class Spec {
   const Spec(
@@ -37,6 +42,7 @@ class Spec {
     required this.min,
     required this.max,
     this.requireAll = true,
+    this.strictPng = false,
   });
   final String name, dir;
   final List<List<int>>? sizes; // exact toegestane [breedte, hoogte]; null = bereik via minSide/maxSide
@@ -45,14 +51,35 @@ class Spec {
   final List<int>? preferred; // gewenst formaat; afwijking is alleen een opmerking
   final int min, max;
   final bool requireAll;
+
+  /// PNG verplicht, 8-bit RGB, sRGB en 72 dpi (App Store-sets).
+  final bool strictPng;
 }
 
-const playPhone = Spec('Google Play telefoon', 'store/out/play/phone',
-    minSide: 320, maxSide: 3840, maxRatio: 2, preferred: [1080, 1920], min: 2, max: 8);
-const appStoreIphone = Spec('App Store iPhone 6.9"', 'store/out/appstore/iphone-6.9',
-    sizes: [[1260, 2736], [1290, 2796], [1320, 2868]], min: 1, max: 10);
-const appStoreIpad = Spec('App Store iPad 13"', 'store/out/appstore/ipad-13',
-    sizes: [[2064, 2752], [2048, 2732]], min: 1, max: 10);
+/// Leest store_sizes.json en maakt de sets. [store] is "appstore" of "play".
+List<Spec> specsFromConfig(Map<String, dynamic> cfg, String store, {bool onlyEnabled = true}) {
+  final out = <Spec>[];
+  for (final e in (cfg['sets'] as Map).entries) {
+    final v = (e.value as Map).cast<String, dynamic>();
+    if (v['store'] != store) continue;
+    if (onlyEnabled && v['enabled'] != true) continue;
+    final accept = [for (final z in (v['accept'] as List? ?? const [])) (z as List).cast<int>()];
+    final size = (v['size'] as List).cast<int>();
+    out.add(Spec(
+      v['label'] as String? ?? e.key,
+      v['out'] as String,
+      sizes: accept.isEmpty ? null : accept,
+      minSide: v['minSide'] as int?,
+      maxSide: v['maxSide'] as int?,
+      maxRatio: (v['maxRatio'] as num?)?.toDouble(),
+      preferred: size,
+      min: store == 'appstore' ? 8 : 2,
+      max: store == 'appstore' ? 8 : 8,
+      strictPng: store == 'appstore',
+    ));
+  }
+  return out;
+}
 
 /// Afwijkingen van één afbeelding ten opzichte van de regels van [s]. Leeg = goed. Zuiver (geen I/O), dus testbaar.
 List<String> imageProblems(Spec s, Info i, String name) {
@@ -78,6 +105,23 @@ List<String> imageProblems(Spec s, Info i, String name) {
   return out;
 }
 
+/// Extra eisen voor de App Store-sets: PNG, 8-bit RGB, sRGB, 72 dpi. [bytes] zijn de bestandsbytes. Zuiver, dus testbaar.
+List<String> pngProblems(List<int> bytes, String name) {
+  final m = readPngMeta(bytes);
+  if (m == null) return ['$name is geen PNG (App Store-screenshots moeten PNG zijn)'];
+  final out = <String>[];
+  if (m.hasTransparency) out.add('$name heeft een alfakanaal of transparantie');
+  if (!m.isRgb8) out.add('$name is geen 8-bit RGB (kleurtype ${m.colorType}, ${m.bitDepth} bit); verwacht kleurtype 2, 8 bit');
+  if (!m.hasSrgb) out.add('$name heeft geen sRGB-kleurprofiel (sRGB-chunk ontbreekt)');
+  final dx = m.dpiX, dy = m.dpiY;
+  if (dx == null || dy == null) {
+    out.add('$name heeft geen resolutie-informatie (pHYs); verwacht 72 dpi');
+  } else if ((dx - 72).abs() > 0.5 || (dy - 72).abs() > 0.5) {
+    out.add('$name is ${dx.toStringAsFixed(1)}x${dy.toStringAsFixed(1)} dpi, verwacht 72 dpi');
+  }
+  return out;
+}
+
 class Info {
   Info(this.format, this.width, this.height, this.hasAlpha, this.bytes);
   final String format;
@@ -88,19 +132,8 @@ class Info {
 Info? readInfo(File f) => parseInfo(f.readAsBytesSync());
 
 Info? parseInfo(List<int> b) {
-  if (b.length > 33 && b[0] == 0x89 && b[1] == 0x50 && b[2] == 0x4e && b[3] == 0x47) {
-    final d = ByteData.sublistView(Uint8List.fromList(b));
-    final w = d.getUint32(16), h = d.getUint32(20), colorType = b[25];
-    var trns = false;
-    for (var o = 33; o + 8 < b.length;) {
-      final len = d.getUint32(o);
-      final type = String.fromCharCodes(b.sublist(o + 4, o + 8));
-      if (type == 'tRNS') trns = true;
-      if (type == 'IDAT' || type == 'IEND') break;
-      o += 12 + len;
-    }
-    return Info('PNG', w, h, colorType == 4 || colorType == 6 || trns, b.length);
-  }
+  final m = readPngMeta(b);
+  if (m != null) return Info('PNG', m.width, m.height, m.hasTransparency, b.length);
   if (b.length > 4 && b[0] == 0xff && b[1] == 0xd8) {
     var o = 2;
     while (o + 9 < b.length) {
@@ -108,8 +141,8 @@ Info? parseInfo(List<int> b) {
         o++;
         continue;
       }
-      final m = b[o + 1];
-      if (m >= 0xc0 && m <= 0xcf && m != 0xc4 && m != 0xc8 && m != 0xcc) {
+      final mk = b[o + 1];
+      if (mk >= 0xc0 && mk <= 0xcf && mk != 0xc4 && mk != 0xc8 && mk != 0xcc) {
         final h = (b[o + 5] << 8) | b[o + 6], w = (b[o + 7] << 8) | b[o + 8];
         return Info('JPEG', w, h, false, b.length);
       }
@@ -144,6 +177,10 @@ void checkSet(Spec s, {required bool required}) {
       final p = i.toString().padLeft(2, '0');
       if (!files.any((f) => f.uri.pathSegments.last.startsWith(p))) fail('bestand $p ontbreekt');
     }
+    // Volgorde: de bestandsnamen beginnen met 01 t/m 08 en lopen exact in die volgorde (alfabetisch gesorteerd).
+    final prefixes = [for (final f in files) f.uri.pathSegments.last.substring(0, f.uri.pathSegments.last.length < 2 ? f.uri.pathSegments.last.length : 2)];
+    final expected = [for (var i = 1; i <= 8; i++) i.toString().padLeft(2, '0')];
+    if (s.strictPng && prefixes.join(',') != expected.join(',')) fail('bestanden staan niet in de volgorde 01 t/m 08 (gevonden: ${prefixes.join(', ')})');
   }
   for (final f in files) {
     final name = f.uri.pathSegments.last;
@@ -155,6 +192,11 @@ void checkSet(Spec s, {required bool required}) {
     stdout.writeln('  $name  ${i.format} ${i.width}x${i.height}  ${(i.bytes / 1024).toStringAsFixed(0)} KB  ${i.hasAlpha ? 'MET alfa' : 'zonder alfa'}');
     for (final p in imageProblems(s, i, name)) {
       fail(p);
+    }
+    if (s.strictPng) {
+      for (final p in pngProblems(f.readAsBytesSync(), name)) {
+        fail(p);
+      }
     }
     final pref = s.preferred;
     if (pref != null && (i.width != pref[0] || i.height != pref[1]) && imageProblems(s, i, name).isEmpty) {
@@ -189,13 +231,21 @@ void main(List<String> args) {
   final onlyArg = args.where((a) => a.startsWith('--only=')).map((a) => a.substring(7)).firstOrNull;
   final only = onlyArg?.split(',').toSet();
   bool on(String k) => only == null || only.contains(k);
+  final cfgPath = args.where((a) => a.startsWith('--config=')).map((a) => a.substring(9)).firstOrNull ?? 'tool/screenshots/store_sizes.json';
+  final cfg = jsonDecode(File(cfgPath).readAsStringSync()) as Map<String, dynamic>;
   if (on('play')) {
-    checkSet(playPhone, required: true);
-    checkSingle('Google Play feature graphic', 'store/out/play/feature-graphic/feature-graphic.png', 1024, 500, alpha: false);
-    checkSingle('Google Play app-icoon', 'store/out/play/icon/icon-512.png', 512, 512, alpha: true, maxBytes: 1024 * 1024);
+    for (final s in specsFromConfig(cfg, 'play')) {
+      checkSet(s, required: true);
+    }
+    final play = cfg['play'] as Map<String, dynamic>;
+    final fg = (play['featureGraphic'] as List).cast<int>(), ic = (play['icon'] as List).cast<int>();
+    checkSingle('Google Play feature graphic', 'store/out/play/feature-graphic/feature-graphic.png', fg[0], fg[1], alpha: false);
+    checkSingle('Google Play app-icoon', 'store/out/play/icon/icon-512.png', ic[0], ic[1], alpha: true, maxBytes: 1024 * 1024);
   }
-  if (on('ios')) checkSet(appStoreIphone, required: reqIos);
-  if (on('ipad')) checkSet(appStoreIpad, required: reqIpad);
+  for (final s in specsFromConfig(cfg, 'appstore')) {
+    final isIpad = s.dir.contains('ipad');
+    if (isIpad ? on('ipad') : on('ios')) checkSet(s, required: isIpad ? reqIpad : reqIos && s.dir.contains('iphone-6.3'));
+  }
   if (failures.isNotEmpty) {
     stderr.writeln('\nValidatie mislukt: ${failures.length} afwijking(en).');
     exit(1);

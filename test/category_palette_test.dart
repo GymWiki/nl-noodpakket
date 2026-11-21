@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mijnnoodpakket/core/theme.dart';
 import 'package:mijnnoodpakket/core/theme/category_palette.dart';
 import 'package:mijnnoodpakket/domain/models.dart';
+import 'package:mijnnoodpakket/features/noodhacks/hacks_providers.dart';
 
 void main() {
   const brightnesses = [Brightness.light, Brightness.dark];
@@ -86,6 +87,17 @@ void main() {
         expect(hackTint(id), isNotNull, reason: id);
       }
       expect(hackTint('mythes'), isNull);
+    });
+    test('de nieuwe Noodhacks-categorieen zijn neutraal en hebben elk een eigen pictogram', () {
+      final icons = <IconData>{};
+      for (final id in [...hackCategoryIds, ...hackNeutralCategoryIds]) {
+        icons.add(hackCategoryIconById(id));
+      }
+      expect(icons.length, hackCategoryIds.length + hackNeutralCategoryIds.length, reason: 'dubbel pictogram');
+      for (final id in hackNeutralCategoryIds) {
+        expect(hackTint(id), CategoryTint.grey, reason: id);
+        expect(hackCategoryIconById(id), isNot(Icons.tips_and_updates_outlined), reason: '$id mist een eigen pictogram');
+      }
     });
     test('elk menu-item heeft een tint', () {
       for (final k in MenuItemKind.values) {

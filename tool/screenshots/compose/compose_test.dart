@@ -7,6 +7,8 @@
 //     flutter test tool/screenshots/compose/compose_test.dart
 //   COMPOSE_MODE=feature COMPOSE_OUT=store/out/play/feature-graphic flutter test tool/screenshots/compose/compose_test.dart
 //   COMPOSE_MODE=icon COMPOSE_OUT=store/out/play/icon flutter test tool/screenshots/compose/compose_test.dart
+//   COMPOSE_MODE=header COMPOSE_SIZE=5244x2950 COMPOSE_OUT=store/out/appstore/header flutter test tool/screenshots/compose/compose_test.dart
+//     (header-art voor de App Store-productpagina; icoon en tekst blijven in het midden, want de randen worden bijgesneden)
 //
 // COMPOSE_STYLE=play|apple regelt het aandeel van het bijschrift. Google Play staat tekst-overlays toe tot
 // maximaal 20% van het beeld; de bijschriftband blijft daar ruim onder.
@@ -20,6 +22,8 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart' show FontLoader;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
+
+import '../png_meta.dart';
 
 Color _hex(String h) => Color(0xFF000000 | int.parse(h, radix: 16));
 
@@ -43,7 +47,8 @@ Future<void> _savePng(ui.Image image, String path) async {
   }
   File(path)
     ..parent.createSync(recursive: true)
-    ..writeAsBytesSync(img.encodePng(rgb));
+    // 8-bit RGB zonder alfa, met sRGB-chunk en 72 dpi (zie png_meta.dart).
+    ..writeAsBytesSync(withSrgbAndDpi(img.encodePng(rgb)));
   stdout.writeln('geschreven: $path (${image.width}x${image.height})');
 }
 
@@ -68,6 +73,8 @@ double _textHeight(String text, double maxWidth, double size) {
   return tp.height;
 }
 
+void fail(String m) => throw TestFailure(m);
+
 void main() {
   final env = Platform.environment;
   final mode = env['COMPOSE_MODE'] ?? 'screens';
@@ -82,7 +89,7 @@ void main() {
   });
 
   testWidgets('compose', (t) async {
-    if (out == null) return; // niets doen zonder opdracht
+    if (out == null && env['COMPOSE_SET'] == null) return; // niets doen zonder opdracht
     final cfg = jsonDecode(File(env['COMPOSE_CAPTIONS'] ?? 'tool/screenshots/captions.json').readAsStringSync()) as Map<String, dynamic>;
     final colors = (cfg['kleuren'] as Map).cast<String, String>();
     final bg = _hex(colors['achtergrond']!), fg = _hex(colors['tekst']!), accent = _hex(colors['accent']!);
@@ -97,6 +104,49 @@ void main() {
           ..parent.createSync(recursive: true)
           ..writeAsBytesSync(img.encodePng(rgba));
         stdout.writeln('geschreven: $out/icon-512.png (512x512, RGBA)');
+        return;
+      }
+
+      if (mode == 'header') {
+        // Header-art voor de App Store-productpagina. Alles staat gecentreerd en binnen de middelste ~60% van de breedte,
+        // omdat Apple de afbeelding op verschillende schermen anders uitsnijdt. RGB zonder alfa.
+        final size = (env['COMPOSE_SIZE'] ?? '5244x2950').split('x').map(int.parse).toList();
+        final w = size[0], h = size[1];
+        final rec = ui.PictureRecorder();
+        final c = Canvas(rec, Rect.fromLTWH(0, 0, w.toDouble(), h.toDouble()));
+        c.drawRect(Rect.fromLTWH(0, 0, w.toDouble(), h.toDouble()), Paint()..color = bg);
+        final f = cfg['featureGraphic'] as Map<String, dynamic>;
+        final icon = await _load('ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png');
+        final s = h * 0.40, gap = w * 0.035, tw = w * 0.36;
+        TextPainter name(double fs) => TextPainter(
+              text: TextSpan(text: f['naam'] as String, style: TextStyle(fontFamily: 'Roboto', fontSize: fs, fontWeight: FontWeight.w700, color: accent)),
+              textDirection: TextDirection.ltr,
+              maxLines: 1,
+            )..layout();
+        var nfs = h * 0.115;
+        while (name(nfs).width > tw && nfs > 20) {
+          nfs -= 2;
+        }
+        final sfs = nfs * 0.62;
+        final slogan = TextPainter(
+          text: TextSpan(text: f['slogan'] as String, style: TextStyle(fontFamily: 'Roboto', fontSize: sfs, fontWeight: FontWeight.w400, color: fg, height: 1.25)),
+          textDirection: TextDirection.ltr,
+          maxLines: 3,
+        )..layout(maxWidth: tw);
+        final np = name(nfs);
+        final textH = np.height + nfs * 0.25 + slogan.height;
+        final groupW = s + gap + math.max(np.width, slogan.width);
+        final x0 = (w - groupW) / 2, y0 = (h - s) / 2;
+        final dst = RRect.fromRectAndRadius(Rect.fromLTWH(x0, y0, s, s), Radius.circular(s * 0.225));
+        c.save();
+        c.clipRRect(dst);
+        c.drawImageRect(icon, Rect.fromLTWH(0, 0, icon.width.toDouble(), icon.height.toDouble()), dst.outerRect, Paint()..filterQuality = FilterQuality.high);
+        c.restore();
+        final tx = x0 + s + gap, ty = (h - textH) / 2;
+        np.paint(c, Offset(tx, ty));
+        slogan.paint(c, Offset(tx, ty + np.height + nfs * 0.25));
+        await _savePng(await rec.endRecording().toImage(w, h), '$out/header-${w}x$h.png');
+        stdout.writeln('geschreven: $out/header-${w}x$h.png');
         return;
       }
 
@@ -128,10 +178,31 @@ void main() {
       }
 
       // --- Screenshots met bijschrift ------------------------------------------------------------
-      final raw = env['COMPOSE_RAW']!;
-      final size = (env['COMPOSE_SIZE'] ?? '1080x1920').split('x').map(int.parse).toList();
-      final w = size[0], h = size[1];
-      final style = env['COMPOSE_STYLE'] ?? 'play';
+      // Of met COMPOSE_SET=<naam>|alle: de maten, mappen en bronnen staan in tool/screenshots/store_sizes.json. Zo komt
+      // elke set uit de ruwe opnames (nooit uit een al samengestelde afbeelding) op het canvas van de exacte doelmaat.
+      final jobs = <({String raw, String out, int w, int h, String style})>[];
+      final setName = env['COMPOSE_SET'];
+      if (setName != null) {
+        final sizes = jsonDecode(File(env['COMPOSE_SIZES'] ?? 'tool/screenshots/store_sizes.json').readAsStringSync()) as Map<String, dynamic>;
+        final sets = (sizes['sets'] as Map).cast<String, dynamic>();
+        for (final e in sets.entries) {
+          final v = (e.value as Map).cast<String, dynamic>();
+          final wanted = setName == 'alle' ? v['enabled'] == true : e.key == setName;
+          if (!wanted) continue;
+          if (!Directory(v['raw'] as String).existsSync()) {
+            stdout.writeln('overgeslagen: ${e.key} (geen ruwe opnames in ${v['raw']})');
+            continue;
+          }
+          final z = (v['size'] as List).cast<int>();
+          jobs.add((raw: v['raw'] as String, out: (env['COMPOSE_OUT'] ?? v['out']) as String, w: z[0], h: z[1], style: v['style'] as String? ?? 'play'));
+        }
+        if (jobs.isEmpty) fail('COMPOSE_SET=$setName: geen set gevonden of geen ruwe opnames');
+      } else {
+        final size = (env['COMPOSE_SIZE'] ?? '1080x1920').split('x').map(int.parse).toList();
+        jobs.add((raw: env['COMPOSE_RAW']!, out: out!, w: size[0], h: size[1], style: env['COMPOSE_STYLE'] ?? 'play'));
+      }
+      for (final job in jobs) {
+      final raw = job.raw, out = job.out, w = job.w, h = job.h, style = job.style;
       final bandFraction = style == 'play' ? 0.165 : 0.17; // Google Play: tekst-overlay ruim onder 20% van het beeld
       final band = h * bandFraction;
       final margin = h * 0.035;
@@ -177,6 +248,7 @@ void main() {
         made++;
       }
       stdout.writeln('klaar: $made screenshots met bijschrift in $out');
+      }
     });
   });
 }

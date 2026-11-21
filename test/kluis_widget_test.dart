@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:mijnnoodpakket/core/device_features.dart';
 import 'package:mijnnoodpakket/features/deel/deel_providers.dart';
 import 'package:mijnnoodpakket/features/deel/domain/shared_plan_logic.dart';
 import 'package:mijnnoodpakket/features/pro/pro_providers.dart';
@@ -110,6 +112,7 @@ Future<FakeVault> pump(
   String start = '/',
   bool setupActive = false,
   bool pro = true,
+  List<Override> extra = const [],
 }) async {
   t.view.physicalSize = const Size(800, 3000);
   t.view.devicePixelRatio = 1;
@@ -128,6 +131,7 @@ Future<FakeVault> pump(
     planProvider.overrideWith((ref) => Stream.value(const Plan())),
     sharedPlansProvider.overrideWith((ref) => Stream.value(const <SharedPlan>[])),
     if (setupActive) setupActiveProvider.overrideWith(() => _Active()),
+    ...extra,
   ];
   await t.pumpWidget(ProviderScope(
     overrides: overrides,
@@ -465,6 +469,37 @@ void main() {
       expect(find.text(S.vaultNoNumbers), findsOneWidget);
     });
 
+    testWidgets('documenten scannen op een toestel zonder camera: rustige melding, geen scanpoging, foto en bestand blijven kiesbaar', (t) async {
+      await pump(t, const VaultState(status: VaultStatus.unlocked),
+          child: const VaultAddScreen(),
+          extra: [deviceFeaturesProvider.overrideWithValue(const _NoCamera())]);
+      await t.tap(find.text(S.vaultSourceScan));
+      await t.pumpAndSettle();
+      expect(find.text(S.vaultScanNoCamera), findsOneWidget);
+      // De scanner is niet eens aangeroepen: dat zou in deze test een foutmelding geven (geen plugin).
+      expect(find.text(S.vaultScanError), findsNothing);
+      expect(t.takeException(), isNull);
+      expect(find.text(S.vaultSourceFile), findsOneWidget);
+    });
+
+    testWidgets('documenten scannen op een toestel mét camera: de scanner wordt aangeroepen (controle op het vorige geval)', (t) async {
+      await pump(t, const VaultState(status: VaultStatus.unlocked),
+          child: const VaultAddScreen(),
+          extra: [deviceFeaturesProvider.overrideWithValue(const _NoCamera(camera: true))]);
+      final calls = <String>[];
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(const MethodChannel('cunning_document_scanner'), (call) async {
+        calls.add(call.method);
+        return null;
+      });
+      addTearDown(() => TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(const MethodChannel('cunning_document_scanner'), null));
+      await t.tap(find.text(S.vaultSourceScan));
+      await t.pumpAndSettle();
+      expect(find.text(S.vaultScanNoCamera), findsNothing);
+      expect(calls, isNotEmpty, reason: 'met camera wordt de scanner wel aangeroepen');
+    });
+
     testWidgets('bewerken: velden zijn voorgevuld', (t) async {
       final st = VaultState(
           status: VaultStatus.unlocked,
@@ -505,3 +540,12 @@ void main() {
 
 String formatGroups(String code) =>
     [for (var i = 0; i < code.length; i += 4) code.substring(i, i + 4)].join(' ').toLowerCase();
+
+class _NoCamera implements DeviceFeatures {
+  const _NoCamera({this.camera = false});
+  final bool camera;
+  @override
+  Future<bool> hasCamera() async => camera;
+  @override
+  Future<bool> hasWifi() async => true;
+}

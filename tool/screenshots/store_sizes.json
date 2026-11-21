@@ -1,0 +1,71 @@
+{
+  "_toelichting": "Eén plek voor alle screenshotmaten per winkel. compose_test.dart (COMPOSE_SET=...) en validate.dart lezen dit bestand. Wil je een maat toevoegen (bijvoorbeeld 1320x2868 als App Store Connect een ander slot vraagt)? Zet bij 'iphone-6.9' \"enabled\": true, of kopieer een blok en pas 'out', 'size' en 'accept' aan. Zie README, 'Screenshotmaten wijzigen'.",
+  "bronnen": {
+    "apple": "App Store Connect Help, Screenshot specifications: https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/ (opgehaald op 2026-11-20; de pagina noemt geen kleurruimte, dpi of bestandsgrootte en toont geen wijzigingsdatum)",
+    "google": "Play Console Help, Add preview assets: https://support.google.com/googleplay/android-developer/answer/9866151 (niet opgehaald: host geblokkeerd; regels komen uit de opdracht van de eigenaar)"
+  },
+  "sets": {
+    "iphone-6.3": {
+      "store": "appstore",
+      "label": "App Store iPhone with Dynamic Island (medium display), 6.3 inch",
+      "raw": "store/raw/ios",
+      "out": "store/out/appstore/iphone-6.3",
+      "size": [1206, 2622],
+      "accept": [[1206, 2622]],
+      "style": "apple",
+      "enabled": true,
+      "primary": true
+    },
+    "iphone-6.1": {
+      "store": "appstore",
+      "label": "App Store iPhone with Dynamic Island (medium display), 6.1 inch (alternatief)",
+      "raw": "store/raw/ios",
+      "out": "store/out/appstore/iphone-6.1",
+      "size": [1179, 2556],
+      "accept": [[1179, 2556]],
+      "style": "apple",
+      "enabled": true
+    },
+    "iphone-6.9": {
+      "store": "appstore",
+      "label": "App Store iPhone with Dynamic Island (large display), 6.9 inch (uit; zet enabled op true als App Store Connect dit slot vraagt)",
+      "raw": "store/raw/ios",
+      "out": "store/out/appstore/iphone-6.9",
+      "size": [1320, 2868],
+      "accept": [[1260, 2736], [1290, 2796], [1320, 2868]],
+      "style": "apple",
+      "enabled": false
+    },
+    "ipad-13": {
+      "store": "appstore",
+      "label": "App Store iPad 13 inch (echte iPad-simulator-opnames)",
+      "raw": "store/raw/ipad",
+      "out": "store/out/appstore/ipad-13",
+      "size": [2064, 2752],
+      "accept": [[2064, 2752], [2048, 2732]],
+      "style": "apple",
+      "enabled": true
+    },
+    "play-phone": {
+      "store": "play",
+      "label": "Google Play telefoon (verhouding hooguit 2:1)",
+      "raw": "store/raw/android",
+      "out": "store/out/play/phone",
+      "size": [1080, 1920],
+      "minSide": 320,
+      "maxSide": 3840,
+      "maxRatio": 2,
+      "style": "play",
+      "enabled": true
+    }
+  },
+  "play": {
+    "featureGraphic": [1024, 500],
+    "icon": [512, 512]
+  },
+  "png": {
+    "dpi": 72,
+    "srgb": true,
+    "volgorde": ["01", "02", "03", "04", "05", "06", "07", "08"]
+  }
+}

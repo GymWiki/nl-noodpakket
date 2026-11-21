@@ -45,6 +45,8 @@ List<Override> calmOverrides({AppSettings settings = const AppSettings(onboarded
       hacksMaterialsProvider.overrideWith((ref) => Stream.value(const <String>{})),
       radioPrefsProvider.overrideWithValue(const RadioPrefs()),
       proUnlockedProvider.overrideWithValue(false),
+      // Zoals in een release-build: zonder conceptplannen (draft).
+      hacksReleaseModeProvider.overrideWithValue(true),
     ];
 
 final _wiki = WikiData.parse(File('assets/wiki/noodgevallen.json').readAsStringSync());

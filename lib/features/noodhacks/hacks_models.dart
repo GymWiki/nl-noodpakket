@@ -12,9 +12,20 @@ HackLabel _label(String s) => switch (s) {
     };
 
 class HackSource {
-  const HackSource({required this.naam, required this.url});
+  const HackSource({required this.naam, required this.url, this.geraadpleegd});
   final String naam, url;
+
+  /// Datum waarop de bron is geraadpleegd (alleen bij de uitgebreide plannen).
+  final DateTime? geraadpleegd;
 }
+
+/// Hoeveel stappen en hoe lang een stap mag zijn bij de uitgebreide plannen (stap-voor-stap modus, grote letters).
+const hackMaxSteps = 6;
+const hackMaxStepLength = 140;
+
+/// Sleutel in noodhacks.json: een plan met deze sleutel is een uitgebreid plan en valt onder de strengere regels.
+const hackStatusVerified = 'verified';
+const hackStatusDraft = 'draft';
 
 class HackCategory {
   const HackCategory({required this.id, required this.titel, required this.icoon});
@@ -45,6 +56,12 @@ class Hack {
     required this.gerelateerdeNoodgevallen,
     required this.gerelateerdeChecklistItemIds,
     this.freePreview = false,
+    this.status,
+    this.safetyCritical = false,
+    this.duur,
+    this.stopEnBel112,
+    this.stapTimers = const {},
+    this.bronOpmerking,
   });
 
   final String id, categorie, titel, intro, reden, bronType;
@@ -57,8 +74,31 @@ class Hack {
   /// Proefhack: volledige inhoud ook zonder Pro.
   final bool freePreview;
 
-  /// Gratis te lezen: proefhacks en alle mythes (waarschuwingen staan nooit achter een betaalmuur).
-  bool get isFree => freePreview || categorie == 'mythes' || label == HackLabel.nooit;
+  /// [hackStatusVerified] of [hackStatusDraft]; null bij de oorspronkelijke 25 hacks (die gelden als gecontroleerd).
+  final String? status;
+
+  /// Hulp roepen, eerste hulp, veiligheid en brand, mythes en evacuatie: altijd gratis, nooit achter Pro.
+  final bool safetyCritical;
+
+  /// Indicatieve duur, bijvoorbeeld "10 minuten".
+  final String? duur;
+
+  /// "Stop en bel 112 als...": wanneer je stopt met het plan en 112 belt.
+  final String? stopEnBel112;
+
+  /// Timer per stap in seconden; de sleutel is het stapnummer (1 = eerste stap).
+  final Map<int, int> stapTimers;
+
+  /// Afwijking tussen bronnen of een andere opmerking bij de bronnen.
+  final String? bronOpmerking;
+
+  /// Uitgebreid plan: heeft een status en valt onder de strengere regels voor stappen en bronnen.
+  bool get isExtended => status != null;
+  bool get isDraft => status == hackStatusDraft;
+
+  /// Gratis te lezen: proefhacks, alle mythes en alles wat veiligheidskritisch is
+  /// (waarschuwingen en hulp roepen staan nooit achter een betaalmuur).
+  bool get isFree => freePreview || safetyCritical || categorie == 'mythes' || label == HackLabel.nooit;
 
   static List<String> _strings(Map<String, dynamic> j, String k) {
     final v = j[k];
@@ -85,7 +125,11 @@ class Hack {
         alternatiefIds: _strings(j, 'alternatiefIds'),
         bronnen: [
           for (final b in (j['bronnen'] as List? ?? const []))
-            HackSource(naam: _str(b as Map<String, dynamic>, 'naam'), url: _str(b, 'url')),
+            HackSource(
+              naam: _str(b as Map<String, dynamic>, 'naam'),
+              url: _str(b, 'url'),
+              geraadpleegd: b['geraadpleegd'] == null ? null : DateTime.tryParse(b['geraadpleegd'] as String),
+            ),
         ],
         bronType: _str(j, 'bronType'),
         lastReviewed: DateTime.tryParse(_str(j, 'lastReviewed')) ??
@@ -94,6 +138,14 @@ class Hack {
         gerelateerdeNoodgevallen: _strings(j, 'gerelateerdeNoodgevallen'),
         gerelateerdeChecklistItemIds: _strings(j, 'gerelateerdeChecklistItemIds'),
         freePreview: j['freePreview'] == true,
+        status: j['status'] as String?,
+        safetyCritical: j['safetyCritical'] == true,
+        duur: j['duur'] as String?,
+        stopEnBel112: j['stopEnBel112'] as String?,
+        stapTimers: {
+          for (final e in ((j['stapTimers'] as Map?) ?? const {}).entries) int.parse(e.key.toString()): (e.value as num).toInt(),
+        },
+        bronOpmerking: j['bronOpmerking'] as String?,
       );
 }
 
@@ -107,6 +159,20 @@ class HackData {
   final List<HackCategory> categories;
   final List<HackMaterial> materials;
   final List<Hack> hacks;
+
+  /// Wat de gebruiker te zien krijgt. Conceptplannen (draft, nog niet door een officiële bron onderbouwd) zijn er alleen
+  /// in een debug-build; in een release-build verdwijnen ze, ook als alternatief of directe link.
+  HackData visible({required bool release}) {
+    if (!release) return this;
+    final shown = [for (final h in hacks) if (!h.isDraft) h];
+    final cats = {for (final h in shown) h.categorie};
+    final mats = {for (final h in shown) ...h.materialen};
+    return HackData(
+      categories: [for (final c in categories) if (cats.contains(c.id)) c],
+      materials: [for (final m in materials) if (mats.contains(m.id)) m],
+      hacks: shown,
+    );
+  }
 
   Hack? byId(String id) {
     for (final h in hacks) {
@@ -189,7 +255,26 @@ List<String> validateHacks(HackData d, {required Set<String> checklistIds, requi
     if (h.label == HackLabel.nooit && h.categorie != 'mythes') {
       errors.add('$p een "nooit"-hack hoort bij de mythes');
     }
-    if (h.bronnen.isEmpty) errors.add('$p geen bron');
+    if (h.bronnen.isEmpty && !h.isDraft) errors.add('$p geen bron');
+    if (h.isExtended) {
+      if (h.status != hackStatusVerified && h.status != hackStatusDraft) errors.add('$p ongeldige status ${h.status}');
+      if (h.stappen.length > hackMaxSteps) errors.add('$p meer dan $hackMaxSteps stappen');
+      if (h.label != HackLabel.nooit && h.stappen.length < 2) errors.add('$p minimaal 2 stappen');
+      for (final st in h.stappen) {
+        if (st.length > hackMaxStepLength) errors.add('$p stap langer dan $hackMaxStepLength tekens: "$st"');
+      }
+      if (h.status == hackStatusVerified) {
+        if (h.bronnen.isEmpty) errors.add('$p verified zonder bron');
+        if (h.bronnen.any((b) => b.geraadpleegd == null)) errors.add('$p verified: elke bron heeft een raadpleegdatum nodig');
+        if (h.bronType != 'officieel') errors.add('$p verified vraagt een officiële bron (bronType officieel)');
+      }
+      if (h.label == HackLabel.nooit && !h.isFree) errors.add('$p een mythe moet gratis zijn');
+      for (final k in h.stapTimers.keys) {
+        if (k < 1 || k > h.stappen.length) errors.add('$p timer op onbestaande stap $k');
+      }
+    } else if (h.stappen.length > hackMaxSteps) {
+      errors.add('$p meer dan $hackMaxSteps stappen');
+    }
     if (h.bronType != 'officieel' && h.bronType != 'algemeen') errors.add('$p ongeldig bronType');
     for (final b in h.bronnen) {
       final u = Uri.tryParse(b.url);

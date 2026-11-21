@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mijnnoodpakket/features/noodhacks/hacks_models.dart';
+import 'package:mijnnoodpakket/features/noodhacks/hacks_widgets.dart' show hackLocked;
 
 /// Beschermingstest: Pro mag alleen op de afgesproken plekken een poort hebben.
 /// Alles wat gratis moet blijven (wiki, noodplan, checklist, houdbaarheidsoverzicht,
@@ -133,6 +135,22 @@ void main() {
     for (final f in files) {
       final src = File(f).readAsStringSync();
       expect(src.contains(RegExp(r'3[,.]99')), isFalse, reason: f);
+    }
+  });
+
+  test('noodhacks: veiligheidskritische plannen en mythes staan nooit achter Pro; Pro-kopers krijgen alles', () {
+    final d = HackData.parse(File('assets/wiki/noodhacks.json').readAsStringSync());
+    for (final h in d.hacks) {
+      if (h.safetyCritical || h.label == HackLabel.nooit || h.categorie == 'mythes') {
+        expect(hackLocked(h, pro: false), isFalse, reason: '${h.id} mag nooit achter Pro');
+      }
+      expect(hackLocked(h, pro: true), isFalse, reason: '${h.id}: Pro ontgrendelt alles automatisch');
+    }
+    // De zichtbare titel blijft voor iedereen te zien; alleen het stappenplan van praktische plannen is Pro.
+    expect(d.hacks.where((h) => hackLocked(h, pro: false)).isNotEmpty, isTrue);
+    for (final h in d.hacks.where((h) => hackLocked(h, pro: false))) {
+      expect(h.safetyCritical, isFalse, reason: h.id);
+      expect(h.categorie, isNot('eerste-hulp'), reason: h.id);
     }
   });
 }
