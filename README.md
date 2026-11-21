@@ -172,7 +172,7 @@ dart run tool/screenshots/iap_review.dart
 python3 tool/iap_review_validate.py store/out/iap-review
 ```
 
-**Review Notes** voor Apple (Engels): `store/iap-review-notes.txt`, ook in `App Review Information` plakken. Het pad naar de paywall is gecontroleerd in de huidige app; controleer na een wijziging van de navigatie of de aantallen (15 van de 25 hacks zijn Pro) nog kloppen.
+**Review Notes** voor Apple (Engels): `store/iap-review-notes.txt`, ook in `App Review Information` plakken. Het pad naar de paywall is gecontroleerd in de huidige app; controleer na een wijziging van de navigatie of de aantallen in `store/iap-review-notes.txt` (aantal hacks en wat gratis blijft) nog kloppen.
 
 **Wat Apple zegt** (App Store Connect Help, "In-app purchase information", developer.apple.com/help/app-store-connect/reference/in-app-purchase-information/, opgehaald op 2026-11-19; het deel over de reviewscreenshot kwam als samenvatting binnen, niet woordelijk):
 - De screenshot "clearly shows the item or service being offered", is "used for review only and isn't displayed on the App Store", en moet "meet any of the screenshot specifications your app supports". Eenmaal geüpload kun je hem vervangen maar niet verwijderen.
@@ -338,6 +338,18 @@ Praktische tips voor als het noodpakket op of ontoereikend is, binnen het tabbla
 Elke hack is vergeleken met officiële of gezaghebbende bronnen (Denk Vooruit, Voedingscentrum, Brandweer, Vitens, Waternet, CDC, EPA). **Stappen zonder bron zijn weggelaten.** Weggelaten omdat er geen onderbouwing kon worden gevonden: hooikist en thermoskoken, blik au bain-marie, gasslang-advies, regenwater en gesmolten sneeuw, zand-houtskoolfilter, noodtoilet, riool/wc afsluiten, bleek mengen met andere middelen, generator, kaarsenkachel, hete baksteen, thuisbatterij, telefoon-batterijtips, kruik en lagen kleding, de categorie Gezondheid (onderkoeling, ORS, noodverband; het Rode Kruis was niet bereikbaar). Afwijkingen: koken is **3 minuten** (Nederlandse drinkwaterbedrijven; CDC noemt 1 minuut); een barbecue mag **niet op een balkon** (Brandweer); koolmonoxide-slachtoffers zijn volgens de Brandweer gemiddeld **5 tot 10 per jaar**; de koelkastgrens is 7 °C (en 10 °C voor weggooien) volgens het Voedingscentrum.
 
 **Bleek**: alleen een statische instructie (CDC en EPA: onparfumeerde bleek van 5% tot 9%, 2 druppels ≈ 0,1 ml per liter, dubbel bij troebel water, 30 minuten wachten, chloorlucht controleren) met een etiketwaarschuwing en "koken is veiliger". Er is **geen rekenhulpmiddel** gebouwd: er is geen officiële Nederlandse bron voor de concentratie van Nederlandse bleek, en de bronnen geven geen tabel buiten 5% tot 9% (CDC) of 6% en 8,25% (EPA).
+
+### Survivalpakket: uitgebreide plannen (2026-11-21)
+
+Aan de oorspronkelijke 25 hacks zijn 46 uitgebreide plannen toegevoegd (de 25 zijn niet gewijzigd): **15 `verified`** en **31 `draft`**.
+
+- **Velden** (alleen bij uitgebreide plannen): `status` (`verified` of `draft`), `safetyCritical`, `duur`, `stopEnBel112`, `stapTimers` (stapnummer: seconden), `bronOpmerking` (afwijking tussen bronnen), en per bron een `geraadpleegd`-datum. Een plan met `status` valt onder de strengere regels: 2 tot 6 stappen van hooguit 140 tekens.
+- **Concept (`draft`)** = nog geen officiële bron gelezen. Alleen zichtbaar in een debug-build; `HackData.visible(release: true)` filtert ze, samen met categorieën en materialen die dan leeg zijn. Een `draft` mag nooit een bron hebben (dan wordt het `verified`) en moet een `bronOpmerking` hebben. Onderwerpen die eerder bewust waren weggelaten (noodtoilet, generator, kaarsenkachel) staan alleen als `draft`; `test/hacks_data_test.dart` bewaakt dat ze niet live gaan zonder bron.
+- **Pro**: `safetyCritical` plannen, alle mythes en alle plannen in "Eerste hulp" zijn altijd gratis (`Hack.isFree`); de oorspronkelijke proefhacks blijven gratis; overige praktische plannen volgen de bestaande Pro-regel. Bewaakt in `test/pro_protection_test.dart`.
+- **Categorieën**: nieuw zijn *Hulp roepen en samen*, *Eerste hulp* en *Veiligheid en weg moeten*. Het kleurenpalet heeft geen vrije tint die de kleurenblindheidstest haalt, dus deze drie zijn neutraal grijs en worden herkend aan pictogram en naam (`hackNeutralCategoryIds`).
+- **Stap-voor-stap**: hergebruikt `HackStepsScreen` (grote letters, scherm blijft aan) met "Gedaan" per stap (voortgang in dezelfde opslag als de wiki-stappenplannen, sleutel `hack:<id>`), "Opnieuw beginnen" en een aftelklok bij stappen met `stapTimers`. Er is **geen voorleesmodus (tekst-naar-spraak)** in de app; de schermlezer leest stappen voor via Semantics.
+- **Overgeslagen als dubbel**: koelkast-uitval, eten-volgorde, koud-eten, handen-reinigen, licht-zonder-kaars, kamer-warm, (wiki heeft al een plan voor) gasgeur, pan-brand, brandwond, storm, overstroming-thuis, hitte-koel en hitte-uitputting, kwetsbaren (zie buren-checken), mythes bbq-binnen en water-drinken, en de mythe brandwond-smeren (geen plan om naar te linken en de bron noemt het niet).
+- **Afwijkingen tussen bronnen en concept**: botbreuk: het Rode Kruis zegt *niet koelen* bij een overduidelijke breuk (concept: koel indirect); onderkoeling: geen warme drank (concept noemde die, bron niet); bloedneus: 10 minuten dichtknijpen volgens het Nederlandse Rode Kruis, Belgische bronnen niet geraadpleegd; vluchttas: geen bedragen voor contant geld (niet in de bron). De wiki-brandwond noemt 10 minuten koelen, het Rode Kruis 10 tot 20 minuten: nog niet aangepast, controleer dit.
 
 ## Dashboard "Start"
 
