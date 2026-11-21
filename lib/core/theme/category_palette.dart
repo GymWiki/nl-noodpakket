@@ -162,6 +162,11 @@ CategoryTint checklistTint(String categoryId) => switch (categoryId) {
 /// waarschuwingspatroon (null).
 const hackCategoryIds = ['water', 'koken', 'eten', 'warmte', 'hygiene', 'energie', 'mythes'];
 
+/// Categorieën van het uitgebreide survivalpakket. Het palet heeft geen vrije tint meer die bij de kleurenblindheidstest
+/// ver genoeg van de bestaande ligt, dus deze blijven neutraal grijs; pictogram en naam onderscheiden ze (kleur is
+/// alleen een extra aanwijzing). Rood en oranje blijven gereserveerd voor 112, verlopen en "nooit doen".
+const hackNeutralCategoryIds = ['hulp', 'eerste-hulp', 'veiligheid'];
+
 CategoryTint? hackTint(String categoryId) => switch (categoryId) {
       'water' => CategoryTint.blue,
       'koken' => CategoryTint.ochre,
