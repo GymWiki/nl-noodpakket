@@ -1,5 +1,15 @@
 # Wijzigingen
 
+## 2.0.2 (build 22)
+
+Nieuw
+- Het survivalpakket in Noodhacks: nieuwe stappenplannen voor hulp roepen (112), eerste hulp, veiligheid en weg moeten, en samen met je buren. Veiligheidsinformatie en eerste hulp zijn altijd gratis. Bij een stap met een tijd (zoals een bloeding of bloedneus) is er een timer, en je kunt per stap "Gedaan" aanvinken of opnieuw beginnen.
+
+Verbeterd
+- Scannen en delen via QR melden rustig dat het niet kan op een toestel zonder camera of wifi.
+- Android: de app is beschikbaar op meer toestellen (portret, wifi en camera zijn niet langer verplicht).
+- Het scherm Rampenzender toont de titel niet meer dubbel.
+
 ## 2.0.1 (build 21)
 
 Nieuw
